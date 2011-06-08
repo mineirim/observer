@@ -1,0 +1,6 @@
+library/Zend*
+application/configs/application.ini
+dummy.php
+.nb*
+nb*
+public/extjs*

@@ -1,0 +1,16 @@
+<html  xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<script type="text/javascript">
+    var baseUrl = '<?php echo $this->baseUrl ()?>'; // para corrigir rotas independente da configuração do virtualhost
+</script>
+<?php echo $this->headMeta ();?>
+<?php echo $this->headTitle ();?>
+<?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/extjs/resources/css/ext-all.css' );?>
+<?php $this->headScript()->appendFile( $this->baseUrl () . '/extjs/ext-debug.js') ?>
+<!-- arquivo principal da aplicação -->
+<?php  $this->headScript()->appendFile( $this->baseUrl () . '/javascripts/main.js') ?>
+<?php echo $this->headScript() ?>
+</head>
+<body>
+</body>
+</html>

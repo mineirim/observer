@@ -1,0 +1,46 @@
+Ext.define('ExtZF.view.navigation.MyToolbar', {
+    extend: 'Ext.Toolbar',
+    alias:      'widget.mytoolbar',
+    id:         'tbrMenu',
+    initComponent: function() {
+        this.items = [
+        {
+            text: 'Instrumentos',
+            id: 'btnInstrumentos',
+            menu: [
+            {
+                text: 'Item I',
+                id: 'mniItemI'
+            }
+            ]
+        },
+        {
+            text: 'Administração',
+            id: 'btnAdministracao',
+            menu: [
+            {
+                text: 'Item X',
+                id: 'mniItemX',
+                handler : function(){
+                    c =this.getController('admin.Situacoes');
+                }
+            },
+            {
+                text: 'Organizações',
+                iconCls: 'silk-add',
+                handler: function(){
+                    Ext.require([baseUrl+'/admin/organizacoes/grid'],function()
+                    {
+                        grid =new Admin.Organizacoes.grid();
+                        grid.getSelectionModel().selectFirstRow();
+
+                    });
+                }
+            }
+            ]
+
+        }
+        ];
+        this.superclass.initComponent.call(this);
+    }
+});

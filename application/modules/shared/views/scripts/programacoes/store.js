@@ -10,6 +10,6 @@ Ext.define('ExtZF.store.Programacoes', {
                             type    : 'json'
                     }
     },
-    autoLoad: true, folderSort: true
+    autoLoad: true
 
 });

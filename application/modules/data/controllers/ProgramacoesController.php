@@ -19,7 +19,7 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
     public function indexAction()
     {
         $programacoes_table = new Data_Model_DbTable_Programacoes();
-        $rows = $programacoes_table->fetchAll(null, 'id');
+        $rows = $programacoes_table->fetchAll("programacao_id is null", 'id');
         $this->_helper->viewRenderer->setNoRender(true);
                
         $this->view->text = ".";

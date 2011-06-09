@@ -19,14 +19,15 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
             id: 'btnAdministracao',
             menu: [
             {
-                text: 'Situacoes',
+                text: 'Situa&ccedil;&otilde;es',
                 data: 'admin.Situacoes',
                 action: 'loadController',
-                createView : 'adminSituacoesList'
+                createView : 'adminSituacoesList',
+                iconCls: 'x-menu-item-lst'
             },
             {
                 text        : 'Organiza&ccedil;&otilde;es',
-                iconCls     : 'silk-add',
+                iconCls     : 'item-lst',
                 data        : 'admin.Organizacoes',
                 action      : "loadController",
                 createView  : "adminOrganizacoesList"
@@ -46,7 +47,7 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
                 createView  : "adminInstrumentosList"
             },
             {
-                text        : 'Programação',
+                text        : 'Programa&ccedil;&atilde;o',
                 iconCls     : 'silk-add',
                 data        : 'plano.Programacoes',
                 action      : "loadController",

@@ -1,3 +1,34 @@
+.icon-programacao{
+        background-image: url(../images/icons/page_excel.png)  !important;
+}
+.icon-setores{
+        background-image: url(../images/icons/chart_organisation_add.png)  !important;
+}
 .item-lst{
         background-image: url(../images/icons/application_view_detail.png)  !important;
+}
+.icon-plano{
+        background-image: url(../images/icons/overlays.png)  !important;
+}
+
+.icon-org{
+        background-image: url(../images/icons/chart_organisation.png)  !important;
+}
+.icon-save{
+        background-image: url(../images/icons/accept.png)  !important;
+}
+
+.icon-cancel{
+        background-image: url(../images/icons/cancel.png)  !important;
+}
+.icon-delete{
+        background-image: url(../images/icons/delete.png)  !important;
+}
+
+.icon-edit{
+        background-image: url(../images/icons/pencil.png)  !important;
+}
+
+.icon-new{
+        background-image: url(../images/icons/add.png)  !important;
 }

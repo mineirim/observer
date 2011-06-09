@@ -20,12 +20,14 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
         // botões da janela
         this.buttons = [{
             text: 'Salvar',
-            action: 'salvar'
+            action: 'salvar',
+            iconCls: 'icon-save'
         },
         {
             text: 'Cancelar',
             scope: this,
-            handler: this.close
+            handler: this.close,
+            iconCls : 'icon-cancel'
         }];
 
         this.callParent(arguments);

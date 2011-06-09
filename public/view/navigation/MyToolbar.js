@@ -5,12 +5,17 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
     initComponent: function() {
         this.items = [
         {
-            text: 'Instrumentos',
+            text: 'Plano',
             id: 'btnInstrumentos',
+            iconCls : 'icon-plano',
             menu: [
             {
-                text: 'Item I',
-                id: 'mniItemI'
+                text: 'Programa&ccedil;&atilde;o',
+                id: 'mniItemI',
+                iconCls : 'icon-programacao',
+                data        : 'plano.Programacoes',
+                action      : "loadController",
+                createView  : "planoProgramacoesTreegrid"
             }
             ]
         },
@@ -27,14 +32,14 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
             },
             {
                 text        : 'Organiza&ccedil;&otilde;es',
-                iconCls     : 'item-lst',
+                iconCls     : 'icon-org',
                 data        : 'admin.Organizacoes',
                 action      : "loadController",
                 createView  : "adminOrganizacoesList"
             },
             {
                 text        : 'Setores',
-                iconCls     : 'silk-add',
+                iconCls     : 'icon-setores',
                 data        : 'admin.Setores',
                 action      : "loadController",
                 createView  : "adminSetoresList"
@@ -45,13 +50,6 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
                 data        : 'admin.Instrumentos',
                 action      : "loadController",
                 createView  : "adminInstrumentosList"
-            },
-            {
-                text        : 'Programa&ccedil;&atilde;o',
-                iconCls     : 'silk-add',
-                data        : 'plano.Programacoes',
-                action      : "loadController",
-                createView  : "planoProgramacoesTreegrid"
             }
             ]
 

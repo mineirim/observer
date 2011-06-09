@@ -30,7 +30,16 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             },
             'planoProgramacoesEdit button[action=salvar]': {
                 click: this.saveObject
-            }
+            },
+            'planoProgramacoesTreegrid': {
+                itemdblclick: this.editObject
+            },
+            'planoProgramacoesTreegrid button[action=incluir]': {
+                click: this.editObject
+            },
+            'planoProgramacoesTreegrid button[action=excluir]': {
+                click: this.deleteObject
+            },
         });
     },
     editObject: function(grid, record) {

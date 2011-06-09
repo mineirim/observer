@@ -12,9 +12,11 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
     // botões do cabeçalho
     tbar :[{
     	text: 'Incluir',
+        iconCls: 'icon-new',
     	action: 'incluir' // action identificada para executar na camada controller
     },{
     	text: 'Excluir',
+        iconCls: 'icon-delete',
     	action: 'excluir'
     }],
 	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 1, xtype: 'treecolumn'},

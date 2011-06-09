@@ -8,7 +8,7 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
     ac: true,
     singleExpand: true,
     
-    selModel: {mode: 'MULTI'}, // Permite selecionar mais de uma linha da grid
+    selModel: {mode: 'SINGLE'}, // Permite selecionar mais de uma linha da grid
     // botões do cabeçalho
     tbar :[{
     	text: 'Incluir',

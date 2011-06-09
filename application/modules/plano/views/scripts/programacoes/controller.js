@@ -9,6 +9,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     'plano.programacoes.Edit'
     ],
     refs: [{
+                ref:'treegrid',
+                selector:'planoProgramacoesTreegrid'
+            },{
                 ref:'grid',
                 selector:'planoProgramacoesList'
             },{
@@ -23,7 +26,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 itemdblclick: this.editObject
             },
             'planoProgramacoesList button[action=incluir]': {
-                click: this.editObject
+                click: this.newObject
             },
             'planoProgramacoesList button[action=excluir]': {
                 click: this.deleteObject
@@ -35,12 +38,29 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 itemdblclick: this.editObject
             },
             'planoProgramacoesTreegrid button[action=incluir]': {
-                click: this.editObject
+                click: this.newObject
             },
             'planoProgramacoesTreegrid button[action=excluir]': {
                 click: this.deleteObject
-            },
+            }
         });
+    },
+    newObject: function() {
+        var grid = this.getTreegrid(); 
+        parent = grid.getSelectionModel().getSelection()[0]; 
+        parent_id = parent.get('id');
+        var view = Ext.widget('planoProgramacoesEdit');
+        view.setTitle('Inserir');
+        record = new ExtZF.model.Programacoes();
+        if(id.length>0 ){
+            record.set('programacao_id',parent_id);
+            //TODO pegar o nivel do instrumento filho
+        }
+        console.log('ids selecionado');
+        console.log(parent_id);
+        //this.getProgramacoesStore().add(record);
+        
+      	view.down('form').loadRecord(record);
     },
     editObject: function(grid, record) {
         var view = Ext.widget('planoProgramacoesEdit');

@@ -18,47 +18,13 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
 
     public function indexAction()
     {
-        $programacoes_table = new Data_Model_DbTable_Programacoes();
-        $rows = $programacoes_table->fetchAll("programacao_id is null", 'id');
+        $programacoes_table = new Data_Model_Programacoes();
         $this->_helper->viewRenderer->setNoRender(true);
-               
+
         $this->view->text = ".";
         $arr_root=array();
-        foreach ($rows as $key => $value) {
-            
-            $child = array(
-                        'id'=>$value->id,
-                        'menu'=>$value->menu,
-                        'descricao'=>$value->descricao,
-                        'ordem'=>$value->ordem,
-                        'instrumento_id'=>$value->instrumento_id,
-                        'programacao_id'=>$value->programacao_id,
-                        'setor_id'=>$value->setor_id,
-                        'expanded'=>true
-                );
-                
-            $child_rows =  $programacoes_table->fetchAll('instrumento_id ='.$value->id, 'id');
-            if($child_rows){
-                $child['children']=array();
-                foreach ($child_rows as $key => $value) {
-            
-                    $childr = array('expanded'=> true,
-                                'id'=>$value->id,
-                                'menu'=>$value->menu,
-                                'descricao'=>$value->descricao,
-                                'ordem'=>$value->ordem,
-                                'instrumento_id'=>$value->instrumento_id,
-                                'programacao_id'=>$value->programacao_id,
-                                'setor_id'=>$value->setor_id,
-                                'leaf'=>true
-                        );
-                        array_push($child['children'],$childr);
-                }
-            }
-                
-            $arr_root[] = $child;
-        }
-        $this->view->children= $arr_root;
+
+        $this->view->children= $programacoes_table->getRecursive();
     }
 
     public function getAction()

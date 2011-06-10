@@ -25,8 +25,8 @@ class Admin_CadUsuariosController extends Zend_Controller_Action
     }
 
     public function listaAction()
-    {	//exemplo de como passar vari·veis do php para o javascript
-        $this->view->titulo = "Lista de Usu·rios";
+    {	//exemplo de como passar variÔøΩveis do php para o javascript
+        $this->view->titulo = "Lista de Usu√°rios";
     }
 
     public function edicaoAction()

@@ -24,15 +24,39 @@ Ext.define('ExtZF.controller.Navigation', {
         });
     },
     loadController : function(a,b,c){
+         var view ="",
+                screen = Ext.getCmp('ctnPrincipal'),
+                options,
+                titulo = a.text;
+        
+        
+        var novaAba = screen.items.findBy(
+            function( aba )
+            { 
+                return aba.title === titulo; 
+            }
+        ); 
+
+        // cria nova aba no centro da aplicação
+        if(!novaAba){
+            view = this.criaView(a);
+            view.title = titulo;
+        
+                novaAba = screen.add(view);
+                
+        }
+
+        screen.setActiveTab(novaAba);
+                
+    },
+    criaView :function(a){
         var controller = this.getController(a.data),
-                args = Array.prototype.slice.call(arguments, 1);
+        args = Array.prototype.slice.call(arguments, 1);
         
         //controller.init.apply(controller, args);
-        var view ="",
-                screen = Ext.getCmp('ctnPrincipal'),
-                options;
+       
         
-            view = Ext.widget(a.createView)
+        view = Ext.widget(a.createView)
         
 
         options = { single: true };
@@ -54,12 +78,8 @@ Ext.define('ExtZF.controller.Navigation', {
                // Ext.destroy(this.application.controllers.remove(this));
         }, this, options);
         
-        if(screen.down('panel')){
-            //screen.remove(screen.down('panel'),true);
-        }
-        screen.add(view);
-        screen.setActive(true,view);
-        view.show();
+        return view;
+
     }
 
 });

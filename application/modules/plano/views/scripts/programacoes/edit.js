@@ -8,30 +8,29 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
     minHeight : '690px',
     autoShow: true, // exibir a janela automaticamente ao chamá-la
     initComponent: function() {
-       var setores_store  = Ext.create('ExtZF.store.Setores')
-       var setroes_model = Ext.create('ExtZF.model.Setores')
-    	// Itens da janela
         this.items = [{
             xtype: 'form',
-            padding:'10px',
+            padding:'15px',
             items: [
-                    {xtype: 'textfield',name : 'menu',ref: 'menu',fieldLabel: 'Menu',size:70},
+                    {xtype: 'textfield',padding:'15px',name : 'menu',ref: 'menu',fieldLabel: 'Menu',size:70},
                     {xtype: 'htmleditor',
                         name : 'descricao',
                         ref: 'descricao',
                         fieldLabel: 'Descrição', 
                         width:'450px',height:'140px',padding:'12px'
                     },
-                    {xtype: 'textfield',name : 'instrumento_id',ref: 'instrumento_id',fieldLabel: 'Instrumento_id'},
-                    {xtype: 'textfield',name : 'programacao_id',ref: 'programacao_id',fieldLabel: 'Programacao_id'},
                     {xtype: 'combo',
-                        name : 'setor_id',
-                        ref: 'setor_id',
-                        fieldLabel: 'Setor_id', 
-                        store:setores_store,
-                        model:setroes_model,
-                      displayField: 'descricao',
-                                    valueField: 'id'}
+                        width       :   300,
+                        minWidth    :   300,
+                        padding     :   '15px',
+                        name        : 'setor_id',
+                        ref         : 'setor_id',
+                        fieldLabel  : 'Setor', 
+                        store       : 'Setores',
+                        displayField: 'descricao',
+                        valueField  : 'id',
+                        queryMode   : 'local'},
+                    {xtype: 'hiddenfield',name:'programacao_id',ref:'programacao_id'}
                 ]}
                     ];
 

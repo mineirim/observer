@@ -1,8 +1,8 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Programacoes', {
     extend: 'Ext.app.Controller',
-    stores: ['Programacoes'], // Store utilizado no gerenciamento do usuário
-    models: ['Programacoes'], // Modelo do usuário
+    stores: ['Programacoes','Setores'], // Store utilizado no gerenciamento do usuário
+    models: ['Programacoes','Setores'], // Modelo do usuário
      views: [
     'plano.programacoes.List',
     'plano.programacoes.Treegrid',
@@ -47,17 +47,18 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     },
     newObject: function() {
         var grid = this.getTreegrid(); 
-        parent = grid.getSelectionModel().getSelection()[0]; 
-        parent_id = parent.get('id');
+        
         var view = Ext.widget('planoProgramacoesEdit');
         view.setTitle('Inserir');
+        
+        parent = grid.getSelectionModel().getSelection()[0]; 
         record = new ExtZF.model.Programacoes();
-        if(id.length>0 ){
+        if(parent!=undefined){
+            parent_id = parent.get('id');
             record.set('programacao_id',parent_id);
             //TODO pegar o nivel do instrumento filho
         }
         console.log('ids selecionado');
-        console.log(parent_id);
         //this.getProgramacoesStore().add(record);
         
       	view.down('form').loadRecord(record);
@@ -97,6 +98,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         if (form.isValid()) {
             r = form.getRecord();
             form.updateRecord(r);
+            r.save();
             this.getProgramacoesStore().sync();
             win.close();
             this.getProgramacoesStore().load();

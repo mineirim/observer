@@ -1,10 +1,9 @@
-// janela com formulário para edição do usuário
 Ext.define('ExtZF.view.admin.cad-usuarios.Edicao', {
     extend: 'Ext.window.Window',
-    alias : 'widget.usuariosedicao', // nome definido a janela
+    alias : 'widget.admiUsuariosEdicao',
     title : 'Edição de Usuário',
     layout: 'fit',
-    autoShow: true, // exibir a janela automaticamente ao chamá-la
+    autoShow: true, 
 
     initComponent: function() {
     	// Itens da janela

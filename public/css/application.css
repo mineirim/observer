@@ -44,3 +44,10 @@
 .icon-home{
     background-image: url(../images/icons/application_home.png)  !important;
 }
+
+.icon-user{
+    background-image: url(../images/icons/user.png)  !important;
+}
+.icon-admin{
+    background-image: url(../images/icons/config.png)  !important;
+}

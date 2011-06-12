@@ -17,11 +17,12 @@ class Data_UsuariosController extends Zend_Rest_Controller
 				->addActionContext('delete', array( 'json', 'xml'))
 				->initContext('json');
 		$this->_helper->layout()->disableLayout();
+                 $this->_helper->viewRenderer->setNoRender(true);
     }
 
     public function indexAction()
     {
-	$usuarios_table = new Application_Model_DbTable_Usuarios();
+	$usuarios_table = new Data_Model_DbTable_Usuarios();
         $usuarios = $usuarios_table->fetchAll(null, 'id');
         $this->_helper->viewRenderer->setNoRender(true);
         $arr = array('rows'=> $usuarios->toArray(), 'total' => count($usuarios));
@@ -31,7 +32,10 @@ class Data_UsuariosController extends Zend_Rest_Controller
 
     public function getAction()
     {
-        // action body
+        $usuarios_table = new Data_Model_DbTable_Usuarios();
+        $usuario = $usuarios_table->fetchRow('id='.$this->_getParam('id'));
+        $this->view->rows= $usuario->toArray();
+        $this->view->total = count($usuario);
     }
 
     public function postAction()
@@ -39,7 +43,7 @@ class Data_UsuariosController extends Zend_Rest_Controller
         if($this->getRequest()->isPost()){
             try{
                 
-                $usuarios_table = new Application_Model_DbTable_Usuarios();
+                $usuarios_table = new Data_Model_DbTable_Usuarios();
                 $formData = $this->getRequest()->getPost('rows');
                 $formData = json_decode($formData,true);
                 unset($formData['id']);
@@ -56,7 +60,7 @@ class Data_UsuariosController extends Zend_Rest_Controller
                 $this->view->msg = "Erro ao inserir registro<br>".$e->getMessage() ."<br>".$e->getTraceAsString();
             }
         }else{
-            $this->view->msg="Método ".$this->getRequest()->getMethod();
+            $this->view->msg="Mï¿½todo ".$this->getRequest()->getMethod();
         }
     }
 
@@ -64,7 +68,7 @@ class Data_UsuariosController extends Zend_Rest_Controller
     {
 	    if(($this->getRequest()->isPut())){
             try{
-                $usuarios_table = new Application_Model_DbTable_Usuarios();
+                $usuarios_table = new Data_Model_DbTable_Usuarios();
                 $formData = $this->getRequest()->getParam('rows');
                 $formData = json_decode($formData,true);
                 $id=$formData['id'];
@@ -80,14 +84,14 @@ class Data_UsuariosController extends Zend_Rest_Controller
                 $this->view->msg = "Erro ao atualizar/inserir registro<br>".$e->getMessage() ."<br>".$e->getTraceAsString();
             }
         }else{
-            $this->view->msg="Método ".$this->getRequest()->getMethod();
+            $this->view->msg="Mï¿½todo ".$this->getRequest()->getMethod();
         }
     }
     public function deleteAction()
     {
         if($this->getRequest()->isDelete()){
             try{
-                $usuarios_table = new Application_Model_DbTable_Usuarios();
+                $usuarios_table = new Data_Model_DbTable_Usuarios();
                 $id = $this->_getParam('id');
                 $usuarios_table->delete('id='.$id);
                 $this->view->success=true;
@@ -97,7 +101,7 @@ class Data_UsuariosController extends Zend_Rest_Controller
                 $this->view->msg = "Erro ao apagar o registro<br>".$e->getTraceAsString();
             }
         }else{
-            $this->view->msg="Método delete";
+            $this->view->msg="Mï¿½todo delete";
             $this->view->parametros = $this->_getAllParams();
         }
     }

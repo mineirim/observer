@@ -22,7 +22,15 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
         {
             text: 'Administra&ccedil;&atilde;o',
             id: 'btnAdministracao',
+            iconCls : 'icon-config',
             menu: [
+            {
+                text: 'Usuários',
+                data: 'admin.Cad-usuarios',
+                action: 'loadController',
+                createView : 'adminUsuariosLista',
+                iconCls: 'icon-user'
+            },
             {
                 text: 'Situa&ccedil;&otilde;es',
                 data: 'admin.Situacoes',

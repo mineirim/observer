@@ -4,34 +4,19 @@ Ext.require('Ext.window.MessageBox');
 // Arquivo que executa as ações do usuário
 Ext.define('ExtZF.controller.admin.Cad-usuarios', {
     extend: 'Ext.app.Controller',
-    /*
-     * se desejar uma melhor leitura do código, poderá ser declarado os stores e models com o padrão nomeclass.Store nomeclass.Model
-     * para isto, deverá ser alterada a definição das respectivas classes, o que no nosso exemplo ficaria:
-     * stores: ['usuarios.Store']
-     */
+  
     stores: ['Usuarios'], // Store utilizado no gerenciamento do usuário
     models: ['Usuarios'], // Modelo do usuário
-    
-    /* views utilizadas no gerenciamento do usuário
-     * aqui podemos ver a estrutura do zend framework :
-     * admin.usuarios.Lista
-     * sendo:
-     * module		: admin 
-     * controller	: usuarios
-     * action 		: Lista
-     * como reescrevemos as rotas, quando o Extjs chamar esta view, será com a seguinte url:
-     * view/admin/usuarios/Lista.js
-     */
-     views: [
+    views: [
     'admin.cad-usuarios.Lista',
     'admin.cad-usuarios.Edicao'
     ],
     refs: [{
-            ref: 'usuariosPanel',
+            ref: 'admiUsuariosEdicao',
             selector: 'panel'
     },{
             ref:'usuarioslista',
-            selector:'usuarioslista'
+            selector:'adminUsuariosLista'
     }],
 
 
@@ -39,26 +24,26 @@ Ext.define('ExtZF.controller.admin.Cad-usuarios', {
         this.control(
         {
             // evento duplo click na tela principal(viewport) --> usuariolista(grid)
-            'usuarioslista': {
+            'adminUsuariosLista': {
                 itemdblclick: this.editarUsuario
             },
             // evento click no botao (definido com action: incluir) da grid definida como usuariolista
-            'usuarioslista button[action=incluir]': {
+            'adminUsuariosLista button[action=incluir]': {
                 click: this.editarUsuario
             },
             // evento click no botao (definido com action: excluir) da grid definida como usuariolista
-            'usuarioslista button[action=excluir]': {
+            'adminUsuariosLista button[action=excluir]': {
                 click: this.excluirUsuario
             },
             // evento click no botao (definido com action: salvar) do formulario definido como usuarioedicao
-            'usuariosedicao button[action=salvar]': {
+            'admiUsuariosEdicao button[action=salvar]': {
                 click: this.salvarUsuario
             }
         });
     },
     // Função para popular o formulario
     editarUsuario: function(grid, record) {
-        var view = Ext.widget('usuariosedicao');
+        var view = Ext.widget('admiUsuariosEdicao');
         view.setTitle('Edição ');
         if(!record.data){
             record = new ExtZF.model.Usuarios();

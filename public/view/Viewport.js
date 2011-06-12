@@ -23,13 +23,13 @@
                 tbar        : {
                     id          : 'basic-statusbar',
                     items       : [
-                    '<b>OBSERVER - Sistema </b>',
+                    '<b>OBSERVER - Sistema de Monitoramento </b>',
                     '->',{
                         text    : '',
                          id      : 'text',
                          iconCls : 'silk-user'
                      },
-                     'Bem Vindo(a), <span id="main_username" class="username">convidado</span></b>',
+                     'Bem Vindo(a), <span id="main_username" class="username">'+usuario+'</span></b>',
                      '-']
                 },
                 items : {
@@ -44,11 +44,7 @@
                 activeItem: 0,
                 id: 'ctnLeft',
                 items: [
-                    {
-                        xtype: 'panel',
-                        title: 'Instituições',
-                        id: 'pnlInstituicoes'
-                    },
+                    
                     {
                         xtype: 'panel',
                         title: 'Instrumentos',
@@ -63,7 +59,7 @@
                 id: 'ctnCenter',
                 layout: 'fit',
                 items :
-                    {xtype : 'tabpanel',layout:'fit',id:'ctnPrincipal',items:{html:'Bem vindo',closable : 'true'}}
+                    {xtype : 'tabpanel',layout:'fit',id:'ctnPrincipal',items:{html:'Bem vindo',title:'Home',iconCls:'icon-home',closable : 'true'}}
             },
             {
                 xtype: 'container',
@@ -80,46 +76,3 @@
             }
         ]
     });
-
-    /*
-    items  : [{
-        region      : 'north',
-        split       : false,
-        collapsible : false,
-        margins     : '0 0 0 0',
-        tbar        : {
-            id          : 'basic-statusbar',
-            items       : [
-            '<b>SCOWEB - Sistema de gerenciamento de imobiliárias</b>',
-            '->',{
-                text    : '',
-                 id      : 'text',
-                 iconCls : 'silk-user'
-             },
-             'Bem Vindo(a), <span id="main_username" class="username">'+(username || 'convidado')+'</span></b>',
-             '-',{
-                 xtype : 'toolbarClock'
-              }]
-        }
-    },{
-        xtype : 'appMenu',
-        listeners: {
-            'menuItemSelected' : function(tree, view) {
-
-                tabs = Ext.getCmp('app-tabpanel');
-                tabs.add({
-                    xtype : view,
-                    id    : 'tab-'+view
-                });
-            }
-        }
-    },{
-        region          : 'center',
-        xtype           : 'tabpanel',
-        id              : 'app-tabpanel',
-        enableTabScroll : true,
-        defaults        : {autoScroll:true},
-        layout          : 'fit'
-
-    }]
-*/

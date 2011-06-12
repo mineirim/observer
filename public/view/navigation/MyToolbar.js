@@ -53,6 +53,11 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
             }
             ]
 
+        },{
+            text: 'Sair',
+            id: 'btnSair',
+            iconCls : 'icon-sair',
+            action : 'logout'
         }
         ];
         this.superclass.initComponent.call(this);

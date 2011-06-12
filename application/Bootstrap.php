@@ -22,5 +22,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $restRoute = new Zend_Rest_Route($this->_frontController, array(), array('data'));
         $router->addRoute('rest', $restRoute);
     }
+    public function _initDbAdapter() {
+        $this->bootstrap('db');
+        $dbAdapter = $this->getResource('db');
+
+        Zend_Registry::set('db', $dbAdapter);
+    }
 }
 

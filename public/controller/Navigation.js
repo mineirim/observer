@@ -20,6 +20,19 @@ Ext.define('ExtZF.controller.Navigation', {
         {
             'menuitem[action=loadController]': {
                 click: this.loadController
+            },
+            '[action=logout]': {
+                click: this.logout
+            }
+            
+        });
+    },
+    logout: function() {
+        Ext.Ajax.request({
+            url: baseUrl+'/acesso/auth/logout',
+            params : {format : 'json'},
+            success: function(response){
+                window.location.reload();
             }
         });
     },

@@ -5,7 +5,7 @@ class My_Plugin_RemoveJsPlugin extends Zend_Controller_Plugin_Abstract
   {
     $action = $request->getActionName();
     $controller = $request->getControllerName();
-
+    $module = $request->getModuleName();
     if(strtolower(substr($action, -3))=='.js'){
 
       $request->setActionName(substr($action, 0,count($action)-4));

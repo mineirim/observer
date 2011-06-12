@@ -26,9 +26,21 @@
 }
 
 .icon-edit{
-        background-image: url(../images/icons/pencil.png)  !important;
+    background-image: url(../images/icons/pencil.png)  !important;
 }
 
 .icon-new{
-        background-image: url(../images/icons/add.png)  !important;
+    background-image: url(../images/icons/add.png)  !important;
+}
+.icon-cadeado{
+    background-image: url(../images/icons/lock.png)  !important;
+}
+.icon-entrar{
+    background-image: url(../images/icons/application_go.png)  !important;
+}
+.icon-sair{
+    background-image: url(../images/icons/door_out.png)  !important;
+}
+.icon-home{
+    background-image: url(../images/icons/application_home.png)  !important;
 }

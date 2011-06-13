@@ -12,15 +12,16 @@ Ext.define('ExtZF.view.admin.situacoes.Edit', {
 	{xtype: 'textfield',name : 'descricao',ref: 'descricao',fieldLabel: 'Descricao'}]}
         ];
 
-        // botões da janela
         this.buttons = [{
             text: 'Salvar',
-            action: 'salvar'
+            action: 'salvar',
+            iconCls: 'icon-save'
         },
         {
             text: 'Cancelar',
             scope: this,
-            handler: this.close
+            handler: this.close,
+            iconCls : 'icon-cancel'
         }];
 
         this.callParent(arguments);

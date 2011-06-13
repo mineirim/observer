@@ -23,18 +23,26 @@ Ext.define('ExtZF.view.admin.cad-usuarios.Edicao', {
                 fieldLabel: 'Email',
                 allowBlank: false,
                 vtype: 'email'
+            },
+            {
+                xtype: 'textfield',
+                name : 'usuario',
+                ref: 'usuario',
+                fieldLabel: 'Login',
+                allowBlank: false
             }]}
         ];
 
-        // bot�es da janela
         this.buttons = [{
             text: 'Salvar',
-            action: 'salvar'
+            action: 'salvar',
+            iconCls: 'icon-save'
         },
         {
             text: 'Cancelar',
             scope: this,
-            handler: this.close
+            handler: this.close,
+            iconCls : 'icon-cancel'
         }];
 
         this.callParent(arguments);

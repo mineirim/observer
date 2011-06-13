@@ -17,15 +17,16 @@ Ext.define('ExtZF.view.admin.instrumentos.Edit', {
 	{xtype: 'textfield',name : 'instrumento_id',ref: 'instrumento_id',fieldLabel: 'Instrumento_id'},]}
         ];
 
-        // botões da janela
         this.buttons = [{
             text: 'Salvar',
-            action: 'salvar'
+            action: 'salvar',
+            iconCls: 'icon-save'
         },
         {
             text: 'Cancelar',
             scope: this,
-            handler: this.close
+            handler: this.close,
+            iconCls : 'icon-cancel'
         }];
 
         this.callParent(arguments);

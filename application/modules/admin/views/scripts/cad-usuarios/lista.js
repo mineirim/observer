@@ -4,12 +4,13 @@ Ext.define('ExtZF.view.admin.cad-usuarios.Lista' ,{
     store: 'Usuarios', // store definido em store/Usuarios.js
     title : '<?php echo $this->titulo; ?>', // exemplo do título da view passado via PHP
     selModel: {mode: 'MULTI'}, // Permite selecionar mais de uma linha da grid
-    // botões do cabeçalho
     tbar :[{
     	text: 'Incluir',
+        iconCls: 'icon-new',
     	action: 'incluir' // action identificada para executar na camada controller
     },{
     	text: 'Excluir',
+        iconCls: 'icon-delete',
     	action: 'excluir'
     }],
 	columns: [

@@ -26,9 +26,9 @@ class Data_Model_Usuarios {
         $table_usuarios = new Data_Model_DbTable_Usuarios();
         $table_usuarios->getAdapter()->beginTransaction();
         
-        $password = $dados['password']?$dados['password']:null;
+        $password = isset($dados['senha'])?$dados['senha']:null;
         $this->makePassword($password);
-        $dados['password'] = $this->password_md5;
+        $dados['senha'] = $this->password_md5;
         $dados['salt'] = $this->salt;
         $id = $table_usuarios->insert($dados);
         $table_usuarios->getAdapter()->commit();
@@ -46,7 +46,7 @@ class Data_Model_Usuarios {
        
         $table_usuarios->getAdapter()->beginTransaction();
         $this->makePassword($password);
-        $dados['password'] = $this->password_md5;
+        $dados['senha'] = $this->password_md5;
         $dados['salt'] = $this->salt;
         $table_usuarios->update($dados, $where);
         $table_usuarios->getAdapter()->commit();
@@ -61,9 +61,9 @@ class Data_Model_Usuarios {
     function updateUsuario(array $dados, $where) {
         $table_usuarios = new Data_Model_DbTable_Usuarios();
         $table_usuarios->getAdapter()->beginTransaction();
-        if (isset($dados['password'])) {
-            $this->makePassword($dados['password']);
-            $dados['password'] = $this->password_md5;
+        if (isset($dados['senha'])) {
+            $this->makePassword($dados['senha']);
+            $dados['senha'] = $this->password_md5;
             $dados['salt'] = $this->salt;
         }
         $table_usuarios->update($dados, $where);
@@ -85,7 +85,8 @@ class Data_Model_Usuarios {
     private function makePassword($password=null) {
         // define a senha padrão
         
-        $dados['password'] = $password?$password:'123456';
+        $password= $password?$password:'123456';
+        
         $this->salt = md5(time());
         $this->password_md5 = md5($password . $this->salt);
     }

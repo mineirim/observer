@@ -5,8 +5,8 @@ Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.admin.Cad-usuarios', {
     extend: 'Ext.app.Controller',
   
-    stores: ['Usuarios'], // Store utilizado no gerenciamento do usuário
-    models: ['Usuarios'], // Modelo do usuário
+    stores: ['Usuarios', 'Setores'], // Store utilizado no gerenciamento do usuário
+    models: ['Usuarios', 'Setores'], // Modelo do usuário
     views: [
     'admin.cad-usuarios.Lista',
     'admin.cad-usuarios.Edicao'

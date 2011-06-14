@@ -17,7 +17,8 @@ Ext.define('ExtZF.view.admin.cad-usuarios.Lista' ,{
         {header: 'Cód.',  dataIndex: 'id',  flex: 0, width:20},
 	{header: 'Nome',  dataIndex: 'nome',  flex: 1},
         {header: 'E-Mail', dataIndex: 'email', flex: 1},
-        {header: 'Login', dataIndex: 'usuario', flex: 1}
+        {header: 'Login', dataIndex: 'usuario', flex: 1},
+        {header: 'Setor', dataIndex: 'setor_id', flex: 1,renderer : this.getSetor}
     ],
     // Paginação
     dockedItems: [{
@@ -25,5 +26,14 @@ Ext.define('ExtZF.view.admin.cad-usuarios.Lista' ,{
         store: 'Usuarios',
         dock: 'bottom',
         displayInfo: true
-    }]
+    }],
+    getSetor : function(setor_id){
+        setor = Ext.create('ExtZF.model.Setores');
+        return setor.load(setor_id,{
+                success : function(){
+                    ret = this.nome + ' - ' + this.sigla;
+                    return ret;
+                }
+        })
+    }
 });

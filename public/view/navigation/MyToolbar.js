@@ -32,11 +32,11 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
                 iconCls: 'icon-user'
             },
             {
-                text: 'Situa&ccedil;&otilde;es',
-                data: 'admin.Situacoes',
+                text: 'Cargos',
+                data: 'admin.Cargos',
                 action: 'loadController',
-                createView : 'adminSituacoesList',
-                iconCls: 'x-menu-item-lst'
+                createView : 'adminCargosList',
+                iconCls: 'icon-cargos'
             },
             {
                 text        : 'Organiza&ccedil;&otilde;es',
@@ -53,11 +53,24 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
                 createView  : "adminSetoresList"
             },
             {
-                text        : 'Instrumentos',
-                iconCls     : 'silk-add',
-                data        : 'admin.Instrumentos',
-                action      : "loadController",
-                createView  : "adminInstrumentosList"
+                text        : 'Configurações',
+                iconCls     : 'icon-config',
+                menu       : [
+                                {
+                                    text: 'Situa&ccedil;&otilde;es',
+                                    data: 'admin.Situacoes',
+                                    action: 'loadController',
+                                    createView : 'adminSituacoesList',
+                                    iconCls: 'x-menu-item-lst'
+                                },
+                                {
+                                    text        : 'Instrumentos',
+                                    iconCls     : 'silk-add',
+                                    data        : 'admin.Instrumentos',
+                                    action      : "loadController",
+                                    createView  : "adminInstrumentosList"
+                                }
+                            ]
             }
             ]
 

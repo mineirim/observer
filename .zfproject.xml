@@ -49,6 +49,10 @@
               <actionMethod actionName="store"/>
               <actionMethod actionName="model"/>
             </controllerFile>
+            <controllerFile controllerName="Cargos">
+              <actionMethod actionName="store"/>
+              <actionMethod actionName="model"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
           <layoutsDirectory enabled="false"/>
@@ -89,6 +93,12 @@
                 <viewScriptFile forActionName="store.js"/>
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Programacoes">
+                <viewScriptFile forActionName="model.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Cargos">
+                <viewScriptFile forActionName="store.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Cargos">
                 <viewScriptFile forActionName="model.js"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
@@ -142,6 +152,13 @@
               <actionMethod actionName="post"/>
               <actionMethod actionName="delete"/>
             </controllerFile>
+            <controllerFile controllerName="Cargos">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="get"/>
+              <actionMethod actionName="put"/>
+              <actionMethod actionName="post"/>
+              <actionMethod actionName="delete"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
           <layoutsDirectory enabled="false"/>
@@ -180,6 +197,11 @@
               <actionMethod actionName="edit"/>
             </controllerFile>
             <controllerFile controllerName="Instrumentos">
+              <actionMethod actionName="controller"/>
+              <actionMethod actionName="list"/>
+              <actionMethod actionName="edit"/>
+            </controllerFile>
+            <controllerFile controllerName="Cargos">
               <actionMethod actionName="controller"/>
               <actionMethod actionName="list"/>
               <actionMethod actionName="edit"/>
@@ -233,6 +255,15 @@
                 <viewScriptFile forActionName="list.js"/>
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Instrumentos">
+                <viewScriptFile forActionName="edit.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Cargos">
+                <viewScriptFile forActionName="controller.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Cargos">
+                <viewScriptFile forActionName="list.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Cargos">
                 <viewScriptFile forActionName="edit.js"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>

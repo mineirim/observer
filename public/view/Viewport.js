@@ -23,7 +23,7 @@
                 tbar        : {
                     id          : 'basic-statusbar',
                     items       : [
-                    '<b>OBSERVER - Sistema de Monitoramento </b>',
+                    '<b>OBSERVER - Sistema de Planejamento e Monitoramento da UNASUS</b>',
                     '->',{
                         text    : '',
                          id      : 'text',
@@ -49,6 +49,10 @@
                         xtype: 'panel',
                         title: 'Instrumentos',
                         id: 'pnlInstrumentos'
+                    },{
+                        xtype: 'panel',
+                        title: 'Organizações',
+                        id: 'pnlOrganizacoes'
                     }
                 ]
             },

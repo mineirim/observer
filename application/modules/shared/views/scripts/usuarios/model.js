@@ -13,7 +13,7 @@ Ext.define('ExtZF.model.Usuarios', {
         min: 1
     }],
     proxy: {
-    	simpleSortMode: true, // envia parametros de ordena��o separadamente (o padr�o � sort	[{"property":"id","direction":"ASC"}])
+    	simpleSortMode: true, 
         type: 'rest',
         url :   'data/usuarios',
         reader: {
@@ -24,7 +24,7 @@ Ext.define('ExtZF.model.Usuarios', {
         writer: {
             root: 'rows',
             type:   'json',
-            encode: true //importante para enviar os dados com uma array
+            encode: true 
         }
     }
 });

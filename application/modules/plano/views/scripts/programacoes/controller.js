@@ -1,8 +1,8 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Programacoes', {
     extend: 'Ext.app.Controller',
-    stores: ['Programacoes','Setores'], // Store utilizado no gerenciamento do usuário
-    models: ['Programacoes','Setores'], // Modelo do usuário
+    stores: ['Programacoes','Setores','Usuarios'], // Store utilizado no gerenciamento do usuário
+    models: ['Programacoes','Setores','Usuarios'], // Modelo do usuário
      views: [
     'plano.programacoes.List',
     'plano.programacoes.Treegrid',
@@ -20,6 +20,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             }
         ],
     init: function() {
+        me = this;
         this.control(
         {
             'planoProgramacoesList': {
@@ -44,6 +45,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 click: this.deleteObject
             }
         });
+        
     },
     newObject: function() {
         var grid = this.getTreegrid(); 

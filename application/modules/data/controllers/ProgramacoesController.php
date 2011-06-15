@@ -20,16 +20,21 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
     {
         $programacoes_table = new Data_Model_Programacoes();
         $this->_helper->viewRenderer->setNoRender(true);
-
-        $this->view->text = ".";
-        $arr_root=array();
-
-        $this->view->children= $programacoes_table->getRecursive();
+        $this->view->rows=array('id'=>'.','menu'=>'root','descricao'=>'',
+                           'ordem'=>1,
+                           'instrumento_id'=>1,
+                           'programacao_id'=>1,
+                           'setor_id'=>1);
+        $this->view->rows= $programacoes_table->getRecursive();
+        $this->view->success= true;
     }
 
     public function getAction()
     {
-        // action body
+        $programacoes_table = new Data_Model_DbTable_Programacoes();
+        $rows = $programacoes_table->fetchRow('id='.$this->_getParam('id'));
+        $this->_helper->viewRenderer->setNoRender(true);
+        $this->view->rows= $rows->toArray();
     }
 
     public function putAction()

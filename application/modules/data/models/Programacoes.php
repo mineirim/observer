@@ -20,7 +20,7 @@ class Data_Model_Programacoes
                    $children = $this->getRecursive($value->id);
                    if(count($children)> 0){
                        $child['expanded']=true;
-                       $child['children']= $children;
+                       $child['rows']= $children;
                    }else{
                        $child['leaf']=true;
                    }

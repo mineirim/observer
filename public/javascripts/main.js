@@ -6,8 +6,6 @@ paths :{
 
 });
 
-// Defini��es da aplica��o
-
 Ext.application({
     name: 'ExtZF', // nome da aplica��o
     appFolder: baseUrl,

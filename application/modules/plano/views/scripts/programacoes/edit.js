@@ -12,15 +12,26 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
             xtype: 'form',
             padding:'15px',
             items: [
-                    {xtype: 'textfield',padding:'15px',name : 'menu',ref: 'menu',fieldLabel: 'Menu',size:70},
+                    {xtype: 'textfield',padding:'15px',name : 'menu',ref: 'menu',fieldLabel: 'Menu',width:730},
                     {xtype: 'htmleditor',
                         name : 'descricao',
                         ref: 'descricao',
                         fieldLabel: 'Descrição', 
-                        width:'450px',height:'140px',padding:'12px'
+                        width:730,height:'140px',padding:'12px'
                     },
                     {xtype: 'combo',
-                        width       :   300,
+                        width       :   730,
+                        minWidth    :   300,
+                        padding     :   '15px',
+                        name        : 'responsavel_usuario_id',
+                        ref         : 'responsavel_usuario_id',
+                        fieldLabel  : 'Responsável', 
+                        store       : 'Usuarios',
+                        displayField: 'nome',
+                        valueField  : 'id',
+                        queryMode   : 'local'},
+                    {xtype: 'combo',
+                        width       :   730,
                         minWidth    :   300,
                         padding     :   '15px',
                         name        : 'setor_id',
@@ -30,7 +41,8 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                         displayField: 'descricao',
                         valueField  : 'id',
                         queryMode   : 'local'},
-                    {xtype: 'hiddenfield',name:'programacao_id',ref:'programacao_id'}
+                    {xtype: 'hiddenfield',name:'programacao_id',ref:'programacao_id'},
+                    {xtype: 'hiddenfield',name:'instrumento_id',ref:'programacao_id'}
                 ]}
                     ];
 

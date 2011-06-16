@@ -31,14 +31,15 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
 
     public function getAction()
     {
-        $programacoes_table = new Data_Model_DbTable_Programacoes();
-        $rows = $programacoes_table->fetchRow('id='.$this->_getParam('id'));
+        $programacoes_table = new Data_Model_Programacoes();
+        $rows = $programacoes_table->getProgramacao($this->_getParam('id'), true);
         $this->_helper->viewRenderer->setNoRender(true);
-        $this->view->rows= $rows->toArray();
+        $this->view->success=true;
+        $this->view->rows= $rows;
     }
-
     public function putAction()
     {
+        //TODO retirar os campos que não são da tabela
         //gerado automaticamente
         if(($this->getRequest()->isPut())){
             try{

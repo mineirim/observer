@@ -16,7 +16,8 @@ Ext.define('ExtZF.view.admin.cargos.List' ,{
     }],
 	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, width: 20},
 		{header: 'Nome',  dataIndex: 'nome',  flex: 1},
-		{header: 'Descrição',  dataIndex: 'descricao',  flex: 1}],
+		{header: 'Descrição',  dataIndex: 'descricao',  flex: 1}
+            ],
     // Paginação
     dockedItems: [{
         xtype: 'pagingtoolbar',

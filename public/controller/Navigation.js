@@ -54,6 +54,7 @@ Ext.define('ExtZF.controller.Navigation', {
         if(!novaAba){
             view = this.criaView(a);
             view.title = titulo;
+            view.iconCls = a.iconCls;
         
                 novaAba = screen.add(view);
                 

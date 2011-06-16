@@ -1,4 +1,4 @@
-Ext.define('ExtZF.model.Programacoes', {
+Ext.define('ExtZF.model.programacoes.Model4tree', {
         extend         : 'Ext.data.Model',
         fields         :   ['id',
                             'menu',
@@ -19,11 +19,12 @@ Ext.define('ExtZF.model.Programacoes', {
                         reader         : {
                                 type    : 'json',
                                 root    : 'rows',
+                                idProperty: 'id',
         			successProperty: 'success'
                         },
                         writer   : {
                                 root     : 'rows',
-                                type     : 'json',
+                                //type     : 'json',
                                 encode   : true
                         }
         },  

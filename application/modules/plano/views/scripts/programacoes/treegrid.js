@@ -5,7 +5,7 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
     //useArrows   : true,
     rootVisible : false,
     lines        :   true,
-    store       : 'Programacoes', 
+    store       : 'programacoes.TreeStore', 
     //storeId     : 'programacoesStoreId',
     singleExpand: false,
     
@@ -43,11 +43,6 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
                             }
             }
         ],
-        dockedItems: [{
-                xtype: 'toolbar',
-                store: 'Programacoes',
-                dock: 'bottom'
-            }],
         initComponent: function() {
             Ext.log({msg:'Inicia o treegrid',level:'info',dump:arguments});
             this.callParent(arguments);

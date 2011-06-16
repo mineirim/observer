@@ -10,6 +10,8 @@ class Shared_ProgramacoesController extends Zend_Controller_Action
         $swContext->addContext('js', array('suffix' => 'js'))
                         ->addActionContext('Store', array( 'js'))
                         ->addActionContext('Model', array('js'))
+                        ->addActionContext('TreeStore', array( 'js'))
+                        ->addActionContext('Model4tree', array('js'))
                         ->initContext('js');
         $this->_helper->layout()->disableLayout();
     }
@@ -22,6 +24,20 @@ class Shared_ProgramacoesController extends Zend_Controller_Action
     {
     }
 
+    public function model4treeAction()
+    {
+        // action body
+    }
+
+    public function treestoreAction()
+    {
+        // action body
+    }
+
 
 }
+
+
+
+
 

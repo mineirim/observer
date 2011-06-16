@@ -48,6 +48,8 @@
             <controllerFile controllerName="Programacoes">
               <actionMethod actionName="store"/>
               <actionMethod actionName="model"/>
+              <actionMethod actionName="model4tree"/>
+              <actionMethod actionName="treestore"/>
             </controllerFile>
             <controllerFile controllerName="Cargos">
               <actionMethod actionName="store"/>
@@ -100,6 +102,12 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Cargos">
                 <viewScriptFile forActionName="model.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Programacoes">
+                <viewScriptFile forActionName="model4tree"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Programacoes">
+                <viewScriptFile forActionName="treestore"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>

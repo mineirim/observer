@@ -1,8 +1,8 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Programacoes', {
     extend: 'Ext.app.Controller',
-    stores: ['Programacoes','Setores','Usuarios','Instrumentos'], // Store utilizado no gerenciamento do usuário
-    models: ['Programacoes','Setores','Usuarios','Instrumentos'], // Modelo do usuário
+    stores: ['programacoes.TreeStore', 'Programacoes' ,'Setores','Usuarios','Instrumentos'], // Store utilizado no gerenciamento do usuário
+    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos'], // Modelo do usuário
      views: [
     'plano.programacoes.List',
     'plano.programacoes.Treegrid',
@@ -118,6 +118,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                         store = this.getProgramacoesStore();
                         store.remove(ids);
                         store.sync();
+                        this.getProgramacoesTreeStoreStore().load();
                         grid.el.unmask();
 		}, this);
     },
@@ -135,6 +136,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                     Ext.log({msg:"Salvo com sucesso!",level:"info",dump:a});
                     win.close();
                     me.getProgramacoesStore().load();
+                    me.getProgramacoesTreeStoreStore().load();
                 },
                 failure:function(a,b){
                     Ext.log({msg:"Erro ao salvar!",level:"error"});

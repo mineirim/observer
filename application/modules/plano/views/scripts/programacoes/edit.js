@@ -4,7 +4,7 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
     alias : 'widget.planoProgramacoesEdit', // nome definido a janela
     title : 'Edição',
     layout: 'fit',
-    width : '740px',
+    width : 700,
     minHeight : '690px',
     autoShow: true, // exibir a janela automaticamente ao chamá-la
     initComponent: function() {
@@ -22,7 +22,7 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                     {xtype: 'combo',
                         width       :   730,
                         minWidth    :   300,
-                        padding     :   '15px',
+                        padding     : 12,
                         name        : 'responsavel_usuario_id',
                         ref         : 'responsavel_usuario_id',
                         fieldLabel  : 'Responsável', 
@@ -33,7 +33,7 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                     {xtype: 'combo',
                         width       :   730,
                         minWidth    :   300,
-                        padding     :   '15px',
+                        padding     : 8,
                         name        : 'setor_id',
                         ref         : 'setor_id',
                         fieldLabel  : 'Setor', 

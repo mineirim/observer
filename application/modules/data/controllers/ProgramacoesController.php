@@ -20,11 +20,7 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
     {
         $programacoes_table = new Data_Model_Programacoes();
         $this->_helper->viewRenderer->setNoRender(true);
-        $this->view->rows=array('id'=>'.','menu'=>'root','descricao'=>'',
-                           'ordem'=>1,
-                           'instrumento_id'=>1,
-                           'programacao_id'=>1,
-                           'setor_id'=>1);
+
         $this->view->rows= $programacoes_table->getRecursive();
         $this->view->success= true;
     }

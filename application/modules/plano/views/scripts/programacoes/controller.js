@@ -6,7 +6,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
      views: [
     'plano.programacoes.List',
     'plano.programacoes.Treegrid',
-    'plano.programacoes.Edit'
+    'plano.programacoes.Edit',
+    'plano.programacoes.Container'
     ],
     refs: [{
                 ref:'treegrid',
@@ -156,6 +157,11 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
          }else{
              button.hide();
          }
-         
+        var bookTplMarkup = [
+            'Descrição: {descricao}<br/>'
+            ];
+        var bookTpl = Ext.create('Ext.Template', bookTplMarkup);
+        var detailPanel = Ext.getCmp('detailPanel');
+        bookTpl.overwrite(detailPanel.body, record.data);
     }
 });

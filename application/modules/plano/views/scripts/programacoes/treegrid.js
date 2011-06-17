@@ -3,7 +3,7 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
     alias       : 'widget.planoProgramacoesTreegrid', // nome definido para acessar a grid
     title       : 'Programação',
     //useArrows   : true,
-    rootVisible : false,
+    rootVisible : true,
     lines        :   true,
     store       : 'programacoes.TreeStore', 
     //storeId     : 'programacoesStoreId',

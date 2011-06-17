@@ -15,7 +15,7 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
                 iconCls : 'icon-programacao',
                 data        : 'plano.Programacoes',
                 action      : "loadController",
-                createView  : "planoProgramacoesTreegrid"
+                createView  : "planoProgramacoesContainer"
             }
             ]
         },

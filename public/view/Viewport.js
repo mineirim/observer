@@ -1,4 +1,3 @@
-
 Ext.define('Js.Viewport', {
 
     extend: 'Ext.container.Viewport',
@@ -49,7 +48,8 @@ Ext.define('Js.Viewport', {
         {
             xtype: 'panel',
             title: 'Instrumentos',
-            id: 'pnlInstrumentos'
+            id: 'pnlInstrumentos',
+            items   : [{xtype:'planoProgramacoesTreePanel'}]
         },{
             xtype: 'panel',
             title: 'Organizações',

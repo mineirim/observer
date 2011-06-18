@@ -288,6 +288,7 @@
               <actionMethod actionName="list"/>
               <actionMethod actionName="edit"/>
               <actionMethod actionName="treegrid"/>
+              <actionMethod actionName="treePanel"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
@@ -308,6 +309,9 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Programacoes">
                 <viewScriptFile forActionName="treegrid"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Programacoes">
+                <viewScriptFile forActionName="treePanel"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>

@@ -12,6 +12,7 @@ class Plano_ProgramacoesController extends Zend_Controller_Action
                         ->addActionContext('List', array( 'js'))
                         ->addActionContext('Edit', array('js'))
                         ->addActionContext('Treegrid', array('js'))
+                        ->addActionContext('TreePanel', array('js'))
                         ->addActionContext('Container', array('js'))
                         ->initContext('js');
         $this->_helper->layout()->disableLayout();
@@ -38,7 +39,16 @@ class Plano_ProgramacoesController extends Zend_Controller_Action
     {
         // action body
     }
+
+    public function treepanelAction()
+    {
+        // action body
+    }
+
+
 }
+
+
 
 
 

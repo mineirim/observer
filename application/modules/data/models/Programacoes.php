@@ -25,7 +25,8 @@ class Data_Model_Programacoes
                        'responsavel'    =>$usuario,
                        'setor'          => $setor,
                        'instrumento'    =>$instrumento,
-                       'parent'         =>$parent
+                       'parent'         =>$parent,
+                        'iconCls'=>'x-tree-noicon'
                );
                $children = $this->getRecursive($value->id);
                if(count($children)> 0){

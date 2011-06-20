@@ -3,7 +3,7 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
     alias       : 'widget.planoProgramacoesTreegrid', // nome definido para acessar a grid
     title       : 'Programação',
     //useArrows   : true,
-    rootVisible : true,
+    rootVisible : false,
     lines        :   true,
     store       : 'programacoes.TreeStore', 
     //storeId     : 'programacoesStoreId',
@@ -41,6 +41,26 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
                 renderer: function(value, metaData, record){
                                 return record.get('setor').nome;
                             }
+            },
+            {
+                xtype:'actioncolumn', 
+                width:50,
+                items: [{
+                    icon: 'images/icons/pencil.png',
+                    tooltip: 'Editar',
+                    id  : 'btnEdit',
+                    handler: function(grid, rowIndex, colIndex) {
+                        var rec = grid.getStore().getAt(rowIndex);
+                        alert("Edit " + rec.get('menu'));
+                    }
+                },{
+                    icon: 'images/icons/delete.png',
+                    tooltip: 'Delete',
+                    handler: function(grid, rowIndex, colIndex) {
+                        var rec = grid.getStore().getAt(rowIndex);
+                        alert("Terminate " + rec.get('menu'));
+                    }                  
+                }]
             }
         ],
         initComponent: function() {

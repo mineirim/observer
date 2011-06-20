@@ -1,8 +1,8 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.Navigation', {
     extend: 'Ext.app.Controller',
-    store : 'programacoes.TreeStore', 
-    model : 'programacoes.Model4tree', 
+    stores : ['programacoes.TreeStore'],
+    models  :['programacoes.Model4tree'],
      views: [
     'navigation.MyToolbar',
     'plano.programacoes.TreePanel'
@@ -19,6 +19,8 @@ Ext.define('ExtZF.controller.Navigation', {
             this.callParent(arguments);
 	},
     init: function() {
+        //st = this.getStore('programacoes.TreeStore');
+        
         this.control(
         {
             'menuitem[action=loadController]': {

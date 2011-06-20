@@ -7,9 +7,6 @@ Ext.define('Js.Viewport', {
         type: 'border',
         padding: 5
     },
-    defaults: {
-        split: true
-    },
     items : [
     {
                 
@@ -37,7 +34,7 @@ Ext.define('Js.Viewport', {
         }
     },
     {
-        xtype: 'container',
+        
         region: 'west',
         width: 150,
         layout: 'accordion',
@@ -46,16 +43,20 @@ Ext.define('Js.Viewport', {
         items: [
                     
         {
-            xtype: 'panel',
-            title: 'Instrumentos',
-            id: 'pnlInstrumentos',
-            items   : [{xtype:'planoProgramacoesTreePanel'}]
+            xtype   : 'panel',
+            title   : 'Instrumentos',
+            id      : 'pnlInstrumentos',
+            layout  : 'fit'
+            ,items   : [{xtype:'planoProgramacoesTreePanel'}]
         },{
             xtype: 'panel',
             title: 'Organizações',
             id: 'pnlOrganizacoes'
         }
-        ]
+        ],
+        collapsible:true,
+        split:true,
+        collapseMode : 'header'
     },
     {
         xtype: 'container',
@@ -77,10 +78,12 @@ Ext.define('Js.Viewport', {
         }
 },
 {
-    xtype: 'container',
     region: 'east',
     width: 100,
-    id: 'ctnRight'
+    id: 'ctnRight',
+    collapsible: true,
+    collapseMode: "mini",
+    split: false
 },
 {
     xtype: 'container',

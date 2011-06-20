@@ -5,12 +5,18 @@
 <script type="text/javascript">
     var baseUrl = '<?php echo $this->baseUrl ()?>'; 
     var usuario = '<?php echo $this->usuario?>'; 
+    var env = '<?php echo APPLICATION_ENV;?>';
 </script>
 <?php echo $this->headMeta ();?>
 <?php echo $this->headTitle ();?>
 <?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/extjs/resources/css/ext-all.css' );?>
 <?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/application.css' );?>
-<?php $this->headScript()->appendFile( $this->baseUrl () . '/extjs/ext-debug.js') ?>
+<?php
+if(APPLICATION_ENV=='production'){
+    $this->headScript()->appendFile( $this->baseUrl () . '/extjs/ext-all.js');
+}else{ 
+    $this->headScript()->appendFile( $this->baseUrl () . '/extjs/ext-all-debug.js');
+}?>
 <!-- arquivo principal da aplicação -->
 <?php  $this->headScript()->appendFile( $this->baseUrl () . '/javascripts/main.js') ?>
 <?php echo $this->headScript() ?>

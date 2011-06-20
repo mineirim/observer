@@ -44,6 +44,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             'planoProgramacoesTreegrid button[action=incluir]': {
                 click: this.newObject
             },
+            'planoProgramacoesTreegrid > [action=edit]': {
+                handler: this.editObj
+            },
             'planoProgramacoesTreegrid button[action=newRoot]': {
                 click: this.newRoot
             },
@@ -67,6 +70,10 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         record = Ext.ModelMgr.create(options,'ExtZF.model.Programacoes');
       	view.down('form').loadRecord(record);
     },
+    editObj: function(grid, rowIndex, colIndex) {
+                        var rec = grid.getStore().getAt(rowIndex);
+                        alert("Edit xxxxx");
+                    },
     newObject: function() {
         var grid = this.getTreegrid(); 
         

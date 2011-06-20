@@ -57,3 +57,9 @@
 .icon-config{
     background-image: url(../images/icons/icon_settings.gif)  !important;
 }
+.x-tree-noicon{
+    display: none;
+}
+.x-tree-node-icon {
+display: none;
+}

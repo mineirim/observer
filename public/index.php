@@ -14,6 +14,11 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
+// corrigir session no kinghost
+if(APPLICATION_ENV=='production')
+    session_save_path(APPLICATION_PATH.'/../tmp');
+
+
 /** Zend_Application */
 require_once 'Zend/Application.php';
 

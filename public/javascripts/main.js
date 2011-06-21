@@ -15,7 +15,7 @@ Ext.application({
     controllers: [
         'Navigation'
     ],
-    // Fun��o chamada ap�s o carregamento completo da p�gina
+    
     launch: function() {
          // Cria o componente principal da aplica��o
          Ext.create('Js.Viewport');

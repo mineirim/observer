@@ -1,5 +1,5 @@
 .icon-programacao{
-        background-image: url(../images/icons/page_excel.png)  !important;
+        background-image: url(../images/icons/iconeplano.jpg)  !important;
 }
 .icon-setores{
         background-image: url(../images/icons/chart_organisation_add.png)  !important;
@@ -59,7 +59,4 @@
 }
 .x-tree-noicon{
     display: none;
-}
-.x-tree-node-icon {
-display: none;
 }

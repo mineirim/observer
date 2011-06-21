@@ -20,7 +20,7 @@ Ext.define('Js.Viewport', {
         tbar        : {
             id          : 'basic-statusbar',
             items       : [
-            '<b>OBSERVER - Sistema de Planejamento e Monitoramento da UNASUS</b>',
+            '<h2><b>OBSERVER - Sistema de Planejamento e Monitoramento da UNASUS</b></h2>',
             '->',{
                 text    : '',
                 id      : 'text',
@@ -35,25 +35,28 @@ Ext.define('Js.Viewport', {
     },
     {
         
-        region: 'west',
-        width: 150,
-        layout: 'accordion',
-        activeItem: 0,
-        id: 'ctnLeft',
-        items: [
-                    
-        {
-            xtype   : 'panel',
-            title   : 'Instrumentos',
-            id      : 'pnlInstrumentos',
-            layout  : 'fit'
-            ,items   : [{xtype:'planoProgramacoesTreePanel'}]
-        },{
-            xtype: 'panel',
-            title: 'Organizações',
-            id: 'pnlOrganizacoes'
-        }
-        ],
+        region      : 'west',
+        collapsed   :true,
+        width       : 200,
+        layout      : 'accordion',
+        activeItem  : 0,
+        id          : 'ctnLeft',
+        items       : [
+
+                        {
+                            xtype   : 'panel',
+                            title   : 'Instrumentos',
+                            id      : 'pnlInstrumentos',
+                            layout  : 'fit',
+                            items   : [{
+                                xtype:'planoProgramacoesTreePanel'
+                            }]
+                        },{
+                            xtype: 'panel',
+                            title: 'Organizações',
+                            id: 'pnlOrganizacoes'
+                        }
+                        ],
         collapsible:true,
         split:true,
         collapseMode : 'header'
@@ -61,7 +64,6 @@ Ext.define('Js.Viewport', {
     {
         xtype: 'container',
         region: 'center',
-        height: 404,
         id: 'ctnCenter',
         layout: 'fit',
         items :
@@ -76,21 +78,21 @@ Ext.define('Js.Viewport', {
                 closable : 'true'
             }
         }
-},
-{
-    region: 'east',
-    width: 100,
-    id: 'ctnRight',
-    collapsible: true,
-    collapseMode: "mini",
-    split: false
-},
-{
-    xtype: 'container',
-    region: 'south',
-    height: 46,
-    width: 793,
-    id: 'ctnBotton'
-}
-]
+    },
+    {
+        region: 'east',
+        width: 100,
+        id: 'ctnRight',
+        collapsible: true,
+        collapseMode: "mini",
+        split: false
+    },
+    {
+        xtype       : 'container',
+        region      : 'south',
+        height      : 32,
+        id          : 'ctnBotton',
+        collasible  : true
+    }
+    ]
 });

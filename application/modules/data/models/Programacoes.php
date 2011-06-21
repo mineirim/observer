@@ -54,7 +54,8 @@ class Data_Model_Programacoes
                $row['responsavel']=$programacao->findParentRow('Data_Model_DbTable_Usuarios')->toArray();
                $row['setor'] = $programacao->findParentRow('Data_Model_DbTable_Setores')->toArray();
                $row['instrumento'] = $programacao->findParentRow('Data_Model_DbTable_Instrumentos')->toArray();
-               $row['parent'] = $programacao->findParentRow('Data_Model_DbTable_Programacoes')->toArray();
+               $parent =$programacao->findParentRow('Data_Model_DbTable_Programacoes');
+               $row['parent'] = $parent? $parent->toArray():'';
            }
            return $row;
        }

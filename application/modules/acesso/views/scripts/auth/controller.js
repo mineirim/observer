@@ -21,7 +21,7 @@ Ext.define('ExtZF.controller.acesso.Auth', {
         });
     },
     login: function(button) {
-        console.log('Efetuando o login');
+        Ext.log('Efetuando o login');
           
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
             form   = win.down('form').getForm()

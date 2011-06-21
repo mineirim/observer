@@ -82,7 +82,7 @@ Ext.define('ExtZF.controller.Navigation', {
 
         // Call the controller init method when the view is rendered
         view.mon(view, 'render', function() {
-                console.log('executing init on Controller ' + controller.id + ' passing: ', args);
+                Ext.log('executing init on Controller ' + controller.id + ' passing: ', args);
 
                 controller.init.apply(controller, args);
         }, this, options);
@@ -90,7 +90,7 @@ Ext.define('ExtZF.controller.Navigation', {
         // Remove the controller and destroy the view when the view component is deactivated
         
         view.mon(view, 'destroy', function(view) {
-                console.log('removing controller ' + controller.id + ' & destroying controller ' + view.id);
+                Ext.log('removing controller ' + controller.id + ' & destroying controller ' + view.id);
 
                 view.destroy();
 

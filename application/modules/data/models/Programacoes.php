@@ -59,5 +59,26 @@ class Data_Model_Programacoes
            }
            return $row;
        }
+       
+    /**
+     *
+     * @param type $programacao_id
+     * @return type array
+     */
+    public function getNode($programacao_id=null,$instrumento_id=null){
+           $programacoes_table = new Data_Model_DbTable_Programacoes();
+           
+           $where =$programacao_id? "programacao_id=$programacao_id":"instrumento_id=$instrumento_id";
+           $programacoes = $programacoes_table->fetchAll($where);
+           $rows = array();
+           foreach ($programacoes as $programacao) {
+               $row = $programacao->toArray();
+               $row['leaf']= count($programacao->findDependentRowset ('Data_Model_DbTable_Programacoes')) == 0 ;
+               $row['parent'] =  $programacao->id;
+               $rows[]=$row;
+           }
+           return $rows;
+       }
+       
 }
 

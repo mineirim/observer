@@ -1,11 +1,11 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.Navigation', {
     extend: 'Ext.app.Controller',
-    stores : ['programacoes.TreeStore'],
-    models  :['programacoes.Model4tree'],
+    stores : ['Treenav'],
+    models  :['Treenav'],
      views: [
     'navigation.MyToolbar',
-    'plano.programacoes.TreePanel'
+    'navigation.TreePanel'
     ],
     constructor: function() {
             this.ref({

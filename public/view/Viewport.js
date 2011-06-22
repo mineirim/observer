@@ -49,7 +49,7 @@ Ext.define('Js.Viewport', {
                             id      : 'pnlInstrumentos',
                             layout  : 'fit',
                             items   : [{
-                                xtype:'planoProgramacoesTreePanel'
+                                xtype:'navigationTreePanel'
                             }]
                         },{
                             xtype: 'panel',

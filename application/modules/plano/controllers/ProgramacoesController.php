@@ -45,8 +45,15 @@ class Plano_ProgramacoesController extends Zend_Controller_Action
         // action body
     }
 
+    public function anexosAction()
+    {
+        // action body
+    }
+
 
 }
+
+
 
 
 

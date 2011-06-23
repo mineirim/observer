@@ -11,14 +11,23 @@ Ext.define('ExtZF.controller.acesso.Auth', {
         ],
     init: function() {
         win = Ext.widget('acessoAuthForm');
+        me=this;
         
         this.control(
         {
-           
-            'acessoAuthForm button[action=entrar]': {
+           'acessoAuthForm button[action=entrar]': {
                 click: this.login
+            },
+            'acessoAuthForm > form > textfield[itemId=senha]': {
+                specialkey: this.onSpecialkey
             }
         });
+    },
+    onSpecialkey: function(field,event){
+        Ext.log("entrou no eent")
+        if(event.getKey()==event.ENTER){
+        	this.login(field);
+        }
     },
     login: function(button) {
         Ext.log('Efetuando o login');

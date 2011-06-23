@@ -30,22 +30,25 @@
             xtype : 'textfield'
             ,inputType : 'password'
             ,fieldLabel : 'Senha'
-            ,emptyText : '*fakepass*'
+            ,emptyText : '*senha*'
             ,msgTarget : 'side'
             ,itemId     : 'senha'
             ,inputId    : 'senha'
             ,allowBlank : false
             ,selectOnFocus : true
-            ,enableKeyEvents: true}
+            ,enableKeyEvents: true
+        }
         ]
 
     }]
     ,buttons: [{
             xtype : 'button'
+            ,id     : 'entrar'
             ,text : 'Entrar'
             ,iconCls: 'icon-entrar'
             ,action : 'entrar'
             }]
+
 
  
 });

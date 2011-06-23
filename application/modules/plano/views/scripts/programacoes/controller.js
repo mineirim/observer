@@ -7,7 +7,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     'plano.programacoes.List',
     'plano.programacoes.Treegrid',
     'plano.programacoes.Edit',
-    'plano.programacoes.Container'
+    'plano.programacoes.Container',
+    'plano.programacoes.Anexos',
+    'plano.programacoes.Detalhes'
     ],
     refs: [{
                 ref:'treegrid',

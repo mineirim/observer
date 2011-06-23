@@ -36,11 +36,14 @@ Ext.define('Js.Viewport', {
     {
         
         region      : 'west',
-        collapsed   :true,
+        collapsed   :false,
         width       : 200,
         layout      : 'accordion',
         activeItem  : 0,
         id          : 'ctnLeft',
+        collapsible     :true,
+        split           :true,
+        collapseMode    : 'mini',
         items       : [
 
                         {
@@ -56,10 +59,7 @@ Ext.define('Js.Viewport', {
                             title: 'Organizações',
                             id: 'pnlOrganizacoes'
                         }
-                        ],
-        collapsible:true,
-        split:true,
-        collapseMode : 'header'
+                        ]
     },
     {
         xtype: 'container',
@@ -80,19 +80,19 @@ Ext.define('Js.Viewport', {
         }
     },
     {
-        region: 'east',
-        width: 100,
-        id: 'ctnRight',
-        collapsible: true,
-        collapseMode: "mini",
-        split: false
+        region      : 'east',
+        width       : 100,
+        id          : 'ctnRight',
+        collapsible : true,
+        collapsed  : true,
+        split       : false
     },
     {
         xtype       : 'container',
         region      : 'south',
-        height      : 32,
+        height      : 16,
         id          : 'ctnBotton',
-        collasible  : true
+        collapsible  : true
     }
     ]
 });

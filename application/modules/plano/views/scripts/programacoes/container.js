@@ -1,9 +1,7 @@
 
 Ext.define('ExtZF.view.plano.programacoes.Container' ,{
-    extend      : 'Ext.Panel', 
+    extend      : 'Ext.Container', 
     alias       : 'widget.planoProgramacoesContainer',
-    frame: true,
-    title: 'Programação',
     width: 740,
     height: 700,
     layout: 'border',// {type: 'vbox', align: 'stretch'},
@@ -19,11 +17,22 @@ Ext.define('ExtZF.view.plano.programacoes.Container' ,{
         xtype : 'planoProgramacoesTreegrid'
     }, 
      {
-        id: 'detailPanel',
-        region: 'center',
-        bodyPadding: 7,
-        bodyStyle: "background: #ffffff;",        
-        html: 'Escolha um instrumento para mostar a descrição.'
+        id          : 'baixo',
+        region      : 'center',
+        xtype       : 'container',
+        layout      :   {type: 'vbox', align: 'stretch'},
+        items       : [{
+                            id      : 'ctnAnexos',
+                            xtype   : 'planoProgramacoesAnexos',
+                            flex    : 0
+                        },
+                        {
+                            id      : 'detailPanel',
+                            xtype   : 'planoProgramacoesDetalhes',
+                            flex    : 1
+                        }
+                    ]
+        
     }]
 });
 

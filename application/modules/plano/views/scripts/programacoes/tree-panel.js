@@ -8,8 +8,8 @@ Ext.define('ExtZF.view.plano.programacoes.TreePanel' ,{
     //storeId     : 'programacoesStoreId',
     singleExpand: false,
     collapsible : true,
-    hideHeaders : true,
-    
+    //hideHeaders : true,
+    preventHeader :true,
     
     selModel: {
         mode: 'SINGLE'

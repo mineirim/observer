@@ -1,7 +1,6 @@
 Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
     extend      : 'Ext.tree.Panel',
     alias       : 'widget.planoProgramacoesTreegrid', // nome definido para acessar a grid
-    title       : 'Programação',
     //useArrows   : true,
     rootVisible : false,
     lines        :   true,

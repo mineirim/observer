@@ -290,6 +290,7 @@
               <actionMethod actionName="treegrid"/>
               <actionMethod actionName="treePanel"/>
               <actionMethod actionName="anexos"/>
+              <actionMethod actionName="detalhes"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
@@ -316,6 +317,9 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Programacoes">
                 <viewScriptFile forActionName="anexos"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Programacoes">
+                <viewScriptFile forActionName="detalhes"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>

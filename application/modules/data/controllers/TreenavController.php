@@ -17,27 +17,37 @@ class Data_TreenavController extends Zend_Rest_Controller
     {
         $this->_helper->viewRenderer->setNoRender(true);
         $programacao_table = new Data_Model_Programacoes();
-        if ($this->_getParam('node') == 'root') {
-            $instrumentos_table = new Data_Model_DbTable_Instrumentos();
+        $instrumentos_table = new Data_Model_DbTable_Instrumentos();
+        $arr_node=explode('-', $this->_getParam('node'));
+        if(in_array('instrumentoId', $arr_node)){
+            $isInstrumento=true;
+            $node=$arr_node[1];
+        }else{
+            $isInstrumento=false;
+            $node=$arr_node[0];
+        }
+        
+        if ( $node== 'root') {
+            
             $instrumentos_root= $instrumentos_table->fetchAll('instrumento_id is null', 'id');
             $rows = array();
             foreach ($instrumentos_root as $value) {
                 $root = array(
-                    'id'=>$value->id,
+                    'id'=>  "instrumentoId-".$value->id,
                     'menu'=>$value->menu
                 );
-                $programacoes = $programacao_table->getNode(null,$value->findDependentRowset('Data_Model_DbTable_Instrumentos')->current()->id);
-                $root['rows'] = $programacoes;
+                
                 $rows[]=$root;
             }
-            
-            $this->_helper->viewRenderer->setNoRender(true);
             $this->view->rows= $rows;
-        } else {
-                $programacoes = $programacao_table->getNode($this->_getParam('node'));
-   
-               $this->view->rows = $programacoes;
-            
+        } elseif($isInstrumento){
+            $instrumento = $instrumentos_table->fetchRow('instrumento_id='.$node);
+            $programacoes = $programacao_table->getNode(null,$instrumento->id);
+            $this->view->rows = $programacoes;
+        }else{
+            $programacoes = $programacao_table->getNode($node);
+            $this->view->rows = $programacoes;
+
         }
         
     }

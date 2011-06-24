@@ -53,9 +53,9 @@ class Data_Model_Programacoes
            $programacao = $programacoes->fetchRow($where);
            $row = $programacao->toArray();
            if($withAssociations){
-               $usuario    = $value->findParentRow('Data_Model_DbTable_Usuarios');
+               $usuario    = $programacao->findParentRow('Data_Model_DbTable_Usuarios');
                $usuario = $usuario?$usuario->toArray():array();
-               $setor      = $value->findParentRow('Data_Model_DbTable_Setores');
+               $setor      = $programacao->findParentRow('Data_Model_DbTable_Setores');
                $setor = $setor?$setor->toArray():array();
                $row['responsavel']=$usuario;
                $row['setor'] = $setor;

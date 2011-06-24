@@ -12,9 +12,10 @@ Ext.define('ExtZF.view.admin.instrumentos.Edit', {
 	{xtype: 'textfield',name : 'menu',ref: 'menu',fieldLabel: 'Menu'},
 	{xtype: 'textfield',name : 'descricao',ref: 'descricao',fieldLabel: 'Descricao'},
 	{xtype: 'textfield',name : 'ordem',ref: 'ordem',fieldLabel: 'Ordem'},
-	{xtype: 'textfield',name : 'has_indicador',ref: 'has_indicador',fieldLabel: 'Has_indicador'},
-	{xtype: 'textfield',name : 'has_intersecao',ref: 'has_intersecao',fieldLabel: 'Has_intersecao'},
-	{xtype: 'textfield',name : 'instrumento_id',ref: 'instrumento_id',fieldLabel: 'Instrumento_id'},]}
+        {xtype: 'checkbox',fieldLabel: 'Has_indicador',name: 'has_indicador',id: 'has_indicador'},
+        {xtype: 'checkbox',fieldLabel: 'Has_intersecao',name: 'has_intersecao',id: 'has_intersecao'},
+	{xtype: 'textfield',name : 'instrumento_id',ref: 'instrumento_id',fieldLabel: 'Instrumento_id'},
+        {xtype: 'textfield',name : 'singular',ref: 'singular',fieldLabel: 'Singular'},]}
         ];
 
         this.buttons = [{

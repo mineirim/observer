@@ -5,8 +5,8 @@ Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.admin.Cad-usuarios', {
     extend: 'Ext.app.Controller',
   
-    stores: ['Usuarios', 'Setores'], // Store utilizado no gerenciamento do usuário
-    models: ['Usuarios', 'Setores'], // Modelo do usuário
+    stores: ['Usuarios', 'Setores', 'Cargos'], // Store utilizado no gerenciamento do usuário
+    models: ['Usuarios', 'Setores', 'Cargos'], // Modelo do usuário
     views: [
     'admin.cad-usuarios.Lista',
     'admin.cad-usuarios.Edicao'
@@ -92,23 +92,17 @@ Ext.define('ExtZF.controller.admin.Cad-usuarios', {
             r = form.getRecord();
             form.updateRecord(r);
 
-            /*
-	     * Aqui fica um problema que não encontrei a solução.
-	     * eu gostaria de salvar o registro com o comando abaixo diretamente do record, mas dá um erro que não consegui entender
-	     * 
-            r.save({
-                scope : this.getUsuariosStore(),
-                success : function(record, operation) {
-                            Ext.Msg.alert('Sucesso');
-                            win.close();
-                            me.getUsuariosStore().load();
 
-                        }
-                    });
-             */
-            this.getUsuariosStore().sync();
-            win.close();
-            this.getUsuariosStore().load();
+            r.save({
+                success: function(a,b){
+                    Ext.log({msg:"Salvo com sucesso!",level:"info",dump:a});
+                    win.close();
+                    me.getUsuariosStore().load();
+                },
+                failure:function(a,b){
+                    Ext.log({msg:"Erro ao salvar!",level:"error"});
+                }
+                });
             
         }
 

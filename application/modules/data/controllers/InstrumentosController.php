@@ -40,13 +40,13 @@ class Data_InstrumentosController extends Zend_Rest_Controller
                 $formData = json_decode($formData,true);
                 $id=$formData['id'];
                 unset($formData['id']);
+                
                 if($formData['instrumento_id']=="")
                     unset($formData['instrumento_id']);
-                
                 $instrumentos_table->update($formData, "id=$id");
                 $this->view->msg = "Dados atualizados com sucesso!";
                 $obj = $instrumentos_table->fetchRow("id=$id");
-                $this->view->record = $obj->toArray();
+                $this->view->rows = $obj->toArray();
                 $this->view->success=true;
         
             }  catch (Exception $e){
@@ -77,7 +77,7 @@ class Data_InstrumentosController extends Zend_Rest_Controller
                 $this->view->msg="Dados inseridos com sucesso!";
         
                 $obj = $instrumentos_table->fetchRow("id=$id");
-                $this->view->record = $obj;
+                $this->view->rows = $obj;
                 $this->view->success=true;
                 $this->view->metodo = $this->getRequest()->getMethod();
         

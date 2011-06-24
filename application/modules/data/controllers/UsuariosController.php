@@ -45,7 +45,7 @@ class Data_UsuariosController extends Zend_Rest_Controller {
                 unset($formData['id']);
                 $obj = $usuarios_table->addUsuario($formData);
                 $this->view->msg = "Dados inseridos com sucesso!";
-                $this->view->record = $obj->toArray();
+                $this->view->rows = $obj->toArray();
                 $this->view->success = true;
             } catch (Exception $e) {
                 $this->view->success = false;
@@ -68,7 +68,7 @@ class Data_UsuariosController extends Zend_Rest_Controller {
                 $obj = $usuarios_table->updateUsuario($formData, "id=$id");
                 $this->view->msg = "Dados atualizados com sucesso!";
                 
-                $this->view->record = $obj->toArray();
+                $this->view->rows = $obj->toArray();
                 $this->view->success = true;
             } catch (Exception $e) {
                 $this->view->success = false;

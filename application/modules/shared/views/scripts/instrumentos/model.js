@@ -1,6 +1,13 @@
 Ext.define('ExtZF.model.Instrumentos', {
         extend         : 'Ext.data.Model',
-        fields         : ['id','menu','singular', 'descricao','ordem','has_indicador','has_intersecao','instrumento_id'],
+        fields         : [  'id',
+                            'menu',
+                            'singular', 
+                            'descricao',
+                            'ordem',
+                            {name: 'has_indicador', type: 'string'},
+                            {name: 'has_intersecao', type: 'string'},
+                            'instrumento_id'],
         proxy          : {
         simpleSortMode : true, 
         type           : 'rest',

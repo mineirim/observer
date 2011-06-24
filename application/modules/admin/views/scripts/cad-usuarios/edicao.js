@@ -30,7 +30,32 @@ Ext.define('ExtZF.view.admin.cad-usuarios.Edicao', {
                 ref: 'usuario',
                 fieldLabel: 'Login',
                 allowBlank: false
-            }]}
+            },
+            {   
+                xtype: 'combo',
+                name        : 'setor_id',
+                ref         : 'setor_id',
+                fieldLabel  : 'Setor', 
+                store       : 'Setores',
+                displayField: 'nome',
+                valueField  : 'id',
+                queryMode   : 'local'
+            },
+        
+            {   
+                xtype: 'combo',
+                name        : 'cargo_id',
+                ref         : 'cargo_id',
+                fieldLabel  : 'Cargo', 
+                store       : 'Cargos',
+                displayField: 'nome',
+                valueField  : 'id',
+                queryMode   : 'local'
+            },
+    
+
+
+]}
         ];
 
         this.buttons = [{

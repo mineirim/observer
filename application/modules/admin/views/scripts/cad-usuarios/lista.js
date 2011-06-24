@@ -18,7 +18,8 @@ Ext.define('ExtZF.view.admin.cad-usuarios.Lista' ,{
 	{header: 'Nome',  dataIndex: 'nome',  flex: 1},
         {header: 'E-Mail', dataIndex: 'email', flex: 1},
         {header: 'Login', dataIndex: 'usuario', flex: 1},
-        {header: 'Setor', dataIndex: 'setor_id', flex: 1,renderer : this.getSetor}
+        //{header: 'Setor', dataIndex: 'setor_id', flex: 1,renderer : this.getSetor},
+        //{header: 'Cargo', dataIndex: 'cargo_id', flex: 1,renderer : this.getCargo}
     ],
     // Paginação
     dockedItems: [{
@@ -35,5 +36,16 @@ Ext.define('ExtZF.view.admin.cad-usuarios.Lista' ,{
                     return ret;
                 }
         })
+    },
+    getCargo : function(cargo_id){
+        cargo = Ext.create('ExtZF.model.Cargos');
+        return cargo.load(cargo_id,{
+                success : function(){
+                    ret = this.nome;
+                    return ret;
+                }
+        })
     }
+    
+    
 });

@@ -3,7 +3,7 @@ Ext.define('ExtZF.view.admin.setores.List' ,{
     alias : 'widget.adminSetoresList', // nome definido para acessar a grid
     store: 'Setores', // store definido em store/Setores.js
     title : 'Lista',
-    closable : 'true',
+//    closable : 'true',
     selModel: {mode: 'MULTI'}, // Permite selecionar mais de uma linha da grid
     // botões do cabeçalho
     tbar :[{

@@ -67,9 +67,17 @@ Ext.define('ExtZF.controller.admin.Instrumentos', {
         if (form.isValid()) {
             r = form.getRecord();
             form.updateRecord(r);
-            this.getInstrumentosStore().sync();
-            win.close();
-            this.getInstrumentosStore().load();
+            r.save({
+                success: function(a,b){
+                    Ext.log({msg:"Salvo com sucesso!",level:"info",dump:a});
+                    win.close();
+                    me.getInstrumentosStore().load();
+                },
+                failure:function(a,b){
+                    Ext.log({msg:"Erro ao salvar!",level:"error"});
+                }
+                });
+            
         }
     }
 });

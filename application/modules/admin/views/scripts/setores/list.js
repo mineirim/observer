@@ -15,10 +15,10 @@ Ext.define('ExtZF.view.admin.setores.List' ,{
         iconCls: 'icon-delete',
     	action: 'excluir'
     }],
-	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 1},
-		{header: 'Nome',  dataIndex: 'nome',  flex: 1},
+	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, width:15},
+		{header: 'Nome',  dataIndex: 'nome',  flex: 2},
 		{header: 'Sigla',  dataIndex: 'sigla',  flex: 1},
-		{header: 'Descricao',  dataIndex: 'descricao',  flex: 1}],
+		{header: 'Descricao',  dataIndex: 'descricao',  flex: 3}],
     // Paginação
     dockedItems: [{
         xtype: 'pagingtoolbar',

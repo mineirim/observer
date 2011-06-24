@@ -7,7 +7,8 @@ Ext.define('ExtZF.view.plano.programacoes.Anexos' ,{
     height: 50,
     layout: 'fit',       
     html: 'Anexos.',
-    collapsible:true
+    collapsible:true,
+    iconCls :   'icon-attach'
     
 });
 

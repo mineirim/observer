@@ -28,5 +28,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         Zend_Registry::set('db', $dbAdapter);
     }
+    public function _initLog(){
+        $writer = new Zend_Log_Writer_Firebug();
+        $logger = new Zend_Log($writer);
+        Zend_Registry::set('logger',$logger);
+    }
 }
 

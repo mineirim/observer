@@ -60,3 +60,6 @@
 .x-tree-noicon{
     display: none;
 }
+.icon-attach{
+    background-image: url(../images/icons/attach.png)  !important;
+}

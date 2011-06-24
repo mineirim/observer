@@ -8,8 +8,10 @@ class Data_Model_Programacoes
            $parent = $programacoes->fetchAll($where, 'ordem' );
            $root = array();
            foreach ($parent as $value) {
-                $usuario    = $value->findParentRow('Data_Model_DbTable_Usuarios')->toArray();
-                $setor      = $value->findParentRow('Data_Model_DbTable_Setores')->toArray();
+                $usuario    = $value->findParentRow('Data_Model_DbTable_Usuarios');
+                $usuario = $usuario?$usuario->toArray():array();
+                $setor      = $value->findParentRow('Data_Model_DbTable_Setores');
+                $setor = $setor?$setor->toArray():array();
                 $instrumento= $value->findParentRow('Data_Model_DbTable_Instrumentos')->toArray();
                 $parent     = $value->findParentRow('Data_Model_DbTable_Programacoes');
                 $parent = $parent ? $parent->toArray() :array();
@@ -51,8 +53,12 @@ class Data_Model_Programacoes
            $programacao = $programacoes->fetchRow($where);
            $row = $programacao->toArray();
            if($withAssociations){
-               $row['responsavel']=$programacao->findParentRow('Data_Model_DbTable_Usuarios')->toArray();
-               $row['setor'] = $programacao->findParentRow('Data_Model_DbTable_Setores')->toArray();
+               $usuario    = $value->findParentRow('Data_Model_DbTable_Usuarios');
+               $usuario = $usuario?$usuario->toArray():array();
+               $setor      = $value->findParentRow('Data_Model_DbTable_Setores');
+               $setor = $setor?$setor->toArray():array();
+               $row['responsavel']=$usuario;
+               $row['setor'] = $setor;
                $row['instrumento'] = $programacao->findParentRow('Data_Model_DbTable_Instrumentos')->toArray();
                $parent =$programacao->findParentRow('Data_Model_DbTable_Programacoes');
                $row['parent'] = $parent? $parent->toArray():'';

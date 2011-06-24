@@ -147,6 +147,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                     win.close();
                     me.getProgramacoesStore().load();
                     me.getProgramacoesTreeStoreStore().load();
+                    /**
+                     * TODO selecionar o objeto salvo/cridado
+                     */
                 },
                 failure:function(a,b){
                     Ext.log({msg:"Erro ao salvar!",level:"error"});
@@ -166,9 +169,31 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
          }else{
              button.hide();
          }
-        var bookTplMarkup = [
+         
+         var bookTplMarkup = [
             'Descrição: {descricao}<br/>'
             ];
+         if(record.get('instrumento').has_operativo){
+             
+             if(record.get('operativo').length>0){
+                 operativo = record.get('operativo')[0];
+                 tpl_operativo = "<table>\
+                                    <tr>\
+                                        <td>Peso</td>\
+                                        <td>Início</td>\
+                                        <td>Prazo</td>\
+                                        <td>Encerramento</td>\
+                                    </tr>\
+                                    <tr><td>"+operativo.peso+"</td><td>"+operativo.data_inicio+"</td>\
+                                        <td>"+operativo.data_prazo+"</td>\
+                                        <td>"+operativo.data_encerramento+"</td></tr></table>";
+             }
+                
+             bookTplMarkup = [
+            'Descrição: {descricao}<br/>'+tpl_operativo
+            ];
+         }
+        
         var bookTpl = Ext.create('Ext.Template', bookTplMarkup);
         var detailPanel = Ext.getCmp('detailPanel');
         bookTpl.overwrite(detailPanel.body, record.data);

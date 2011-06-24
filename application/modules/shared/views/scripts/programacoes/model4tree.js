@@ -11,6 +11,7 @@ Ext.define('ExtZF.model.programacoes.Model4tree', {
                             {name:'responsavel', persist:false},
                             {name:'setor', persist:false},
                             {name:'instrumento', persist:false},
+                            {name:'operativo',persist:false},
                             {name:'parent',persist:false}
                         ],
         proxy          : {

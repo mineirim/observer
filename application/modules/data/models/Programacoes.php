@@ -15,6 +15,9 @@ class Data_Model_Programacoes
                 $instrumento= $value->findParentRow('Data_Model_DbTable_Instrumentos')->toArray();
                 $parent     = $value->findParentRow('Data_Model_DbTable_Programacoes');
                 $parent = $parent ? $parent->toArray() :array();
+                $operativo = $value->findDependentRowset('Data_Model_DbTable_Operativos');
+              
+                $operativo = count($operativo)>0?$operativo->toArray():array();
                 $child = array(
                        'id'             =>$value->id,
                        'menu'           =>$value->menu,
@@ -28,7 +31,8 @@ class Data_Model_Programacoes
                        'setor'          => $setor,
                        'instrumento'    =>$instrumento,
                        'parent'         =>$parent,
-                        'iconCls'=>'x-tree-noicon'
+                        'operativo'         =>$operativo,
+                        'iconCls'=>'x-tree-noiconx'
                );
                $children = $this->getRecursive($value->id);
                if(count($children)> 0){

@@ -1,4 +1,6 @@
 php_flag magic_quotes_gpc off
+php_value post_max_size 36M
+php_value upload_max_filesize 32M
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} -s [OR]
 RewriteCond %{REQUEST_FILENAME} -l [OR]

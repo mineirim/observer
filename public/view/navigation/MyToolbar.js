@@ -51,6 +51,18 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
                 data        : 'admin.Setores',
                 action      : "loadController",
                 createView  : "adminSetoresList"
+            },{
+                text        : 'Tags',
+                iconCls     : 'icon-tag',
+                data        : 'plano.Tags',
+                action      : "loadController",
+                createView  : "planoTagsList"
+            },{
+                text        : 'Arquivos',
+                iconCls     : 'icon-attach',
+                data        : 'plano.Anexos',
+                action      : "loadController",
+                createView  : "planoAnexosList"
             },
             {
                 text        : 'Configurações',

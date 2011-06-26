@@ -30,9 +30,14 @@ class Data_UsuariosController extends Zend_Rest_Controller {
 
     public function getAction() {
         $usuarios_table = new Data_Model_Usuarios();
-        $usuario = $usuarios_table->getUsuario($this->_getParam('id')) ;
-        $this->view->rows = $usuario->toArray();
-        $this->view->total = count($usuario);
+        try{
+            $usuario = $usuarios_table->getUsuario($this->_getParam('id')) ;
+            $this->view->rows = $usuario->toArray();
+            $this->view->total = count($usuario);
+        }  catch (Exception $e){
+            $this->view->success=false;
+            $this->view->msg = "Erro abrir o registro<br>" . $e->getMessage() . "<br>" . $e->getTraceAsString();
+        }
     }
 
     public function postAction() {

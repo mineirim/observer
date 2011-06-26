@@ -43,7 +43,7 @@ class Data_VinculosController extends Zend_Rest_Controller
                 $vinculos_table->update($formData, "id=$id");
                 $this->view->msg = "Dados atualizados com sucesso!";
                 $obj = $vinculos_table->fetchRow("id=$id");
-                $this->view->record = $obj->toArray();
+                $this->view->rows = $obj->toArray();
                 $this->view->success=true;
         
             }  catch (Exception $e){
@@ -74,7 +74,7 @@ class Data_VinculosController extends Zend_Rest_Controller
                 $this->view->msg="Dados inseridos com sucesso!";
         
                 $obj = $vinculos_table->fetchRow("id=$id");
-                $this->view->record = $obj;
+                $this->view->rows = $obj;
                 $this->view->success=true;
                 $this->view->metodo = $this->getRequest()->getMethod();
         

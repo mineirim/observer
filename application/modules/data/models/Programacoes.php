@@ -31,8 +31,8 @@ class Data_Model_Programacoes
                        'setor'          => $setor,
                        'instrumento'    =>$instrumento,
                        'parent'         =>$parent,
-                        'operativo'         =>$operativo,
-                        'iconCls'=>'x-tree-noiconx'
+                       'operativo'      =>$operativo,
+                       'iconCls'=>'x-tree-noiconx'
                );
                $children = $this->getRecursive($value->id);
                if(count($children)> 0){
@@ -56,6 +56,11 @@ class Data_Model_Programacoes
            $where = "id=$id";
            $programacao = $programacoes->fetchRow($where);
            $row = $programacao->toArray();
+           $operativo = $programacao->findDependentRowset('Data_Model_DbTable_Operativos');
+           if (count($operativo )>0)  {
+               $row['operativo'] = $operativo->toArray();
+           }
+           
            if($withAssociations){
                $usuario    = $programacao->findParentRow('Data_Model_DbTable_Usuarios');
                $usuario = $usuario?$usuario->toArray():array();

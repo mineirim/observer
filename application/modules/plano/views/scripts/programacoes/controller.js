@@ -1,8 +1,8 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Programacoes', {
     extend: 'Ext.app.Controller',
-    stores: ['programacoes.TreeStore', 'Programacoes' ,'Setores','Usuarios','Instrumentos'], // Store utilizado no gerenciamento do usuário
-    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos'], // Modelo do usuário
+    stores: ['programacoes.TreeStore', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos'], // Store utilizado no gerenciamento do usuário
+    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos'], // Modelo do usuário
      views: [
     'plano.programacoes.List',
     'plano.programacoes.Treegrid',
@@ -91,24 +91,52 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             //TODO pegar o nivel do instrumento filho
             instrumento = this.getInstrumentosStore().findRecord('instrumento_id',parent.get('instrumento_id'));
             options.instrumento_id =instrumento.get('id');
+            var operativo = instrumento.get('has_operativo');
+            if (operativo) {
+                view.criaDetail();
+                rr = Ext.ModelMgr.create({},'ExtZF.model.Operativos');
+                view.down('#frmDetail').getForm().loadRecord(rr);
+
+            }        
+            
         }
         
         record = Ext.ModelMgr.create(options,'ExtZF.model.Programacoes');
       	view.down('form').loadRecord(record);
+        
+        
     },
     editObject :function(grid, rec) {
         var view = Ext.widget('planoProgramacoesEdit');
         view.setTitle('Edição ');
         //TODO buscar record de um outro store(não tree)
         r = Ext.ModelMgr.getModel('ExtZF.model.Programacoes');
+        
         r.load(rec.get('id'),{
                 scope: this,
+                callback : function () {
+                    
+                },
+                
                 failure: function(record, operation) {
                     Ext.alert("Erro ao carregar registro")
                 },
                 success: function(record, operation) {
                     Ext.log({msg:"Carregando registro para edição",level:'info'})
                     view.down('form').loadRecord(record);
+                    
+                    var instrumento = record.get('instrumento');
+                    if (instrumento.has_operativo) {
+                        view.criaDetail();
+                        var operativo = record.get('operativo')[0];
+                        if (operativo == undefined)
+                            operativo = {};
+                        rr = Ext.ModelMgr.create(operativo,'ExtZF.model.Operativos');
+                        view.down('#frmDetail').getForm().loadRecord(rr);
+                    }                      
+                       
+                    
+                    
                 }
         })
       	
@@ -137,19 +165,38 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         Ext.log({msg:'Entrou no save',level:'info'});
         var me=this;
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
-            form   = win.down('form').getForm() // recupera item abaixo(filho) da window do tipo form
-        if (form.isValid()) {
-            r = form.getRecord();
-            form.updateRecord(r);
+            formDefault   = win.down('#frmDefault').getForm(),
+            formDetail   = win.down('#frmDetail').getForm();
+        if (formDefault.isValid()) {
+            r = formDefault.getRecord();
+            formDefault.updateRecord(r);
             r.save({
                 success: function(a,b){
                     Ext.log({msg:"Salvo com sucesso!",level:"info",dump:a});
-                    win.close();
-                    me.getProgramacoesStore().load();
-                    me.getProgramacoesTreeStoreStore().load();
                     /**
                      * TODO selecionar o objeto salvo/cridado
                      */
+                    if (formDetail != undefined){
+                        rd = formDetail.getRecord();
+                        formDetail.updateRecord(rd);
+                        rd.set('programacao_id',a.get('id'));
+                        rd.save({
+                            success: function(c,d){
+                               Ext.log({msg:"Salvo com sucesso!",level:"info",dump:c});
+                                
+                            },
+                            callback: function(c,d){
+                               Ext.log({msg:"Salvo com sucesso!",level:"info",dump:c});
+                                
+                            }
+                        }
+                        )
+                    }
+                    win.close();
+                    me.getProgramacoesStore().load();
+                    me.getProgramacoesTreeStoreStore().load();
+
+                    
                 },
                 failure:function(a,b){
                     Ext.log({msg:"Erro ao salvar!",level:"error"});
@@ -174,19 +221,13 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             'Descrição: {descricao}<br/>'
             ];
          if(record.get('instrumento').has_operativo){
-             
+             tpl_operativo = '';
              if(record.get('operativo').length>0){
                  operativo = record.get('operativo')[0];
-                 tpl_operativo = "<table>\
-                                    <tr>\
-                                        <td>Peso</td>\
-                                        <td>Início</td>\
-                                        <td>Prazo</td>\
-                                        <td>Encerramento</td>\
-                                    </tr>\
-                                    <tr><td>"+operativo.peso+"</td><td>"+operativo.data_inicio+"</td>\
-                                        <td>"+operativo.data_prazo+"</td>\
-                                        <td>"+operativo.data_encerramento+"</td></tr></table>";
+                 tpl_operativo = "Peso: "+operativo.peso+
+                                 "<br/>Início: "+operativo.data_inicio+
+                                 "<br/>Prazo: "+operativo.data_prazo+
+                                 "<br/>Encerramento: "+operativo.data_encerramento;
              }
                 
              bookTplMarkup = [

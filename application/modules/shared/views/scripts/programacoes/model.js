@@ -11,7 +11,8 @@ Ext.define('ExtZF.model.Programacoes', {
                             {name:'responsavel', persist:false},
                             {name:'setor', persist:false},
                             {name:'instrumento', persist:false},
-                            {name:'parent',persist:false}
+                            {name:'parent',persist:false},
+                            {name:'operativo',persist:false}
                         ],
         proxy          : {
                         type           : 'rest',

@@ -4,7 +4,7 @@ Ext.define('ExtZF.view.plano.programacoes.Anexos' ,{
     alias       : 'widget.planoProgramacoesAnexos',
     frame: true,
     title: 'Anexos',
-    height: 50,
+    height: 100,
     layout: 'fit',       
     html: 'Anexos.',
     collapsible:true,

@@ -78,7 +78,11 @@ class Data_OperativosController extends Zend_Rest_Controller
                 $this->view->success=true;
                 $this->view->metodo = $this->getRequest()->getMethod();
         
-            }  catch (Exception $e){
+            }  catch (Zend_Db_Statement_Exception $e){
+                $this->view->success = false;
+                $this->view->method  = $this->getRequest()->getMethod();
+                $this->view->msg     = "Erro ao atualizar/inserir registro<br>".$e->getMessage();
+            }catch (Exception $e){
                 $this->view->success = false;
                 $this->view->method  = $this->getRequest()->getMethod();
                 $this->view->msg     = "Erro ao atualizar/inserir registro<br>$e->getMessage()<br>$e->getTraceAsString()";

@@ -174,7 +174,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             formDefault.updateRecord(r);
             r.save({
                 success: function(a,b){
-                    Ext.log({msg:"Salvo com sucesso!",level:"info",dump:a});
+                    Ext.log({msg:"Salvo com sucesso!",level:"info"});
                     /**
                      * TODO selecionar o objeto salvo/cridado
                      */

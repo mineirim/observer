@@ -9,7 +9,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     'plano.programacoes.Edit',
     'plano.programacoes.Container',
     'plano.programacoes.Anexos',
-    'plano.programacoes.Detalhes'
+    'plano.programacoes.Detalhes',
+    'plano.anexos.Edit'
     ],
     refs: [{
                 ref:'treegrid',
@@ -55,8 +56,16 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             'planoProgramacoesTreegrid button[action=excluir]': {
                 click: this.deleteObject
             }
+            ,
+            'planoProgramacoesAnexos button[action=attach]': {
+                click: this.attachFile
+            }
         });
         
+    },
+    attachFile  : function(){
+        var view = Ext.widget('planoAnexosEdit');
+        view.setTitle('Anexar arquivo')
     },
     newRoot: function() {
         var grid = this.getTreegrid(); 

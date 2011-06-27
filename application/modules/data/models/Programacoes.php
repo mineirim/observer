@@ -32,7 +32,7 @@ class Data_Model_Programacoes
                        'instrumento'    =>$instrumento,
                        'parent'         =>$parent,
                        'operativo'      =>$operativo,
-                       'iconCls'=>'x-tree-noiconx'
+                       'iconCls'=>'x-tree-noicon'
                );
                $children = $this->getRecursive($value->id);
                if(count($children)> 0){

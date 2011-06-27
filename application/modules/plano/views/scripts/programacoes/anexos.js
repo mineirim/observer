@@ -5,11 +5,14 @@ Ext.define('ExtZF.view.plano.programacoes.Anexos' ,{
     frame: true,
     title: 'Anexos',
     height: 100,
-    layout: 'fit',       
-    html: 'Anexos.',
+    layout: 'fit',
     collapsible:true,
-    iconCls :   'icon-attach'
-    
+    iconCls :   'icon-attach',
+    lbar:[{xtype:'button',
+          iconCls:'icon-attach-file',
+          action    : 'attach',
+          text      : 'Adicionar'
+      }]
 });
 
 

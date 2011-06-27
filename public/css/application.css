@@ -63,9 +63,16 @@
 .icon-attach{
     background-image: url(../images/icons/attach.png)  !important;
 }
+.icon-attach-file{
+    background-image: url(../images/icons/page_attach.png)  !important;
+}
 .icon-tag{
     background-image: url(../images/icons/tag_blue.png)  !important;
 }
 .icon-upload{
+    background-image: url(../images/icons/upload2.jpg)  !important;
+}
+
+.icon-upload-send{
     background-image: url(../images/icons/upload.jpg)  !important;
 }

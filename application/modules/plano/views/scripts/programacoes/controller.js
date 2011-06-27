@@ -166,7 +166,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var me=this;
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
             formDefault   = win.down('#frmDefault').getForm(),
-            formDetail   = win.down('#frmDetail').getForm();
+            formDetail   = win.down('#frmDetail')
+            if (formDetail != null)
+                formDetail = formDetail.getForm();
         if (formDefault.isValid()) {
             r = formDefault.getRecord();
             formDefault.updateRecord(r);
@@ -184,13 +186,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                             success: function(c,d){
                                Ext.log({msg:"Salvo com sucesso!",level:"info",dump:c});
                                 
-                            },
-                            callback: function(c,d){
-                               Ext.log({msg:"Salvo com sucesso!",level:"info",dump:c});
-                                
                             }
-                        }
-                        )
+                        })
                     }
                     win.close();
                     me.getProgramacoesStore().load();
@@ -201,7 +198,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 failure:function(a,b){
                     Ext.log({msg:"Erro ao salvar!",level:"error"});
                 }
-                });
+        });
             
             
         }

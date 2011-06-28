@@ -3,11 +3,11 @@
 class Data_Model_Programacoes
 {
     public function getRecursive($id=null){
-           $programacoes = new Data_Model_DbTable_Programacoes();
+           $programacoes_table = new Data_Model_DbTable_Programacoes();
            $where = $id?'programacao_id='.$id:"programacao_id is null";
-           $parent = $programacoes->fetchAll($where, 'ordem' );
+           $programacoes = $programacoes_table->fetchAll($where, 'ordem' );
            $root = array();
-           foreach ($parent as $value) {
+           foreach ($programacoes as $value) {
                 $usuario    = $value->findParentRow('Data_Model_DbTable_Usuarios');
                 $usuario = $usuario?$usuario->toArray():array();
                 $setor      = $value->findParentRow('Data_Model_DbTable_Setores');
@@ -44,6 +44,41 @@ class Data_Model_Programacoes
                array_push($root, $child);
            }
            return $root;
+       }
+       public function getAll($where=null,$order='ordem'){
+           $programacoes_table = new Data_Model_DbTable_Programacoes();
+           
+           $programacoes = $programacoes_table->fetchAll($where,$order );
+           $objs = array();
+           foreach ($programacoes as $value) {
+                $usuario    = $value->findParentRow('Data_Model_DbTable_Usuarios');
+                $usuario    = $usuario?$usuario->toArray():array();
+                $setor      = $value->findParentRow('Data_Model_DbTable_Setores');
+                $setor      = $setor?$setor->toArray():array();
+                $instrumento= $value->findParentRow('Data_Model_DbTable_Instrumentos')->toArray();
+                $parent     = $value->findParentRow('Data_Model_DbTable_Programacoes');
+                $parent     = $parent ? $parent->toArray() :array();
+                $operativo  = $value->findDependentRowset('Data_Model_DbTable_Operativos');
+              
+                $operativo = count($operativo)>0?$operativo->toArray():array();
+                $child = array(
+                       'id'                     =>$value->id,
+                       'menu'                   =>$value->menu,
+                       'descricao'              =>$value->descricao,
+                       'ordem'                  =>$value->ordem,
+                       'instrumento_id'         =>$value->instrumento_id,
+                       'programacao_id'         =>$value->programacao_id,
+                       'setor_id'               =>$value->setor_id,
+                       'responsavel_usuario_id' =>$value->responsavel_usuario_id,
+                       'responsavel'            =>$usuario,
+                       'setor'                  => $setor,
+                       'instrumento'            =>$instrumento,
+                       'parent'                 =>$parent,
+                       'operativo'              =>$operativo
+               );
+               $objs[]=$child;
+           }
+           return $objs;
        }
     /**
      *

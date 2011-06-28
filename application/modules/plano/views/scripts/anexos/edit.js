@@ -30,6 +30,7 @@ Ext.define('ExtZF.view.plano.anexos.Edit', {
                         // Distribute controls across 3 even columns, filling each row
                         // from left to right before starting the next row
                         columns: 3,
+                        vertical:true,
                         items: [
                             {boxLabel: 'TR', name: 'cb-horiz-1'},
                             {boxLabel: 'PT', name: 'cb-horiz-2'},

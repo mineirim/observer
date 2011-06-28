@@ -63,6 +63,11 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         });
         
     },
+    
+    handlerEdit: function(grid, rowIndex, colIndex) {
+        var rec = grid.getStore().getAt(rowIndex);
+        alert("Edit " + rec.get('menu'));
+    },
     attachFile  : function(){
         var view = Ext.widget('planoAnexosEdit');
         view.setTitle('Anexar arquivo')
@@ -76,28 +81,21 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
          * TODO pegar automaticamente o root do instrumento(quando mais de um instrumento)
          */
      
-        options={instrumento_id :1};
+        options={instrumento_id :2};
         
         record = Ext.ModelMgr.create(options,'ExtZF.model.Programacoes');
       	view.down('form').loadRecord(record);
     },
-    editObj: function(grid, rowIndex, colIndex) {
-                        var rec = grid.getStore().getAt(rowIndex);
-                        alert("Edit xxxxx");
-                    },
     newObject: function() {
         var grid = this.getTreegrid(); 
-        
         var view = Ext.widget('planoProgramacoesEdit');
         view.setTitle('Inserir');
-        
         parent = grid.getSelectionModel().getSelection()[0]; 
         options ={instrumento_id: ''}
-        
         if( parent!=undefined){
             parent_id  = parent.get('id');
             options.programacao_id = parent_id;
-            //TODO pegar o nivel do instrumento filho
+            
             instrumento = this.getInstrumentosStore().findRecord('instrumento_id',parent.get('instrumento_id'));
             options.instrumento_id =instrumento.get('id');
             var operativo = instrumento.get('has_operativo');
@@ -119,35 +117,24 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var view = Ext.widget('planoProgramacoesEdit');
         view.setTitle('Edição ');
         //TODO buscar record de um outro store(não tree)
-        r = Ext.ModelMgr.getModel('ExtZF.model.Programacoes');
+        store =  this.getProgramacoesStore();
+        record = store.getById(rec.get('id'));
         
-        r.load(rec.get('id'),{
-                scope: this,
-                callback : function () {
-                    
-                },
+
+        Ext.log({msg:"Carregando registro para edição",level:'info'});
+        view.down('form').loadRecord(record);
+
+        var instrumento = record.get('instrumento');
+        if (instrumento.has_operativo) {
+            view.criaDetail();
+            var operativo = record.get('operativo')[0];
+            if (operativo == undefined)
+                operativo = {};
+            rr = Ext.ModelMgr.create(operativo,'ExtZF.model.Operativos');
+            view.down('#frmDetail').getForm().loadRecord(rr);
+        }                      
                 
-                failure: function(record, operation) {
-                    Ext.alert("Erro ao carregar registro")
-                },
-                success: function(record, operation) {
-                    Ext.log({msg:"Carregando registro para edição",level:'info'})
-                    view.down('form').loadRecord(record);
-                    
-                    var instrumento = record.get('instrumento');
-                    if (instrumento.has_operativo) {
-                        view.criaDetail();
-                        var operativo = record.get('operativo')[0];
-                        if (operativo == undefined)
-                            operativo = {};
-                        rr = Ext.ModelMgr.create(operativo,'ExtZF.model.Operativos');
-                        view.down('#frmDetail').getForm().loadRecord(rr);
-                    }                      
-                       
-                    
-                    
-                }
-        })
+        
       	
     },
     deleteObject:function() {
@@ -199,9 +186,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                         })
                     }
                     win.close();
-                    me.getProgramacoesStore().load();
                     me.getProgramacoesTreeStoreStore().load();
-
+                    me.getProgramacoesStore().load();
                     
                 },
                 failure:function(a,b){
@@ -223,7 +209,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
              button.hide();
          }
          
-        var bookTplMarkup = ['<b>Descrição: </b>{descricao}<br/>'];
+        var bookTplMarkup = ['<div class="tplDetail"><b>Descrição: </b>{descricao}<br/></div>'];
         var bookTpl = Ext.create('Ext.XTemplate', bookTplMarkup);
         var detailPanel = Ext.getCmp('detailPanel');
         bookTpl.overwrite(detailPanel.body, record.data);         

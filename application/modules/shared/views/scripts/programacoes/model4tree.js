@@ -17,6 +17,7 @@ Ext.define('ExtZF.model.programacoes.Model4tree', {
         proxy          : {
                         type           : 'rest',
                         url            :   'data/programacoes',
+                        extraParams    : {toTree:true},
                         reader         : {
                                 type    : 'json',
                                 root    : 'rows',

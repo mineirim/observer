@@ -40,27 +40,24 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
                 renderer: function(value, metaData, record){
                                 return record.get('setor').nome;
                             }
-            },
+            }/*,
             {
                 xtype:'actioncolumn', 
                 width:50,
                 items: [{
                     icon: 'images/icons/pencil.png',
                     tooltip: 'Editar',
-                    id  : 'btnEdit',
-                    handler: function(grid, rowIndex, colIndex) {
-                        var rec = grid.getStore().getAt(rowIndex);
-                        alert("Edit " + rec.get('menu'));
-                    }
+                    action : 'edit'
                 },{
                     icon: 'images/icons/delete.png',
                     tooltip: 'Delete',
+                    acton   :   'delete',
                     handler: function(grid, rowIndex, colIndex) {
                         var rec = grid.getStore().getAt(rowIndex);
                         alert("Terminate " + rec.get('menu'));
                     }                  
                 }]
-            }
+            }*/
         ],
         initComponent: function() {
             Ext.log({msg:'Inicia o treegrid',level:'info',dump:arguments});

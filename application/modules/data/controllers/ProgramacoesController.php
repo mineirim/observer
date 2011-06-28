@@ -18,14 +18,22 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
 
     public function indexAction()
     {
-        $programacoes_table = new Data_Model_Programacoes();
-        $this->_helper->viewRenderer->setNoRender(true);
-
-        $this->view->rows= $programacoes_table->getRecursive();
-        $this->view->success= true;
+        try{
+            $programacoes_table = new Data_Model_Programacoes();
+            $this->_helper->viewRenderer->setNoRender(true);
+            if($this->_getParam('toTree')){
+                $this->view->rows= $programacoes_table->getRecursive();
+            }else{
+                $this->view->rows = $programacoes_table->getAll();
+            }
+            $this->view->success= true;
+        }catch(Exception $e){
+            $this->success=false;
+            $this->msg = $e->getMessage();
+        }
     }
 
-    public function getAction()
+    public function getAction() 
     {
         $programacoes_table = new Data_Model_Programacoes();
         $rows = $programacoes_table->getProgramacao($this->_getParam('id'), true);
@@ -33,7 +41,7 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
         $this->view->success=true;
         $this->view->rows= $rows;
     }
-    public function putAction()
+    public function putAction() 
     {
         //TODO retirar os campos que não são da tabela
         //gerado automaticamente
@@ -60,7 +68,7 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
         }
     }
 
-    public function postAction()
+    public function postAction() 
     {
         //gerado automaticamente
         if($this->getRequest()->isPost()){
@@ -92,7 +100,7 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
         }
     }
 
-    public function deleteAction()
+    public function deleteAction() 
     {
         if($this->getRequest()->isDelete()){
             try{
@@ -113,4 +121,3 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
 
 
 }
-

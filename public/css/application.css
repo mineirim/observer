@@ -68,6 +68,12 @@
 }
 .icon-tag{
     background-image: url(../images/icons/tag_blue.png)  !important;
+
+}
+.tplDetail li {
+    font-size: 103%;
+    margin-left: 12px !important;
+    list-style: disc outside none !important;
 }
 .icon-upload{
     background-image: url(../images/icons/upload2.jpg)  !important;

@@ -223,26 +223,26 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
              button.hide();
          }
          
-         var bookTplMarkup = [
-            'Descrição: {descricao}<br/>'
-            ];
-         if(record.get('instrumento').has_operativo){
-             tpl_operativo = '';
+        var bookTplMarkup = ['<b>Descrição: </b>{descricao}<br/>'];
+        var bookTpl = Ext.create('Ext.XTemplate', bookTplMarkup);
+        var detailPanel = Ext.getCmp('detailPanel');
+        bookTpl.overwrite(detailPanel.body, record.data);         
+
+        if(record.get('instrumento').has_operativo){
              if(record.get('operativo').length>0){
                  operativo = record.get('operativo')[0];
-                 tpl_operativo = "Peso: "+operativo.peso+
-                                 "<br/>Início: "+operativo.data_inicio+
-                                 "<br/>Prazo: "+operativo.data_prazo+
-                                 "<br/>Encerramento: "+operativo.data_encerramento;
+                 var tpl_operativo = new Ext.XTemplate([
+                                '<br/><br/><b>Definições:</b><br/>',
+                                '<ul class="tplDetail">',
+                                    '<tpl for=".">',
+                                        '<li>Peso: {peso}</li>',
+                                        '<li>Início: {data_inicio:date("d/m/Y")}</li>',
+                                        '<li>Prazo: {data_prazo:date("d/m/Y")}</li>',
+                                        '<li>Encerramento: {data_encerramento}</li>',
+                                    '</tpl>',
+                                '</ul>']);
+                 tpl_operativo.append(detailPanel.body, operativo);
              }
-                
-             bookTplMarkup = [
-            'Descrição: {descricao}<br/>'+tpl_operativo
-            ];
-         }
-        
-        var bookTpl = Ext.create('Ext.Template', bookTplMarkup);
-        var detailPanel = Ext.getCmp('detailPanel');
-        bookTpl.overwrite(detailPanel.body, record.data);
+        }
     }
 });

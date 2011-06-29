@@ -28,9 +28,22 @@ Ext.define('ExtZF.view.plano.programacoes.Container' ,{
                             flex    : 0
                         },*/
                         {
-                            id      : 'detailPanel',
-                            xtype   : 'planoProgramacoesDetalhes',
-                            flex    : 1
+                            xtype   : 'tabpanel',
+                            flex    : 1,
+                            layout  : 'fit',
+                            items   :[
+                                    {
+                                        id      : 'detailPanel',
+                                        xtype   : 'planoProgramacoesDetalhes',
+                                        title   : 'Detalhes'
+
+                                    },
+                                    {
+                                        id      : 'ganttPanel',
+                                        html    : '<div id="GanttChartDIV"></div>',
+                                        title   : 'Gantt'
+                                    }
+                                    ]
                         }
                     ]
         

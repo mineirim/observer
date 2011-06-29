@@ -5,8 +5,9 @@ Ext.define('ExtZF.model.Instrumentos', {
                             'singular', 
                             'descricao',
                             'ordem',
+                            'situacao_id',
                             {name: 'has_indicador', type: 'string'},
-                            {name: 'has_intersecao', type: 'string'},
+                            {name: 'has_parceria', type: 'string'},
                             {name: 'has_operativo', type: 'string'},
                             'instrumento_id'],
         proxy          : {

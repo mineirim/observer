@@ -11,6 +11,7 @@
 <?php echo $this->headTitle ();?>
 <?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/extjs/resources/css/ext-all.css' );?>
 <?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl () . '/css/application.css' );?>
+<?php  $this->headScript()->appendFile( $this->baseUrl () . '/javascripts/jsgantt.js') ?>
 <?php
 if(APPLICATION_ENV=='production'){
     $this->headScript()->appendFile( $this->baseUrl () . '/extjs/ext-all.js');

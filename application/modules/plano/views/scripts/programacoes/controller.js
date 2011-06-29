@@ -99,7 +99,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             instrumento = this.getInstrumentosStore().findRecord('instrumento_id',parent.get('instrumento_id'));
             options.instrumento_id =instrumento.get('id');
             var operativo = instrumento.get('has_operativo');
-            if (operativo) {
+            if (operativo=="true") {
                 view.criaDetail();
                 rr = Ext.ModelMgr.create({},'ExtZF.model.Operativos');
                 view.down('#frmDetail').getForm().loadRecord(rr);
@@ -230,5 +230,33 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                  tpl_operativo.append(detailPanel.body, operativo);
              }
         }
+        this.getGantt(record.get('id'))
+    },
+    getGantt : function(id){
+        g = new JSGantt.GanttChart('g',document.getElementById('GanttChartDIV'), 'month');
+        g.setShowRes(0); // Show/Hide Responsible (0/1)
+        // define a quantidade de caracteres que aparecerão na descrição
+        g.setMaxLengthDescription(50)
+        g.setShowDur(1); // Show/Hide Duration (0/1)
+        g.setShowComp(1); // Show/Hide % Complete(0/1)
+
+        g.setDateInputFormat("yyyy-mm-dd");
+        g.setFormatArr("day","week","month");
+        g.setCaptionType('None');  // Set to Show Caption (None,Caption,Resource,Duration,Complete)
+
+        g.setShowStartDate(0); // Show/Hide Start Date(0/1)
+        g.setShowEndDate(0); // Show/Hide End Date(0/1)
+        g.setDateDisplayFormat('dd/mm/yyyy') // Set format to display dates ('mm/dd/yyyy', 'dd/mm/yyyy', 'yyyy-mm-dd')
+
+      //var gr = new Graphics();
+
+      if( g ) {
+          params = id!= undefined ?'&node_id='+id:'';
+          JSGantt.parseXML(baseUrl+'/data/gantt?format=xml'+params,g)
+          g.Draw();
+          g.DrawDependencies();
+      }else{
+        alert("not defined");
+      }
     }
 });

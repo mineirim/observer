@@ -72,7 +72,7 @@ Ext.define('Js.Viewport', {
             layout:'fit',
             id:'ctnPrincipal',
             items:{
-                html:'Bem vindo',
+                html:'Sistema de Planejamento, Programação e Monitoramento das ações da UNA-SUS',
                 title:'Home',
                 iconCls:'icon-home',
                 closable : 'true'

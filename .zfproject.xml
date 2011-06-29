@@ -235,6 +235,9 @@
               <actionMethod actionName="post"/>
               <actionMethod actionName="delete"/>
             </controllerFile>
+            <controllerFile controllerName="Gantt">
+              <actionMethod actionName="index"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
           <layoutsDirectory enabled="false"/>
@@ -243,7 +246,11 @@
             <modelFile modelName="Usuarios"/>
           </modelsDirectory>
           <viewsDirectory>
-            <viewScriptsDirectory/>
+            <viewScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Gantt">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+            </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
           </viewsDirectory>

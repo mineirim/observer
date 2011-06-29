@@ -22,7 +22,9 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
             $programacoes_table = new Data_Model_Programacoes();
             $this->_helper->viewRenderer->setNoRender(true);
             if($this->_getParam('toTree')){
-                $this->view->rows= $programacoes_table->getRecursive();
+                
+                $node_id = is_numeric($this->_getParam('node'))?$this->_getParam('node'):null;
+                $this->view->rows= $programacoes_table->getRecursive($node_id);
             }else{
                 $this->view->rows = $programacoes_table->getAll();
             }

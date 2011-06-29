@@ -20,11 +20,13 @@ Ext.define('ExtZF.controller.Navigation', {
 	},
     init: function() {
         //st = this.getStore('programacoes.TreeStore');
-        
         this.control(
         {
             'menuitem[action=loadController]': {
-                click: this.loadController
+                click: this.loadControllerFromMenu
+            },
+            'navigationTreePanel': {
+                itemclick: this.loadTreeController
             },
             '[action=logout]': {
                 click: this.logout
@@ -41,7 +43,24 @@ Ext.define('ExtZF.controller.Navigation', {
             }
         });
     },
-    loadController : function(a,b,c){
+    loadTreeController : function (view, record, item, index, e, options)
+    {
+        this.loadController(
+                            {text: 'Programa&ccedil;&atilde;o',
+                            id: 'testeId',
+                            data        : 'plano.Programacoes',
+                            action      : "loadController",
+                            iconCls     : "icon-programacao",
+                            createView  : "planoProgramacoesContainer"},
+                            record);
+              
+    },
+    
+   
+    loadControllerFromMenu : function(obj){
+        this.loadController(obj);
+    },
+    loadController : function(a,record,c){
          var view ="",
                 screen = Ext.getCmp('ctnPrincipal'),
                 options,
@@ -60,11 +79,15 @@ Ext.define('ExtZF.controller.Navigation', {
             view = this.criaView(a);
             view.title = titulo;
             view.iconCls = a.iconCls;
-        
-                novaAba = screen.add(view);
-                
+            novaAba = screen.add(view);
         }
-
+        
+         if(record){
+            var store = Ext.StoreManager.get('programacoes.TreeStore');
+            store.setRootNode({id:record.data.id,text:'.'});
+        }
+        
+        
         screen.setActiveTab(novaAba);
                 
     },
@@ -78,12 +101,11 @@ Ext.define('ExtZF.controller.Navigation', {
         view = Ext.widget(a.createView)
         
 
-        options = { single: true };
+        options = {single: true};
 
         // Call the controller init method when the view is rendered
         view.mon(view, 'render', function() {
                 Ext.log('executing init on Controller ' + controller.id + ' passing: ', args);
-
                 controller.init.apply(controller, args);
         }, this, options);
 

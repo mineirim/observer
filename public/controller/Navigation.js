@@ -66,7 +66,7 @@ Ext.define('ExtZF.controller.Navigation', {
                 options,
                 titulo = a.text;
         
-        
+        //screen.el.mask('Aguarde....');
         var novaAba = screen.items.findBy(
             function( aba )
             { 
@@ -83,13 +83,15 @@ Ext.define('ExtZF.controller.Navigation', {
         }
         
          if(record){
-            var store = Ext.StoreManager.get('programacoes.TreeStore');
+            var store = Ext.StoreManager.get('programacoes.TreeStore')
             store.setRootNode({id:record.data.id,text:'.'});
-        }
-        
+        };
+
+
         
         screen.setActiveTab(novaAba);
-                
+        //screen.el.unmask();
+               
     },
     criaView :function(a){
         var controller = this.getController(a.data),
@@ -107,6 +109,7 @@ Ext.define('ExtZF.controller.Navigation', {
         view.mon(view, 'render', function() {
                 Ext.log('executing init on Controller ' + controller.id + ' passing: ', args);
                 controller.init.apply(controller, args);
+                 
         }, this, options);
 
         // Remove the controller and destroy the view when the view component is deactivated

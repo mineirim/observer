@@ -65,3 +65,70 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
         }
 });
 
+
+Ext.override(Ext.tree.View, {  
+    afterRender: function(){
+        var me = this,
+            listeners;
+        Ext.view.View.superclass.afterRender.apply(this, arguments);
+        listeners = {
+            scope: me,
+            click: me.handleEvent,
+            mousedown: me.handleEvent,
+            mouseup: me.handleEvent,
+            dblclick: me.handleEvent,
+            contextmenu: me.handleEvent,
+            mouseover: me.handleEvent,
+            mouseout: me.handleEvent,
+            keydown: me.handleEvent
+        };
+        me.mon(me.getTargetEl(), listeners);
+        if (me.store) {
+            me.bindStore(me.store, true, this.panel.store);
+        }
+    },
+    bindStore : function(store, initial, maskStore) {
+        var me = this;
+        if (!initial && me.store) {
+            if (store !== me.store && me.store.autoDestroy) {
+                me.store.destroy();
+            } 
+            else {
+                me.mun(me.store, {
+                    scope: me,
+                    datachanged: me.onDataChanged,
+                    add: me.onAdd,
+                    remove: me.onRemove,
+                    update: me.onUpdate,
+                    clear: me.refresh
+                });
+            }
+            if (!store) {
+                if (me.loadMask) {
+                    me.loadMask.bindStore(null);
+                }
+                me.store = null;
+            }
+        }
+        if (store) {
+            store = Ext.data.StoreManager.lookup(store);
+            me.mon(store, {
+                scope: me,
+                datachanged: me.onDataChanged,
+                add: me.onAdd,
+                remove: me.onRemove,
+                update: me.onUpdate,
+                clear: me.refresh
+            });
+            if (me.loadMask && maskStore) {
+                me.loadMask.bindStore(maskStore);
+            }
+        }
+        me.store = store;
+        // Bind the store to our selection model
+        me.getSelectionModel().bind(store);
+        if (store) {
+            me.refresh(true);
+        }
+    }
+});  

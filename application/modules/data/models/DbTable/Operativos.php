@@ -1,6 +1,6 @@
 <?php
 
-class Data_Model_DbTable_Operativos extends Zend_Db_Table_Abstract
+class Data_Model_DbTable_Operativos extends My_DefaultModel
 {
 
     protected $_name = 'operativos';

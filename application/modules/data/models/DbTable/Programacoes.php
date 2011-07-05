@@ -1,6 +1,6 @@
 <?php
 
-class Data_Model_DbTable_Programacoes extends Zend_Db_Table_Abstract
+class Data_Model_DbTable_Programacoes extends My_DefaultModel
 {
 
     protected $_name = 'programacoes';

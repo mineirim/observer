@@ -74,6 +74,7 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
             padding:8,
             items: [
             {
+                
                 xtype: 'textfield',
                 name : 'menu',
                 ref: 'menu',
@@ -126,9 +127,7 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
             }
             ]            
         });
-        
         this.items = [formDefault];
-
         // botões da janela
         this.buttons = [{
             text: 'Salvar',

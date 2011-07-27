@@ -60,6 +60,12 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             'planoProgramacoesAnexos button[action=attach]': {
                 click: this.attachFile
             }
+            ,
+            'planoProgramacoesTreegrid button[action=vincular]': {
+                click: this.linkInstrumento
+            }
+            
+            
         });
         
     },
@@ -72,6 +78,12 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var view = Ext.widget('planoAnexosEdit');
         view.setTitle('Anexar arquivo')
     },
+    
+    linkInstrumento  : function(){
+        var view = Ext.widget('planoProgramacoesEdit');
+        view.setTitle('Anexar arquivo')
+    },
+    
     newRoot: function() {
         var grid = this.getTreegrid(); 
         
@@ -124,14 +136,27 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         Ext.log({msg:"Carregando registro para edição",level:'info'});
         view.down('form').loadRecord(record);
 
+//            var parent = record.get('parent');
+//            var instrumentoStore = this.getInstrumentosStore();
+//            var parent_intrumento = instrumentoStore.findRecord('id',parent.instrumento_id)
+//            
+//            var div1 = Ext.get('frmDefault');
+//            cabecalho = div1.down('#cabecalho');
+//            cabecalho.setValue('Cadsatro de Atividade<br>'+parent_intrumento.get('singular') + ' - '  + parent.menu);
+//            
+
+
         var instrumento = record.get('instrumento');
         if (instrumento.has_operativo) {
+
             view.criaDetail();
             var operativo = record.get('operativo')[0];
             if (operativo == undefined)
                 operativo = {};
             rr = Ext.ModelMgr.create(operativo,'ExtZF.model.Operativos');
             view.down('#frmDetail').getForm().loadRecord(rr);
+            view.doLayout();
+            
         }                      
                 
         
@@ -206,7 +231,10 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
              button.show()
              button.setText('Adicionar '+instrumento.get('singular'));
          }else{
-             button.hide();
+            button = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=vincular]')[0];             
+             button.show()
+             button.setText('funfou a bagaça');
+             //button.hide();
          }
          
         var bookTplMarkup = ['<div class="tplDetail"><b>Descrição: </b>{descricao}<br/></div>'];

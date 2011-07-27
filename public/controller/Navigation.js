@@ -66,7 +66,7 @@ Ext.define('ExtZF.controller.Navigation', {
                 options,
                 titulo = a.text;
         
-        //screen.el.mask('Aguarde....');
+        screen.el.mask('Carregando....');
         var novaAba = screen.items.findBy(
             function( aba )
             { 
@@ -90,7 +90,7 @@ Ext.define('ExtZF.controller.Navigation', {
 
         
         screen.setActiveTab(novaAba);
-        //screen.el.unmask();
+        screen.el.unmask();
                
     },
     criaView :function(a){

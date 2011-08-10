@@ -15,12 +15,13 @@ Ext.define('ExtZF.view.plano.vinculos.List' ,{
     	action: 'excluir'
     }],
 	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, width: '20'},
-		{header: 'Operativo_id',  dataIndex: 'operativo_id',  flex: 1},
-		{header: 'Depende_operativo_id',  dataIndex: 'depende_operativo_id',  flex: 1},
+		{header: 'Programacao_id',  dataIndex: 'programacao_id',  flex: 1},
+		{header: 'Depende_programacao_id',  dataIndex: 'depende_programacao_id',  flex: 1},
 		{header: 'Justificativa',  dataIndex: 'justificativa',  flex: 1},
 		{header: 'Observacoes',  dataIndex: 'observacoes',  flex: 1},
 		{header: 'Pactuado',  dataIndex: 'pactuado',  flex: 1},
-		{header: 'Pacto_responsavel_id',  dataIndex: 'pacto_responsavel_id',  flex: 1}],
+		{header: 'Pacto_responsavel_id',  dataIndex: 'pacto_responsavel_id',  flex: 1},
+		{header: 'Situacao_id',  dataIndex: 'situacao_id',  flex: 1}],
     // Paginação
     dockedItems: [{
         xtype: 'pagingtoolbar',

@@ -1,8 +1,8 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Programacoes', {
     extend: 'Ext.app.Controller',
-    stores: ['programacoes.TreeStore', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos'], // Store utilizado no gerenciamento do usuário
-    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos'], // Modelo do usuário
+    stores: ['programacoes.TreeStore', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos'], // Store utilizado no gerenciamento do usuário
+    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos'], // Modelo do usuário
      views: [
     'plano.programacoes.List',
     'plano.programacoes.Treegrid',
@@ -10,6 +10,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     'plano.programacoes.Container',
     'plano.programacoes.Anexos',
     'plano.programacoes.Detalhes',
+    'plano.vinculos.Edit',
     'plano.anexos.Edit'
     ],
     refs: [{
@@ -64,12 +65,20 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             'planoProgramacoesTreegrid button[action=vincular]': {
                 click: this.linkInstrumento
             }
-            
+            ,'planoVinculosEdit button[action=salvar]':{
+                click: this.saveLinkObject
+            }
+            ,'planoVinculosEdit depende_programacao_id':{
+                change: this.verificaResponsavel
+            }
             
         });
         
     },
-    
+    verificaResponsavel: function(){
+      //verifica se o record selecionado pertence ao usuário atual  
+      alert('xxx');
+    },
     handlerEdit: function(grid, rowIndex, colIndex) {
         var rec = grid.getStore().getAt(rowIndex);
         alert("Edit " + rec.get('menu'));
@@ -80,9 +89,38 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     },
     
     linkInstrumento  : function(){
-        var view = Ext.widget('planoProgramacoesEdit');
-        view.setTitle('Anexar arquivo')
+        var view = Ext.widget('planoVinculosEdit');
+        view.setTitle('Vincular Atividades')
+        var grid = this.getTreegrid(); 
+        selected = grid.getSelectionModel().getSelection()[0]; 
+        options={programacao_id : selected.get('id'),  atividade : selected.get('menu')};
+        record = Ext.ModelMgr.create(options,'ExtZF.model.Vinculos');
+      	view.down('form').loadRecord(record);
     },
+    /**
+     * Metodo salvar copiado do controller:
+     * ExtZF.controller.plano.Vinculos
+     * até que seja resolvido o carregamento deste
+     */
+    saveLinkObject: function(button) {
+        var me=this;
+        var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
+            form   = win.down('form').getForm() // recupera item abaixo(filho) da window do tipo form
+        if (form.isValid()) {
+            r = form.getRecord();
+            form.updateRecord(r);
+            r.save({
+                success: function(a,b){
+                    Ext.log({msg:"Salvo com sucesso!",level:"info"});
+                    win.close();
+                    me.getVinculosStore().load();
+                },
+                failure:function(a,b){
+                    Ext.log({msg:"Erro ao salvar!",level:"error"});
+                }
+            });
+        }
+    },    
     
     newRoot: function() {
         var grid = this.getTreegrid(); 
@@ -227,14 +265,18 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     {
          instrumento = this.getInstrumentosStore().findRecord('instrumento_id',record.get('instrumento_id'));
          button = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=incluir]')[0];
+         buttonVincular = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=vincular]')[0];
          if(instrumento){
-             button.show()
+             button.show();
              button.setText('Adicionar '+instrumento.get('singular'));
-         }else{
-            button = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=vincular]')[0];             
-             button.show()
-             button.setText('funfou a bagaça');
-             //button.hide();
+             buttonVincular.hide();
+         }else if (record.get('instrumento').has_operativo){
+             buttonVincular.show()
+             buttonVincular.setText('Adicionar Vínculo');
+             button.hide();
+         } else {
+             button.hide();
+             buttonVincular.hide();
          }
          
         var bookTplMarkup = ['<div class="tplDetail"><b>Descrição: </b>{descricao}<br/></div>'];

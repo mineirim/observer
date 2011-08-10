@@ -109,6 +109,28 @@ class Data_Model_Programacoes
            }
            return $row;
        }
+
+       /**
+        *
+        * @param type $menu
+        * @return type array
+        */
+       public function searchProgramacao($menu) {
+               $dbProgramacoes = new Data_Model_DbTable_Programacoes();
+               $programacoes = $dbProgramacoes->getAdapter()->fetchAll(
+                            $dbProgramacoes->select()->setIntegrityCheck(false)
+                                        ->from(array('p'=>'programacoes'),'p.*')
+                                        ->join(array('i'=>'instrumentos'),'p.instrumento_id = i.id',array())
+                                        ->where('i.has_operativo = ?',true)
+                                        ->where("p.menu like '%$menu%'"));
+               $rows = $programacoes;
+           return $rows;
+           
+       }
+
+
+       
+       
        
     /**
      *

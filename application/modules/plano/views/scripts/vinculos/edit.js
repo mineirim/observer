@@ -3,18 +3,59 @@ Ext.define('ExtZF.view.plano.vinculos.Edit', {
     alias : 'widget.planoVinculosEdit', // nome definido a janela
     title : 'Edição',
     layout: 'fit',
+    width : 740,
+    minHeight : '690px',    
     autoShow: true, // exibir a janela automaticamente ao chamá-la
     initComponent: function() {
-    	// Itens da janela
+        // Itens da janela
         this.items = [{
             xtype: 'form',
             items: [
-	{xtype: 'textfield',name : 'operativo_id',ref: 'operativo_id',fieldLabel: 'Operativo_id'},
-	{xtype: 'textfield',name : 'depende_operativo_id',ref: 'depende_operativo_id',fieldLabel: 'Depende_operativo_id'},
-	{xtype: 'textfield',name : 'justificativa',ref: 'justificativa',fieldLabel: 'Justificativa'},
-	{xtype: 'textfield',name : 'observacoes',ref: 'observacoes',fieldLabel: 'Observacoes'},
-	{xtype: 'textfield',name : 'pactuado',ref: 'pactuado',fieldLabel: 'Pactuado'},
-	{xtype: 'textfield',name : 'pacto_responsavel_id',ref: 'pacto_responsavel_id',fieldLabel: 'Pacto_responsavel_id'},]}
+            {
+                xtype: 'hiddenfield',
+                name        : 'programacao_id',
+                ref         : 'programacao_id'
+            },
+            {
+                xtype: 'displayfield',
+                fieldLabel: 'Atividade',
+                name: 'atividade',
+                anchor:'95%'
+            },
+            
+            {
+                xtype: 'combo',
+                name        : 'depende_programacao_id',
+                ref         : 'depende_programacao_id',
+                fieldLabel  : 'Dependência', 
+                store       : 'Programacoes',
+                valueField  : 'id',
+                displayField: 'menu',
+                minChars :  0,
+                queryMode: 'remote',
+                anchor:'95%',
+                typeAhead: true,
+                loadingText: 'Pesquisando...',
+                pageSize:10,
+                hideTrigger:false
+                
+            },
+            
+            
+            {
+                xtype: 'htmleditor',
+                name : 'justificativa',
+                ref: 'justificativa',
+                fieldLabel: 'Justificativa'
+            },
+
+            {
+                xtype: 'htmleditor',
+                name : 'observacoes',
+                ref: 'observacoes',
+                fieldLabel: 'Observações'
+            },]
+            }
         ];
 
         // botões da janela

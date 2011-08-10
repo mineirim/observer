@@ -12,6 +12,7 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
                         ->addActionContext('post', array('json', 'xml'))
                         ->addActionContext('get', array('json', 'xml'))
                         ->addActionContext('delete', array( 'json', 'xml'))
+                        ->addActionContext('search', array( 'json', 'xml'))
                         ->initContext('json');
         $this->_helper->layout()->disableLayout();
     }
@@ -22,10 +23,11 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
             $programacoes_table = new Data_Model_Programacoes();
             $this->_helper->viewRenderer->setNoRender(true);
             if($this->_getParam('toTree')){
-                
                 $node_id = is_numeric($this->_getParam('node'))?$this->_getParam('node'):null;
                 $this->view->rows= $programacoes_table->getRecursive($node_id);
-            }else{
+            }else if ($this->_hasParam ('query')){
+                $this->view->rows = $programacoes_table->searchProgramacao($this->_getParam('query'));
+            } else {
                 $this->view->rows = $programacoes_table->getAll();
             }
             $this->view->success= true;
@@ -34,6 +36,7 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
             $this->msg = $e->getMessage();
         }
     }
+    
 
     public function getAction() 
     {

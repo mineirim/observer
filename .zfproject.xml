@@ -59,15 +59,15 @@
               <actionMethod actionName="store"/>
               <actionMethod actionName="model"/>
             </controllerFile>
-            <controllerFile controllerName="Vinculos">
-              <actionMethod actionName="store"/>
-              <actionMethod actionName="model"/>
-            </controllerFile>
             <controllerFile controllerName="Anexos">
               <actionMethod actionName="store"/>
               <actionMethod actionName="model"/>
             </controllerFile>
             <controllerFile controllerName="Tags">
+              <actionMethod actionName="store"/>
+              <actionMethod actionName="model"/>
+            </controllerFile>
+            <controllerFile controllerName="Vinculos">
               <actionMethod actionName="store"/>
               <actionMethod actionName="model"/>
             </controllerFile>
@@ -131,12 +131,6 @@
               <viewControllerScriptsDirectory forControllerName="Operativos">
                 <viewScriptFile forActionName="model.js"/>
               </viewControllerScriptsDirectory>
-              <viewControllerScriptsDirectory forControllerName="Vinculos">
-                <viewScriptFile forActionName="store.js"/>
-              </viewControllerScriptsDirectory>
-              <viewControllerScriptsDirectory forControllerName="Vinculos">
-                <viewScriptFile forActionName="model.js"/>
-              </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Anexos">
                 <viewScriptFile forActionName="store.js"/>
               </viewControllerScriptsDirectory>
@@ -147,6 +141,12 @@
                 <viewScriptFile forActionName="store.js"/>
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Tags">
+                <viewScriptFile forActionName="model.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Vinculos">
+                <viewScriptFile forActionName="store.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Vinculos">
                 <viewScriptFile forActionName="model.js"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
@@ -214,13 +214,6 @@
               <actionMethod actionName="post"/>
               <actionMethod actionName="delete"/>
             </controllerFile>
-            <controllerFile controllerName="Vinculos">
-              <actionMethod actionName="index"/>
-              <actionMethod actionName="get"/>
-              <actionMethod actionName="put"/>
-              <actionMethod actionName="post"/>
-              <actionMethod actionName="delete"/>
-            </controllerFile>
             <controllerFile controllerName="Anexos">
               <actionMethod actionName="index"/>
               <actionMethod actionName="get"/>
@@ -237,6 +230,13 @@
             </controllerFile>
             <controllerFile controllerName="Gantt">
               <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="Vinculos">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="get"/>
+              <actionMethod actionName="put"/>
+              <actionMethod actionName="post"/>
+              <actionMethod actionName="delete"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
@@ -372,17 +372,17 @@
               <actionMethod actionName="list"/>
               <actionMethod actionName="edit"/>
             </controllerFile>
-            <controllerFile controllerName="Vinculos">
-              <actionMethod actionName="controller"/>
-              <actionMethod actionName="list"/>
-              <actionMethod actionName="edit"/>
-            </controllerFile>
             <controllerFile controllerName="Anexos">
               <actionMethod actionName="controller"/>
               <actionMethod actionName="list"/>
               <actionMethod actionName="edit"/>
             </controllerFile>
             <controllerFile controllerName="Tags">
+              <actionMethod actionName="controller"/>
+              <actionMethod actionName="list"/>
+              <actionMethod actionName="edit"/>
+            </controllerFile>
+            <controllerFile controllerName="Vinculos">
               <actionMethod actionName="controller"/>
               <actionMethod actionName="list"/>
               <actionMethod actionName="edit"/>
@@ -425,15 +425,6 @@
               <viewControllerScriptsDirectory forControllerName="Operativos">
                 <viewScriptFile forActionName="edit.js"/>
               </viewControllerScriptsDirectory>
-              <viewControllerScriptsDirectory forControllerName="Vinculos">
-                <viewScriptFile forActionName="controller.js"/>
-              </viewControllerScriptsDirectory>
-              <viewControllerScriptsDirectory forControllerName="Vinculos">
-                <viewScriptFile forActionName="list.js"/>
-              </viewControllerScriptsDirectory>
-              <viewControllerScriptsDirectory forControllerName="Vinculos">
-                <viewScriptFile forActionName="edit.js"/>
-              </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Anexos">
                 <viewScriptFile forActionName="controller.js"/>
               </viewControllerScriptsDirectory>
@@ -450,6 +441,15 @@
                 <viewScriptFile forActionName="list.js"/>
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Tags">
+                <viewScriptFile forActionName="edit.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Vinculos">
+                <viewScriptFile forActionName="controller.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Vinculos">
+                <viewScriptFile forActionName="list.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Vinculos">
                 <viewScriptFile forActionName="edit.js"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>

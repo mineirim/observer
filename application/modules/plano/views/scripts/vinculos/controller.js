@@ -67,9 +67,16 @@ Ext.define('ExtZF.controller.plano.Vinculos', {
         if (form.isValid()) {
             r = form.getRecord();
             form.updateRecord(r);
-            this.getVinculosStore().sync();
-            win.close();
-            this.getVinculosStore().load();
+            r.save({
+                success: function(a,b){
+                    Ext.log({msg:"Salvo com sucesso!",level:"info"});
+                    win.close();
+                    me.getVinculosStore().load();
+                },
+                failure:function(a,b){
+                    Ext.log({msg:"Erro ao salvar!",level:"error"});
+                }
+            });
         }
     }
 });

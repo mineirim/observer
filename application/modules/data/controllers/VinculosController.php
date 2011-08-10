@@ -25,6 +25,7 @@ class Data_VinculosController extends Zend_Rest_Controller
         $this->view->total = count($rows);
     }
 
+    
     public function getAction()
     {
         // action body
@@ -74,14 +75,14 @@ class Data_VinculosController extends Zend_Rest_Controller
                 $this->view->msg="Dados inseridos com sucesso!";
         
                 $obj = $vinculos_table->fetchRow("id=$id");
-                $this->view->rows = $obj;
+                $this->view->rows = $obj->toArray();
                 $this->view->success=true;
                 $this->view->metodo = $this->getRequest()->getMethod();
         
             }  catch (Exception $e){
                 $this->view->success = false;
                 $this->view->method  = $this->getRequest()->getMethod();
-                $this->view->msg     = "Erro ao atualizar/inserir registro<br>$e->getMessage()<br>$e->getTraceAsString()";
+                $this->view->msg     = "Erro ao atualizar/inserir registro<br>".$e->getMessage()."<br>".$e->getTraceAsString();
             }
         }else{
             $this->view->msg="Método ".$this->getRequest()->getMethod();

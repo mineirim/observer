@@ -155,6 +155,21 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 view.down('#frmDetail').getForm().loadRecord(rr);
 
             }        
+            var responsavel = instrumento.get('has_responsavel');
+            if (responsavel=="true") {
+                view.down('#responsavel_usuario_id').show();
+
+            }        
+            var supervisor = instrumento.get('has_supervisor');
+            if (supervisor=="true") {
+                view.down('#supervisor_usuario_id').show();
+            }        
+            
+            var equipe = instrumento.get('has_equipe');
+            if (equipe=="true") {
+                view.down('#setor_id').show();
+            }
+            
             
         }
         
@@ -195,10 +210,19 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             view.down('#frmDetail').getForm().loadRecord(rr);
             view.doLayout();
             
-        }                      
-                
+        }
+        if (instrumento.has_responsavel) {
+            view.down('#responsavel_usuario_id').show();
+
+        }        
+        if (instrumento.has_supervisor) {
+            view.down('#supervisor_usuario_id').show();
+        }        
+
+        if (instrumento.has_equipe) {
+            view.down('#setor_id').show();
+        }        
         
-      	
     },
     deleteObject:function() {
         var grid = this.getGrid(); // recupera lista de usuários

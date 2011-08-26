@@ -89,7 +89,7 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                 fieldLabel: 'Descrição',
                 anchor:'95%'
 
-            },
+            }, //só exibir se has_responsavel= true
             {
                 xtype: 'combo',
                 name        : 'responsavel_usuario_id',
@@ -100,8 +100,18 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                 valueField  : 'id',
                 queryMode   : 'local',
                 anchor:'95%'
-            },
-
+            },//só exibir se has_supervisor=true
+            {
+                xtype: 'combo',
+                name        : 'supervisor_usuario_id',
+                ref         : 'supervisor_usuario_id',
+                fieldLabel  : 'Supervisor', 
+                store       : 'Usuarios',
+                displayField: 'nome',
+                valueField  : 'id',
+                queryMode   : 'local',
+                anchor:'95%'
+            },//só exibir se has_equipe=true
             {
                 xtype: 'combo',
                 name        : 'setor_id',

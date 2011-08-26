@@ -8,6 +8,7 @@ Ext.define('ExtZF.model.programacoes.Model4tree', {
                             'programacao_id',
                             'setor_id',
                             'responsavel_usuario_id',
+                            'supervisor_usuario_id',
                             {name:'responsavel', persist:false},
                             {name:'setor', persist:false},
                             {name:'instrumento', persist:false},

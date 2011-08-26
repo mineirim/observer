@@ -75,6 +75,9 @@ class Acesso_AuthController extends Zend_Controller_Action {
                 $this->view->msg = "Username or Password false.";
                 $this->view->success=false;
             }
+        } catch (Zend_Auth_Exception $e) {
+            $this->view->success=false;
+            $this->view->errorMessage = $e->getMessage();
         } catch (Zend_Db_Adapter_Exception $e) {
             $this->view->success=false;
             $this->view->errorMessage = $e->getMessage();

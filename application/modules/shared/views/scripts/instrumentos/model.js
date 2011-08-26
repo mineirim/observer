@@ -9,6 +9,9 @@ Ext.define('ExtZF.model.Instrumentos', {
                             {name: 'has_indicador', type: 'string'},
                             {name: 'has_parceria', type: 'string'},
                             {name: 'has_operativo', type: 'string'},
+                            {name: 'has_responsavel', type: 'string'},
+                            {name: 'has_supervisor', type: 'string'},
+                            {name: 'has_equipe', type: 'string'},
                             'instrumento_id'],
         proxy          : {
         simpleSortMode : true, 

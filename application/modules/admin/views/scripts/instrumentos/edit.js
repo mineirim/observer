@@ -3,6 +3,7 @@ Ext.define('ExtZF.view.admin.instrumentos.Edit', {
     alias : 'widget.adminInstrumentosEdit', // nome definido a janela
     title : 'Edição',
     layout: 'fit',
+    width   :740,
     autoShow: true, // exibir a janela automaticamente ao chamá-la
     initComponent: function() {
     	// Itens da janela
@@ -15,6 +16,9 @@ Ext.define('ExtZF.view.admin.instrumentos.Edit', {
         {xtype: 'checkbox',fieldLabel: 'Indicador',name: 'has_indicador',id: 'has_indicador'},
         {xtype: 'checkbox',fieldLabel: 'Parceria',name: 'has_parceria',id: 'has_parceria'},
         {xtype: 'checkbox',fieldLabel: 'Planilha Operativa',name: 'has_operativo',id: 'has_operativo'},
+        {xtype: 'checkbox',fieldLabel: 'Responsável',name: 'has_responsavel',id: 'has_responsavel'},
+        {xtype: 'checkbox',fieldLabel: 'Supervisor',name: 'has_supervisor',id: 'has_supervisor'},
+        {xtype: 'checkbox',fieldLabel: 'Equipe',name: 'has_equipe',id: 'has_equipe'},
 	{xtype: 'textfield',name : 'instrumento_id',ref: 'instrumento_id',fieldLabel: 'Instrumento_id'},
         {xtype: 'textfield',name : 'singular',ref: 'singular',fieldLabel: 'Singular'},]}
         ];

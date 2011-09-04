@@ -4,17 +4,20 @@ Ext.define('ExtZF.view.admin.cad-usuarios.Edicao', {
     title : 'Edição de Usuário',
     layout: 'fit',
     autoShow: true, 
-
+    width : 740,
     initComponent: function() {
     	// Itens da janela
         this.items = [{
             xtype: 'form',
+            bodyPadding: 13,
+            padding:8,
             items: [{
                 xtype: 'textfield',
                 name : 'nome',
                 ref: 'nome',
                 fieldLabel: 'Nome',
-                allowBlank: false
+                allowBlank: false,
+                anchor      :'95%'
             },
             {
                 xtype: 'textfield',
@@ -22,14 +25,15 @@ Ext.define('ExtZF.view.admin.cad-usuarios.Edicao', {
                 ref: 'email',
                 fieldLabel: 'Email',
                 allowBlank: false,
-                vtype: 'email'
+                vtype: 'email',
+                anchor:'95%',
             },
             {
                 xtype: 'textfield',
                 name : 'usuario',
                 ref: 'usuario',
                 fieldLabel: 'Login',
-                allowBlank: false
+                allowBlank: false,
             },
             {   
                 xtype: 'combo',
@@ -39,7 +43,10 @@ Ext.define('ExtZF.view.admin.cad-usuarios.Edicao', {
                 store       : 'Setores',
                 displayField: 'nome',
                 valueField  : 'id',
-                queryMode   : 'local'
+                queryMode   : 'local',
+                anchor      : '95%',
+                allowBlank  : true,
+                typeAhead   : true
             },
         
             {   
@@ -50,7 +57,10 @@ Ext.define('ExtZF.view.admin.cad-usuarios.Edicao', {
                 store       : 'Cargos',
                 displayField: 'nome',
                 valueField  : 'id',
-                queryMode   : 'local'
+                queryMode   : 'local',
+                anchor      : '95%',
+                allowBlank  : true,
+                typeAhead   : true
             },
     
 

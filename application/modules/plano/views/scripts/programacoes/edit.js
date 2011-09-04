@@ -71,6 +71,7 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                         
         var formDefault = Ext.create('Ext.form.Panel', {
             id: 'frmDefault',
+            bodyPadding: 12,
             padding:8,
             items: [
             {
@@ -100,8 +101,10 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                 displayField: 'nome',
                 valueField  : 'id',
                 queryMode   : 'local',
-                anchor:'95%',
-                hidden: true
+                anchor      : '95%',
+                hidden      : true,
+                allowBlank  : true,
+                typeAhead   : true
             },//só exibir se has_supervisor=true
             {
                 xtype: 'combo',
@@ -113,8 +116,9 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                 displayField: 'nome',
                 valueField  : 'id',
                 queryMode   : 'local',
-                anchor:'95%',
-                hidden: true
+                anchor      : '95%',
+                hidden      : true,
+                typeAhead   : true
             },//só exibir se has_equipe=true
             {
                 xtype: 'combo',

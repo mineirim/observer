@@ -14,12 +14,16 @@ Ext.define('ExtZF.view.admin.instrumentos.List' ,{
         iconCls: 'icon-delete',
     	action: 'excluir'
     }],
-	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, width:20},
-		{header: 'Menu',  dataIndex: 'menu',  flex: 2},
-		{header: 'Descricao',  dataIndex: 'descricao',  flex: 3},
-		{header: 'Indicadores',  dataIndex: 'has_indicador',  flex: 1},
-		{header: 'Parcerias',  dataIndex: 'has_parceria',  flex: 1},
-		{header: 'Planilha operativa',  dataIndex: 'has_operativo',  flex: 1}],
+	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, width:20, hidden:true},
+		{header: 'Menu'         , dataIndex: 'menu',  flex: 2},
+		{header: 'Descricao'    , dataIndex: 'descricao',  flex: 3},
+		{header: 'Indicadores'  , xtype: 'booleancolumn', trueText: 'S',falseText: 'N',dataIndex: 'has_indicador',  flex: 1},
+		{header: 'Parcerias'    , xtype: 'booleancolumn', trueText: 'S',falseText: 'N',dataIndex: 'has_parceria',  flex: 1},
+		{header: 'Planilha operativa', xtype: 'booleancolumn', trueText: 'S',falseText: 'N', dataIndex: 'has_operativo',  flex: 1},
+                {header: 'Responsável'  , xtype: 'booleancolumn', trueText: 'S',falseText: 'N', dataIndex: 'has_responsavel',  flex: 1},
+                {header: 'Supervisor'   , xtype: 'booleancolumn', trueText: 'S',falseText: 'N', dataIndex: 'has_supervisor',  flex: 1},
+                {header: 'Equipe'       , xtype: 'booleancolumn', trueText: 'S',falseText: 'N', dataIndex: 'has_equipe',  flex: 1}
+            ],
     // Paginação
     dockedItems: [{
         xtype: 'pagingtoolbar',

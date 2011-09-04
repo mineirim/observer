@@ -14,7 +14,7 @@ Ext.define('ExtZF.view.admin.organizacoes.List' ,{
         iconCls: 'icon-delete',
     	action: 'excluir'
     }],
-	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 1},
+	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, hidden:true},
 		{header: 'Nome',  dataIndex: 'nome',  flex: 1},
 		{header: 'Sigla',  dataIndex: 'sigla',  flex: 1},
 		{header: 'Descricao',  dataIndex: 'descricao',  flex: 1}],

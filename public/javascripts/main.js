@@ -1,7 +1,8 @@
 Ext.Loader.setConfig({
     enabled: true,
     paths :{
-    'Js'    : './view'
+    'Js'    : './view',
+    'Ext.ux'    : '../extjs/examples/ux'
     }
 });
 if(env=='production'){

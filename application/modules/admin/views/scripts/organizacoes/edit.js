@@ -4,14 +4,18 @@ Ext.define('ExtZF.view.admin.organizacoes.Edit', {
     title : 'Edição',
     layout: 'fit',
     autoShow: true, // exibir a janela automaticamente ao chamá-la
+    width : 740,
+    height  :450,
     initComponent: function() {
     	// Itens da janela
         this.items = [{
             xtype: 'form',
+            bodyPadding: 20,
+            padding :10,
             items: [
-	{xtype: 'textfield',name : 'nome',ref: 'nome',fieldLabel: 'Nome'},
-	{xtype: 'textfield',name : 'sigla',ref: 'sigla',fieldLabel: 'Sigla'},
-	{xtype: 'textfield',name : 'descricao',ref: 'descricao',fieldLabel: 'Descricao'},]}
+	{xtype: 'textfield',name : 'nome',ref: 'nome',fieldLabel: 'Nome', anchor :'98%'},
+	{xtype: 'textfield',name : 'sigla',ref: 'sigla',fieldLabel: 'Sigla', anchor :'98%'},
+	{xtype: 'htmleditor',name : 'descricao',ref: 'descricao',fieldLabel: 'Descricao', anchor :'98%',height :270},]}
         ];
 
         this.buttons = [{

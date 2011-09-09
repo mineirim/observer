@@ -1,8 +1,10 @@
 <?php
 
-class Acesso_AuthController extends Zend_Controller_Action {
+class Acesso_AuthController extends Zend_Controller_Action
+{
 
-    public function init() {
+    public function init()
+    {
         $swContext = $this->_helper->contextSwitch();
         $swContext->setAutoJsonSerialization(true);
         if (!$swContext->hasContext('js'))
@@ -10,25 +12,33 @@ class Acesso_AuthController extends Zend_Controller_Action {
 
         $swContext->addActionContext('Controller', array('js'))
                 ->addActionContext('Form', array('js'))
+                ->addActionContext('checklogin', array('json'))
                 ->addActionContext('login', array('json'))
                 ->addActionContext('logout', array('json'))
+                ->addActionContext('Controle', array('js'))
+                ->addActionContext('Changepassword', array('js'))
                 ->initContext();
         $this->_helper->layout()->disableLayout();
     }
 
-    public function indexAction() {
+    public function indexAction()
+    {
         // action body
     }
 
-    public function controllerAction() {
+    public function controllerAction()
+    {
         
     }
 
-    public function formAction() {
+    public function formAction()
+    {
         // action body
     }
 
-    public function loginAction() {
+    public function loginAction()
+    {
+        $logger = Zend_Registry::get('logger');
         if (!($this->_request->isPost())){
                 $this->view->success = false;
                 $this->view->msg = "Falha ao autenticar";
@@ -60,12 +70,17 @@ class Acesso_AuthController extends Zend_Controller_Action {
 
             $zf_auth = Zend_Auth::getInstance();
 
-
-
             if ($result->isValid()) {
-
+                
                 $zf_auth = Zend_Auth::getInstance();
                 $auth->getStorage()->write($authadapter->getResultRowObject(null, array('senha', 'salt')));
+                if($auth->getIdentity()->alterar_senha){
+                    $this->view->forceChange = true;
+                    $this->view->usuario = $auth->getIdentity()->usuario;
+                    $sess = new Zend_Session_Namespace('changePassword');
+                    $sess->forceChange =true;
+                }
+                
                 $this->view->success = true;
                 $this->view->msg = "Login efetuado!";
 
@@ -86,13 +101,32 @@ class Acesso_AuthController extends Zend_Controller_Action {
             $this->view->errorMessage = $e->getMessage();
         }
     }
-
-    public function logoutAction() {
+    public function checkloginAction(){
+        $this->view->success = true;
+        $this->view->msg = "Login efetuado!";
+    }
+    public function logoutAction()
+    {
         Zend_Registry::_unsetInstance ();
         Zend_Auth::getInstance ()->clearIdentity ();
         Zend_Session::destroy();
         $this->view->success =true;
     }
 
+    public function changepasswordAction()
+    {
+        // action body
+    }
+
+    public function controleAction()
+    {
+        // action body
+    }
+
+
 }
+
+
+
+
 

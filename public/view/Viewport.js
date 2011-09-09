@@ -20,14 +20,14 @@ Ext.define('Js.Viewport', {
         tbar        : {
             id          : 'basic-statusbar',
             items       : [
-            '<h2><b>OBSERVER - Sistema de Planejamento e Monitoramento da UNASUS</b></h2>',
+            '<h2><b>Sistema de Planejamento, Programação e Monitoramento (SPPM) </b></h2>',
             '->',{
                 text    : '',
                 id      : 'text',
                 iconCls : 'silk-user'
             },
             'Bem Vindo(a), <span id="main_username" class="username">'+usuario+'</span></b>',
-            '-']
+            '-',{xtype : 'authControle'}]
         },
         items : {
             xtype : 'mytoolbar'
@@ -72,7 +72,7 @@ Ext.define('Js.Viewport', {
             layout:'fit',
             id:'ctnPrincipal',
             items:{
-                html:'Sistema de Planejamento, Programação e Monitoramento das ações da UNA-SUS',
+                html:'Sistema de Planejamento, Programação e Monitoramento da UNA-SUS',
                 title:'Home',
                 iconCls:'icon-home',
                 closable : 'true'

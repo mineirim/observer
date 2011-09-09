@@ -18,7 +18,8 @@ class My_DefaultModel extends Zend_Db_Table_Abstract {
 
     public function init() {
         parent::init();
-        $this->_idUsuario = Zend_Auth::getInstance()->getStorage()->read()->id;
+        if (Zend_Auth::getInstance()->hasIdentity())
+            $this->_idUsuario = Zend_Auth::getInstance()->getStorage()->read()->id;
     }
 
     public function insert(array $data) {

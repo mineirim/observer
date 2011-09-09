@@ -4,6 +4,12 @@
 		content="text/html;charset=utf-8" />
 <script type="text/javascript">
     var baseUrl = '<?php echo $this->baseUrl ()?>'; 
+    <?php 
+        if($this->alterar_senha){
+            echo "var usuario = '" . $this->usuario ."';"; 
+            echo "var forceChange = true;"; 
+        }
+    ?>
 </script>
 <?php echo $this->headMeta ();?>
 <?php echo $this->headTitle ();?>

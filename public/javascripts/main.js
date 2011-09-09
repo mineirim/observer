@@ -14,7 +14,8 @@ Ext.application({
     appFolder: baseUrl,
     autoCreateViewport :false,
     controllers: [
-        'Navigation'
+        'Navigation',
+        'acesso.Auth'
     ],
     
     launch: function() {

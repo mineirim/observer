@@ -192,7 +192,7 @@ class Data_Model_Programacoes {
     public function getProgramacao($id, $withAssociations=false) {
         $programacoes = new Data_Model_DbTable_Programacoes();
         $where = "id=$id";
-        $programacao = $programacoes->fetchRow($where);
+        $programacao = $programacoes->fetchRow($where,'ordem');
         $row = $programacao->toArray();
         $operativo = $programacao->findDependentRowset('Data_Model_DbTable_Operativos');
         if (count($operativo) > 0) {

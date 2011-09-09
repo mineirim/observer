@@ -12,6 +12,8 @@ class Shared_UsuariosController extends Zend_Controller_Action
 			 ->addContext('js', array('suffix' => 'js'))
 			 ->addActionContext('Store','js')
 			 ->addActionContext('Model','js')
+			 ->addActionContext('Store4pass','js')
+			 ->addActionContext('Model4pass','js')
 			 ->initContext('js');
 		$this->_helper->layout()->disableLayout();
     }
@@ -26,7 +28,15 @@ class Shared_UsuariosController extends Zend_Controller_Action
         // action body
     }
 
+    public function store4passAction()
+    {
+        // action body
+    }
 
+    public function model4passAction()
+    {
+        // action body
+    }
 }
 
 

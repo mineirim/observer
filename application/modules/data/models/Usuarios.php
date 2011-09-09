@@ -50,7 +50,7 @@ class Data_Model_Usuarios {
         $dados['salt'] = $this->salt;
         $table_usuarios->update($dados, $where);
         $table_usuarios->getAdapter()->commit();
-        
+        return $table_usuarios->fetchRow($where);
     }
     /**
      *

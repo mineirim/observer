@@ -467,6 +467,8 @@
               <actionMethod actionName="form"/>
               <actionMethod actionName="login"/>
               <actionMethod actionName="logout"/>
+              <actionMethod actionName="changepassword"/>
+              <actionMethod actionName="controle"/>
             </controllerFile>
             <controllerFile controllerName="Index">
               <actionMethod actionName="index"/>
@@ -501,6 +503,9 @@
               <viewControllerScriptsDirectory forControllerName="Index">
                 <viewScriptFile forActionName="app"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Auth">
+                <viewScriptFile forActionName="changepassword"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -514,6 +519,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Error">
             <viewScriptFile forActionName="error"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Auth">
+            <viewScriptFile forActionName="controle"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
@@ -550,7 +558,19 @@
       <testApplicationDirectory>
         <testApplicationControllerDirectory>
           <testApplicationControllerFile forControllerName="Index"/>
+          <testApplicationControllerFile forControllerName="Auth">
+            <testApplicationActionMethod forActionName="controle"/>
+          </testApplicationControllerFile>
         </testApplicationControllerDirectory>
+        <testApplicationModulesDirectory>
+          <testApplicationModuleDirectory forModuleName="acesso">
+            <testApplicationControllerDirectory>
+              <testApplicationControllerFile forControllerName="Auth">
+                <testApplicationActionMethod forActionName="changepassword"/>
+              </testApplicationControllerFile>
+            </testApplicationControllerDirectory>
+          </testApplicationModuleDirectory>
+        </testApplicationModulesDirectory>
       </testApplicationDirectory>
       <testLibraryDirectory/>
     </testsDirectory>

@@ -236,17 +236,17 @@ class Data_Model_Programacoes {
      * @return type array
      */
     public function getNode($programacao_id=null, $instrumento_id=null) {
-        $programacoes_table = new Data_Model_DbTable_Programacoes();
-
+        
+        
         $where = $programacao_id ? "programacao_id=$programacao_id" : "instrumento_id=$instrumento_id";
-        $programacoes = $programacoes_table->fetchAll($where, 'ordem');
-        $rows = array();
-        foreach ($programacoes as $programacao) {
-            $row = $programacao->toArray();
-            $row['leaf'] = count($programacao->findDependentRowset('Data_Model_DbTable_Programacoes')) == 0;
-            $row['parent'] = $programacao->id;
+        $select = " SELECT *, (select count(*) from programacoes pr where programacao_id=p.id) as leaf,programacao_id as parent FROM programacoes p WHERE $where ORDER BY ordem";
+        $stmt = Zend_Registry::get('db')->query($select);
+        $stmt->setFetchMode(Zend_Db::FETCH_OBJ);
+        $arr_tree = array();
+        while ($r = $stmt->fetch() ) {
+            $row = (array) $r;
             $rows[] = $row;
-        }
+        }   
         return $rows;
     }
 

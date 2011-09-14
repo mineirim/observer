@@ -5,6 +5,8 @@ class Plano_ProgramacoesController extends Zend_Controller_Action
 
     public function init()
     {
+        $this->getResponse()
+             ->setHeader('Content-type', 'text/javascript');
         $swContext = $this->_helper->contextSwitch();
         $swContext->setAutoJsonSerialization(true);
         $swContext->addContext('js', array('suffix' => 'js'))
@@ -18,6 +20,7 @@ class Plano_ProgramacoesController extends Zend_Controller_Action
                         ->addActionContext('Detalhes', array('js'))
                         ->initContext('js');
         $this->_helper->layout()->disableLayout();
+        
     }
 
     public function controllerAction()

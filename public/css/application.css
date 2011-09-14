@@ -1,3 +1,14 @@
+
+
+
+.feed-grid .x-grid-row {
+    margin: 5px 20px 10px 25px !important;
+    color: #555;
+    display: block
+
+}
+
+
 .icon-programacao{
         background-image: url(../images/icons/iconeplano.jpg)  !important;
 }

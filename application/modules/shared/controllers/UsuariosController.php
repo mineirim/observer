@@ -8,6 +8,8 @@ class Shared_UsuariosController extends Zend_Controller_Action
 
     public function init()
     {
+        $this->getResponse()
+             ->setHeader('Content-type', 'text/javascript');
 		$this->_helper->contextSwitch()
 			 ->addContext('js', array('suffix' => 'js'))
 			 ->addActionContext('Store','js')

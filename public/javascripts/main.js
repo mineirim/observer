@@ -15,6 +15,7 @@ Ext.application({
     autoCreateViewport :false,
     controllers: [
         'Navigation',
+        'plano.Programacoes',
         'acesso.Auth'
     ],
     

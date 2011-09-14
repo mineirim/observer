@@ -17,7 +17,10 @@ if(APPLICATION_ENV=='production'){
     $this->headScript()->appendFile( $this->baseUrl () . '/extjs/ext-all.js');
 }else{ 
     $this->headScript()->appendFile( $this->baseUrl () . '/extjs/ext-all-debug.js');
-}?>
+}
+ $this->headScript()->appendFile( $this->baseUrl () . '/extjs/examples/ux/PreviewPlugin.js');
+?>
+
 <!-- arquivo principal da aplicação -->
 <?php  $this->headScript()->appendFile( $this->baseUrl () . '/javascripts/main.js') ?>
 <?php echo $this->headScript() ?>

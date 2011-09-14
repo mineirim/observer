@@ -5,6 +5,8 @@ class Acesso_AuthController extends Zend_Controller_Action
 
     public function init()
     {
+        $this->getResponse()
+             ->setHeader('Content-type', 'text/javascript');
         $swContext = $this->_helper->contextSwitch();
         $swContext->setAutoJsonSerialization(true);
         if (!$swContext->hasContext('js'))

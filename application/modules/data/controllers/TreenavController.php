@@ -5,6 +5,8 @@ class Data_TreenavController extends Zend_Rest_Controller
 
     public function init()
     {
+        $this->getResponse()
+             ->setHeader('Content-type', 'text/javascript');
         $swContext = $this->_helper->contextSwitch();
         $swContext->setAutoJsonSerialization(true);
         $swContext->addActionContext('index', array('json', 'xml'))
@@ -28,15 +30,13 @@ class Data_TreenavController extends Zend_Rest_Controller
         }
         
         if ( $node== 'root') {
-            
-            $instrumentos_root= $instrumentos_table->fetchAll('instrumento_id is null', 'id');
+            $instrumentos_root= $instrumentos_table->fetchAll('instrumento_id is null');
             $rows = array();
             foreach ($instrumentos_root as $value) {
                 $root = array(
                     'id'=>  "instrumentoId-".$value->id,
                     'menu'=>$value->menu
                 );
-                
                 $rows[]=$root;
             }
             $this->view->rows= $rows;

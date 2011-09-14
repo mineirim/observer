@@ -1,6 +1,7 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Programacoes', {
     extend: 'Ext.app.Controller',
+    id      : 'controllerPlanoProgramacoes',
     stores: ['programacoes.TreeStore', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos'], // Store utilizado no gerenciamento do usuário
     models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos'], // Modelo do usuário
      views: [
@@ -13,6 +14,10 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     'plano.vinculos.Edit',
     'plano.anexos.Edit'
     ],
+    /**
+     *nó selecionado na navegação à esquerda
+     */
+    rootNodeSelected : false,
     refs: [{
                 ref:'treegrid',
                 selector:'planoProgramacoesTreegrid'
@@ -29,7 +34,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         this.control(
         {
             'planoProgramacoesList': {
-                itemdblclick: this.editObject
+                itemdblclick: this.editDblClick
             },
             'planoProgramacoesList button[action=incluir]': {
                 click: this.newObject
@@ -41,39 +46,134 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 click: this.saveObject
             },
             'planoProgramacoesTreegrid': {
-                itemdblclick    : this.editObject,
-                itemclick       : this.changeButtonAction
+                itemdblclick    : this.editDblClick,
+                itemclick       : this.changeButtonAction,
+                itemcontextmenu : this.itemContextMenu
             },
-            
             'planoProgramacoesTreegrid button[action=incluir]': {
                 click: this.newObject
-            },
-            'planoProgramacoesTreegrid > [action=edit]': {
-                handler: this.editObj
             },
             'planoProgramacoesTreegrid button[action=newRoot]': {
                 click: this.newRoot
             },
             'planoProgramacoesTreegrid button[action=excluir]': {
                 click: this.deleteObject
-            }
-            ,
+            },
             'planoProgramacoesAnexos button[action=attach]': {
                 click: this.attachFile
-            }
-            ,
+            },
             'planoProgramacoesTreegrid button[action=vincular]': {
                 click: this.linkInstrumento
-            }
-            ,'planoVinculosEdit button[action=salvar]':{
+            },
+            'planoVinculosEdit button[action=salvar]':{
                 click: this.saveLinkObject
-            }
-            ,'planoVinculosEdit depende_programacao_id':{
+            },
+            'planoVinculosEdit depende_programacao_id':{
                 change: this.verificaResponsavel
             }
             
         });
         
+    },
+    itemContextMenu :  function( view, record, item, index, event, options){
+        event.stopEvent();
+        me= this;
+        instrumento_filho = this.getInstrumentosStore().findRecord('instrumento_id',record.get('instrumento_id'));
+        items = [];
+        mycontroller = this.getController('ExtZF.controller.plano.Programacoes');
+        myStore = Ext.StoreManager.get('programacoes.TreeStore');
+        rootRecord = this.getProgramacoesStore().findRecord('id',myStore.getRootNode().get('id') );
+        items.push({text: 'Editar',
+                    handler : function(){
+                        me.editarProgramacao(record);
+                    }
+                })
+        
+        if(mycontroller.rootNodeSelected){
+            rootInstrumento = this.getInstrumentosStore().findRecord('instrumento_id',rootRecord.get('instrumento_id'));
+            items.push({
+                text: 'Adicionar '+ rootInstrumento.get('singular'),
+                handler:  function(){
+                    me.novaProgramacao(rootRecord)
+                } 
+            })
+            items.push('-');
+        }
+        
+        if(instrumento_filho){
+            items.push({
+                text:"Adicionar "+instrumento_filho.get('singular'),
+                handler: function(){
+                    me.novaProgramacao(record)
+                } 
+            });
+        }
+        if (record.get('instrumento').has_operativo){
+            items.push('-');
+            items.push({
+                text:"Adicionar Vínculo",
+                data: {record: record},
+                handler: this.addVinculo 
+            });
+        }        
+        var menu = Ext.create('Ext.menu.Menu',{
+        items: items
+        });
+        menu.showAt(event.xy);
+    },
+    novaProgramacao: function(parent){; 
+        var view = Ext.widget('planoProgramacoesEdit');
+        view.setTitle('Inserir');
+        options ={instrumento_id: ''}
+        if( parent!=undefined){
+            parent_id  = parent.get('id');
+            options.programacao_id = parent_id;
+            instrumento = this.getInstrumentosStore().findRecord('instrumento_id',parent.get('instrumento_id'));
+            options.instrumento_id =instrumento.get('id');
+        }
+        this.configuraForm(view,false,instrumento);
+        record = Ext.ModelMgr.create(options,'ExtZF.model.Programacoes');
+      	view.down('form').loadRecord(record);
+        
+    },
+    editarProgramacao : function(rec){
+        view = Ext.widget('planoProgramacoesEdit');
+        view.setTitle('Edição ');
+        //TODO buscar record de um outro store(não tree)
+        store =  this.getProgramacoesStore();
+        record = store.getById(rec.get('id'));
+        Ext.log({msg:"Carregando registro para edição",level:'info'});
+        view.down('form').loadRecord(record);
+        instrumento = this.getInstrumentosStore().findRecord('id',record.get('instrumento_id'));
+        this.configuraForm(view, record, instrumento)
+     
+    },
+    configuraForm : function(view, record, instrumento){
+        
+        if (instrumento.get('has_operativo')=="true") {
+            operativo={}
+            view.criaDetail();
+            if(record){
+                operativo = record.get('operativo')[0];
+                if (operativo == undefined)
+                    operativo = {};
+            }
+            rr = Ext.ModelMgr.create(operativo,'ExtZF.model.Operativos');
+            view.down('#frmDetail').getForm().loadRecord(rr);
+            view.doLayout();
+        }
+        var responsavel = instrumento.get('has_responsavel');
+        if (responsavel=="true") {
+            view.down('#responsavel_usuario_id').show();
+        }        
+        var supervisor = instrumento.get('has_supervisor');
+        if (supervisor=="true") {
+            view.down('#supervisor_usuario_id').show();
+        }        
+        var equipe = instrumento.get('has_equipe');
+        if (equipe=="true") {
+            view.down('#setor_id').show();
+        }
     },
     verificaResponsavel: function(){
       //verifica se o record selecionado pertence ao usuário atual  
@@ -138,91 +238,15 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     },
     newObject: function() {
         var grid = this.getTreegrid(); 
-        var view = Ext.widget('planoProgramacoesEdit');
-        view.setTitle('Inserir');
         parent = grid.getSelectionModel().getSelection()[0]; 
-        options ={instrumento_id: ''}
-        if( parent!=undefined){
-            parent_id  = parent.get('id');
-            options.programacao_id = parent_id;
-            
-            instrumento = this.getInstrumentosStore().findRecord('instrumento_id',parent.get('instrumento_id'));
-            options.instrumento_id =instrumento.get('id');
-            var operativo = instrumento.get('has_operativo');
-            if (operativo=="true") {
-                view.criaDetail();
-                rr = Ext.ModelMgr.create({},'ExtZF.model.Operativos');
-                view.down('#frmDetail').getForm().loadRecord(rr);
-
-            }        
-            var responsavel = instrumento.get('has_responsavel');
-            if (responsavel=="true") {
-                view.down('#responsavel_usuario_id').show();
-
-            }        
-            var supervisor = instrumento.get('has_supervisor');
-            if (supervisor=="true") {
-                view.down('#supervisor_usuario_id').show();
-            }        
-            
-            var equipe = instrumento.get('has_equipe');
-            if (equipe=="true") {
-                view.down('#setor_id').show();
-            }
-            
-            
-        }
-        
-        record = Ext.ModelMgr.create(options,'ExtZF.model.Programacoes');
-      	view.down('form').loadRecord(record);
+        this.novaProgramacao(parent);
         
         
     },
-    editObject :function(grid, rec) {
-        var view = Ext.widget('planoProgramacoesEdit');
-        view.setTitle('Edição ');
-        //TODO buscar record de um outro store(não tree)
+    editDblClick :function(grid, rec) {
         store =  this.getProgramacoesStore();
         record = store.getById(rec.get('id'));
-        
-
-        Ext.log({msg:"Carregando registro para edição",level:'info'});
-        view.down('form').loadRecord(record);
-
-//            var parent = record.get('parent');
-//            var instrumentoStore = this.getInstrumentosStore();
-//            var parent_intrumento = instrumentoStore.findRecord('id',parent.instrumento_id)
-//            
-//            var div1 = Ext.get('frmDefault');
-//            cabecalho = div1.down('#cabecalho');
-//            cabecalho.setValue('Cadsatro de Atividade<br>'+parent_intrumento.get('singular') + ' - '  + parent.menu);
-//            
-
-
-        var instrumento = record.get('instrumento');
-        if (instrumento.has_operativo) {
-
-            view.criaDetail();
-            var operativo = record.get('operativo')[0];
-            if (operativo == undefined)
-                operativo = {};
-            rr = Ext.ModelMgr.create(operativo,'ExtZF.model.Operativos');
-            view.down('#frmDetail').getForm().loadRecord(rr);
-            view.doLayout();
-            
-        }
-        if (instrumento.has_responsavel) {
-            view.down('#responsavel_usuario_id').show();
-
-        }        
-        if (instrumento.has_supervisor) {
-            view.down('#supervisor_usuario_id').show();
-        }        
-
-        if (instrumento.has_equipe) {
-            view.down('#setor_id').show();
-        }        
-        
+        this.editarProgramacao(rec);  
     },
     deleteObject:function() {
         var grid = this.getGrid(); // recupera lista de usuários
@@ -287,6 +311,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     },
     changeButtonAction: function(view, record, item, index, e, options)
     {
+         
          instrumento = this.getInstrumentosStore().findRecord('instrumento_id',record.get('instrumento_id'));
          button = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=incluir]')[0];
          buttonVincular = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=vincular]')[0];

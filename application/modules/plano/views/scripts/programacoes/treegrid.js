@@ -30,12 +30,12 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
                 action: 'excluir'
             }],
     columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0,  hidden:true},
-            {header: 'Menu',  dataIndex: 'menu',  flex: 1,xtype: 'treecolumn', 
+            {header: 'Menu',  dataIndex: 'menu',  flex: 3,xtype: 'treecolumn', 
                 renderer: function(value, metaData, record){
-                                return '<b>'+ record.get('instrumento').singular + ' - </b>' + value;
+                                return Ext.String.format('<div class="topic"><b>{0}-</b> {1}</div>', record.get('instrumento').singular, value);
+
                             }
             },
-            {header: 'Descricao',  dataIndex: 'descricao',  flex: 1},
             {header: 'Responsável',     dataIndex: 'responsavel_usuario_id',  flex: 1, 
                 renderer: function(value, metaData, record){
                                 return record.get('responsavel').nome;
@@ -66,6 +66,21 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
         ],
         initComponent: function() {
             Ext.log({msg:'Inicia o treegrid',level:'info',dump:arguments});
+            /*
+            Ext.apply(this, {
+                cls: 'feed-grid',
+                viewConfig: {
+                    itemId: 'view'
+                    /*
+                     * 
+                     ,plugins: [{
+                        pluginId: 'preview',
+                        ptype: 'preview',
+                        bodyField: 'descricao',
+                        expanded: false
+                    }]
+                }
+            })*/
             this.callParent(arguments);
         }
-});
+    });

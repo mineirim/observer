@@ -239,7 +239,7 @@ class Data_Model_Programacoes {
         $programacoes_table = new Data_Model_DbTable_Programacoes();
 
         $where = $programacao_id ? "programacao_id=$programacao_id" : "instrumento_id=$instrumento_id";
-        $programacoes = $programacoes_table->fetchAll($where);
+        $programacoes = $programacoes_table->fetchAll($where, 'ordem');
         $rows = array();
         foreach ($programacoes as $programacao) {
             $row = $programacao->toArray();

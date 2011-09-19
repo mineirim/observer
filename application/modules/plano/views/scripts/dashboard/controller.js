@@ -41,11 +41,12 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
         
         dashboard.add(this.checkMyItems());
         dashboard.add(this.checkSupervisor());
+        dashboard.add(this.checkPendentes());
         
     },
     checkMyItems : function(){       
         Ext.create('Ext.data.Store', {
-            id:'supItemsStore',
+            id:'myItemsStore',
             fields    :  ['id',
                             'menu',
                             'descricao',
@@ -69,14 +70,14 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
             filters : {property: 'responsavel_usuario_id',
                         value:1}
         });
-        checklist = Ext.create('ExtZF.view.plano.dashboard.Checklist',{store: Ext.data.StoreManager.lookup('supItemsStore')});
+        checklist = Ext.create('ExtZF.view.plano.dashboard.Checklist',{store: Ext.data.StoreManager.lookup('myItemsStore')});
         checklist.title = "Sob minha responsabilidade"
         return checklist;
     },
     checkSupervisor : function(){
        
         Ext.create('Ext.data.Store', {
-            id:'myItemsStore',
+            id:'supItemsStore',
             fields    :  ['id',
                             'menu',
                             'descricao',
@@ -100,8 +101,38 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
             filters : {property: 'supervisor_usuario_id',
                         value:1}
         });
-        checklist = Ext.create('ExtZF.view.plano.dashboard.Checklist',{store: Ext.data.StoreManager.lookup('myItemsStore')});
+        checklist = Ext.create('ExtZF.view.plano.dashboard.Checklist',{store: Ext.data.StoreManager.lookup('supItemsStore')});
         checklist.title = "Sob minha supervisão"
+        return checklist;
+    },
+    checkPendentes : function(){
+       
+        Ext.create('Ext.data.Store', {
+            id:'pendenciasItemsStore',
+            fields    :  ['id',
+                            'menu',
+                            'descricao',
+                            'ordem',
+                            {name:'instrumento_id', type: 'int'},
+                            'programacao_id',
+                            'setor_id',
+                            'responsavel_usuario_id',
+                            'supervisor_usuario_id'
+                        ],
+            proxy     : {
+                        type           : 'rest',
+                        url            :   'data/programacoes',
+                        extraParams    : {pendentes:true},
+                        reader         : {
+                                type    : 'json',
+                                root    : 'rows',
+        			successProperty: 'success'
+                        }
+            },
+            autoLoad :true
+        });
+        checklist = Ext.create('ExtZF.view.plano.dashboard.Checklist',{store: Ext.data.StoreManager.lookup('pendenciasItemsStore')});
+        checklist.title = "Ítens pendentes de aprovação"
         return checklist;
     }
 });

@@ -11,7 +11,7 @@ Ext.define('ExtZF.view.plano.dashboard.Checklist' ,{
                                                                     instrumento = instrumentos.findRecord('id',value);
                                                                     return instrumento.get('singular');
                                                                 }},
-        {header: 'Menu',  dataIndex: 'menu', flex:4}
+        {header: 'Menu',  dataIndex: 'menu', flex:6}
     ],
     initComponent: function() {
         Ext.log({msg:'Inicia o treegrid',level:'info',dump:arguments});

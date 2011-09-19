@@ -101,51 +101,6 @@ class Data_Model_Programacoes {
         return $root;
     }
 
-    public function getRecursive_antigo($id=null) {
-        $programacoes_table = new Data_Model_DbTable_Programacoes();
-        $where = $id ? 'programacao_id=' . $id : "programacao_id is null";
-        $programacoes = $programacoes_table->fetchAll($where, 'ordem');
-        $root = array();
-        foreach ($programacoes as $value) {
-            $usuario = $value->findParentRow('Data_Model_DbTable_Usuarios');
-            $usuario = $usuario ? $usuario->toArray() : array();
-            $setor = $value->findParentRow('Data_Model_DbTable_Setores');
-            $setor = $setor ? $setor->toArray() : array();
-            $instrumento = $value->findParentRow('Data_Model_DbTable_Instrumentos')->toArray();
-            $parent = $value->findParentRow('Data_Model_DbTable_Programacoes');
-            $parent = $parent ? $parent->toArray() : array();
-            $operativo = $value->findDependentRowset('Data_Model_DbTable_Operativos');
-
-            $operativo = count($operativo) > 0 ? $operativo->toArray() : array();
-            $child = array(
-                'id' => $value->id,
-                'menu' => $value->menu,
-                'descricao' => $value->descricao,
-                'ordem' => $value->ordem,
-                'instrumento_id' => $value->instrumento_id,
-                'programacao_id' => $value->programacao_id,
-                'setor_id' => $value->setor_id,
-                'responsavel_usuario_id' => $value->responsavel_usuario_id,
-                'supervisor_usuario_id' => $value->supervisor_usuario_id,
-                'responsavel' => $usuario,
-                'setor' => $setor,
-                'instrumento' => $instrumento,
-                'parent' => $parent,
-                'operativo' => $operativo,
-                'iconCls' => 'x-tree-noicon'
-            );
-            $children = $this->getRecursive($value->id);
-            if (count($children) > 0) {
-                $child['expanded'] = true;
-                $child['rows'] = $children;
-            } else {
-                $child['leaf'] = true;
-            }
-            array_push($root, $child);
-        }
-        return $root;
-    }
-
     public function getAll($where=null, $order='ordem', $limit=null,$offset=null) {
         
         $programacoes_table = new Data_Model_DbTable_Programacoes();
@@ -183,28 +138,6 @@ class Data_Model_Programacoes {
         }
         return $objs;
     }
-    public function getNewAll($where=null, $order='ordem'){
-        $where = $id ? 'programacao_id=' . $id : "programacao_id is null";
-        $select = "SELECT  1 as nivel, * 
-                    FROM    programacoes 
-                    WHERE   $where
-
-                    UNION ALL 
-                    SELECT  prog.nivel+1,p.*
-                    FROM    programacoes p 
-                    JOIN    prog  
-                    ON      p.programacao_id = prog.id 
-                    ) 
-            SELECT * from prog order by nivel,programacao_id,ordem
-            ";
-        $stmt = Zend_Registry::get('db')->query($select);
-        $stmt->setFetchMode(Zend_Db::FETCH_OBJ);
-        $arr_tree = array();
-        while ($r = $stmt->fetch() ) {
-    
-        }
-    }
-    
     
     
     public function getFilter($where=null, $order='ordem') {
@@ -294,5 +227,33 @@ class Data_Model_Programacoes {
         }   
         return $rows;
     }
+    public function getPendentes() {
+        $this->_auth = Zend_Auth::getInstance ();
+        $identity = $this->_auth->getIdentity();
+        
+        $where = ' supervisor_usuario_id='.$identity->id;
+        $select = "WITH RECURSIVE 
+                    prog AS 
+                    ( 
+                    SELECT  1 as nivel, *
+                    FROM    programacoes 
+                    WHERE   $where
 
+                    UNION ALL 
+                    SELECT  prog.nivel+1,p.*
+                    FROM    programacoes p 
+                    JOIN    prog  
+                    ON      p.programacao_id = prog.id 
+                    ) 
+            SELECT prog.*, i.singular as instrumento FROM prog 
+            INNER JOIN instrumentos i on prog.instrumento_id=i.id
+            WHERE prog.situacao_id=3
+            ORDER BY prog.nivel,prog.programacao_id,prog.ordem
+            ";
+        $stmt = Zend_Registry::get('db')->query($select);
+        $stmt->setFetchMode(Zend_Db::FETCH_OBJ);
+        
+        return $stmt->fetchAll();
+    }
+    
 }

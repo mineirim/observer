@@ -34,6 +34,9 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
                 $filtro  = json_decode($this->_getParam('filter'),true);
                 
                 $this->view->rows = $programacoes_table->getFilter($filtro[0]['property']."=".$identity->id);
+            }elseif($this->_hasParam('pendentes')){
+                
+                $this->view->rows = $programacoes_table->getPendentes();
             }else {
                 $this->view->rows = $programacoes_table->getAll();
             }

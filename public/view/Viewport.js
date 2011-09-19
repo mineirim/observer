@@ -20,7 +20,7 @@ Ext.define('Js.Viewport', {
         tbar        : {
             id          : 'basic-statusbar',
             items       : [
-            '<h2><b>Sistema de Planejamento, Programação e Monitoramento (SPPM) </b></h2>',
+            '<span style="font-size:1.3em"><b>Sistema de Planejamento, Programação e Monitoramento (SPPM) </b></span>',
             '->',{
                 text    : '',
                 id      : 'text',
@@ -71,12 +71,12 @@ Ext.define('Js.Viewport', {
             xtype : 'tabpanel',
             layout:'fit',
             id:'ctnPrincipal',
-            items:{
-                html:'Sistema de Planejamento, Programação e Monitoramento da UNA-SUS',
-                title:'Home',
-                iconCls:'icon-home',
-                closable : 'true'
-            }
+            items:[{
+                    xtype    : "planoDashboardPainel",
+                    title    : "Dashboard",
+                    iconCls  : "icon-dashboard",
+                    closable : false
+                }]
         }
     },
     {

@@ -19,6 +19,9 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
 
     public function indexAction()
     {
+        $this->_auth = Zend_Auth::getInstance ();
+        $identity = $this->_auth->getIdentity();
+            
         try{
             $programacoes_table = new Data_Model_Programacoes();
             $this->_helper->viewRenderer->setNoRender(true);
@@ -27,7 +30,11 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
                 $this->view->rows= $programacoes_table->getRecursive($node_id);
             }else if ($this->_hasParam ('query')){
                 $this->view->rows = $programacoes_table->searchProgramacao($this->_getParam('query'));
-            } else {
+            }elseif($this->_hasParam('filter')){
+                $filtro  = json_decode($this->_getParam('filter'),true);
+                
+                $this->view->rows = $programacoes_table->getFilter($filtro[0]['property']."=".$identity->id);
+            }else {
                 $this->view->rows = $programacoes_table->getAll();
             }
             $this->view->success= true;

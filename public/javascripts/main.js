@@ -16,7 +16,8 @@ Ext.application({
     controllers: [
         'Navigation',
         'plano.Programacoes',
-        'acesso.Auth'
+        'acesso.Auth',
+        'plano.Dashboard'
     ],
     
     launch: function() {

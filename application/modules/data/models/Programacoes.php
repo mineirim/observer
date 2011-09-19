@@ -146,10 +146,11 @@ class Data_Model_Programacoes {
         return $root;
     }
 
-    public function getAll($where=null, $order='ordem') {
+    public function getAll($where=null, $order='ordem', $limit=null,$offset=null) {
+        
         $programacoes_table = new Data_Model_DbTable_Programacoes();
 
-        $programacoes = $programacoes_table->fetchAll($where, $order);
+        $programacoes = $programacoes_table->fetchAll($where, $order, $limit,$offset);
         $objs = array();
         foreach ($programacoes as $value) {
             $usuario = $value->findParentRow('Data_Model_DbTable_Usuarios');
@@ -182,7 +183,51 @@ class Data_Model_Programacoes {
         }
         return $objs;
     }
+    public function getNewAll($where=null, $order='ordem'){
+        $where = $id ? 'programacao_id=' . $id : "programacao_id is null";
+        $select = "SELECT  1 as nivel, * 
+                    FROM    programacoes 
+                    WHERE   $where
 
+                    UNION ALL 
+                    SELECT  prog.nivel+1,p.*
+                    FROM    programacoes p 
+                    JOIN    prog  
+                    ON      p.programacao_id = prog.id 
+                    ) 
+            SELECT * from prog order by nivel,programacao_id,ordem
+            ";
+        $stmt = Zend_Registry::get('db')->query($select);
+        $stmt->setFetchMode(Zend_Db::FETCH_OBJ);
+        $arr_tree = array();
+        while ($r = $stmt->fetch() ) {
+    
+        }
+    }
+    
+    
+    
+    public function getFilter($where=null, $order='ordem') {
+        $programacoes_table = new Data_Model_DbTable_Programacoes();
+
+        $programacoes = $programacoes_table->fetchAll($where, $order);
+        $objs = array();
+        foreach ($programacoes as $value) {
+            $child = array(
+                'id' => $value->id,
+                'menu' => $value->menu,
+                'descricao' => $value->descricao,
+                'ordem' => $value->ordem,
+                'instrumento_id' => $value->instrumento_id,
+                'programacao_id' => $value->programacao_id,
+                'setor_id' => $value->setor_id,
+                'responsavel_usuario_id' => $value->responsavel_usuario_id,
+                'supervisor_usuario_id' => $value->supervisor_usuario_id
+            );
+            $objs[] = $child;
+        }
+        return $objs;
+    }
     /**
      *
      * @param type $id

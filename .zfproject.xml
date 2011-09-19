@@ -387,6 +387,12 @@
               <actionMethod actionName="list"/>
               <actionMethod actionName="edit"/>
             </controllerFile>
+            <controllerFile controllerName="Dashboard">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="controller"/>
+              <actionMethod actionName="checklist"/>
+              <actionMethod actionName="painel"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
           <layoutsDirectory enabled="false"/>
@@ -451,6 +457,18 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Vinculos">
                 <viewScriptFile forActionName="edit.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Dashboard">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Dashboard">
+                <viewScriptFile forActionName="controller"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Dashboard">
+                <viewScriptFile forActionName="checklist"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Dashboard">
+                <viewScriptFile forActionName="painel"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -567,6 +585,16 @@
             <testApplicationControllerDirectory>
               <testApplicationControllerFile forControllerName="Auth">
                 <testApplicationActionMethod forActionName="changepassword"/>
+              </testApplicationControllerFile>
+            </testApplicationControllerDirectory>
+          </testApplicationModuleDirectory>
+          <testApplicationModuleDirectory forModuleName="plano">
+            <testApplicationControllerDirectory>
+              <testApplicationControllerFile forControllerName="Dashboard">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="controller"/>
+                <testApplicationActionMethod forActionName="checklist"/>
+                <testApplicationActionMethod forActionName="painel"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>

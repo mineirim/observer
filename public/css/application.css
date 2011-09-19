@@ -9,6 +9,9 @@
 }
 
 
+.icon-dashboard{
+        background-image: url(../images/icons/icon_dashboard_16px.gif)  !important;
+}
 .icon-programacao{
         background-image: url(../images/icons/iconeplano.jpg)  !important;
 }

@@ -60,7 +60,7 @@ Ext.define('ExtZF.controller.acesso.Auth', {
         }
         
         Ext.Ajax.request({
-            url: '/acesso/auth/checklogin',
+            url: baseUrl+'/acesso/auth/checklogin',
             params: {
                 format: 'json',
                 usuario : usuario,
@@ -117,7 +117,7 @@ Ext.define('ExtZF.controller.acesso.Auth', {
             form.submit({
             	scope: this,
                 params: {format: 'json'},
-            	url: 'acesso/auth/login',
+            	url: baseUrl+'/acesso/auth/login',
                 success: function(form, action) {
                     if(action.result.forceChange){
                         me.createChangeWindow();

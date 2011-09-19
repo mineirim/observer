@@ -20,7 +20,7 @@ Ext.define('Js.Viewport', {
         tbar        : {
             id          : 'basic-statusbar',
             items       : [
-            '<span style="font-size:1.3em"><b>Sistema de Planejamento, Programação e Monitoramento (SPPM) </b></span>',
+            '<span style="font-size:1.3em"><b>Sistema de Planejamento, Programa&ccedil;&atilde;o e Monitoramento - SPPMv1.0.4 </b></span>',
             '->',{
                 text    : '',
                 id      : 'text',

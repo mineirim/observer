@@ -10,7 +10,7 @@ if(env=='production'){
 }
 
 Ext.application({
-    name: 'ExtZF', // nome da aplica��o
+    name: 'ExtZF', 
     appFolder: baseUrl,
     autoCreateViewport :false,
     controllers: [
@@ -20,7 +20,6 @@ Ext.application({
     ],
     
     launch: function() {
-         // Cria o componente principal da aplica��o
          Ext.create('Js.Viewport');
     }
 

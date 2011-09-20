@@ -59,7 +59,8 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                 store       : 'Usuarios',
                 displayField: 'nome',
                 valueField  : 'id',
-                queryMode   : 'local'
+                queryMode   : 'local',
+                hidden      : true
                 
             }
             ]            

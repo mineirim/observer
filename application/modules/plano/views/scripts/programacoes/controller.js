@@ -299,7 +299,6 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                     win.close();
                     me.getProgramacoesTreeStoreStore().load();
                     me.getProgramacoesStore().load();
-                    
                 },
                 failure:function(a,b){
                     Ext.log({msg:"Erro ao salvar!",level:"error"});

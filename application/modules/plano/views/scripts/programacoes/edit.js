@@ -125,13 +125,14 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                 id          : 'setor_id',
                 name        : 'setor_id',
                 ref         : 'setor_id',
-                fieldLabel  : 'Setor', 
+                fieldLabel  : 'Equipe', 
                 store       : 'Setores',
-                displayField: 'descricao',
+                displayField: 'nome',
                 valueField  : 'id',
                 queryMode   : 'local',
-                anchor:'95%',
-                hidden: true
+                anchor      :'95%',
+                hidden      : true,
+                typeAhead   : true
             },
 
             {

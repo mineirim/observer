@@ -41,7 +41,7 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
                                 return record.get('responsavel').nome;
                             }
             },
-            {header: 'Setor',     dataIndex: 'setor_id',  flex: 1, 
+            {header: 'Equipe',     dataIndex: 'setor_id',  flex: 1, 
                 renderer: function(value, metaData, record){
                                 return record.get('setor').nome;
                             }

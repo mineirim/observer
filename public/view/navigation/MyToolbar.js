@@ -46,7 +46,7 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
                 createView  : "adminOrganizacoesList"
             },
             {
-                text        : 'Setores',
+                text        : 'Equipes',
                 iconCls     : 'icon-setores',
                 data        : 'admin.Setores',
                 action      : "loadController",

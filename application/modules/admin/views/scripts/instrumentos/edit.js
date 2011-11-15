@@ -10,17 +10,30 @@ Ext.define('ExtZF.view.admin.instrumentos.Edit', {
         this.items = [{
             xtype: 'form',
             items: [
-	{xtype: 'textfield',name : 'menu',ref: 'menu',fieldLabel: 'Menu'},
-	{xtype: 'textfield',name : 'descricao',ref: 'descricao',fieldLabel: 'Descricao'},
-	{xtype: 'textfield',name : 'ordem',ref: 'ordem',fieldLabel: 'Ordem'},
-        {xtype: 'checkbox',fieldLabel: 'Indicador',name: 'has_indicador',id: 'has_indicador'},
-        {xtype: 'checkbox',fieldLabel: 'Parceria',name: 'has_parceria',id: 'has_parceria'},
-        {xtype: 'checkbox',fieldLabel: 'Planilha Operativa',name: 'has_operativo',id: 'has_operativo'},
-        {xtype: 'checkbox',fieldLabel: 'Responsável',name: 'has_responsavel',id: 'has_responsavel'},
-        {xtype: 'checkbox',fieldLabel: 'Supervisor',name: 'has_supervisor',id: 'has_supervisor'},
-        {xtype: 'checkbox',fieldLabel: 'Equipe',name: 'has_equipe',id: 'has_equipe'},
-	{xtype: 'textfield',name : 'instrumento_id',ref: 'instrumento_id',fieldLabel: 'Instrumento_id'},
-        {xtype: 'textfield',name : 'singular',ref: 'singular',fieldLabel: 'Singular'},]}
+                {xtype: 'textfield',name : 'menu',ref: 'menu',fieldLabel: 'Menu'},
+                {xtype: 'textfield',name : 'descricao',ref: 'descricao',fieldLabel: 'Descricao'},
+                {xtype: 'textfield',name : 'singular',ref: 'singular',fieldLabel: 'Singular'},
+                {xtype: 'textfield',name : 'ordem',ref: 'ordem',fieldLabel: 'Ordem'},
+                {xtype: 'checkbox',fieldLabel: 'Indicador',name: 'has_indicador',id: 'has_indicador'},
+                {xtype: 'checkbox',fieldLabel: 'Parceria',name: 'has_parceria',id: 'has_parceria'},
+                {xtype: 'checkbox',fieldLabel: 'Planilha Operativa',name: 'has_operativo',id: 'has_operativo'},
+                {xtype: 'checkbox',fieldLabel: 'Responsável',name: 'has_responsavel',id: 'has_responsavel'},
+                {xtype: 'checkbox',fieldLabel: 'Supervisor',name: 'has_supervisor',id: 'has_supervisor'},
+                {xtype: 'checkbox',fieldLabel: 'Equipe',name: 'has_equipe',id: 'has_equipe'},
+                {xtype: 'checkbox',fieldLabel: 'Valor Programado',name: 'has_vlr_programado',id: 'has_vlr_programado'},
+                {xtype: 'checkbox',fieldLabel: 'Valor Executado',name: 'has_vlr_executado',id: 'has_vlr_executado'},
+                {
+                    xtype: 'combo',
+                    name        : 'instrumento_id',
+                    ref         : 'instrumento_id',
+                    fieldLabel  : 'Instrumento Pai', 
+                    store       : 'Instrumentos',
+                    displayField: 'menu',
+                    valueField  : 'id',
+                    queryMode   : 'local'
+
+                }
+            ]}
         ];
 
         this.buttons = [{

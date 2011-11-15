@@ -22,7 +22,9 @@ Ext.define('ExtZF.view.admin.instrumentos.List' ,{
 		{header: 'Planilha operativa', xtype: 'booleancolumn', trueText: 'S',falseText: 'N', dataIndex: 'has_operativo',  flex: 1},
                 {header: 'Responsável'  , xtype: 'booleancolumn', trueText: 'S',falseText: 'N', dataIndex: 'has_responsavel',  flex: 1},
                 {header: 'Supervisor'   , xtype: 'booleancolumn', trueText: 'S',falseText: 'N', dataIndex: 'has_supervisor',  flex: 1},
-                {header: 'Equipe'       , xtype: 'booleancolumn', trueText: 'S',falseText: 'N', dataIndex: 'has_equipe',  flex: 1}
+                {header: 'Equipe'       , xtype: 'booleancolumn', trueText: 'S',falseText: 'N', dataIndex: 'has_equipe',  flex: 1},
+                {header: 'Vlr Prog'      , xtype: 'booleancolumn', trueText: 'S',falseText: 'N', dataIndex: 'has_vlr_programado',  flex: 1},
+                {header: 'Vlr Exec'      , xtype: 'booleancolumn', trueText: 'S',falseText: 'N', dataIndex: 'has_vlr_executado',  flex: 1}
             ],
     // Paginação
     dockedItems: [{

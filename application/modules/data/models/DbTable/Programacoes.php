@@ -4,7 +4,7 @@ class Data_Model_DbTable_Programacoes extends My_DefaultModel
 {
 
     protected $_name = 'programacoes';
-    protected $_dependentTables = array('Data_Model_DbTable_Programacoes','Data_Model_DbTable_Operativos');
+    protected $_dependentTables = array('Data_Model_DbTable_Programacoes','Data_Model_DbTable_Operativos', 'Data_Model_DbTable_Financeiro');
     
     protected $_referenceMap = array (
                 'Usuarios' => array ( 'columns' => 'responsavel_usuario_id', 

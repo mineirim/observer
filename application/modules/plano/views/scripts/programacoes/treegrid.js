@@ -32,8 +32,8 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
     columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0,  hidden:true},
             {header: 'Menu',  dataIndex: 'menu',  flex: 3,xtype: 'treecolumn', 
                 renderer: function(value, metaData, record){
-                                return Ext.String.format('<div class="topic"><b>{0}-</b> {1}</div>', record.get('instrumento').singular, value);
-
+                                ret= Ext.String.format('<div class="topic"><b>{0}-</b> {1}</div>', record.get('instrumento').singular, value);
+                                return '<b>' + record.get('instrumento').singular + '-</b>' + value;
                             }
             },
             {header: 'Responsável',     dataIndex: 'responsavel_usuario_id',  flex: 1, 

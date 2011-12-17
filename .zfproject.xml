@@ -71,6 +71,11 @@
               <actionMethod actionName="store"/>
               <actionMethod actionName="model"/>
             </controllerFile>
+            <controllerFile controllerName="Financeiro">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="store"/>
+              <actionMethod actionName="model"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
           <layoutsDirectory enabled="false"/>
@@ -148,6 +153,15 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Vinculos">
                 <viewScriptFile forActionName="model.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Financeiro">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Financeiro">
+                <viewScriptFile forActionName="store"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Financeiro">
+                <viewScriptFile forActionName="model"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -238,6 +252,9 @@
               <actionMethod actionName="post"/>
               <actionMethod actionName="delete"/>
             </controllerFile>
+            <controllerFile controllerName="Financeiro">
+              <actionMethod actionName="index"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
           <layoutsDirectory enabled="false"/>
@@ -248,6 +265,9 @@
           <viewsDirectory>
             <viewScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Gantt">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Financeiro">
                 <viewScriptFile forActionName="index"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
@@ -595,6 +615,22 @@
                 <testApplicationActionMethod forActionName="controller"/>
                 <testApplicationActionMethod forActionName="checklist"/>
                 <testApplicationActionMethod forActionName="painel"/>
+              </testApplicationControllerFile>
+            </testApplicationControllerDirectory>
+          </testApplicationModuleDirectory>
+          <testApplicationModuleDirectory forModuleName="shared">
+            <testApplicationControllerDirectory>
+              <testApplicationControllerFile forControllerName="Financeiro">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="store"/>
+                <testApplicationActionMethod forActionName="model"/>
+              </testApplicationControllerFile>
+            </testApplicationControllerDirectory>
+          </testApplicationModuleDirectory>
+          <testApplicationModuleDirectory forModuleName="data">
+            <testApplicationControllerDirectory>
+              <testApplicationControllerFile forControllerName="Financeiro">
+                <testApplicationActionMethod forActionName="index"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>

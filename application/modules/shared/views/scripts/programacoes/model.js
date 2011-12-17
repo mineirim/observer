@@ -13,7 +13,8 @@ Ext.define('ExtZF.model.Programacoes', {
                             {name:'setor', persist:false},
                             {name:'instrumento', persist:false},
                             {name:'parent',persist:false},
-                            {name:'operativo',persist:false}
+                            {name:'operativo',persist:false},
+                            {name:'financeiro',persist:false}
                         ],
         proxy          : {
                         type           : 'rest',

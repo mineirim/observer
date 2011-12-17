@@ -25,19 +25,40 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
         try{
             $programacoes_table = new Data_Model_Programacoes();
             $this->_helper->viewRenderer->setNoRender(true);
-            if($this->_getParam('toTree')){
-                $node_id = is_numeric($this->_getParam('node'))?$this->_getParam('node'):null;
-                $this->view->rows= $programacoes_table->getRecursive($node_id);
-            }else if ($this->_hasParam ('query')){
+            if($this->_getParam('getOrcamento'))
+            {
+                $where  = "instrumento_id in (select id from instrumentos where has_vlr_programado=true)";
+                $where .= " AND menu ILIKE '%" . $this->_getParam('getOrcamento') . "%'";
+                $this->view->rows = $programacoes_table->getFilter($where);
+            }elseif($this->_getParam('toTree'))
+            {
+                $node_id = $this->_getParam('node');
+                $instrumento_id=null;
+                if($node_id=="root"){
+                    
+                }
+                elseif(!is_numeric($node_id)){
+                    $arr_node = explode('-', $node_id);
+                    $model_instrumentos = new Data_Model_DbTable_Instrumentos();
+                    $instrumento = $model_instrumentos->fetchRow('instrumento_id='.$arr_node[1]);
+                    $instrumento_id = $instrumento->id;
+                    $node_id=null;
+                }
+                $this->view->rows= $programacoes_table->getRecursive($node_id, $instrumento_id);
+            }else if ($this->_hasParam ('query'))
+            {
                 $this->view->rows = $programacoes_table->searchProgramacao($this->_getParam('query'));
-            }elseif($this->_hasParam('filter')){
+            }elseif($this->_hasParam('filter'))
+            {
                 $filtro  = json_decode($this->_getParam('filter'),true);
                 
                 $this->view->rows = $programacoes_table->getFilter($filtro[0]['property']."=".$identity->id);
-            }elseif($this->_hasParam('pendentes')){
+            }elseif($this->_hasParam('pendentes'))
+            {
                 
                 $this->view->rows = $programacoes_table->getPendentes();
-            }else {
+            }else 
+            {
                 $this->view->rows = $programacoes_table->getAll();
             }
             $this->view->success= true;

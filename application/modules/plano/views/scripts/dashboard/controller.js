@@ -18,9 +18,9 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
     init: function() {
         this.control(
         {
-            'planoDashboardPainel': {
-                render: this.checkList
-            },
+            //'planoDashboardPainel': {
+            //    render: this.checkList
+            //},
             'planoAnexosList button[action=incluir]': {
                 click: this.editObject
             },

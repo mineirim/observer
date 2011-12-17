@@ -2,8 +2,12 @@
 
 class Data_Model_Programacoes {
 
-    public function getRecursive($id=null) {
-        $where = $id ? 'programacao_id=' . $id : "programacao_id is null";
+    public function getRecursive($id=null, $instrumento_id=null) {
+        $where = "1 = 1 ";
+        if($instrumento_id){
+            $where .= " and instrumento_id=$instrumento_id ";
+        }
+        $where .= $id ? ' and programacao_id=' . $id : " and programacao_id is null";
         $select = "WITH RECURSIVE 
                     prog AS 
                     ( 
@@ -30,6 +34,7 @@ class Data_Model_Programacoes {
         $this->setores =new Data_Model_DbTable_Setores();
         $this->instrumentos =  new Data_Model_DbTable_Instrumentos();
         $this->operativos = new Data_Model_DbTable_Operativos();
+        $this->financeiros = new Data_Model_DbTable_Financeiro();
         $parent = null;
         if($id){
             $model_programacoes = new Data_Model_DbTable_Programacoes();
@@ -65,7 +70,9 @@ class Data_Model_Programacoes {
                 $operativos = $this->operativos->fetchAll('programacao_id='.$value->id,'ordem');
 
                 $operativo = count($operativos) > 0 ? $operativos->toArray() : array();
-
+                
+                $financeiros = $this->financeiros->fetchAll('programacao_id='.$value->id,'id');
+                $financeiro = count($financeiros) > 0 ? $financeiros->toArray() : array();
                 $child = array(
                     'id' => $value->id,
                     'menu' => $value->menu,
@@ -81,6 +88,7 @@ class Data_Model_Programacoes {
                     'instrumento' => $instrumento,
                     'parent' => $parent,
                     'operativo' => $operativo,
+                    'financeiro' => $financeiro,
                     'iconCls' => 'x-tree-noicon'
                 );
                 $children=array();
@@ -116,23 +124,26 @@ class Data_Model_Programacoes {
             $parent = $value->findParentRow('Data_Model_DbTable_Programacoes');
             $parent = $parent ? $parent->toArray() : array();
             $operativo = $value->findDependentRowset('Data_Model_DbTable_Operativos');
-
             $operativo = count($operativo) > 0 ? $operativo->toArray() : array();
+            $financeiros = $value->findDependentRowset('Data_Model_DbTable_Financeiro');
+            $financeiro = count($financeiros) > 0 ? $financeiros->toArray() : array();
+
             $child = array(
-                'id' => $value->id,
-                'menu' => $value->menu,
-                'descricao' => $value->descricao,
-                'ordem' => $value->ordem,
-                'instrumento_id' => $value->instrumento_id,
-                'programacao_id' => $value->programacao_id,
-                'setor_id' => $value->setor_id,
+                'id'            => $value->id,
+                'menu'          => $value->menu,
+                'descricao'     => $value->descricao,
+                'ordem'         => $value->ordem,
+                'instrumento_id'=> $value->instrumento_id,
+                'programacao_id'=> $value->programacao_id,
+                'setor_id'      => $value->setor_id,
                 'responsavel_usuario_id' => $value->responsavel_usuario_id,
                 'supervisor_usuario_id' => $value->supervisor_usuario_id,
-                'responsavel' => $usuario,
-                'setor' => $setor,
-                'instrumento' => $instrumento,
-                'parent' => $parent,
-                'operativo' => $operativo
+                'responsavel'   => $usuario,
+                'setor'         => $setor,
+                'instrumento'   => $instrumento,
+                'parent'        => $parent,
+                'operativo'     => $operativo,
+                'financeiro'    => $financeiro
             );
             $objs[] = $child;
         }
@@ -215,7 +226,7 @@ class Data_Model_Programacoes {
      */
     public function getNode($programacao_id=null, $instrumento_id=null) {
         
-        
+        $rows = array();
         $where = $programacao_id ? "programacao_id=$programacao_id" : "instrumento_id=$instrumento_id";
         $select = " SELECT *, (select count(*) from programacoes pr where programacao_id=p.id) as leaf,programacao_id as parent FROM programacoes p WHERE $where ORDER BY ordem";
         $stmt = Zend_Registry::get('db')->query($select);

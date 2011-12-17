@@ -18,47 +18,23 @@ class Plano_ProgramacoesController extends Zend_Controller_Action
                         ->addActionContext('Container', array('js'))
                         ->addActionContext('Anexos', array('js'))
                         ->addActionContext('Detalhes', array('js'))
+                        ->addActionContext('Financeiro', array('js'))
                         ->initContext('js');
         $this->_helper->layout()->disableLayout();
         
     }
 
-    public function controllerAction()
-    {
-    }
+    public function controllerAction(){}
 
-    public function listAction()
-    {
-    }
+    public function listAction(){}
 
-    public function editAction()
-    {
-    }
-
-    public function treegridAction()
-    {
-        // action body
-    }
-
-    public function containerAction()
-    {
-        // action body
-    }
-
-    public function treepanelAction()
-    {
-        // action body
-    }
-
-    public function anexosAction()
-    {
-        // action body
-    }
-
-    public function detalhesAction()
-    {
-        // action body
-    }
+    public function editAction(){}
+    public function financeiroAction(){}
+    public function treegridAction(){}
+    public function containerAction(){}
+    public function treepanelAction(){}
+    public function anexosAction(){}
+    public function detalhesAction(){}
 
 
 }

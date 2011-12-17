@@ -8,6 +8,14 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
     
     
     autoShow: true, // exibir a janela automaticamente ao chamá-la
+    showVlrProgramado   : function(){
+              //####### FORM DE VALORES 
+        this.down('#btnVlrProgramado').show();
+
+    },
+    showVlrExecutado  : function(){
+        this.down('#btnVlrGasto').show(); 
+    },
     criaDetail : function(){
         var andamento =  Ext.create('Ext.data.Store', {
             fields: ['id', 'descricao'],
@@ -17,6 +25,7 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                 {"id":"3", "descricao":"Concluído"}
             ]
         });
+
 
         var formDetail =  Ext.create('Ext.form.Panel', {
             id: 'frmDetail',
@@ -145,13 +154,27 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
             {
                 xtype: 'hiddenfield',
                 name:'instrumento_id',
-                ref:'programacao_id'
+                ref:'instrumento_id'
             }
             ]            
         });
         this.items = [formDefault];
         // botões da janela
         this.buttons = [{
+            text    : 'Adicionar Orçamento',
+            action  : 'addVlrProgramado',
+            iconCls : 'icon-save',
+            hidden  : true,
+            id      : 'btnVlrProgramado'
+        },{
+            text    : 'Adicionar despesa',
+            action  : 'addVlrGasto',
+            iconCls : 'icon-save',
+            hidden  : true,
+            id      : 'btnVlrGasto'
+        },
+        '-',
+        {
             text: 'Salvar',
             action: 'salvar',
             iconCls: 'icon-save'

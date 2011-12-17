@@ -2,18 +2,19 @@ Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Programacoes', {
     extend: 'Ext.app.Controller',
     id      : 'controllerPlanoProgramacoes',
-    stores: ['programacoes.TreeStore', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos'], // Store utilizado no gerenciamento do usuário
-    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos'], // Modelo do usuário
-     views: [
-    'plano.programacoes.List',
-    'plano.programacoes.Treegrid',
-    'plano.programacoes.Edit',
-    'plano.programacoes.Container',
-    'plano.programacoes.Anexos',
-    'plano.programacoes.Detalhes',
-    'plano.vinculos.Edit',
-    'plano.anexos.Edit'
-    ],
+    stores: ['programacoes.TreeStore', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro'], // Store utilizado no gerenciamento do usuário
+    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro'], // Modelo do usuário
+    views: [
+        'plano.programacoes.List',
+        'plano.programacoes.Treegrid',
+        'plano.programacoes.Edit',
+        'plano.programacoes.Financeiro',
+        'plano.programacoes.Container',
+        'plano.programacoes.Anexos',
+        'plano.programacoes.Detalhes',
+        'plano.vinculos.Edit',
+        'plano.anexos.Edit'
+        ],
     /**
      *nó selecionado na navegação à esquerda
      */
@@ -45,6 +46,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             'planoProgramacoesEdit button[action=salvar]': {
                 click: this.saveObject
             },
+            'planoProgramacoesEdit button[action=addVlrProgramado]':{
+                click: this.showFinanceiro
+            },
             'planoProgramacoesTreegrid': {
                 itemdblclick    : this.editDblClick,
                 itemclick       : this.changeButtonAction,
@@ -72,8 +76,26 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 change: this.verificaResponsavel
             }
             
+            
+            
         });
         
+    },
+    showFinanceiro : function(rec){
+        view = Ext.widget('planoProgramacoesFinanceiro');
+        view.setTitle('Finaneceiro ');
+        view.down('#vlr_financeiro').labelEl.dom.innerText= 'Alterada';
+        //TODO buscar record de um outro store(não tree)
+        /**
+        store =  this.getProgramacoesStore();
+        record = store.getById(rec.get('id'));
+        Ext.log({msg:"Carregando registro para edição",level:'info'});
+        view.down('form').loadRecord(record);
+        instrumento = this.getInstrumentosStore().findRecord('id',record.get('instrumento_id'));
+        this.configuraForm(view, record, instrumento);
+        */
+       view.doLayout();
+     
     },
     itemContextMenu :  function( view, record, item, index, event, options){
         event.stopEvent();
@@ -145,7 +167,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         Ext.log({msg:"Carregando registro para edição",level:'info'});
         view.down('form').loadRecord(record);
         instrumento = this.getInstrumentosStore().findRecord('id',record.get('instrumento_id'));
-        this.configuraForm(view, record, instrumento)
+        this.configuraForm(view, record, instrumento);
      
     },
     configuraForm : function(view, record, instrumento){
@@ -160,6 +182,33 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             }
             rr = Ext.ModelMgr.create(operativo,'ExtZF.model.Operativos');
             view.down('#frmDetail').getForm().loadRecord(rr);
+            view.doLayout();
+        }
+        // TODO : transformar a execução em uma lista com mais de um tipo de financiamento (material perm, pessoal, etc)
+        if (instrumento.get('has_vlr_programado')=="true") {
+            financeiro={}
+            view.showVlrProgramado();
+            if(record){
+                if(record.get('financeiro').length>0)
+                    financeiro = record.get('financeiro')[0];
+                if (financeiro == undefined)
+                    financeiro = {};
+            }
+            rr = Ext.ModelMgr.create(financeiro,'ExtZF.model.Financeiro');
+            view.down('#frmVlrProgramado').getForm().loadRecord(rr);
+            view.doLayout();
+        }
+        if (instrumento.get('has_vlr_executado')=="true") {
+            financeiro={}
+            view.showVlrExecutado();
+            if(record){
+                if(record.get('financeiro').length>0)
+                    financeiro = record.get('financeiro')[0];
+                if (financeiro == undefined)
+                    financeiro = {};
+            }
+            rr = Ext.ModelMgr.create(financeiro,'ExtZF.model.Financeiro');
+            view.down('#frmVlrExecutado').getForm().loadRecord(rr);
             view.doLayout();
         }
         var responsavel = instrumento.get('has_responsavel');
@@ -273,9 +322,16 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var me=this;
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
             formDefault   = win.down('#frmDefault').getForm(),
-            formDetail   = win.down('#frmDetail')
+            formDetail   = win.down('#frmDetail'),
+            frmVlrExecutado = win.down('#frmVlrExecutado'),
+            frmVlrProgramado = win.down('#frmVlrProgramado');
             if (formDetail != null)
                 formDetail = formDetail.getForm();
+            if(frmVlrExecutado != null) 
+                frmVlrExecutado = frmVlrExecutado.getForm();
+            if(frmVlrProgramado != null) 
+                frmVlrProgramado = frmVlrProgramado.getForm();
+            
         if (formDefault.isValid()) {
             r = formDefault.getRecord();
             formDefault.updateRecord(r);
@@ -288,6 +344,30 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                     if (formDetail != undefined){
                         rd = formDetail.getRecord();
                         formDetail.updateRecord(rd);
+                        rd.set('programacao_id',a.get('id'));
+                        rd.save({
+                            success: function(c,d){
+                               Ext.log({msg:"Salvo com sucesso!",level:"info",dump:c});
+                                
+                            }
+                        })
+                    }
+                    //salva valor programado
+                    if (frmVlrProgramado != undefined){
+                        rd = frmVlrProgramado.getRecord();
+                        frmVlrProgramado.updateRecord(rd);
+                        rd.set('programacao_id',a.get('id'));
+                        rd.save({
+                            success: function(c,d){
+                               Ext.log({msg:"Salvo com sucesso!",level:"info",dump:c});
+                                
+                            }
+                        })
+                    }
+                    //salva valor executado
+                    if (frmVlrExecutado != undefined){
+                        rd = frmVlrExecutado.getRecord();
+                        frmVlrExecutado.updateRecord(rd);
                         rd.set('programacao_id',a.get('id'));
                         rd.save({
                             success: function(c,d){

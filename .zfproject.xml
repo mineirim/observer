@@ -76,6 +76,14 @@
               <actionMethod actionName="store"/>
               <actionMethod actionName="model"/>
             </controllerFile>
+            <controllerFile controllerName="GrupoDespesas">
+              <actionMethod actionName="store"/>
+              <actionMethod actionName="model"/>
+            </controllerFile>
+            <controllerFile controllerName="TipoRegistros">
+              <actionMethod actionName="store"/>
+              <actionMethod actionName="model"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
           <layoutsDirectory enabled="false"/>
@@ -162,6 +170,18 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Financeiro">
                 <viewScriptFile forActionName="model"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="GrupoDespesas">
+                <viewScriptFile forActionName="store.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="GrupoDespesas">
+                <viewScriptFile forActionName="model.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="TipoRegistros">
+                <viewScriptFile forActionName="store.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="TipoRegistros">
+                <viewScriptFile forActionName="model.js"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -254,6 +274,20 @@
             </controllerFile>
             <controllerFile controllerName="Financeiro">
               <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="GrupoDespesas">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="get"/>
+              <actionMethod actionName="put"/>
+              <actionMethod actionName="post"/>
+              <actionMethod actionName="delete"/>
+            </controllerFile>
+            <controllerFile controllerName="TipoRegistros">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="get"/>
+              <actionMethod actionName="put"/>
+              <actionMethod actionName="post"/>
+              <actionMethod actionName="delete"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
@@ -413,6 +447,16 @@
               <actionMethod actionName="checklist"/>
               <actionMethod actionName="painel"/>
             </controllerFile>
+            <controllerFile controllerName="GrupoDespesas">
+              <actionMethod actionName="controller"/>
+              <actionMethod actionName="list"/>
+              <actionMethod actionName="edit"/>
+            </controllerFile>
+            <controllerFile controllerName="TipoRegistros">
+              <actionMethod actionName="controller"/>
+              <actionMethod actionName="list"/>
+              <actionMethod actionName="edit"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
           <layoutsDirectory enabled="false"/>
@@ -489,6 +533,24 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Dashboard">
                 <viewScriptFile forActionName="painel"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="GrupoDespesas">
+                <viewScriptFile forActionName="controller.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="GrupoDespesas">
+                <viewScriptFile forActionName="list.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="GrupoDespesas">
+                <viewScriptFile forActionName="edit.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="TipoRegistros">
+                <viewScriptFile forActionName="controller.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="TipoRegistros">
+                <viewScriptFile forActionName="list.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="TipoRegistros">
+                <viewScriptFile forActionName="edit.js"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>

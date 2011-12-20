@@ -31,8 +31,6 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
                 click: this.saveObject
             }
         });
-        
-        
          
     }
     ,checkList : function(){
@@ -44,6 +42,7 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
         dashboard.add(this.checkPendentes());
         
     },
+    
     checkMyItems : function(){       
         Ext.create('Ext.data.Store', {
             id:'myItemsStore',

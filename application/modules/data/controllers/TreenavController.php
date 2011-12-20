@@ -18,19 +18,23 @@ class Data_TreenavController extends Zend_Rest_Controller
     public function indexAction()
     {
         $this->_helper->viewRenderer->setNoRender(true);
-        $programacao_table = new Data_Model_Programacoes();
+        $programacoes_model = new Data_Model_Programacoes();
         $instrumentos_table = new Data_Model_DbTable_Instrumentos();
         $arr_node=explode('-', $this->_getParam('node'));
         if(in_array('instrumentoId', $arr_node)){
             $isInstrumento=true;
             $node=$arr_node[1];
+        }elseif(in_array('financeiro', $arr_node)){
+            //não implementado
+            $isFinanceiro = true;
         }else{
             $isInstrumento=false;
             $node=$arr_node[0];
         }
         
         if ( $node== 'root') {
-            $instrumentos_root= $instrumentos_table->fetchAll('instrumento_id is null');
+            $select = $instrumentos_table->select();
+            $instrumentos_root= $instrumentos_table->fetchAll($select->where('instrumento_id is null'));
             $rows = array();
             foreach ($instrumentos_root as $value) {
                 $root = array(
@@ -41,12 +45,24 @@ class Data_TreenavController extends Zend_Rest_Controller
             }
             $this->view->rows= $rows;
         } elseif($isInstrumento){
+            
             $instrumento = $instrumentos_table->fetchRow('instrumento_id='.$node);
-            $programacoes = $programacao_table->getNode(null,$instrumento->id);
+            $programacoes = $programacoes_model->getNode(null,$instrumento->id);
             $this->view->rows = $programacoes;
         }else{
-            $programacoes = $programacao_table->getNode($node);
-            $this->view->rows = $programacoes;
+            $prog_table = new Data_Model_DbTable_Programacoes();
+            $prog = $prog_table->find($node)->current();
+            if($prog)
+                $instrumento = $prog->findParentRow ('Data_Model_DbTable_Instrumentos');
+            
+            if($instrumento && $instrumento->has_vlr_programado){
+                $myTreeProgramacoes = new My_Tree_Programacoes();
+                $this->view->rows = $myTreeProgramacoes->getOrcamentoNodes($prog);
+            
+            }else{
+                $programacoes = $programacoes_model->getNode($node);
+                $this->view->rows = $programacoes;
+            }
 
         }
         

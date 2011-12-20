@@ -19,6 +19,7 @@ Ext.define('ExtZF.controller.Navigation', {
             this.callParent(arguments);
 	},
     init: function() {
+        me=this;
         //st = this.getStore('programacoes.TreeStore');
         this.control(
         {
@@ -33,6 +34,9 @@ Ext.define('ExtZF.controller.Navigation', {
             }
             
         });
+        this.application.on('editFinanceiro' , function(programacao){
+              me.openFinanceiroEdit(programacao);
+            })
     },
     
     logout: function() {
@@ -46,17 +50,30 @@ Ext.define('ExtZF.controller.Navigation', {
     },
     loadTreeController : function (view, record, item, index, e, options)
     {
-        this.loadController(
-                            {text: 'Programa&ccedil;&atilde;o',
-                            id: 'testeId',
-                            data        : 'plano.Programacoes',
-                            action      : "loadController",
-                            iconCls     : "icon-programacao",
-                            createView  : "planoProgramacoesContainer"},
+        param_id = record.get('id');
+        if(Ext.isNumeric(param_id)){
+   
+        }else{
+            arr_params= param_id.split('-');
+            if(arr_params[0]=='financeiro'){
+                // TODO criar abertura condicional
+            }
+        }
+         obj = { text: 'Programa&ccedil;&atilde;o',
+            id: 'testeId',
+            data        : 'plano.Programacoes',
+            action      : "loadController",
+            iconCls     : "icon-programacao",
+            createView  : "planoProgramacoesContainer"
+          }
+        this.loadController(obj,
                             record);
               
     },
     
+    openFinanceiroEdit : function(programacao){
+        this.loadController(obj);
+    },
    
     loadControllerFromMenu : function(obj){
         this.loadController(obj);

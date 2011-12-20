@@ -19,6 +19,7 @@ class Plano_ProgramacoesController extends Zend_Controller_Action
                         ->addActionContext('Anexos', array('js'))
                         ->addActionContext('Detalhes', array('js'))
                         ->addActionContext('Financeiro', array('js'))
+                        ->addActionContext('GridFinanceiro', array('js'))
                         ->initContext('js');
         $this->_helper->layout()->disableLayout();
         
@@ -33,6 +34,7 @@ class Plano_ProgramacoesController extends Zend_Controller_Action
     public function treegridAction(){}
     public function containerAction(){}
     public function treepanelAction(){}
+    public function gridfinanceiroAction(){}
     public function anexosAction(){}
     public function detalhesAction(){}
 

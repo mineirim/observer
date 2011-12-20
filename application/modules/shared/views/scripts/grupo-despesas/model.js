@@ -4,7 +4,7 @@ Ext.define('ExtZF.model.GrupoDespesas', {
         proxy          : {
         simpleSortMode : true, 
         type           : 'rest',
-        url            :   'data/grupodespesas',
+        url            :   'data/grupo-despesas',
         		reader         : {
         			type    : 'json',
         			root    : 'rows',
@@ -15,5 +15,18 @@ Ext.define('ExtZF.model.GrupoDespesas', {
         			type     : 'json',
         			encode   : true 
         		}
-        }
+        },
+        associations: [
+            {
+                type: 'hasMany',
+                model: 'ExtZF.model.Financeiro',
+                associatedName: 'Financeiro',
+                name: 'financeiro',
+                primaryKey: 'id',
+                foreignKey: 'grupo_despesa_id',
+                getterName: 'getFinanceiros'
+            }
+        ]
+   
+        
 });

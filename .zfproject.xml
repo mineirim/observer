@@ -295,6 +295,8 @@
           <modelsDirectory>
             <modelFile modelName="Programacoes"/>
             <modelFile modelName="Usuarios"/>
+            <modelFile modelName="GrupoDespesas"/>
+            <modelFile modelName="Financeiro"/>
           </modelsDirectory>
           <viewsDirectory>
             <viewScriptsDirectory>

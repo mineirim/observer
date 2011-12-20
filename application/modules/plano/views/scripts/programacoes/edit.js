@@ -161,7 +161,7 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
         this.items = [formDefault];
         // botões da janela
         this.buttons = [{
-            text    : 'Adicionar Orçamento',
+            text    : 'Ad. grupo de despesa',
             action  : 'addVlrProgramado',
             iconCls : 'icon-save',
             hidden  : true,

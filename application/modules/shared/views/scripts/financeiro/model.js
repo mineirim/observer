@@ -1,6 +1,14 @@
 Ext.define('ExtZF.model.Financeiro', {
         extend         : 'Ext.data.Model',
-        fields         : ['id','descricao', 'programacao_id', 'valor'],
+        fields         : ['id',
+                            'descricao', 
+                            'grupo_despesa_id',
+                            'tipo_registro_id',
+                            'documento_id',  
+                            'programacao_id', 
+                            'valor',
+                            {name:'grupoDespesa', persist:false}
+                        ],
         proxy          : {
         simpleSortMode : true, 
         type           : 'rest',
@@ -15,5 +23,19 @@ Ext.define('ExtZF.model.Financeiro', {
         			type     : 'json',
         			encode   : true 
         		}
-        }
+        },
+        associations: [
+            
+            {
+                type        : 'belongsTo',
+                model       : 'ExtZF.model.GrupoDespesas',
+                primaryKey  : 'id',
+                foreignKey  : 'grupo_despesa_id',
+                autoLoad    : true,
+                name        : 'GrupoDespesas',
+                associatedName : 'ExtZF.model.GrupoDespesas',
+                instanceName: 'grupoDespesas',
+                getterName  : 'getGrupoDespesas'
+            }
+        ]
 });

@@ -20,10 +20,10 @@ class Data_FinanceiroController extends Zend_Controller_Action
     public function indexAction()
     {
         
-        $financeiro_table = new Data_Model_DbTable_Financeiro();
-        $rows = $financeiro_table->fetchAll(null, 'id');
+        $financeiro_model = new Data_Model_Financeiro();
+        $rows = $financeiro_model->getArray(null, 'id',true);
         $this->_helper->viewRenderer->setNoRender(true);
-        $this->view->rows= $rows->toArray();
+        $this->view->rows= $rows;
         $this->view->total = count($rows);
     }
 

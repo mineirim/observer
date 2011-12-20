@@ -2,8 +2,8 @@ Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Programacoes', {
     extend: 'Ext.app.Controller',
     id      : 'controllerPlanoProgramacoes',
-    stores: ['programacoes.TreeStore', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro'], // Store utilizado no gerenciamento do usuário
-    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro'], // Modelo do usuário
+    stores: ['programacoes.TreeStore', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas'], // Store utilizado no gerenciamento do usuário
+    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas'], // Modelo do usuário
     views: [
         'plano.programacoes.List',
         'plano.programacoes.Treegrid',
@@ -13,7 +13,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         'plano.programacoes.Anexos',
         'plano.programacoes.Detalhes',
         'plano.vinculos.Edit',
-        'plano.anexos.Edit'
+        'plano.anexos.Edit',
+        'plano.programacoes.GridFinanceiro'
         ],
     /**
      *nó selecionado na navegação à esquerda
@@ -84,7 +85,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     showFinanceiro : function(rec){
         view = Ext.widget('planoProgramacoesFinanceiro');
         view.setTitle('Finaneceiro ');
-        view.down('#vlr_financeiro').labelEl.dom.innerText= 'Alterada';
+        view.down('#vlr_financeiro').labelEl.dom.innerText= 'Valor';
         //TODO buscar record de um outro store(não tree)
         /**
         store =  this.getProgramacoesStore();
@@ -390,6 +391,12 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     },
     changeButtonAction: function(view, record, item, index, e, options)
     {
+         detailPanel = Ext.getCmp('detailPanel');
+         if(record==undefined){
+             detailPanel.hide();
+             return
+         }
+         detailPanel.show();
          
          instrumento = this.getInstrumentosStore().findRecord('instrumento_id',record.get('instrumento_id'));
          button = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=incluir]')[0];
@@ -409,8 +416,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
          
         var bookTplMarkup = ['<div class="tplDetail"><b>Descrição: </b>{descricao}<br/></div>'];
         var bookTpl = Ext.create('Ext.XTemplate', bookTplMarkup);
-        var detailPanel = Ext.getCmp('detailPanel');
-        bookTpl.overwrite(detailPanel.body, record.data);         
+        var showDetail = Ext.getCmp('showDetail');
+        bookTpl.overwrite(showDetail.body, record.data);         
 
         if(record.get('instrumento').has_operativo){
              if(record.get('operativo').length>0){
@@ -425,8 +432,19 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                                         '<li>Encerramento: {data_encerramento}</li>',
                                     '</tpl>',
                                 '</ul>']);
-                 tpl_operativo.append(detailPanel.body, operativo);
+                 tpl_operativo.append(showDetail.body, operativo);
              }
+        }
+        
+        if(record.get('instrumento').has_vlr_programado){
+            
+            planilhaOrcamentaria = detailPanel.child("#planilhaOrcamentaria");
+            planilhaOrcamentaria.show();
+            
+        }else{
+            planilhaOrcamentaria = detailPanel.child('#planilhaOrcamentaria');
+            if(planilhaOrcamentaria != null) 
+                planilhaOrcamentaria.hide();
         }
         this.getGantt(record.get('id'))
     },

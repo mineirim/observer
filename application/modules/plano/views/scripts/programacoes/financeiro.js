@@ -1,13 +1,13 @@
 Ext.define('ExtZF.view.plano.programacoes.Financeiro', {
     extend: 'Ext.window.Window',
-    alias : 'widget.planoProgramacoesFinanceiro', // nome definido a janela
+    alias : 'widget.planoProgramacoesFinanceiro', 
     title : 'Edição',
     layout: 'fit',
-    width : 340,
+    width : 720,
     minHeight : 690,
     
     
-    autoShow: true, // exibir a janela automaticamente ao chamá-la,
+    autoShow: true, 
    
     initComponent: function() {
          var frmFinanceiro =  Ext.create('Ext.form.Panel', {
@@ -16,17 +16,17 @@ Ext.define('ExtZF.view.plano.programacoes.Financeiro', {
             bodyPadding: 12,
             items: [
                 {
-                    xtype: 'combo',
-                    id          : 'programacao_id',
-                    name        : 'programacao_id',
-                    ref         : 'programacao_id',
-                    fieldLabel  : 'Ítem do orçamento', 
-                    store       : 'Programacoes',
-                    displayField: 'menu',
+                    xtype       : 'combo',
+                    id          : 'grupo_despesas_id',
+                    name        : 'grupo_despesas_id',
+                    ref         : 'grupo_despesas_id',
+                    fieldLabel  : 'Grupo de despesas', 
+                    store       : 'GrupoDespesas',
+                    displayField: 'descricao',
                     valueField  : 'id',
                     anchor      : '95%',
                     hidden      : false,
-                    allowBlank  : true,
+                    allowBlank  : false,
                     typeAhead   : true,
                     width       : 650,
                     mode        : 'remote',

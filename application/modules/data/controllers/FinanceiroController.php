@@ -76,9 +76,8 @@ class Data_FinanceiroController extends Zend_Controller_Action
                 $this->view->msg="Dados inseridos com sucesso!";
         
                 $obj = $financeiro_table->fetchRow("id=$id");
-                $this->view->record = $obj;
+                $this->view->rows = $obj->toArray();
                 $this->view->success=true;
-                $this->view->metodo = $this->getRequest()->getMethod();
         
             }  catch (Exception $e){
                 $this->view->success = false;

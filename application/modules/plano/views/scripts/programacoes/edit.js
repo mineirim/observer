@@ -4,7 +4,7 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
     title : 'Edição',
     layout: 'fit',
     width : 740,
-    minHeight : '690px',
+    minHeight : 690,
     
     
     autoShow: true, // exibir a janela automaticamente ao chamá-la

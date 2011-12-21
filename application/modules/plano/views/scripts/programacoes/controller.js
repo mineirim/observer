@@ -8,7 +8,6 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         'plano.programacoes.List',
         'plano.programacoes.Treegrid',
         'plano.programacoes.Edit',
-        'plano.programacoes.Financeiro',
         'plano.programacoes.Container',
         'plano.programacoes.Anexos',
         'plano.programacoes.Detalhes',
@@ -82,10 +81,14 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         });
         
     },
-    showFinanceiro : function(rec){
-        view = Ext.widget('planoProgramacoesFinanceiro');
-        view.setTitle('Finaneceiro ');
-        view.down('#vlr_financeiro').labelEl.dom.innerText= 'Valor';
+    showFinanceiro : function(button,b,c,d){
+        var me=this;
+        var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
+            form   = win.down('#frmDefault').getForm();
+
+        rec = form.getRecord();
+        form.updateRecord(rec);
+        this.application.fireEvent('editFinanceiro', rec);
         //TODO buscar record de um outro store(não tree)
         /**
         store =  this.getProgramacoesStore();
@@ -323,15 +326,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var me=this;
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
             formDefault   = win.down('#frmDefault').getForm(),
-            formDetail   = win.down('#frmDetail'),
-            frmVlrExecutado = win.down('#frmVlrExecutado'),
-            frmVlrProgramado = win.down('#frmVlrProgramado');
+            formDetail   = win.down('#frmDetail');
             if (formDetail != null)
                 formDetail = formDetail.getForm();
-            if(frmVlrExecutado != null) 
-                frmVlrExecutado = frmVlrExecutado.getForm();
-            if(frmVlrProgramado != null) 
-                frmVlrProgramado = frmVlrProgramado.getForm();
             
         if (formDefault.isValid()) {
             r = formDefault.getRecord();
@@ -353,33 +350,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                             }
                         })
                     }
-                    //salva valor programado
-                    if (frmVlrProgramado != undefined){
-                        rd = frmVlrProgramado.getRecord();
-                        frmVlrProgramado.updateRecord(rd);
-                        rd.set('programacao_id',a.get('id'));
-                        rd.save({
-                            success: function(c,d){
-                               Ext.log({msg:"Salvo com sucesso!",level:"info",dump:c});
-                                
-                            }
-                        })
-                    }
-                    //salva valor executado
-                    if (frmVlrExecutado != undefined){
-                        rd = frmVlrExecutado.getRecord();
-                        frmVlrExecutado.updateRecord(rd);
-                        rd.set('programacao_id',a.get('id'));
-                        rd.save({
-                            success: function(c,d){
-                               Ext.log({msg:"Salvo com sucesso!",level:"info",dump:c});
-                                
-                            }
-                        })
-                    }
                     win.close();
-                    me.getProgramacoesTreeStoreStore().load();
-                    me.getProgramacoesStore().load();
+                    //me.getProgramacoesTreeStoreStore().load();
+                    //me.getProgramacoesStore().load();
                 },
                 failure:function(a,b){
                     Ext.log({msg:"Erro ao salvar!",level:"error"});

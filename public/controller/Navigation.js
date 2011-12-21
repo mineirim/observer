@@ -34,9 +34,7 @@ Ext.define('ExtZF.controller.Navigation', {
             }
             
         });
-        this.application.on('editFinanceiro' , function(programacao){
-              me.openFinanceiroEdit(programacao);
-            })
+        this.application.on('editFinanceiro' , this.openFinanceiroEdit)
     },
     
     logout: function() {
@@ -72,7 +70,11 @@ Ext.define('ExtZF.controller.Navigation', {
     },
     
     openFinanceiroEdit : function(programacao){
-        this.loadController(obj);
+        controller = this.getController('plano.Financeiro');
+        controller.showEdit(programacao);
+        if(!controller.initiated)
+            controller.init();
+       
     },
    
     loadControllerFromMenu : function(obj){

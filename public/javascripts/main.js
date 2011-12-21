@@ -16,7 +16,8 @@ Ext.application({
     controllers: [
         'Navigation',
         'acesso.Auth',
-        'plano.Dashboard'
+        'plano.Dashboard',
+        'plano.Financeiro'
     ],
     
     launch: function() {

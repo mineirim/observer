@@ -44,7 +44,7 @@ Ext.define('ExtZF.view.plano.financeiro.Edit', {
                 xtype: 'htmleditor',
                 name : 'descricao',
                 ref: 'descricao',
-                fieldLabel: 'Descrição',
+                fieldLabel: 'Item de despesa',
                 anchor:'95%'
 
             },

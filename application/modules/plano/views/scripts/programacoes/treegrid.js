@@ -1,7 +1,7 @@
 Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
     extend      : 'Ext.tree.Panel',
     alias       : 'widget.planoProgramacoesTreegrid', // nome definido para acessar a grid
-    //useArrows   : true,
+    useArrows   : true,
     rootVisible : false,
     lines        :   true,
     store       : 'programacoes.TreeStore', 
@@ -40,12 +40,12 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
                 renderer: function(value, metaData, record){
                                 return record.get('responsavel').nome;
                             }
-            },
+            }/*,
             {header: 'Equipe',     dataIndex: 'setor_id',  flex: 1, 
                 renderer: function(value, metaData, record){
                                 return record.get('setor').nome;
                             }
-            }/*,
+            },
             {
                 xtype:'actioncolumn', 
                 width:50,

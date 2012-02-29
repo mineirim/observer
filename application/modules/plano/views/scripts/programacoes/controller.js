@@ -49,6 +49,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             'planoProgramacoesEdit button[action=addVlrProgramado]':{
                 click: this.showFinanceiro
             },
+            'planoProgramacoesEdit button[action=addDespesas]':{
+                click: this.showDespesasForm
+            },
             'planoProgramacoesTreegrid': {
                 itemdblclick    : this.editDblClick,
                 itemclick       : this.changeButtonAction,
@@ -81,25 +84,34 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         });
         
     },
-    showFinanceiro : function(button,b,c,d){
+    showDespesasForm : function(button){
         var me=this;
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
             form   = win.down('#frmDefault').getForm();
 
         rec = form.getRecord();
         form.updateRecord(rec);
-        this.application.fireEvent('editFinanceiro', rec);
-        //TODO buscar record de um outro store(não tree)
-        /**
-        store =  this.getProgramacoesStore();
-        record = store.getById(rec.get('id'));
-        Ext.log({msg:"Carregando registro para edição",level:'info'});
-        view.down('form').loadRecord(record);
-        instrumento = this.getInstrumentosStore().findRecord('id',record.get('instrumento_id'));
-        this.configuraForm(view, record, instrumento);
-        */
-       view.doLayout();
-     
+        
+        args ={};
+        args.parent_record = rec;
+        args.controller = 'plano.Despesas'
+        this.application.fireEvent('openEditForm', args);
+        view.doLayout();
+    }
+    ,
+    showFinanceiro : function(button){
+        var me=this;
+        var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
+            form   = win.down('#frmDefault').getForm();
+
+        rec = form.getRecord();
+        form.updateRecord(rec);
+        
+        args ={};
+        args.parent_record = rec;
+        args.controller = 'plano.Financeiro'
+        this.application.fireEvent('openEditForm', args);
+        view.doLayout();
     },
     itemContextMenu :  function( view, record, item, index, event, options){
         event.stopEvent();
@@ -190,30 +202,11 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         }
         // TODO : transformar a execução em uma lista com mais de um tipo de financiamento (material perm, pessoal, etc)
         if (instrumento.get('has_vlr_programado')=="true") {
-            financeiro={}
             view.showVlrProgramado();
-            if(record){
-                if(record.get('financeiro').length>0)
-                    financeiro = record.get('financeiro')[0];
-                if (financeiro == undefined)
-                    financeiro = {};
-            }
-            rr = Ext.ModelMgr.create(financeiro,'ExtZF.model.Financeiro');
-            view.down('#frmVlrProgramado').getForm().loadRecord(rr);
-            view.doLayout();
+
         }
         if (instrumento.get('has_vlr_executado')=="true") {
-            financeiro={}
-            view.showVlrExecutado();
-            if(record){
-                if(record.get('financeiro').length>0)
-                    financeiro = record.get('financeiro')[0];
-                if (financeiro == undefined)
-                    financeiro = {};
-            }
-            rr = Ext.ModelMgr.create(financeiro,'ExtZF.model.Financeiro');
-            view.down('#frmVlrExecutado').getForm().loadRecord(rr);
-            view.doLayout();
+            view.showBtnDespesas();
         }
         var responsavel = instrumento.get('has_responsavel');
         if (responsavel=="true") {

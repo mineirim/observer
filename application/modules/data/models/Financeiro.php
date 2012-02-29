@@ -18,7 +18,7 @@ class Data_Model_Financeiro
                 'grupo_despesa_id'  => $financeiro->grupo_despesa_id,
                 'programacao_id'    => $financeiro->programacao_id,
                 'tipo_registro_id'  => $financeiro->tipo_registro_id,
-                'documento_id'      => $financeiro->documento_id,
+                'financeiro_id'      => $financeiro->financeiro_id,
                 'valor'             => $financeiro->valor,
                 'grupoDespesa'      => $grupoDespesa
             );

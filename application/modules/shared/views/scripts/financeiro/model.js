@@ -4,7 +4,7 @@ Ext.define('ExtZF.model.Financeiro', {
                             'descricao', 
                             'grupo_despesa_id',
                             'tipo_registro_id',
-                            'documento_id',  
+                            'financeiro_id',  
                             'programacao_id', 
                             'valor',
                             {name:'grupoDespesa', persist:false}

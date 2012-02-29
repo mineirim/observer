@@ -13,8 +13,8 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
         this.down('#btnVlrProgramado').show();
 
     },
-    showVlrExecutado  : function(){
-        this.down('#btnVlrGasto').show(); 
+    showBtnDespesas  : function(){
+        this.down('#btnDespesas').show(); 
     },
     criaDetail : function(){
         var andamento =  Ext.create('Ext.data.Store', {
@@ -161,17 +161,17 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
         this.items = [formDefault];
         // botões da janela
         this.buttons = [{
-            text    : 'Ad. grupo de despesa',
+            text    : 'Orçamento',
             action  : 'addVlrProgramado',
             iconCls : 'icon-save',
             hidden  : true,
             id      : 'btnVlrProgramado'
         },{
-            text    : 'Adicionar despesa',
-            action  : 'addVlrGasto',
+            text    : 'Registrar despesa',
+            action  : 'addDespesas',
             iconCls : 'icon-save',
             hidden  : true,
-            id      : 'btnVlrGasto'
+            id      : 'btnDespesas'
         },
         '-',
         {

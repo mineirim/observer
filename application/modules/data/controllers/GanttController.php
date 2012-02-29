@@ -1,6 +1,6 @@
 <?php
 
-class Data_GanttController extends Zend_Controller_Action {
+class Data_GanttController extends Zend_Rest_Controller {
 
     public function init() {
         $swContext = $this->_helper->contextSwitch();

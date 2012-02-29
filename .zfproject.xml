@@ -84,6 +84,10 @@
               <actionMethod actionName="store"/>
               <actionMethod actionName="model"/>
             </controllerFile>
+            <controllerFile controllerName="Despesas">
+              <actionMethod actionName="store"/>
+              <actionMethod actionName="model"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
           <layoutsDirectory enabled="false"/>
@@ -181,6 +185,12 @@
                 <viewScriptFile forActionName="store.js"/>
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="TipoRegistros">
+                <viewScriptFile forActionName="model.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Despesas">
+                <viewScriptFile forActionName="store.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Despesas">
                 <viewScriptFile forActionName="model.js"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
@@ -283,6 +293,13 @@
               <actionMethod actionName="delete"/>
             </controllerFile>
             <controllerFile controllerName="TipoRegistros">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="get"/>
+              <actionMethod actionName="put"/>
+              <actionMethod actionName="post"/>
+              <actionMethod actionName="delete"/>
+            </controllerFile>
+            <controllerFile controllerName="Despesas">
               <actionMethod actionName="index"/>
               <actionMethod actionName="get"/>
               <actionMethod actionName="put"/>
@@ -459,6 +476,11 @@
               <actionMethod actionName="list"/>
               <actionMethod actionName="edit"/>
             </controllerFile>
+            <controllerFile controllerName="Despesas">
+              <actionMethod actionName="controller"/>
+              <actionMethod actionName="list"/>
+              <actionMethod actionName="edit"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
           <layoutsDirectory enabled="false"/>
@@ -552,6 +574,15 @@
                 <viewScriptFile forActionName="list.js"/>
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="TipoRegistros">
+                <viewScriptFile forActionName="edit.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Despesas">
+                <viewScriptFile forActionName="controller.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Despesas">
+                <viewScriptFile forActionName="list.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Despesas">
                 <viewScriptFile forActionName="edit.js"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>

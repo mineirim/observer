@@ -11,7 +11,7 @@ Ext.define('ExtZF.view.plano.programacoes.Container' ,{
         viewConfig: {
             forceFit: true
         },
-        height: '80%',
+        height: '60%',
         split: true,
         region: 'north',
         xtype : 'planoProgramacoesTreegrid'

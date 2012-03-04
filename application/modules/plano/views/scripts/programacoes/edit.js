@@ -10,7 +10,34 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
     autoShow: true, // exibir a janela automaticamente ao chamá-la
     showVlrProgramado   : function(){
               //####### FORM DE VALORES 
-        this.down('#btnVlrProgramado').show();
+       
+        //this.down('#btnVlrProgramado').show(); 
+        var fromProgramado =  Ext.create('Ext.form.Panel', {
+            id: 'frmVlrProgramado',
+            padding:8,
+            items: [
+                            {
+                    xtype   : 'textfield',
+                    name    : 'valor',
+                    id      :  'vlr_financeiro',
+                    ref     : 'valor',
+                    fieldLabel: 'Valor Programado'
+                },
+                {
+                    xtype: 'hiddenfield',
+                    name:'programacao_id',
+                    ref:'programacao_id'
+                },
+
+                {
+                    xtype: 'hiddenfield',
+                    name:'id',
+                    ref:'id'
+                }
+            ]            
+            
+        });
+        this.add(fromProgramado);
 
     },
     showBtnDespesas  : function(){

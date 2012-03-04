@@ -203,6 +203,16 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         // TODO : transformar a execução em uma lista com mais de um tipo de financiamento (material perm, pessoal, etc)
         if (instrumento.get('has_vlr_programado')=="true") {
             view.showVlrProgramado();
+            if(record){
+                recFinanceiro = this.getFinanceiroStore().findRecord('programacao_id',record.get('id'));
+                if (recFinanceiro == undefined){
+                    financeiro = {};
+                    recFinanceiro = Ext.ModelMgr.create(financeiro,'ExtZF.model.Financeiro');
+                }
+            }
+            
+            view.down('#frmVlrProgramado').getForm().loadRecord(recFinanceiro);
+            view.doLayout();
 
         }
         if (instrumento.get('has_vlr_executado')=="true") {
@@ -322,7 +332,12 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             formDetail   = win.down('#frmDetail');
             if (formDetail != null)
                 formDetail = formDetail.getForm();
-            
+
+            frmVlrProgramado   = win.down('#frmVlrProgramado');
+            if (frmVlrProgramado != null)
+                frmVlrProgramado = frmVlrProgramado.getForm();
+
+
         if (formDefault.isValid()) {
             r = formDefault.getRecord();
             formDefault.updateRecord(r);
@@ -337,6 +352,17 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                         formDetail.updateRecord(rd);
                         rd.set('programacao_id',a.get('id'));
                         rd.save({
+                            success: function(c,d){
+                               Ext.log({msg:"Salvo com sucesso!",level:"info",dump:c});
+                                
+                            }
+                        })
+                    }
+                    if (frmVlrProgramado != undefined){
+                        recProgramado = frmVlrProgramado.getRecord();
+                        frmVlrProgramado.updateRecord(recProgramado);
+                        recProgramado.set('programacao_id',a.get('id'));
+                        recProgramado.save({
                             success: function(c,d){
                                Ext.log({msg:"Salvo com sucesso!",level:"info",dump:c});
                                 

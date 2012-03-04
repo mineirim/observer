@@ -45,7 +45,7 @@ class Data_FinanceiroController extends Zend_Rest_Controller
                 $financeiro_table->update($formData, "id=$id");
                 $this->view->msg = "Dados atualizados com sucesso!";
                 $obj = $financeiro_table->fetchRow("id=$id");
-                $this->view->record = $obj->toArray();
+                $this->view->rows = $obj->toArray();
                 $this->view->success=true;
         
             }  catch (Exception $e){

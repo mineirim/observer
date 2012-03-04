@@ -40,25 +40,25 @@ Ext.define('ExtZF.view.plano.financeiro.Edit', {
                     ref     : 'valor',
                     fieldLabel: 'Valor Gasto'
                 },
-            {
-                xtype: 'htmleditor',
-                name : 'descricao',
-                ref: 'descricao',
-                fieldLabel: 'Item de despesa',
-                anchor:'95%'
+                {
+                    xtype: 'htmleditor',
+                    name : 'descricao',
+                    ref: 'descricao',
+                    fieldLabel: 'Item de despesa',
+                    anchor:'95%'
 
-            },
-            {
-                xtype: 'hiddenfield',
-                name:'programacao_id',
-                ref:'programacao_id'
-            },
+                },
+                {
+                    xtype: 'hiddenfield',
+                    name:'programacao_id',
+                    ref:'programacao_id'
+                },
 
-            {
-                xtype: 'hiddenfield',
-                name:'id',
-                ref:'id'
-            }
+                {
+                    xtype: 'hiddenfield',
+                    name:'id',
+                    ref:'id'
+                }
             ]            
             
         });                     

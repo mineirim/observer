@@ -63,6 +63,7 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
                 $this->view->rows = $programacoes_table->getAll();
             }
             $this->view->success= true;
+            $this->view->text = '.';
         }catch(Exception $e){
             $this->success=false;
             $this->msg = $e->getMessage();

@@ -72,7 +72,7 @@ class Data_Model_Programacoes {
                 $operativo = count($operativos) > 0 ? $operativos->toArray() : array();
                 
                 $financeiros = $this->financeiros->fetchAll('programacao_id='.$value->id,'id');
-                $financeiro = count($financeiros) > 0 ? $financeiros->toArray() : array();
+                $financeiro = count($financeiros) > 0 ? $financeiros->toArray() : array('teste'=>'xpto');
                 $child = array(
                     'id' => $value->id,
                     'menu' => $value->menu,
@@ -97,6 +97,7 @@ class Data_Model_Programacoes {
                 if (count($children) > 0) {
                     $child['expanded'] = true;
                     $child['rows'] = $children;
+                    $child['leaf'] = false;
                 } else {
                     $child['leaf'] = true;
                 }
@@ -126,7 +127,7 @@ class Data_Model_Programacoes {
             $operativo = $value->findDependentRowset('Data_Model_DbTable_Operativos');
             $operativo = count($operativo) > 0 ? $operativo->toArray() : array();
             $financeiros = $value->findDependentRowset('Data_Model_DbTable_Financeiro');
-            $financeiro = count($financeiros) > 0 ? $financeiros->toArray() : array();
+            $financeiro = count($financeiros) > 0 ? $financeiros->toArray(1,2) : array();
 
             $child = array(
                 'id'            => $value->id,
@@ -234,6 +235,7 @@ class Data_Model_Programacoes {
         $arr_tree = array();
         while ($r = $stmt->fetch() ) {
             $row = (array) $r;
+            $row['leaf']= !$row['leaf']>0;
             $rows[] = $row;
         }   
         return $rows;

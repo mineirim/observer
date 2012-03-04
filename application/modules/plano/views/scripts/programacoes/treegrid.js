@@ -1,14 +1,12 @@
 Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
     extend      : 'Ext.tree.Panel',
     alias       : 'widget.planoProgramacoesTreegrid', // nome definido para acessar a grid
-    useArrows   : true,
     rootVisible : false,
-    lines        :   true,
     store       : 'programacoes.TreeStore', 
     //storeId     : 'programacoesStoreId',
     singleExpand: false,
     
-    selModel: {mode: 'SINGLE'}, // Permite selecionar mais de uma linha da grid
+    //selModel: {mode: 'SINGLE'}, // Permite selecionar mais de uma linha da grid
     // botões do cabeçalho
     tbar :[{
                 text: 'Novo Macro-Objetivo',
@@ -40,47 +38,9 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
                 renderer: function(value, metaData, record){
                                 return record.get('responsavel').nome;
                             }
-            }/*,
-            {header: 'Equipe',     dataIndex: 'setor_id',  flex: 1, 
-                renderer: function(value, metaData, record){
-                                return record.get('setor').nome;
-                            }
-            },
-            {
-                xtype:'actioncolumn', 
-                width:50,
-                items: [{
-                    icon: 'images/icons/pencil.png',
-                    tooltip: 'Editar',
-                    action : 'edit'
-                },{
-                    icon: 'images/icons/delete.png',
-                    tooltip: 'Delete',
-                    acton   :   'delete',
-                    handler: function(grid, rowIndex, colIndex) {
-                        var rec = grid.getStore().getAt(rowIndex);
-                        alert("Terminate " + rec.get('menu'));
-                    }                  
-                }]
-            }*/
+            }
         ],
         initComponent: function() {
-            Ext.log({msg:'Inicia o treegrid',level:'info',dump:arguments});
-            /*
-            Ext.apply(this, {
-                cls: 'feed-grid',
-                viewConfig: {
-                    itemId: 'view'
-                    /*
-                     * 
-                     ,plugins: [{
-                        pluginId: 'preview',
-                        ptype: 'preview',
-                        bodyField: 'descricao',
-                        expanded: false
-                    }]
-                }
-            })*/
             this.callParent(arguments);
         }
     });

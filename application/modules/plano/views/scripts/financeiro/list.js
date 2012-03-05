@@ -5,20 +5,19 @@ Ext.define('ExtZF.view.plano.financeiro.List' ,{
     title : 'Lista',
     selModel: {mode: 'MULTI'}, // Permite selecionar mais de uma linha da grid
     // botões do cabeçalho
+    programacao_id:0,
     tbar :[{
     	text: 'Incluir',
         iconCls: 'icon-new',
-    	action: 'incluir' // action identificada para executar na camada controller
+    	action: 'incluir',
+        id: 'btnIncluir'
     },{
     	text: 'Excluir',
         iconCls: 'icon-delete',
     	action: 'excluir'
     }],
-	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, width: '20'},
-		{header: 'Descricao',  dataIndex: 'descricao',  flex: 1},
-		{header: 'Grupo_despesa_id',  dataIndex: 'grupo_despesa_id',  flex: 1},
-		{header: 'Tipo_registro_id',  dataIndex: 'tipo_registro_id',  flex: 1},
-		{header: 'Programacao_id',  dataIndex: 'programacao_id',  flex: 1},
+	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, width: '20', hidden:true},
+		{header: 'Descricao',  dataIndex: 'descricao',  flex: 5},
 		{header: 'Valor',  dataIndex: 'valor',  flex: 1}],
     // Paginação
     dockedItems: [{

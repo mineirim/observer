@@ -1,11 +1,11 @@
 Ext.define('ExtZF.view.plano.despesas.Edit', {
     extend: 'Ext.window.Window',
-    alias : 'widget.planoDespesasEdit', // nome definido a janela
+    alias : 'widget.planoDespesasEdit', 
     title : 'Despesas',
     layout: 'fit',    
     width : 720,
     minHeight : 690,
-    autoShow: true, // exibir a janela automaticamente ao chamá-la
+    autoShow: false, // exibir a janela automaticamente ao chamá-la
     programacao_id : null, //código da programação utilizado para filtrar o combo
     initComponent: function() {
         me=this;

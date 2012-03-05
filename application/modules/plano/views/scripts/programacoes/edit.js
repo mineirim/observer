@@ -57,6 +57,7 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
         var formDetail =  Ext.create('Ext.form.Panel', {
             id: 'frmDetail',
             padding:8,
+            title:  'Prazo/peso',
             items: [
             {
                 width: 400,
@@ -102,12 +103,13 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
             ]            
             
         });
-        this.add(formDetail);
+        this.progTab.add(formDetail);
     },
     initComponent: function() {
-                        
+        
         var formDefault = Ext.create('Ext.form.Panel', {
             id: 'frmDefault',
+            title : 'Programação',
             bodyPadding: 12,
             padding:8,
             items: [
@@ -185,7 +187,13 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
             }
             ]            
         });
-        this.items = [formDefault];
+        
+        this.progTab = Ext.create('Ext.tab.Panel',
+                {
+                    id  : 'progTab',
+                    height:300, 
+                    items:[formDefault]});
+        this.items = [this.progTab];
         // botões da janela
         this.buttons = [{
             text    : 'Orçamento',
@@ -214,5 +222,21 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
         }];
 
         this.callParent(arguments);
+    },
+    showGridProgramacao   : function(progId){
+        this.down('#btnDespesas').show(); 
+        //this.down('#btnVlrProgramado').show(); 
+        var gridProgramacao =  Ext.create('ExtZF.view.plano.financeiro.List',
+                    {dockedItems:[],
+                        height      : 150, 
+                        title       :'Planilha orçamentária',
+                        forceFit    : true,
+                        programacao_id : progId,
+                        autoShow    :false
+                    }
+    );
+        gridProgramacao.down("#btnIncluir").programacao_id=progId;
+        this.progTab.add(gridProgramacao);
+
     }
 });

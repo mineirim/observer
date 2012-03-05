@@ -34,12 +34,12 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
         });
         this.initiated=true;
     },
-    editObject: function(grid, record) {
+    editObject: function(grid, record,obj,x) {
         var view = Ext.widget('planoFinanceiroEdit');
         view.setTitle('Edição ');
         if(!record.data){
-            record = new ExtZF.model.Financeiro();
-            this.getFinanceiroStore().add(record);
+            financeiro = {programacao_id : grid.programacao_id }
+            record =Ext.ModelMgr.create(financeiro,'ExtZF.model.Financeiro');
             view.setTitle('Cadastro');
         }
       	view.down('form').loadRecord(record);

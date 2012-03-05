@@ -4,6 +4,7 @@ Ext.define('ExtZF.store.Financeiro', {
     alias : 'ExtZF.store.Financeiro',
     model: 'ExtZF.model.Financeiro',
     autoLoad: true,
-    remoteSort: true 
+    remoteSort: true ,
+    remoteFilter : true
 
 });

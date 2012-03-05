@@ -202,16 +202,25 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         }
         // TODO : transformar a execução em uma lista com mais de um tipo de financiamento (material perm, pessoal, etc)
         if (instrumento.get('has_vlr_programado')=="true") {
-            view.showVlrProgramado();
-            if(record){
-                recFinanceiro = this.getFinanceiroStore().findRecord('programacao_id',record.get('id'));
-                if (recFinanceiro == undefined){
-                    financeiro = {};
-                    recFinanceiro = Ext.ModelMgr.create(financeiro,'ExtZF.model.Financeiro');
+            if(instrumento.get('has_vlr_executado')=="true"){
+                // se existir valor executado, deverá ser apresentado um grid para programação...
+                view.showGridProgramacao(record.get('id'));
+                this.getFinanceiroStore().clearFilter();
+                this.getFinanceiroStore().filter('programacao_id',record.get('id'));
+            }else{
+                //... se não existir valor executado, significa que é um item de despesa e deverá ser exibido apenas um campo com valor
+                view.showVlrProgramado();
+                if(record){
+                    recFinanceiro = this.getFinanceiroStore().findRecord('programacao_id',record.get('id'));
+                    if (recFinanceiro == undefined){
+                        financeiro = {};
+                        recFinanceiro = Ext.ModelMgr.create(financeiro,'ExtZF.model.Financeiro');
+                    }
                 }
+                view.down('#frmVlrProgramado').getForm().loadRecord(recFinanceiro);
             }
             
-            view.down('#frmVlrProgramado').getForm().loadRecord(recFinanceiro);
+            
             view.doLayout();
 
         }
@@ -368,6 +377,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                                 
                             }
                         })
+                        me.getFinanceiroStore().load()
                     }
                     win.close();
                     //me.getProgramacoesTreeStoreStore().load();
@@ -432,13 +442,15 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             
             planilhaOrcamentaria = detailPanel.child("#planilhaOrcamentaria");
             planilhaOrcamentaria.show();
-            
         }else{
             planilhaOrcamentaria = detailPanel.child('#planilhaOrcamentaria');
             if(planilhaOrcamentaria != null) 
                 planilhaOrcamentaria.hide();
         }
         this.getGantt(record.get('id'))
+        
+        this.getFinanceiroStore().clearFilter();
+        this.getFinanceiroStore().filter('programacao_id',record.get('id'));
     },
     getGantt : function(id){
         g = new JSGantt.GanttChart('g',document.getElementById('GanttChartDIV'), 'month');

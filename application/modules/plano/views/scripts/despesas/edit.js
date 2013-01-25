@@ -15,7 +15,7 @@ Ext.define('ExtZF.view.plano.despesas.Edit', {
             items: [
 	{xtype: 'textfield',name : 'descricao',ref: 'descricao',fieldLabel: 'Descricao'},
 	{
-            name : ' financeiro_id',ref: ' financeiro_id',
+            name : 'financeiro_id',ref: 'financeiro_id',
             xtype       : 'combo',
             id          : 'financeiro_id',
             fieldLabel  : 'Grupo de despesas', 
@@ -36,7 +36,7 @@ Ext.define('ExtZF.view.plano.despesas.Edit', {
                             }
                           }
         },
-	{xtype: 'textfield',name : ' valor',ref: ' valor',fieldLabel: ' valor'},]}
+	{xtype: 'textfield',name : 'valor',ref: 'valor',fieldLabel: 'valor'},]}
         ];
 
         // botões da janela

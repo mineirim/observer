@@ -17,6 +17,10 @@ class Data_FinanceiroController extends Zend_Rest_Controller
         $this->_helper->layout()->disableLayout();
     }
 
+    public function headAction()
+    {
+        $this->getResponse()->setHttpResponseCode(200);
+    }
     public function indexAction()
     {
         $where=null;

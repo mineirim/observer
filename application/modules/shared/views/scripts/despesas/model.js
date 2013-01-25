@@ -1,6 +1,6 @@
 Ext.define('ExtZF.model.Despesas', {
         extend         : 'Ext.data.Model',
-        fields         : ['id','descricao',' financeiro_id',' valor'],
+        fields         : ['id','descricao','financeiro_id','valor'],
         proxy          : {
         simpleSortMode : true, 
         type           : 'rest',

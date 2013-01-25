@@ -15,6 +15,10 @@ class Data_DespesasController extends Zend_Rest_Controller
                         ->initContext('json');
         $this->_helper->layout()->disableLayout();
     }
+    public function headAction()
+    {
+        $this->getResponse()->setHttpResponseCode(200);
+    }
 
     public function indexAction()
     {
@@ -79,9 +83,10 @@ class Data_DespesasController extends Zend_Rest_Controller
                 $this->view->metodo = $this->getRequest()->getMethod();
         
             }  catch (Exception $e){
+                $this->getResponse()->setHttpResponseCode(500);
                 $this->view->success = false;
                 $this->view->method  = $this->getRequest()->getMethod();
-                $this->view->msg     = "Erro ao atualizar/inserir registro<br>$e->getMessage()<br>$e->getTraceAsString()";
+                $this->view->msg     = "Erro ao atualizar/inserir registro<br>{$e->getMessage()}<br>{$e->getTraceAsString()}";
             }
         }else{
             $this->view->msg="Método ".$this->getRequest()->getMethod();

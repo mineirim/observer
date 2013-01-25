@@ -41,10 +41,10 @@ Ext.define('ExtZF.controller.plano.Despesas', {
         // Call the controller init method when the view is rendered
         
         if(!record){
-            opts = {programacao_id : parent_record.get('programacao_id'),
-                    tipo_registro_id : 1}
-                
-            record = Ext.ModelMgr.create(opts,'ExtZF.model.Financeiro');
+//            opts = {programacao_id : parent_record.get('programacao_id'),
+//                    tipo_registro_id : 1}
+            opts = {}    
+            record = Ext.ModelMgr.create(opts,'ExtZF.model.Despesas');
             
         }
         view.down('form').loadRecord(record);

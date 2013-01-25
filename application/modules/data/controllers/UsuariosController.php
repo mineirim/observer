@@ -18,6 +18,10 @@ class Data_UsuariosController extends Zend_Rest_Controller {
         $this->_helper->layout()->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
     }
+    public function headAction()
+    {
+        $this->getResponse()->setHttpResponseCode(200);
+    }
 
     public function indexAction() {
         $usuarios_table = new Data_Model_DbTable_Usuarios();

@@ -38,7 +38,7 @@ Ext.define('ExtZF.view.plano.financeiro.Edit', {
                     name    : 'valor',
                     id      :  'vlr_financeiro',
                     ref     : 'valor',
-                    fieldLabel: 'Valor Gasto'
+                    fieldLabel: 'Valor Previsto'
                 },
                 {
                     xtype: 'htmleditor',

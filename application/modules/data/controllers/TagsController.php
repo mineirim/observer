@@ -16,6 +16,10 @@ class Data_TagsController extends Zend_Rest_Controller
         $this->_helper->layout()->disableLayout();
     }
 
+    public function headAction()
+    {
+        $this->getResponse()->setHttpResponseCode(200);
+    }
     public function indexAction()
     {
         $tags_table = new Data_Model_DbTable_Tags();

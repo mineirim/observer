@@ -16,6 +16,10 @@ class Data_GanttController extends Zend_Rest_Controller {
         $this->_helper->viewRenderer->setNoRender(true);
     }
 
+    public function headAction()
+    {
+        $this->getResponse()->setHttpResponseCode(200);
+    }
     public function indexAction() {
         $node_id= $this->_getParam('node_id');
         $this->getResponse()->setHeader('Content-type', 'text/xml');

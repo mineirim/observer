@@ -1,5 +1,4 @@
 <?php
-
 class Acesso_AuthController extends Zend_Controller_Action
 {
 

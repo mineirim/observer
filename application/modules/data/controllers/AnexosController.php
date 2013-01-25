@@ -15,6 +15,10 @@ class Data_AnexosController extends Zend_Rest_Controller
                         ->initContext('json');
         $this->_helper->layout()->disableLayout();
     }
+    public function headAction()
+    {
+        $this->getResponse()->setHttpResponseCode(200);
+    }
 
     public function indexAction()
     {

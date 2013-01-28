@@ -4,6 +4,10 @@ Ext.define('ExtZF.store.Treenav', {
     alias : 'ExtZF.store.Treenav',
     model: 'ExtZF.model.Treenav',
     autoLoad: true,
-    remoteSort: true 
-
+    remoteSort: true ,
+root                : {
+        
+        expanded        : true
+        
+    },
 });

@@ -68,6 +68,11 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
             }
             $this->view->success= true;
             $this->view->text = '.';
+            $this->view->expanded = true;
+            $this->view->id = 'root';
+            $this->view->menu = 'root';
+            $this->view->root = array('expanded'=>true,'text'=>'textode');
+            $this->view->instrumento = 'root';
         }catch(Exception $e){
             $this->success=false;
             $this->msg = $e->getMessage();
@@ -77,6 +82,8 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
 
     public function getAction() 
     {
+        if($this->_hasParam('node'))
+                return $this->_forward('index');
         $programacoes_table = new Data_Model_Programacoes();
         $rows = $programacoes_table->getProgramacao($this->_getParam('id'), true);
         $this->_helper->viewRenderer->setNoRender(true);

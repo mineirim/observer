@@ -1,5 +1,6 @@
 Ext.define('ExtZF.model.Programacoes', {
         extend         : 'Ext.data.Model',
+        idProperty     : 'id',
         fields         :   ['id',
                             'menu',
                             'descricao',

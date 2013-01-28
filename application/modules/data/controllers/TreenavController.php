@@ -24,8 +24,9 @@ class Data_TreenavController extends Zend_Rest_Controller
         $this->_helper->viewRenderer->setNoRender(true);
         $programacoes_model = new Data_Model_Programacoes();
         $instrumentos_table = new Data_Model_DbTable_Instrumentos();
-        $arr_node=explode('-', $this->_getParam('node'));
-        if(in_array('instrumentoId', $arr_node)){
+        $arr_node=explode('-', $this->_getParam('node')); 
+        
+        if(in_array('instrumentoId', $arr_node) ){
             $isInstrumento=true;
             $node=$arr_node[1];
         }elseif(in_array('financeiro', $arr_node)){
@@ -74,6 +75,11 @@ class Data_TreenavController extends Zend_Rest_Controller
 
     public function getAction()
    {    
+        $this->_forward('index');
+        return;
+        if($this->_getParam('id')=='root')
+            $this->_helper->redirector('index', 'treenav', 'data', array('node'=>'root'));
+        
         $instrumentos_table = new Data_Model_DbTable_Instrumentos();
         $instrumento = $instrumentos_table->fetchRow('id = ' . $this->_getParam('id')) ;
         $this->view->rows = $instrumento->toArray();

@@ -1,5 +1,6 @@
 Ext.define('ExtZF.model.programacoes.Model4tree', {
         extend         : 'Ext.data.Model',
+        idProperty     : 'id',
         fields         :   ['id',
                             'menu',
                             'descricao',
@@ -24,7 +25,8 @@ Ext.define('ExtZF.model.programacoes.Model4tree', {
                                 type    : 'json',
                                 root    : 'rows',
                                 idProperty: 'id',
-        			successProperty: 'success'
+        			successProperty: 'success',
+                                expanded:true
                         },
                         writer   : {
                                 root     : 'rows',
@@ -32,21 +34,21 @@ Ext.define('ExtZF.model.programacoes.Model4tree', {
                                 encode   : true
                         }
         },  
-        associations: [
-        {   type            : 'belongsTo', 
-            model           : 'ExtZF.model.Usuarios', 
-            associatedName  : 'ExtZF.model.Usuarios',
-            getterName      : 'getResponsavel',
-            name            : 'responsavel',
-            primaryKey      : 'id', 
-            foreignKey      : 'responsavel_usuario_id',
-            instanceName    : 'responsavel'
-        }, {   
-            type: 'belongsTo', 
-            model: 'ExtZF.model.Setores', 
-            getterName : 'getSetores',
-            primaryKey: 'id', 
-            foreignKey: 'setor_id'
-        }]
+//        associations: [
+//        {   type            : 'belongsTo', 
+//            model           : 'ExtZF.model.Usuarios', 
+//            associatedName  : 'ExtZF.model.Usuarios',
+//            getterName      : 'getResponsavel',
+//            name            : 'responsavel',
+//            primaryKey      : 'id', 
+//            foreignKey      : 'responsavel_usuario_id',
+//            instanceName    : 'responsavel'
+//        }, {   
+//            type: 'belongsTo', 
+//            model: 'ExtZF.model.Setores', 
+//            getterName : 'getSetores',
+//            primaryKey: 'id', 
+//            foreignKey: 'setor_id'
+//        }]
 
 });

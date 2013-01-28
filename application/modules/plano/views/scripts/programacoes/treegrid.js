@@ -1,7 +1,7 @@
 Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
     extend      : 'Ext.tree.Panel',
     alias       : 'widget.planoProgramacoesTreegrid', // nome definido para acessar a grid
-    rootVisible : false,
+    rootVisible : true,
     store       : 'programacoes.TreeStore', 
     //storeId     : 'programacoesStoreId',
     singleExpand: false,
@@ -30,9 +30,12 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
     columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0,  hidden:true},
             {header: 'Menu',  dataIndex: 'menu',  flex: 3,xtype: 'treecolumn', 
                 renderer: function(value, metaData, record){
-                                ret= Ext.String.format('<div class="topic"><b>{0}-</b> {1}</div>', record.get('instrumento').singular, value);
-                                return '<b>' + record.get('instrumento').singular + '-</b>' + value;
-                            }
+                    singular = '.';
+                    if(record.get('instrumento'))
+                        singular = record.get('instrumento').singular;
+                    ret= Ext.String.format('<div class="topic"><b>{0}-</b> {1}</div>',singular , value);
+                    return '<b>' + singular + '-</b>' + value;
+                }
             },
             {header: 'Responsável',     dataIndex: 'responsavel_usuario_id',  flex: 1, 
                 renderer: function(value, metaData, record){

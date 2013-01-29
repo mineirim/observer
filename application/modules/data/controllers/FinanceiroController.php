@@ -23,15 +23,19 @@ class Data_FinanceiroController extends Zend_Rest_Controller
     }
     public function indexAction()
     {
+        $this->_helper->viewRenderer->setNoRender(true);
         $where=null;
         if($this->_getParam('filter')){
             $filtro  = json_decode($this->_getParam('filter'),true);
+            //se passado filtro =null, então deve retornar objeto vazio
+            if(!$filtro[0]['value'])
+                return;
+           
             $where = $filtro[0]['property']."=".$filtro[0]['value'];
-        }
-        
+        }        
         $financeiro_model = new Data_Model_Financeiro();
         $rows = $financeiro_model->getArray($where, 'id',true);
-        $this->_helper->viewRenderer->setNoRender(true);
+
         $this->view->rows= $rows;
         $this->view->total = count($rows);
     }

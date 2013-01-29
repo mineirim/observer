@@ -5,6 +5,7 @@ class Shared_FinanceiroController extends Zend_Controller_Action
 
     public function init()
     {
+        
         $this->getResponse()
              ->setHeader('Content-type', 'text/javascript');
         $swContext = $this->_helper->contextSwitch();

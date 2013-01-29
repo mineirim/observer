@@ -1,13 +1,14 @@
 Ext.define('ExtZF.view.plano.financeiro.Edit', {
-    extend: 'Ext.window.Window',
-    alias : 'widget.planoFinanceiroEdit', // nome definido a janela
-    title : 'Edição',
-    layout: 'fit',
-    width : 720,
-    minHeight : 690,
+    extend      : 'Ext.window.Window',
+    alias       : 'widget.planoFinanceiroEdit', // nome definido a janela
+    title       : 'Edição',
+    layout      : 'fit',
+    width       : 720,
+    minHeight   : 390,
+    height      : 400,
+    maxHeight   :590,  
     
-    
-    autoShow: true, 
+    autoShow    : true, 
    
     initComponent: function() {
          var frmFinanceiro =  Ext.create('Ext.form.Panel', {

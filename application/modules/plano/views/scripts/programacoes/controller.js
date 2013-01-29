@@ -187,7 +187,6 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
      
     },
     configuraForm : function(view, record, instrumento){
-        
         if (instrumento.get('has_operativo')=="true") {
             operativo={}
             view.criaDetail();
@@ -203,12 +202,14 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         // TODO : transformar a execução em uma lista com mais de um tipo de financiamento (material perm, pessoal, etc)
         if (instrumento.get('has_vlr_programado')=="true") {
             if(instrumento.get('has_vlr_executado')=="true"){
+                console.log('se existir valor executado, deverá ser apresentado um grid para programação..');
                 // se existir valor executado, deverá ser apresentado um grid para programação...
                 view.showGridProgramacao(record.get('id'));
                 this.getFinanceiroStore().clearFilter();
                 this.getFinanceiroStore().filter('programacao_id',record.get('id'));
             }else{
                 //... se não existir valor executado, significa que é um item de despesa e deverá ser exibido apenas um campo com valor
+                console.log('se não existir valor executado, significa que é um item de despesa e deverá ser exibido apenas um campo com valor');
                 view.showVlrProgramado();
                 if(record){
                     recFinanceiro = this.getFinanceiroStore().findRecord('programacao_id',record.get('id'));
@@ -334,16 +335,16 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     },
     saveObject: function(button) 
     {
-        Ext.log({msg:'Entrou no save',level:'info'});
+        console.info('Entrou no save');
         var me=this;
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
             formDefault   = win.down('#frmDefault').getForm(),
             formDetail   = win.down('#frmDetail');
-            if (formDetail != null)
+            if (formDetail !== null)
                 formDetail = formDetail.getForm();
 
             frmVlrProgramado   = win.down('#frmVlrProgramado');
-            if (frmVlrProgramado != null)
+            if (frmVlrProgramado !== null)
                 frmVlrProgramado = frmVlrProgramado.getForm();
 
 
@@ -352,39 +353,37 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             formDefault.updateRecord(r);
             r.save({
                 success: function(a,b){
-                    Ext.log({msg:"Salvo com sucesso!",level:"info"});
+                    console.info("Salvo com sucesso!");
                     /**
                      * TODO selecionar o objeto salvo/cridado
                      */
-                    if (formDetail != undefined){
+                    if (formDetail){
                         rd = formDetail.getRecord();
                         formDetail.updateRecord(rd);
                         rd.set('programacao_id',a.get('id'));
                         rd.save({
                             success: function(c,d){
-                               Ext.log({msg:"Salvo com sucesso!",level:"info",dump:c});
-                                
+                               console.info("Detalhes salvos com sucesso!");                                
                             }
-                        })
+                        });
                     }
-                    if (frmVlrProgramado != undefined){
-                        recProgramado = frmVlrProgramado.getRecord();
+                    if (frmVlrProgramado){
+                        var recProgramado = frmVlrProgramado.getRecord();
                         frmVlrProgramado.updateRecord(recProgramado);
                         recProgramado.set('programacao_id',a.get('id'));
                         recProgramado.save({
                             success: function(c,d){
-                               Ext.log({msg:"Salvo com sucesso!",level:"info",dump:c});
-                                
+                               console.info("Orçamento salvo com sucesso!");         
                             }
-                        })
+                        });
                         me.getFinanceiroStore().load()
                     }
                     win.close();
-                    //me.getProgramacoesTreeStoreStore().load();
-                    //me.getProgramacoesStore().load();
+                    me.getProgramacoesTreeStoreStore().load();
+                    me.getProgramacoesStore().load();
                 },
                 failure:function(a,b){
-                    Ext.log({msg:"Erro ao salvar!",level:"error"});
+                    console.error("Erro ao salvar!",a,b);
                 }
         });
             
@@ -394,9 +393,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     changeButtonAction: function(view, record, item, index, e, options)
     {
          detailPanel = Ext.getCmp('detailPanel');
-         if(record==undefined){
+         if( !record){
              detailPanel.hide();
-             return
+             return;
          }
          detailPanel.show();
          
@@ -408,7 +407,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
              button.setText('Adicionar '+instrumento.get('singular'));
              buttonVincular.hide();
          }else if (record.get('instrumento').has_operativo){
-             buttonVincular.show()
+             buttonVincular.show();
              buttonVincular.setText('Adicionar Vínculo');
              button.hide();
          } else {
@@ -438,18 +437,19 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
              }
         }
         
-        if(record.get('instrumento').has_vlr_programado){
-            
+        if(record.get('instrumento').has_vlr_programado){            
             planilhaOrcamentaria = detailPanel.child("#planilhaOrcamentaria");
             planilhaOrcamentaria.show();
         }else{
             planilhaOrcamentaria = detailPanel.child('#planilhaOrcamentaria');
-            if(planilhaOrcamentaria != null) 
+            if(planilhaOrcamentaria) 
                 planilhaOrcamentaria.hide();
         }
         this.getGantt(record.get('id'))
         
         this.getFinanceiroStore().clearFilter();
+        console.log('record id = ', record.get('id'));
+        //filtro não está funcionando
         this.getFinanceiroStore().filter('programacao_id',record.get('id'));
     },
     getGantt : function(id){

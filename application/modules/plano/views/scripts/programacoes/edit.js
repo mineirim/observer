@@ -3,18 +3,23 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
     alias : 'widget.planoProgramacoesEdit', // nome definido a janela
     title : 'Edição',
     layout: 'fit',
-    width : 740,
-    minHeight : 690,
+    width       : 740,
+    minHeight   : 390,
+    height      :   400,
+    maxHeight   :590,
     
     
     autoShow: true, // exibir a janela automaticamente ao chamá-la
     showVlrProgramado   : function(){
+        var me = this;
               //####### FORM DE VALORES 
        
-        //this.down('#btnVlrProgramado').show(); 
+       //this.down('#btnVlrProgramado').show(); 
         var fromProgramado =  Ext.create('Ext.form.Panel', {
             id: 'frmVlrProgramado',
+            title:  'Orçamento',
             padding:8,
+            height      : 150, 
             items: [
                             {
                     xtype   : 'textfield',
@@ -37,7 +42,9 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
             ]            
             
         });
-        this.add(fromProgramado);
+    
+       
+        me.progTab.add(fromProgramado);
 
     },
     showBtnDespesas  : function(){

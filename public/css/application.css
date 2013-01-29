@@ -31,6 +31,9 @@
 .icon-save{
         background-image: url(../images/icons/accept.png)  !important;
 }
+.icon-save-close{
+        background-image: url(../images/icons/door_out.png)  !important;
+}
 
 .icon-cancel{
         background-image: url(../images/icons/cancel.png)  !important;

@@ -19,6 +19,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
      *nó selecionado na navegação à esquerda
      */
     rootNodeSelected : false,
+    
+    /** @var selectNewRecord registro a ser selecionado após criação*/
+    selectNewRecord  : false,
     refs: [{
                 ref:'treegrid',
                 selector:'planoProgramacoesTreegrid'
@@ -43,8 +46,11 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             'planoProgramacoesList button[action=excluir]': {
                 click: this.deleteObject
             },
-            'planoProgramacoesEdit button[action=salvar]': {
+            'planoProgramacoesEdit button[action=save]': {
                 click: this.saveObject
+            },
+            'planoProgramacoesEdit button[action=save-and-close]': {
+                click: this.saveAndClose
             },
             'planoProgramacoesEdit button[action=addVlrProgramado]':{
                 click: this.showFinanceiro
@@ -55,7 +61,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             'planoProgramacoesTreegrid': {
                 itemdblclick    : this.editDblClick,
                 itemclick       : this.changeButtonAction,
-                itemcontextmenu : this.itemContextMenu
+                itemcontextmenu : this.itemContextMenu,
+                render          : this.callRender
             },
             'planoProgramacoesTreegrid button[action=incluir]': {
                 click: this.newObject
@@ -338,6 +345,13 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                         grid.el.unmask();
 		}, this);
     },
+    saveAndClose: function(button) 
+    {
+        var me = this;
+        win =me.saveObject(button);
+        if(win!==false)
+            win.close;
+    },
     saveObject: function(button) 
     {
         console.info('Entrou no save');
@@ -383,17 +397,19 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                         });
                         me.getFinanceiroStore().load();
                     }
-                    win.close();
                     me.getProgramacoesTreeStoreStore().load();
                     me.getProgramacoesStore().load();
+                    
                 },
                 failure:function(a,b){
-                    console.error("Erro ao salvar!",a,b);
+                    console.error("Erro ao salvar!");
+                    return false;
                 }
         });
-            
+        this.selectNewRecord = r; 
             
         }
+        return win;
     },
     changeButtonAction: function(view, record, item, index, e, options)
     {
@@ -485,5 +501,20 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
       }else{
         alert("not defined");
       }
+    },
+    selectRecord : function(me)
+    {        
+        console.log('entrou no refresh. this.selectNewRecord='+this.selectNewRecord);
+        if ( this.selectNewRecord===false || typeof(this.selectNewRecord)==='undefined');
+            return;
+        
+
+        me.getSelectionModel().select(this.selectNewRecord);
+        //Ext.defer(this.setScrollTop, 30, this, [this.getView().scrollState.top]);
+    }   , 
+    callRender : function(me)
+    {
+        console.log('entrou no render');
+        me.getView().on('refresh', this.selectRecord);
     }
 });

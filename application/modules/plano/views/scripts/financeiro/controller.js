@@ -58,14 +58,14 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
     {
         console.log("show edit");
         var view = Ext.widget('planoFinanceiroEdit');
-        options = {single: true};
+        var options = {single: true};
         // Call the controller init method when the view is rendered
         
                 
         view.setTitle('Edição ');
         if(!record){
-            opts = {programacao_id : programacao.get('programacao_id'),
-                    tipo_registro_id : 1}
+            var opts = {programacao_id : programacao.get('programacao_id'),
+                    tipo_registro_id : 1};
                 
             record = Ext.ModelMgr.create(opts,'ExtZF.model.Financeiro');
             
@@ -109,7 +109,12 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
                     me.getFinanceiroStore().load();
                 },
                 failure:function(a,b){
-                    Ext.Msg.error('Erro', 'Erro ao salvar registro');
+                    Ext.MessageBox.show({
+			title: 'Salvar'
+			,buttons: Ext.MessageBox.OK
+			,icon: Ext.MessageBox.ERROR
+			,msg: 'Erro ao salvar o ítem de orçamento!'
+                    });
                     console.error("Erro ao salvar!");
                 }
             });

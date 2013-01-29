@@ -218,8 +218,13 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
         '-',
         {
             text: 'Salvar',
-            action: 'salvar',
+            action: 'save',
             iconCls: 'icon-save'
+        },
+        {
+            text: 'Salvar e fechar',
+            action: 'save-and-close',
+            iconCls: 'icon-save-close'
         },
         {
             text: 'Cancelar',

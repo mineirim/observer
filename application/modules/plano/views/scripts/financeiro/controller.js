@@ -34,18 +34,29 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
         });
         this.initiated=true;
     },
-    editObject: function(grid, record,obj,x) {
+    editObject: function(grid, record,obj,x) 
+    {
+        if(grid.programacao_id===null){
+            Ext.MessageBox.show({
+			title: 'Salvar'
+			,buttons: Ext.MessageBox.OK
+			,icon: Ext.MessageBox.ERROR
+			,msg: 'Salve a programação antes de incluir ítem de orçamento!'
+		});
+            return;
+        }
         var view = Ext.widget('planoFinanceiroEdit');
-        view.setTitle('Edição ');
+        view.setTitle('Edição de orçamento');
         if(!record.data){
-            financeiro = {programacao_id : grid.programacao_id }
+            financeiro = {programacao_id : grid.programacao_id };
             record =Ext.ModelMgr.create(financeiro,'ExtZF.model.Financeiro');
             view.setTitle('Cadastro');
         }
       	view.down('form').loadRecord(record);
     },
-    showEdit : function(programacao,record){
-        
+    showEdit : function(programacao,record)
+    {
+        console.log("show edit");
         var view = Ext.widget('planoFinanceiroEdit');
         options = {single: true};
         // Call the controller init method when the view is rendered
@@ -68,7 +79,7 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
         var grid = this.getGrid(); // recupera lista de usuários
         ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
-        	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
+        	Ext.Msg.error('Atenção', 'Nenhum registro selecionado');
         	return ;
         }
         Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir o(s) registro(s) selecionado(s)?',
@@ -83,22 +94,23 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
 		}, this);
     },
     saveObject: function(button) {
+        console.log("salvando orçamento");
         var me=this;
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
-            form   = win.down('form').getForm() // recupera item abaixo(filho) da window do tipo form
+            form   = win.down('form').getForm(); // recupera item abaixo(filho) da window do tipo form
         if (form.isValid()) {
             r = form.getRecord();
             form.updateRecord(r);
             r.save({
                 success: function(a,b){
-                    Ext.log({msg:"Salvo com sucesso!",level:"info"});
-                    Ext.Msg.alert('Salvo', 'Registro salvo com sucesso')
+                    console.info("Salvo com sucesso!");
+                    Ext.Msg.alert('Salvo', 'Registro salvo com sucesso');
                     win.close();
                     me.getFinanceiroStore().load();
                 },
                 failure:function(a,b){
-                    Ext.Msg.alert('Erro', 'Erro ao salvar registro');
-                    Ext.log({msg:"Erro ao salvar!",level:"error"});
+                    Ext.Msg.error('Erro', 'Erro ao salvar registro');
+                    console.error("Erro ao salvar!");
                 }
             });
         }

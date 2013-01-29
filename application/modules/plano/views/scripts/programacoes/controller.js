@@ -447,9 +447,11 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         }
         this.getGantt(record.get('id'))
         
+        this.getFinanceiroStore().remoteFilter = false;
+        this.getFinanceiroStore().suspendEvents();
         this.getFinanceiroStore().clearFilter();
-        console.log('record id = ', record.get('id'));
-        //filtro não está funcionando
+        this.getFinanceiroStore().resumeEvents();
+        this.getFinanceiroStore().remoteFilter = true;
         this.getFinanceiroStore().filter('programacao_id',record.get('id'));
     },
     getGantt : function(id){

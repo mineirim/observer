@@ -89,12 +89,12 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
             form   = win.down('#frmDefault').getForm();
 
-        rec = form.getRecord();
+        var rec = form.getRecord();
         form.updateRecord(rec);
         
-        args ={};
+        var args ={};
         args.parent_record = rec;
-        args.controller = 'plano.Despesas'
+        args.controller = 'plano.Despesas';
         this.application.fireEvent('openEditForm', args);
         view.doLayout();
     }
@@ -104,18 +104,18 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
             form   = win.down('#frmDefault').getForm();
 
-        rec = form.getRecord();
+        var rec = form.getRecord();
         form.updateRecord(rec);
         
-        args ={};
+        var args ={};
         args.parent_record = rec;
-        args.controller = 'plano.Financeiro'
+        args.controller = 'plano.Financeiro';
         this.application.fireEvent('openEditForm', args);
         view.doLayout();
     },
     itemContextMenu :  function( view, record, item, index, event, options){
         event.stopEvent();
-        me= this;
+        var me= this;
         instrumento_filho = this.getInstrumentosStore().findRecord('instrumento_id',record.get('instrumento_id'));
         items = [];
         mycontroller = this.getController('ExtZF.controller.plano.Programacoes');
@@ -125,16 +125,16 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                     handler : function(){
                         me.editarProgramacao(record);
                     }
-                })
+                });
         
         if(mycontroller.rootNodeSelected){
             rootInstrumento = this.getInstrumentosStore().findRecord('instrumento_id',rootRecord.get('instrumento_id'));
             items.push({
                 text: 'Adicionar '+ rootInstrumento.get('singular'),
                 handler:  function(){
-                    me.novaProgramacao(rootRecord)
+                    me.novaProgramacao(rootRecord);
                 } 
-            })
+            });
             items.push('-');
         }
         
@@ -142,7 +142,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             items.push({
                 text:"Adicionar "+instrumento_filho.get('singular'),
                 handler: function(){
-                    me.novaProgramacao(record)
+                    me.novaProgramacao(record);
                 } 
             });
         }
@@ -162,7 +162,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     novaProgramacao: function(parent){; 
         var view = Ext.widget('planoProgramacoesEdit');
         view.setTitle('Inserir');
-        options ={instrumento_id: ''}
+        var options ={instrumento_id: ''};
         if( parent!=undefined){
             parent_id  = parent.get('id');
             options.programacao_id = parent_id;
@@ -175,12 +175,12 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         
     },
     editarProgramacao : function(rec){
-        view = Ext.widget('planoProgramacoesEdit');
+        var view = Ext.widget('planoProgramacoesEdit');
         view.setTitle('Edição ');
         //TODO buscar record de um outro store(não tree)
-        store =  this.getProgramacoesStore();
-        record = store.getById(rec.get('id'));
-        Ext.log({msg:"Carregando registro para edição",level:'info'});
+        var store =  this.getProgramacoesStore();
+        var record = store.getById(rec.get('id'));
+        window.console.info("Carregando registro para edição"); 
         view.down('form').loadRecord(record);
         instrumento = this.getInstrumentosStore().findRecord('id',record.get('instrumento_id'));
         this.configuraForm(view, record, instrumento);
@@ -188,11 +188,11 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     },
     configuraForm : function(view, record, instrumento){
         if (instrumento.get('has_operativo')=="true") {
-            operativo={}
+            var operativo={};
             view.criaDetail();
             if(record){
                 operativo = record.get('operativo')[0];
-                if (operativo == undefined)
+                if (!operativo)
                     operativo = {};
             }
             rr = Ext.ModelMgr.create(operativo,'ExtZF.model.Operativos');
@@ -202,18 +202,25 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         // TODO : transformar a execução em uma lista com mais de um tipo de financiamento (material perm, pessoal, etc)
         if (instrumento.get('has_vlr_programado')=="true") {
             if(instrumento.get('has_vlr_executado')=="true"){
-                console.log('se existir valor executado, deverá ser apresentado um grid para programação..');
                 // se existir valor executado, deverá ser apresentado um grid para programação...
-                view.showGridProgramacao(record.get('id'));
+                console.info('tipo do record = ' + typeof(record));
+                var idrecord = null;
+                if(record)
+                    idrecord =record.get('id');
+                this.getFinanceiroStore().remoteFilter = false;
                 this.getFinanceiroStore().clearFilter();
-                this.getFinanceiroStore().filter('programacao_id',record.get('id'));
+                this.getFinanceiroStore().remoteFilter = true;
+                this.getFinanceiroStore().filter('programacao_id',idrecord);
+                
+                view.showGridProgramacao(idrecord);
+                    
+                
             }else{
                 //... se não existir valor executado, significa que é um item de despesa e deverá ser exibido apenas um campo com valor
-                console.log('se não existir valor executado, significa que é um item de despesa e deverá ser exibido apenas um campo com valor');
                 view.showVlrProgramado();
                 if(record){
                     recFinanceiro = this.getFinanceiroStore().findRecord('programacao_id',record.get('id'));
-                    if (recFinanceiro == undefined){
+                    if (typeof(recFinanceiro)=== 'undefined'){
                         financeiro = {};
                         recFinanceiro = Ext.ModelMgr.create(financeiro,'ExtZF.model.Financeiro');
                     }
@@ -251,12 +258,12 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     },
     attachFile  : function(){
         var view = Ext.widget('planoAnexosEdit');
-        view.setTitle('Anexar arquivo')
+        view.setTitle('Anexar arquivo');
     },
     
     linkInstrumento  : function(){
         var view = Ext.widget('planoVinculosEdit');
-        view.setTitle('Vincular Atividades')
+        view.setTitle('Vincular Atividades');
         var grid = this.getTreegrid(); 
         selected = grid.getSelectionModel().getSelection()[0]; 
         options={programacao_id : selected.get('id'),  atividade : selected.get('menu')};
@@ -267,56 +274,54 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
      * Metodo salvar copiado do controller:
      * ExtZF.controller.plano.Vinculos
      * até que seja resolvido o carregamento deste
+     * @param button
      */
     saveLinkObject: function(button) {
         var me=this;
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
-            form   = win.down('form').getForm() // recupera item abaixo(filho) da window do tipo form
+            form   = win.down('form').getForm(); // recupera item abaixo(filho) da window do tipo form
         if (form.isValid()) {
             r = form.getRecord();
             form.updateRecord(r);
             r.save({
                 success: function(a,b){
-                    Ext.log({msg:"Salvo com sucesso!",level:"info"});
+                    console.info("Salvo com sucesso!");
                     win.close();
                     me.getVinculosStore().load();
                 },
                 failure:function(a,b){
-                    Ext.log({msg:"Erro ao salvar!",level:"error"});
+                    console.error("Erro ao salvar!");
                 }
             });
         }
     },    
     
     newRoot: function() {
-        var grid = this.getTreegrid(); 
-        
         var view = Ext.widget('planoProgramacoesEdit');
         view.setTitle('Inserir');
         /**
          * TODO pegar automaticamente o root do instrumento(quando mais de um instrumento)
-         */
-     
-        options={instrumento_id :2};
+         */     
+        var options={instrumento_id :2};
         
         record = Ext.ModelMgr.create(options,'ExtZF.model.Programacoes');
       	view.down('form').loadRecord(record);
     },
     newObject: function() {
         var grid = this.getTreegrid(); 
-        parent = grid.getSelectionModel().getSelection()[0]; 
+        var parent = grid.getSelectionModel().getSelection()[0]; 
         this.novaProgramacao(parent);
         
         
     },
     editDblClick :function(grid, rec) {
-        store =  this.getProgramacoesStore();
-        record = store.getById(rec.get('id'));
+        var store =  this.getProgramacoesStore();
+        var record = store.getById(rec.get('id'));
         this.editarProgramacao(rec);  
     },
     deleteObject:function() {
         var grid = this.getGrid(); // recupera lista de usuários
-        ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
+        var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
         	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
         	return ;
@@ -376,7 +381,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                                console.info("Orçamento salvo com sucesso!");         
                             }
                         });
-                        me.getFinanceiroStore().load()
+                        me.getFinanceiroStore().load();
                     }
                     win.close();
                     me.getProgramacoesTreeStoreStore().load();
@@ -392,16 +397,16 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     },
     changeButtonAction: function(view, record, item, index, e, options)
     {
-         detailPanel = Ext.getCmp('detailPanel');
+         var detailPanel = Ext.getCmp('detailPanel');
          if( !record){
              detailPanel.hide();
              return;
          }
          detailPanel.show();
          
-         instrumento = this.getInstrumentosStore().findRecord('instrumento_id',record.get('instrumento_id'));
-         button = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=incluir]')[0];
-         buttonVincular = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=vincular]')[0];
+         var instrumento = this.getInstrumentosStore().findRecord('instrumento_id',record.get('instrumento_id'));
+         var button = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=incluir]')[0];
+         var buttonVincular = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=vincular]')[0];
          if(instrumento){
              button.show();
              button.setText('Adicionar '+instrumento.get('singular'));
@@ -445,7 +450,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             if(planilhaOrcamentaria) 
                 planilhaOrcamentaria.hide();
         }
-        this.getGantt(record.get('id'))
+        this.getGantt(record.get('id'));
         
         this.getFinanceiroStore().remoteFilter = false;
         this.getFinanceiroStore().suspendEvents();
@@ -455,10 +460,10 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         this.getFinanceiroStore().filter('programacao_id',record.get('id'));
     },
     getGantt : function(id){
-        g = new JSGantt.GanttChart('g',document.getElementById('GanttChartDIV'), 'month');
+        var g = new JSGantt.GanttChart('g',document.getElementById('GanttChartDIV'), 'month');
         g.setShowRes(0); // Show/Hide Responsible (0/1)
         // define a quantidade de caracteres que aparecerão na descrição
-        g.setMaxLengthDescription(50)
+        g.setMaxLengthDescription(50);
         g.setShowDur(1); // Show/Hide Duration (0/1)
         g.setShowComp(1); // Show/Hide % Complete(0/1)
 
@@ -468,13 +473,13 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
 
         g.setShowStartDate(0); // Show/Hide Start Date(0/1)
         g.setShowEndDate(0); // Show/Hide End Date(0/1)
-        g.setDateDisplayFormat('dd/mm/yyyy') // Set format to display dates ('mm/dd/yyyy', 'dd/mm/yyyy', 'yyyy-mm-dd')
+        g.setDateDisplayFormat('dd/mm/yyyy'); // Set format to display dates ('mm/dd/yyyy', 'dd/mm/yyyy', 'yyyy-mm-dd')
 
       //var gr = new Graphics();
 
       if( g ) {
           params = id!= undefined ?'&node_id='+id:'';
-          JSGantt.parseXML(baseUrl+'/data/gantt?format=xml'+params,g)
+          JSGantt.parseXML(baseUrl+'/data/gantt?format=xml'+params,g);
           g.Draw();
           g.DrawDependencies();
       }else{

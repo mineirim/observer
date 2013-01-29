@@ -1,12 +1,11 @@
 Ext.define('ExtZF.view.plano.programacoes.GridFinanceiro' ,{
-    extend: 'Ext.grid.Panel',
-    alias : 'widget.planoProgramacoesGridFinanceiro', 
-    store: 'Financeiro',
-    title   : 'Planilha Orçamentária',
-    height: 150,
-    layout: 'fit',       
-
-	columns: [
+    extend      : 'Ext.grid.Panel',
+    alias       : 'widget.planoProgramacoesGridFinanceiro', 
+    store       : 'Financeiro',
+    title       : 'Planilha Orçamentária',
+    height      : 150,
+    layout      : 'fit',   
+    columns     : [
                     {header: 'Id.',  dataIndex: 'id',  flex: 0, hidden:true},
                     {header: 'Grupo de despesas',  dataIndex: 'grupo_despesa_id',  flex: 2,
                         renderer: function(value, metaData, record){

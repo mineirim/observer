@@ -9,7 +9,7 @@ Ext.define('ExtZF.view.plano.despesas.Edit', {
     autoShow    : false, // exibir a janela automaticamente ao chamá-la
     programacao_id : null, //código da programação utilizado para filtrar o combo
     initComponent: function() {
-        me=this;
+        var me=this;
     	// Itens da janela
         this.items = [{
             xtype: 'form',

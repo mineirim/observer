@@ -1,12 +1,12 @@
 Ext.define('ExtZF.view.plano.programacoes.Edit', {
-    extend: 'Ext.window.Window',
-    alias : 'widget.planoProgramacoesEdit', // nome definido a janela
-    title : 'Edição',
-    layout: 'fit',
+    extend      : 'Ext.window.Window',
+    alias       : 'widget.planoProgramacoesEdit', // nome definido a janela
+    title       : 'Edição',
+    layout      : 'fit',
     width       : 740,
     minHeight   : 390,
-    height      :   400,
-    maxHeight   :590,
+    height      : 400,
+    maxHeight   : 590,
     
     
     autoShow: true, // exibir a janela automaticamente ao chamá-la

@@ -26,9 +26,9 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
             menu: [
             {
                 text: 'Usuários',
-                data: 'admin.Cad-usuarios',
+                data: 'admin.Users',
                 action: 'loadController',
-                createView : 'adminUsuariosLista',
+                createView : 'adminUsersList',
                 iconCls: 'icon-user'
             },
             {

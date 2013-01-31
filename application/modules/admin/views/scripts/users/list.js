@@ -1,9 +1,10 @@
 Ext.define('ExtZF.view.admin.users.List' ,{
     extend: 'Ext.grid.Panel',
     alias : 'widget.adminUsersList',
-    store: 'Users', 
+    store: 'Usuarios', 
     title : '<?php echo $this->title; ?>', // exemplo do título da view passado via PHP
     selModel: {mode: 'MULTI'}, // Permite selecionar mais de uma linha da grid
+    
     tbar :[{
     	text: 'Novo',
         iconCls: 'icon-new',
@@ -15,14 +16,14 @@ Ext.define('ExtZF.view.admin.users.List' ,{
     }],
 	columns: [
         {header: 'Cód.' ,  dataIndex: 'id'      , flex: 0, width:20},
-	{header: 'Nome' ,  dataIndex: 'name'    , flex: 3},
+	{header: 'Nome' ,  dataIndex: 'nome'    , flex: 3},
         {header: 'E-Mail', dataIndex: 'email'   , flex: 3},
-        {header: 'Login',  dataIndex: 'username', flex: 1}
+        {header: 'Login',  dataIndex: 'usuario', flex: 1}
     ],
     // Paginação
     dockedItems: [{
         xtype: 'pagingtoolbar',
-        store: 'Users',
+        store: 'Usuarios',
         dock: 'bottom',
         displayInfo: true
     }]

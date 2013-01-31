@@ -2,21 +2,21 @@
 Ext.require('Ext.window.MessageBox');
 
 // Arquivo que executa as ações do usuário
-Ext.define('ExtZF.controller.admin.Cad-usuarios', {
+Ext.define('ExtZF.controller.admin.Users', {
     extend: 'Ext.app.Controller',
   
     stores: ['Usuarios', 'Setores', 'Cargos'], // Store utilizado no gerenciamento do usuário
     models: ['Usuarios', 'Setores', 'Cargos'], // Modelo do usuário
     views: [
-    'admin.cad-usuarios.Lista',
-    'admin.cad-usuarios.Edicao'
+    'admin.users.List',
+    'admin.users.Edit'
     ],
     refs: [{
-            ref: 'admiUsuariosEdicao',
-            selector: 'panel'
+            ref: 'panel',
+            selector: 'admiUserEdit'
     },{
-            ref:'usuarioslista',
-            selector:'adminUsuariosLista'
+            ref:'grid',
+            selector:'adminUsersList'
     }],
 
 
@@ -24,26 +24,26 @@ Ext.define('ExtZF.controller.admin.Cad-usuarios', {
         this.control(
         {
             // evento duplo click na tela principal(viewport) --> usuariolista(grid)
-            'adminUsuariosLista': {
+            'adminUsersList': {
                 itemdblclick: this.editarUsuario
             },
             // evento click no botao (definido com action: incluir) da grid definida como usuariolista
-            'adminUsuariosLista button[action=incluir]': {
+            'adminUsersList button[action=new]': {
                 click: this.editarUsuario
             },
             // evento click no botao (definido com action: excluir) da grid definida como usuariolista
-            'adminUsuariosLista button[action=excluir]': {
+            'adminUsersList button[action=delete]': {
                 click: this.excluirUsuario
             },
             // evento click no botao (definido com action: salvar) do formulario definido como usuarioedicao
-            'admiUsuariosEdicao button[action=salvar]': {
+            'admiUserEdit button[action=save]': {
                 click: this.salvarUsuario
             }
         });
     },
     // Função para popular o formulario
     editarUsuario: function(grid, record) {
-        var view = Ext.widget('admiUsuariosEdicao');
+        var view = Ext.widget('admiUserEdit');
         view.setTitle('Edição ');
         if(!record.data){
             record = new ExtZF.model.Usuarios();

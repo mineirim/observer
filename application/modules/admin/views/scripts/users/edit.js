@@ -13,8 +13,8 @@ Ext.define('ExtZF.view.admin.users.Edit', {
                 padding:8,
                 items: [{
                     xtype       : 'textfield',
-                    name        : 'name',
-                    ref         : 'name',
+                    name        : 'nome',
+                    ref         : 'nome',
                     fieldLabel  : 'Nome',
                     allowBlank  : false,
                     anchor      :'95%'
@@ -30,8 +30,8 @@ Ext.define('ExtZF.view.admin.users.Edit', {
                 },
                 {
                     xtype       : 'textfield',
-                    name        : 'username',
-                    ref         : 'username',
+                    name        : 'usuario',
+                    ref         : 'usuario',
                     fieldLabel  : 'Login',
                     allowBlank  : false
                 }

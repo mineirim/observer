@@ -20,6 +20,7 @@ class Data_Model_Financeiro
                 'tipo_registro_id'  => $financeiro->tipo_registro_id,
                 'financeiro_id'      => $financeiro->financeiro_id,
                 'valor'             => $financeiro->valor,
+                'origem_recurso_id' => $financeiro->origem_recurso_id,
                 'grupoDespesa'      => $grupoDespesa
             );
 

@@ -7,6 +7,7 @@ Ext.define('ExtZF.model.Financeiro', {
                             'financeiro_id',  
                             'programacao_id', 
                             'valor',
+                            'origem_recurso_id',
                             {name:'grupoDespesa', persist:false}
                         ],
         proxy          : {

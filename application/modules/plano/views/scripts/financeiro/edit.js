@@ -15,6 +15,24 @@ Ext.define('ExtZF.view.plano.financeiro.Edit', {
             padding     :8,
             bodyPadding : 12,
             items       : [
+                         {
+                            xtype       : 'combo',
+                            id          : 'origem_recurso_id',
+                            name        : 'origem_recurso_id',
+                            ref         : 'origem_recurso_id',
+                            fieldLabel  : 'Origem do recurso', 
+                            store       : 'programacoes.OrcamentoStore',
+                            displayField: 'menu',
+                            valueField  : 'id',
+                            anchor      : '95%',
+                            hidden      : false,
+                            allowBlank  : false,
+                            typeAhead   : true,
+                            width       : 650,
+                            mode        : 'remote',
+                            queryParam  : 'getOrcamento',
+                            allQuery    : ' '
+                        },  
                         {
                             xtype       : 'combo',
                             id          : 'grupo_despesa_id',

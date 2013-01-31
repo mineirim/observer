@@ -1,8 +1,8 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Financeiro', {
     extend: 'Ext.app.Controller',
-    stores: ['Financeiro'], // Store utilizado no gerenciamento do usuário
-    models: ['Financeiro'], // Modelo do usuário
+    stores: ['Financeiro','programacoes.OrcamentoStore'], // Store utilizado no gerenciamento do usuário
+    models: ['Financeiro','programacoes.OrcamentoModel'], // Modelo do usuário
      views: [
     'plano.financeiro.List',
     'plano.financeiro.Edit'

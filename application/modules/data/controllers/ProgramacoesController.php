@@ -107,13 +107,17 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
                 $formData = json_decode($formData,true);
                 $id=$formData['id'];
                 unset($formData['id']);
+                if($formData['programacao_id']=="")
+                    unset($formData['programacao_id']);
                 $programacoes_table->update($formData, "id=$id");
+                
                 $this->view->msg = "Dados atualizados com sucesso!";
                 $obj = $programacoes_table->fetchRow("id=$id");
                 $this->view->rows = $obj->toArray();
                 $this->view->success=true;
         
             }  catch (Exception $e){
+                $this->view->dados =$formData;
                 $this->view->success=false;
                 $this->view->method = $this->getRequest()->getMethod();
                 $this->view->msg = "Erro ao atualizar registro<br>".$e->getMessage() ."<br>".$e->getTraceAsString();

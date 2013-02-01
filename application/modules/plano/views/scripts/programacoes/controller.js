@@ -355,7 +355,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var me = this;
         win =me.saveObject(button);
         if(win!==false)
-            win.close;
+            win.close();
     },
     saveObject: function(button) 
     {
@@ -404,7 +404,6 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                     }
                     me.getProgramacoesTreeStoreStore().load();
                     me.getProgramacoesStore().load();
-                    
                 },
                 failure:function(a,b){
                     console.error("Erro ao salvar!");

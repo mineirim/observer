@@ -404,6 +404,18 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                     }
                     me.getProgramacoesTreeStoreStore().load();
                     me.getProgramacoesStore().load();
+                    var treePanelLeft = Ext.getCmp('treeNavPanel');
+                    var treePanelStore= treePanelLeft.getStore();
+                    var prog_id = r.get('programacao_id');
+                 
+                    if(prog_id!==null){
+                        var node = treePanelStore.getNodeById(prog_id);
+                        treePanelStore.load({node:node});
+                    }else{
+                        var inst_id = parseInt(r.get('instrumento_id',10)) - 1;
+                        var node = treePanelStore.getNodeById('instrumentoId-' + inst_id);
+                        treePanelStore.load({node:node});
+                    }
                 },
                 failure:function(a,b){
                     console.error("Erro ao salvar!");

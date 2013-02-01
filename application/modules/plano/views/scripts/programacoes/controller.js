@@ -49,7 +49,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             'planoProgramacoesEdit button[action=save]': {
                 click: this.saveObject
             },
-            'planoProgramacoesEdit button[action=save-and-close]': {
+            'planoProgramacoesEdit button[action=saveAndClose]': {
                 click: this.saveAndClose
             },
             'planoProgramacoesEdit button[action=addVlrProgramado]':{
@@ -231,6 +231,10 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                         financeiro = {};
                         recFinanceiro = Ext.ModelMgr.create(financeiro,'ExtZF.model.Financeiro');
                     }
+                    
+                }else{
+                    financeiro = {};
+                    recFinanceiro = Ext.ModelMgr.create(financeiro,'ExtZF.model.Financeiro');
                 }
                 view.down('#frmVlrProgramado').getForm().loadRecord(recFinanceiro);
             }
@@ -347,6 +351,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     },
     saveAndClose: function(button) 
     {
+        console.log('manda salvar');
         var me = this;
         win =me.saveObject(button);
         if(win!==false)

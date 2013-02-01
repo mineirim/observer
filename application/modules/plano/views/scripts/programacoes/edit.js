@@ -223,7 +223,7 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
         },
         {
             text: 'Salvar e fechar',
-            action: 'save-and-close',
+            action: 'saveAndClose',
             iconCls: 'icon-save-close'
         },
         {

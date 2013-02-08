@@ -98,4 +98,26 @@ class Data_GanttController extends Zend_Rest_Controller {
         return $xmlString;
     }
 
+    public function getAction()
+    {
+        // action body
+    }
+
+    public function putAction()
+    {
+    }
+
+    public function postAction()
+    {
+    }
+
+    public function deleteAction()
+    {
+    }
+
+
+
+
+    
+    
 } 

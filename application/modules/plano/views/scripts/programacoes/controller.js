@@ -416,9 +416,25 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                         var node = treePanelStore.getNodeById('instrumentoId-' + inst_id);
                         treePanelStore.load({node:node});
                     }
+                
+                    console.info("Salvo com sucesso!");
+                    
+                    Ext.MessageBox.show({
+			title: 'Salvar'
+			,buttons: Ext.MessageBox.OK
+			,icon: Ext.MessageBox.INFO
+			,msg: 'Registro salvo com sucesso!'
+                    });
                 },
                 failure:function(a,b){
                     console.error("Erro ao salvar!");
+                    
+                    Ext.MessageBox.show({
+			title: 'Salvar'
+			,buttons: Ext.MessageBox.OK
+			,icon: Ext.MessageBox.ERROR
+			,msg: 'Erro ao salvar registro!'
+                    });
                     return false;
                 }
         });

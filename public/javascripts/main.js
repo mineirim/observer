@@ -28,7 +28,7 @@ Ext.application({
 });
 
 
-Etc = function(){
+var Etc = function(){
     Etc = {
         log : function(obj){
             window.console.log(obj);

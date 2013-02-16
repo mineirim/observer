@@ -56,7 +56,7 @@ Ext.define('ExtZF.controller.admin.Users', {
 
     // Função para popular o formulario
     excluirUsuario: function() {
-        var grid = this.getUsuarioslista(); // recupera lista de usuários
+        var grid = this.getGrid(); // recupera lista de usuários
         ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
 
         if(ids.length === 0){
@@ -77,6 +77,8 @@ Ext.define('ExtZF.controller.admin.Users', {
                         store.sync();
                         //this.getUsuariosStore().load();
                         grid.el.unmask();
+                        Ext.Msg.alert('Exclusão', 'Usuário(s) excluído(s)!');
+                        Etc.info("Usuário(s) excluído(s)");
 			
 		}, this);
     },
@@ -85,7 +87,7 @@ Ext.define('ExtZF.controller.admin.Users', {
     salvarUsuario: function(button) {
         var me=this;
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
-            form   = win.down('form').getForm() // recupera item abaixo(filho) da window do tipo form
+            form   = win.down('form').getForm(); // recupera item abaixo(filho) da window do tipo form
            
         if (form.isValid()) {
 
@@ -95,12 +97,12 @@ Ext.define('ExtZF.controller.admin.Users', {
 
             r.save({
                 success: function(a,b){
-                    Ext.log({msg:"Salvo com sucesso!",level:"info",dump:a});
+                    Etc.log({msg:"Salvo com sucesso!",level:"info",dump:a});
                     win.close();
                     me.getUsuariosStore().load();
                 },
                 failure:function(a,b){
-                    Ext.log({msg:"Erro ao salvar!",level:"error"});
+                    Etc.error({msg:"Erro ao salvar!",level:"error"});
                 }
                 });
             

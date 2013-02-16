@@ -25,7 +25,7 @@ class Data_UsuariosController extends Zend_Rest_Controller {
 
     public function indexAction() {
         $usuarios_table = new Data_Model_DbTable_Usuarios();
-        $usuarios = $usuarios_table->fetchAll(null, 'id');
+        $usuarios = $usuarios_table->fetchAll("situacao_id=1", 'id');
         $this->_helper->viewRenderer->setNoRender(true);
         $arr = array('rows' => $usuarios->toArray(), 'total' => count($usuarios));
         $this->view->rows = $usuarios->toArray();

@@ -33,7 +33,9 @@ Ext.define('ExtZF.view.admin.users.Edit', {
                     name        : 'usuario',
                     ref         : 'usuario',
                     fieldLabel  : 'Login',
-                    allowBlank  : false
+                    allowBlank  : false,
+                    vtype       : 'alphanum'
+                    //regex: /[a-zA-Z0-9]+/
                 }
             ]}
         ];

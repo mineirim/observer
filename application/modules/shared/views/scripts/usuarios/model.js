@@ -1,7 +1,12 @@
 // Modelagem dos dados - utilizada no store
 Ext.define('ExtZF.model.Usuarios', {
     extend: 'Ext.data.Model',
-    fields: ['id', 'nome', 'email','usuario','cargo_id','setor_id'],
+    fields: ['id', 
+            'nome', 
+            'email',
+            {name : 'usuario', type: 'string'},
+            {name: 'cargo_id', type: 'int', useNull:true},
+            {name: 'setor_id', type: 'int', useNull:true}],
 
     validations: [{
         type: 'length',

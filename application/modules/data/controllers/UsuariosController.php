@@ -25,11 +25,21 @@ class Data_UsuariosController extends Zend_Rest_Controller {
 
     public function indexAction() {
         $usuarios_table = new Data_Model_DbTable_Usuarios();
-        $usuarios = $usuarios_table->fetchAll("situacao_id=1", 'id');
+        
+        $page = $this->_request->getParam('page');
+        if (empty($page)) { $page = 1; }
+
+        $limit = $this->_request->getParam('limit');
+        if (empty($limit)) { $limit = null; }
+        
+        $paginator = $usuarios_table->getOnePageOfOrderEntries($page,$limit,"situacao_id=1");
+        $this->view->rows =array();
+        foreach ($paginator as $record){
+            $this->view->rows[]= $record->toArray();
+        }
         $this->_helper->viewRenderer->setNoRender(true);
-        $arr = array('rows' => $usuarios->toArray(), 'total' => count($usuarios));
-        $this->view->rows = $usuarios->toArray();
-        $this->view->total = count($usuarios);
+        
+        $this->view->total = $paginator->getTotalItemCount();
     }
 
     public function getAction() {

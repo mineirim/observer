@@ -26,3 +26,21 @@ Ext.application({
     }
 
 });
+
+
+Etc = function(){
+    Etc = {
+        log : function(obj){
+            window.console.log(obj);
+        },
+        info : function(obj){
+            window.console.info(obj);
+        },
+        error : function(obj)
+        {
+            window.console.error(obj);
+        }
+    };
+    return Etc;
+};
+Etc = new Etc();

@@ -23,10 +23,10 @@ class Data_OrganizacoesController extends Zend_Rest_Controller
     public function indexAction()
     {
         $organizacoes_table = new Data_Model_DbTable_Organizacoes();
-        $rows = $organizacoes_table->fetchAll(null, 'id');
         $this->_helper->viewRenderer->setNoRender(true);
-        $this->view->rows= $rows->toArray();
-        $this->view->total = count($rows);
+        $page = $organizacoes_table->getOnePageOfOrderEntries($this->getAllParams());
+        $this->view->rows =$page['rows'];
+        $this->view->total = $page['total'];
     }
 
     public function getAction()

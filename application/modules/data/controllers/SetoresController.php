@@ -22,10 +22,10 @@ class Data_SetoresController extends Zend_Rest_Controller
     public function indexAction()
     {
         $setores_table = new Data_Model_DbTable_Setores();
-        $rows = $setores_table->fetchAll(null, 'id');
         $this->_helper->viewRenderer->setNoRender(true);
-        $this->view->rows= $rows->toArray();
-        $this->view->total = count($rows);
+        $page = $setores_table->getOnePageOfOrderEntries($this->getAllParams());
+        $this->view->rows =$page['rows'];
+        $this->view->total = $page['total'];
     }
 
     public function getAction()

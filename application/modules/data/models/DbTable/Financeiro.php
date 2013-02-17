@@ -1,6 +1,6 @@
 <?php
 
-class Data_Model_DbTable_Financeiro extends My_DefaultModel
+class Data_Model_DbTable_Financeiro extends Etc_Model_AssignModel
 {
 
     protected $_name = 'financeiro';

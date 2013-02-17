@@ -23,10 +23,10 @@ class Data_GrupoDespesasController extends Zend_Rest_Controller
     public function indexAction()
     {
         $grupodespesas_table = new Data_Model_DbTable_GrupoDespesas();
-        $rows = $grupodespesas_table->fetchAll(null, 'id');
         $this->_helper->viewRenderer->setNoRender(true);
-        $this->view->rows= $rows->toArray();
-        $this->view->total = count($rows);
+        $page = $grupodespesas_table->getOnePageOfOrderEntries($this->getAllParams());
+        $this->view->rows =$page['rows'];
+        $this->view->total = $page['total'];
     }
 
     public function getAction()
@@ -54,6 +54,7 @@ class Data_GrupoDespesasController extends Zend_Rest_Controller
                 $this->view->success=false;
                 $this->view->method = $this->getRequest()->getMethod();
                 $this->view->msg = "Erro ao atualizar registro<br>".$e->getMessage() ."<br>".$e->getTraceAsString();
+                 $this->getResponse()->setHttpResponseCode(500);
             }
         }else{
             $this->view->msg="Método ".$this->getRequest()->getMethod();
@@ -86,6 +87,7 @@ class Data_GrupoDespesasController extends Zend_Rest_Controller
                 $this->view->success = false;
                 $this->view->method  = $this->getRequest()->getMethod();
                 $this->view->msg     = "Erro ao atualizar/inserir registro<br>$e->getMessage()<br>$e->getTraceAsString()";
+                 $this->getResponse()->setHttpResponseCode(500);
             }
         }else{
             $this->view->msg="Método ".$this->getRequest()->getMethod();
@@ -101,13 +103,16 @@ class Data_GrupoDespesasController extends Zend_Rest_Controller
                 $grupodespesas_table->delete('id='.$id);
                 $this->view->success=true;
                 $this->view->msg="Dados apagados com sucesso!";
+                $this->getResponse()->setHttpResponseCode(204);
             }  catch (Exception $e){
                 $this->view->success=false;
                 $this->view->msg = "Erro ao apagar o registro<br>".$e->getTraceAsString();
+                $this->getResponse()->setHttpResponseCode(500);
             }
         }else{
             $this->view->msg="Método delete";
             $this->view->parametros = $this->_getAllParams();
+            $this->getResponse()->setHttpResponseCode(500);
         }
     }
 

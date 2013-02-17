@@ -1,6 +1,6 @@
 <?php
 
-class Data_Model_DbTable_Anexos extends Zend_Db_Table_Abstract
+class Data_Model_DbTable_Anexos extends Etc_Model_BaseModel
 {
 
     protected $_name = 'anexos';

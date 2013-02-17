@@ -1,6 +1,6 @@
 <?php
 
-class Data_Model_DbTable_Programacoes extends My_DefaultModel
+class Data_Model_DbTable_Programacoes extends Etc_Model_AssignModel
 {
 
     protected $_name = 'programacoes';

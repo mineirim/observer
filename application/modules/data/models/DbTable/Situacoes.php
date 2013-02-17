@@ -1,6 +1,6 @@
 <?php
 
-class Data_Model_DbTable_Situacoes extends Zend_Db_Table_Abstract
+class Data_Model_DbTable_Situacoes extends Etc_Model_BaseModel
 {
 
     protected $_name = 'situacoes';

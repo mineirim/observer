@@ -1,16 +1,10 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of DefaultModel
+ * Este modelo assina com o id do usuário e a data da alteração/inclusão do registro
  *
- * @author ps00287
+ * @author Marcone Costa
  */
-class My_DefaultModel extends Zend_Db_Table_Abstract {
+class Etc_Model_AssignModel extends Etc_Model_BaseModel {
 
     //put your code here
     protected $_idUsuario;

@@ -1,6 +1,6 @@
 <?php
 
-class Data_Model_DbTable_Cargos extends Zend_Db_Table_Abstract
+class Data_Model_DbTable_Cargos extends Etc_Model_BaseModel
 {
 
     protected $_name = 'cargos';

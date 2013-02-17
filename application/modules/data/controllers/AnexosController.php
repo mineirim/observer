@@ -27,6 +27,7 @@ class Data_AnexosController extends Zend_Rest_Controller
         $this->_helper->viewRenderer->setNoRender(true);
         $this->view->rows= $rows->toArray();
         $this->view->total = count($rows);
+        $this->getResponse()->setHttpResponseCode(200);
     }
 
     public function getAction()
@@ -49,14 +50,17 @@ class Data_AnexosController extends Zend_Rest_Controller
                 $obj = $anexos_table->fetchRow("id=$id");
                 $this->view->rows = $obj->toArray();
                 $this->view->success=true;
+                $this->getResponse()->setHttpResponseCode(201);
         
             }  catch (Exception $e){
                 $this->view->success=false;
                 $this->view->method = $this->getRequest()->getMethod();
                 $this->view->msg = "Erro ao atualizar registro<br>".$e->getMessage() ."<br>".$e->getTraceAsString();
+                $this->getResponse()->setHttpResponseCode(500);
             }
         }else{
             $this->view->msg="Método ".$this->getRequest()->getMethod();
+            $this->getResponse()->setHttpResponseCode(501);
         }
     }
 
@@ -75,13 +79,15 @@ class Data_AnexosController extends Zend_Rest_Controller
                     $this->view->resposta['rows'] = array('nome'=> $upload->getFileName(null,false),
                         'sum_hash'=> $upload->getHash('sha1'));
                     $this->view->resposta['success']=true;
-                    
+                    $this->getResponse()->setHttpResponseCode(201);
 
                 }else{
+                    
                     $this->view->resposta['success']=false;
                     $messages = $upload->getMessages();
                     $this->view->resposta['msg']= implode("\n", $messages);
                     $logger->log($upload,  Zend_Log::ALERT);
+                    $this->getResponse()->setHttpResponseCode(500);
                 }
         
             }  catch (Zend_File_Transfer_Exception $e){
@@ -89,16 +95,19 @@ class Data_AnexosController extends Zend_Rest_Controller
                 $this->view->success = false;
                 $this->view->method  = $this->getRequest()->getMethod();
                 $this->view->msg     = "Erro ao atualizar/inserir registro<br>".$e->__toString();
+                $this->getResponse()->setHttpResponseCode(500);
                 
             }  catch (Exception $e){
                 $logger->log("erro 12",  Zend_Log::ALERT);
                 $this->view->success = false;
                 $this->view->method  = $this->getRequest()->getMethod();
                 $this->view->msg     = "Erro ao atualizar/inserir registro<br>";
+                $this->getResponse()->setHttpResponseCode(500);
                 
             }
         }else{
             $this->view->msg="Método ".$this->getRequest()->getMethod();
+            $this->getResponse()->setHttpResponseCode(501);
         }
     }
 
@@ -111,13 +120,16 @@ class Data_AnexosController extends Zend_Rest_Controller
                 $anexos_table->delete('id='.$id);
                 $this->view->success=true;
                 $this->view->msg="Dados apagados com sucesso!";
+                $this->getResponse()->setHttpResponseCode(204);
             }  catch (Exception $e){
                 $this->view->success=false;
                 $this->view->msg = "Erro ao apagar o registro<br>".$e->getTraceAsString();
+                $this->getResponse()->setHttpResponseCode(500);
             }
         }else{
             $this->view->msg="Método delete";
             $this->view->parametros = $this->_getAllParams();
+            $this->getResponse()->setHttpResponseCode(501);
         }
     }
 

@@ -23,10 +23,11 @@ class Data_OperativosController extends Zend_Rest_Controller
     public function indexAction()
     {
         $operativos_table = new Data_Model_DbTable_Operativos();
-        $rows = $operativos_table->fetchAll(null, 'id');
         $this->_helper->viewRenderer->setNoRender(true);
-        $this->view->rows= $rows->toArray();
-        $this->view->total = count($rows);
+        $page = $operativos_table->getOnePageOfOrderEntries($this->getAllParams());
+        $this->view->rows =$page['rows'];
+        $this->view->total = $page['total'];
+        $this->getResponse()->setHttpResponseCode(200);
     }
 
     public function getAction()
@@ -49,14 +50,16 @@ class Data_OperativosController extends Zend_Rest_Controller
                 $obj = $operativos_table->fetchRow("id=$id");
                 $this->view->rows = $obj->toArray();
                 $this->view->success=true;
-        
+                $this->getResponse()->setHttpResponseCode(201);
             }  catch (Exception $e){
                 $this->view->success=false;
                 $this->view->method = $this->getRequest()->getMethod();
                 $this->view->msg = "Erro ao atualizar registro<br>".$e->getMessage() ."<br>".$e->getTraceAsString();
+                $this->getResponse()->setHttpResponseCode(500);
             }
         }else{
             $this->view->msg="Método ".$this->getRequest()->getMethod();
+            $this->getResponse()->setHttpResponseCode(501);
         }
     }
 
@@ -81,18 +84,22 @@ class Data_OperativosController extends Zend_Rest_Controller
                 $this->view->rows = $obj;
                 $this->view->success=true;
                 $this->view->metodo = $this->getRequest()->getMethod();
+                $this->getResponse()->setHttpResponseCode(201);
         
             }  catch (Zend_Db_Statement_Exception $e){
                 $this->view->success = false;
                 $this->view->method  = $this->getRequest()->getMethod();
                 $this->view->msg     = "Erro ao atualizar/inserir registro<br>".$e->getMessage();
+                $this->getResponse()->setHttpResponseCode(500);
             }catch (Exception $e){
                 $this->view->success = false;
                 $this->view->method  = $this->getRequest()->getMethod();
                 $this->view->msg     = "Erro ao atualizar/inserir registro<br>$e->getMessage()<br>$e->getTraceAsString()";
+                $this->getResponse()->setHttpResponseCode(500);
             }
         }else{
             $this->view->msg="Método ".$this->getRequest()->getMethod();
+            $this->getResponse()->setHttpResponseCode(501);
         }
     }
 
@@ -105,13 +112,16 @@ class Data_OperativosController extends Zend_Rest_Controller
                 $operativos_table->delete('id='.$id);
                 $this->view->success=true;
                 $this->view->msg="Dados apagados com sucesso!";
+                $this->getResponse()->setHttpResponseCode(204);
             }  catch (Exception $e){
                 $this->view->success=false;
                 $this->view->msg = "Erro ao apagar o registro<br>".$e->getTraceAsString();
+                $this->getResponse()->setHttpResponseCode(500);
             }
         }else{
             $this->view->msg="Método delete";
             $this->view->parametros = $this->_getAllParams();
+            $this->getResponse()->setHttpResponseCode(501);
         }
     }
 

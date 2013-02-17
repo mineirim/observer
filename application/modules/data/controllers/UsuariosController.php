@@ -20,26 +20,19 @@ class Data_UsuariosController extends Zend_Rest_Controller {
     }
     public function headAction()
     {
-        $this->getResponse()->setHttpResponseCode(200);
+        $this->getResponse()->setHttpResponseCode(204);
     }
 
     public function indexAction() {
         $usuarios_table = new Data_Model_DbTable_Usuarios();
-        
-        $page = $this->_request->getParam('page');
-        if (empty($page)) { $page = 1; }
 
-        $limit = $this->_request->getParam('limit');
-        if (empty($limit)) { $limit = null; }
         
-        $paginator = $usuarios_table->getOnePageOfOrderEntries($page,$limit,"situacao_id=1");
-        $this->view->rows =array();
-        foreach ($paginator as $record){
-            $this->view->rows[]= $record->toArray();
-        }
+        
         $this->_helper->viewRenderer->setNoRender(true);
-        
-        $this->view->total = $paginator->getTotalItemCount();
+        $page = $usuarios_table->getOnePageOfOrderEntries($this->getAllParams(),"situacao_id=1");
+        $this->view->rows =$page['rows'];
+        $this->view->total = $page['total'];
+        $this->getResponse()->setHttpResponseCode(200);
     }
 
     public function getAction() {
@@ -48,9 +41,11 @@ class Data_UsuariosController extends Zend_Rest_Controller {
             $usuario = $usuarios_table->getUsuario($this->_getParam('id')) ;
             $this->view->rows = $usuario->toArray();
             $this->view->total = count($usuario);
+            $this->getResponse()->setHttpResponseCode(200);
         }  catch (Exception $e){
             $this->view->success=false;
             $this->view->msg = "Erro abrir o registro<br>" . $e->getMessage() . "<br>" . $e->getTraceAsString();
+            $this->getResponse()->setHttpResponseCode(500);
         }
     }
 
@@ -66,13 +61,16 @@ class Data_UsuariosController extends Zend_Rest_Controller {
                 $this->view->msg = "Dados inseridos com sucesso!";
                 $this->view->rows = $obj->toArray();
                 $this->view->success = true;
+                $this->getResponse()->setHttpResponseCode(201);
             } catch (Exception $e) {
                 $this->view->success = false;
                 $this->view->method = $this->getRequest()->getMethod();
                 $this->view->msg = "Erro ao inserir registro<br>" . $e->getMessage() . "<br>" . $e->getTraceAsString();
+                $this->getResponse()->setHttpResponseCode(500);
             }
         } else {
             $this->view->msg = "Método " . $this->getRequest()->getMethod();
+            $this->getResponse()->setHttpResponseCode(501);
         }
     }
 
@@ -103,13 +101,16 @@ class Data_UsuariosController extends Zend_Rest_Controller {
                 
                 $this->view->rows = $obj->toArray();
                 $this->view->success = true;
+                $this->getResponse()->setHttpResponseCode(201);
             } catch (Exception $e) {
                 $this->view->success = false;
                 $this->view->method = $this->getRequest()->getMethod();
                 $this->view->msg = "Erro ao atualizar registro<br>" . $e->getMessage() . "<br>" . $e->getTraceAsString();
+                $this->getResponse()->setHttpResponseCode(500);
             }
         } else {
             $this->view->msg = "Método " . $this->getRequest()->getMethod();
+            $this->getResponse()->setHttpResponseCode(501);
         }
     }
 
@@ -121,13 +122,16 @@ class Data_UsuariosController extends Zend_Rest_Controller {
                 $usuarios_table->deleteUsuario($id);
                 $this->view->success = true;
                 $this->view->msg = "Dados apagados com sucesso!";
+                $this->getResponse()->setHttpResponseCode(204);
             } catch (Exception $e) {
                 $this->view->success = false;
                 $this->view->msg = "Erro ao apagar o registro<br>" . $e->getTraceAsString();
+                $this->getResponse()->setHttpResponseCode(500);
             }
         } else {
             $this->view->msg = "Método ". $this->getRequest()->getMethod();;
             $this->view->parametros = $this->_getAllParams();
+            $this->getResponse()->setHttpResponseCode(501);
         }
     }
     private function logar($username,$password){

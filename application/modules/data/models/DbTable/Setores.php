@@ -1,6 +1,6 @@
 <?php
 
-class Data_Model_DbTable_Setores extends My_DefaultModel
+class Data_Model_DbTable_Setores extends Etc_Model_AssignModel
 {
 
     protected $_name = 'setores';

@@ -23,10 +23,10 @@ class Data_TagsController extends Zend_Rest_Controller
     public function indexAction()
     {
         $tags_table = new Data_Model_DbTable_Tags();
-        $rows = $tags_table->fetchAll(null, 'id');
         $this->_helper->viewRenderer->setNoRender(true);
-        $this->view->rows= $rows->toArray();
-        $this->view->total = count($rows);
+        $page = $setores_table->getOnePageOfOrderEntries($this->getAllParams());
+        $this->view->rows =$page['rows'];
+        $this->view->total = $page['total'];
     }
 
     public function getAction()

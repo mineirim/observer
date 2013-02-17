@@ -19,7 +19,7 @@ class Data_FinanceiroController extends Zend_Rest_Controller
 
     public function headAction()
     {
-        $this->getResponse()->setHttpResponseCode(200);
+        $this->getResponse()->setHttpResponseCode(204);
     }
     public function indexAction()
     {
@@ -38,6 +38,7 @@ class Data_FinanceiroController extends Zend_Rest_Controller
 
         $this->view->rows= $rows;
         $this->view->total = count($rows);
+        $this->getResponse()->setHttpResponseCode(200);
     }
 
     public function getAction()
@@ -60,14 +61,16 @@ class Data_FinanceiroController extends Zend_Rest_Controller
                 $obj = $financeiro_table->fetchRow("id=$id");
                 $this->view->rows = $obj->toArray();
                 $this->view->success=true;
-        
+                $this->getResponse()->setHttpResponseCode(201);
             }  catch (Exception $e){
                 $this->view->success=false;
                 $this->view->method = $this->getRequest()->getMethod();
                 $this->view->msg = "Erro ao atualizar registro<br>".$e->getMessage() ."<br>".$e->getTraceAsString();
+                $this->getResponse()->setHttpResponseCode(500);
             }
         }else{
             $this->view->msg="Método ".$this->getRequest()->getMethod();
+            $this->getResponse()->setHttpResponseCode(501);
         }
     }
 
@@ -91,14 +94,17 @@ class Data_FinanceiroController extends Zend_Rest_Controller
                 $obj = $financeiro_table->fetchRow("id=$id");
                 $this->view->rows = $obj->toArray();
                 $this->view->success=true;
+                $this->getResponse()->setHttpResponseCode(201);
         
             }  catch (Exception $e){
                 $this->view->success = false;
                 $this->view->method  = $this->getRequest()->getMethod();
                 $this->view->msg     = "Erro ao atualizar/inserir registro<br>".$e->getMessage()."<br>".$e->getTraceAsString();
+                $this->getResponse()->setHttpResponseCode(500);
             }
         }else{
             $this->view->msg="Método ".$this->getRequest()->getMethod();
+            $this->getResponse()->setHttpResponseCode(501);
         }
     }
 
@@ -111,13 +117,16 @@ class Data_FinanceiroController extends Zend_Rest_Controller
                 $financeiro_table->delete('id='.$id);
                 $this->view->success=true;
                 $this->view->msg="Dados apagados com sucesso!";
+                $this->getResponse()->setHttpResponseCode(204);
             }  catch (Exception $e){
                 $this->view->success=false;
                 $this->view->msg = "Erro ao apagar o registro<br>".$e->getTraceAsString();
+                $this->getResponse()->setHttpResponseCode(500);
             }
         }else{
             $this->view->msg="Método delete";
             $this->view->parametros = $this->_getAllParams();
+            $this->getResponse()->setHttpResponseCode(501);
         }
     }
 

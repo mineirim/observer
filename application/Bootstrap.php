@@ -11,7 +11,25 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             'namespace' => 'Data',
             'basePath'  => APPLICATION_PATH . '/modules/data',
         ));
+         
+         
+	$resourceLoader = new Zend_Loader_Autoloader_Resource(array(
+		'basePath'  => APPLICATION_PATH . '/../library/Etc',
+		'namespace' => 'Etc_'
+	));    
+        return $resourceLoader;
+
+        
+       $resourceLoader->addResourceTypes(
+                array(
+                    'models' => array(
+                                    'namespace' => 'Model_',
+                                    'path' => 'Model'
+                                )
+                ));        
+        
     }
+    
     protected function _initRoutes(){
         $this->bootstrap('FrontController');
         $this->_frontController = $this->getResource('FrontController');

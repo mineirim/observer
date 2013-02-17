@@ -22,9 +22,9 @@ class Data_DespesasController extends Zend_Rest_Controller
 
     public function indexAction()
     {
-        $despesas_table = new Data_Model_DbTable_Despesas();
+        $despesas_table = new Data_Model_Despesas();
         $this->_helper->viewRenderer->setNoRender(true);
-        $page = $despesas_table->getOnePageOfOrderEntries($this->getAllParams());
+        $page = $despesas_table->getArray($this->getAllParams(),null,true);
         $this->view->rows =$page['rows'];
         $this->view->total = $page['total'];
     }

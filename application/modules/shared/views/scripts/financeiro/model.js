@@ -26,6 +26,7 @@ Ext.define('ExtZF.model.Financeiro', {
         			encode   : true 
         		}
         },
+         hasMany: {model: 'ExtZF.model.Despesas', name: 'despesas'},
         associations: [
             
             {

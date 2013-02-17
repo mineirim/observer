@@ -3,7 +3,7 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
     alias       : 'widget.planoProgramacoesEdit', // nome definido a janela
     title       : 'Edição',
     layout      : 'fit',
-    width       : 740,
+    width       : 840,
     minHeight   : 390,
     height      : 400,
     maxHeight   : 590,
@@ -241,14 +241,33 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
         var gridProgramacao =  Ext.create('ExtZF.view.plano.financeiro.List',
                                     {dockedItems:[],
                                         height      : 150, 
-                                        title       :'Planilha orçamentária',
+                                        title       :'Programação',
                                         forceFit    : true,
                                         programacao_id : progId,
                                         autoShow    :false
                                     }
                                 );
         gridProgramacao.down("#btnIncluir").programacao_id=progId;
-        tab = this.progTab.add(gridProgramacao);
+        
 
+
+        var gridDespesas =  Ext.create('ExtZF.view.plano.despesas.List',
+                                    {dockedItems:[],
+                                        height      : 300, 
+                                        title       :'Execução',
+                                        forceFit    : true,
+                                        financeiro_id : progId,
+                                        autoShow    :false
+                                    }
+                                );
+         
+         
+         orcamentoPanel = Ext.create('Ext.panel.Panel',
+                {
+                    id  : 'panel_orcamento',
+                    title : 'Planilha Orçamentária',
+                    height:500, 
+                    items:[gridProgramacao, gridDespesas]});
+         this.progTab.add(orcamentoPanel);
     }
 });

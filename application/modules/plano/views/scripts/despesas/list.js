@@ -5,19 +5,25 @@ Ext.define('ExtZF.view.plano.despesas.List' ,{
     title : 'Lista',
     selModel: {mode: 'MULTI'}, // Permite selecionar mais de uma linha da grid
     // botões do cabeçalho
-    tbar :[{
-    	text: 'Incluir',
-        iconCls: 'icon-new',
-    	action: 'incluir' // action identificada para executar na camada controller
-    },{
-    	text: 'Excluir',
-        iconCls: 'icon-delete',
-    	action: 'excluir'
-    }],
-	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, width: '20'},
-		{header: 'Descricao',  dataIndex: 'descricao',  flex: 1},
-		{header: ' financeiro_id',  dataIndex: ' financeiro_id',  flex: 1},
-		{header: ' valor',  dataIndex: ' valor',  flex: 1}],
+//    tbar :[{
+//    	text: 'Incluir',
+//        iconCls: 'icon-new',
+//    	action: 'incluir' // action identificada para executar na camada controller
+//    },{
+//    	text: 'Excluir',
+//        iconCls: 'icon-delete',
+//    	action: 'excluir'
+//    }],
+	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, width: 20},
+		{header: 'Descricao',  dataIndex: 'descricao',  flex: 4, width: 150},
+		{header: 'Origem Recurso',   dataIndes : 'financeiro', width: 150 ,
+                   renderer : function(value, metaData, record){
+                        console.log("vai");
+                        Etc.log(record);
+                        return record.get('financeiro').descricao;
+                    },                               
+                   flex: 2},
+		{header: 'Valor',  dataIndex: 'valor',  flex: 2, align : 'right',width: 80}],
     // Paginação
     dockedItems: [{
         xtype: 'pagingtoolbar',

@@ -3,6 +3,7 @@ Ext.define('ExtZF.view.plano.despesas.Edit', {
     alias       : 'widget.planoDespesasEdit', 
     title       : 'Despesas',
     layout      : 'fit',    
+    bodyPadding : 20,
     width       : 720,
     minHeight   : 390,
     height      : 400,
@@ -14,7 +15,12 @@ Ext.define('ExtZF.view.plano.despesas.Edit', {
         this.items = [{
             xtype: 'form',
             items: [
-	{xtype: 'textfield',name : 'descricao',ref: 'descricao',fieldLabel: 'Descricao'},
+	{xtype: 'textareafield',
+            name : 'descricao',
+            ref: 'descricao',
+            fieldLabel: 'Descricao',            
+            width       : 650,
+            anchor    : '95%'},
 	{
             name : 'financeiro_id',ref: 'financeiro_id',
             xtype       : 'combo',

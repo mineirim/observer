@@ -5,6 +5,8 @@ class Data_Model_DbTable_Financeiro extends Etc_Model_AssignModel
 
     protected $_name = 'financeiro';
     
+    protected $_dependentTables = array('Data_Model_DbTable_Despesas');
+    
     protected $_referenceMap = array (
                 'Programacoes' => array ( 'columns' => 'programacao_id', 
                                           'refTableClass' => 'Data_Model_DbTable_Programacoes', 

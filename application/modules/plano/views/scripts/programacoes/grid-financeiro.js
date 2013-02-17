@@ -14,7 +14,7 @@ Ext.define('ExtZF.view.plano.programacoes.GridFinanceiro' ,{
                             }},
                     {header: 'Descrição',  dataIndex: 'descricao',  flex: 3},
                     {header: 'Valor Orçamento',  dataIndex: 'valor',  flex: 1, align : 'right'},
-                    {header: 'Valor Gasto',   flex: 1, align : 'right'}
+                    {header: 'Valor Gasto', dataIndex: 'valor_executado',  flex: 1, align : 'right'}
                  ]
     // Paginação
         // botões do cabeçalho

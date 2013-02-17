@@ -239,16 +239,16 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
         this.down('#btnDespesas').show(); 
         //this.down('#btnVlrProgramado').show(); 
         var gridProgramacao =  Ext.create('ExtZF.view.plano.financeiro.List',
-                    {dockedItems:[],
-                        height      : 150, 
-                        title       :'Planilha orçamentária',
-                        forceFit    : true,
-                        programacao_id : progId,
-                        autoShow    :false
-                    }
-    );
+                                    {dockedItems:[],
+                                        height      : 150, 
+                                        title       :'Planilha orçamentária',
+                                        forceFit    : true,
+                                        programacao_id : progId,
+                                        autoShow    :false
+                                    }
+                                );
         gridProgramacao.down("#btnIncluir").programacao_id=progId;
-        this.progTab.add(gridProgramacao);
+        tab = this.progTab.add(gridProgramacao);
 
     }
 });

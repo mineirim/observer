@@ -8,7 +8,8 @@ Ext.define('ExtZF.model.Financeiro', {
                             'programacao_id', 
                             'valor',
                             'origem_recurso_id',
-                            {name:'grupoDespesa', persist:false}
+                            {name:'grupoDespesa', persist:false},
+                            {name:'valor_executado', persist:false}
                         ],
         proxy          : {
         simpleSortMode : true, 

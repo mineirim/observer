@@ -99,6 +99,7 @@ Ext.define('ExtZF.controller.Navigation', {
             view = this.criaView(a);
             view.title = titulo;
             view.iconCls = a.iconCls;
+            view.closable=true;
             novaAba = screen.add(view);
         }
         
@@ -130,7 +131,7 @@ Ext.define('ExtZF.controller.Navigation', {
 
         // Call the controller init method when the view is rendered
         view.mon(view, 'render', function() {
-                window.console.info('executing init on Controller ' + controller.id + ' passing: ', args);
+                Etc.info('executing init on Controller ' + controller.id + ' passing: ', args);
                 controller.init.apply(controller, args);
                  
         }, this, options);

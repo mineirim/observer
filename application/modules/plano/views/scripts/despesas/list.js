@@ -18,8 +18,6 @@ Ext.define('ExtZF.view.plano.despesas.List' ,{
 		{header: 'Descricao',  dataIndex: 'descricao',  flex: 4, width: 150},
 		{header: 'Origem Recurso',   dataIndes : 'financeiro', width: 150 ,
                    renderer : function(value, metaData, record){
-                        console.log("vai");
-                        Etc.log(record);
                         return record.get('financeiro').descricao;
                     },                               
                    flex: 2},

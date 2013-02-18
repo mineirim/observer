@@ -170,7 +170,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var view = Ext.widget('planoProgramacoesEdit');
         view.setTitle('Inserir');
         var options ={instrumento_id: ''};
-        if( parent!=undefined){
+        if( typeof(parent)!=='undefined'){
             parent_id  = parent.get('id');
             options.programacao_id = parent_id;
             instrumento = this.getInstrumentosStore().findRecord('instrumento_id',parent.get('instrumento_id'));
@@ -187,14 +187,14 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         //TODO buscar record de um outro store(não tree)
         var store =  this.getProgramacoesStore();
         var record = store.getById(rec.get('id'));
-        window.console.info("Carregando registro para edição"); 
+        Etc.info("Carregando registro para edição"); 
         view.down('form').loadRecord(record);
         instrumento = this.getInstrumentosStore().findRecord('id',record.get('instrumento_id'));
         this.configuraForm(view, record, instrumento);
      
     },
     configuraForm : function(view, record, instrumento){
-        if (instrumento.get('has_operativo')=="true") {
+        if (instrumento.get('has_operativo')==="true") {
             var operativo={};
             view.criaDetail();
             if(record){
@@ -207,10 +207,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             view.doLayout();
         }
         // TODO : transformar a execução em uma lista com mais de um tipo de financiamento (material perm, pessoal, etc)
-        if (instrumento.get('has_vlr_programado')=="true") {
-            if(instrumento.get('has_vlr_executado')=="true"){
+        if (instrumento.get('has_vlr_programado')==="true") {
+            if(instrumento.get('has_vlr_executado')==="true"){
                 // se existir valor executado, deverá ser apresentado um grid para programação...
-                console.info('tipo do record = ' + typeof(record));
                 var idrecord = null;
                 if(record)
                     idrecord =record.get('id');
@@ -227,14 +226,13 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 view.showVlrProgramado();
                 if(record){
                     recFinanceiro = this.getFinanceiroStore().findRecord('programacao_id',record.get('id'));
-                    if (typeof(recFinanceiro)=== 'undefined'){
+                    if (typeof(recFinanceiro)=== 'undefined' || recFinanceiro ===null ){
                         financeiro = {};
                         recFinanceiro = Ext.ModelMgr.create(financeiro,'ExtZF.model.Financeiro');
                     }
-                    
                 }else{
                     financeiro = {};
-                    recFinanceiro = Ext.ModelMgr.create(financeiro,'ExtZF.model.Financeiro');
+                    recFinanceiro = Ext.ModelMgr.create(financeiro,'Financeiro');
                 }
                 view.down('#frmVlrProgramado').getForm().loadRecord(recFinanceiro);
             }
@@ -243,19 +241,19 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             view.doLayout();
 
         }
-        if (instrumento.get('has_vlr_executado')=="true") {
+        if (instrumento.get('has_vlr_executado')==="true") {
             view.showBtnDespesas();
         }
         var responsavel = instrumento.get('has_responsavel');
-        if (responsavel=="true") {
+        if (responsavel==="true") {
             view.down('#responsavel_usuario_id').show();
         }        
         var supervisor = instrumento.get('has_supervisor');
-        if (supervisor=="true") {
+        if (supervisor==="true") {
             view.down('#supervisor_usuario_id').show();
         }        
         var equipe = instrumento.get('has_equipe');
-        if (equipe=="true") {
+        if (equipe==="true") {
             view.down('#setor_id').show();
         }
     },
@@ -296,12 +294,12 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             form.updateRecord(r);
             r.save({
                 success: function(a,b){
-                    console.info("Salvo com sucesso!");
+                    Etc.info("Salvo com sucesso!");
                     win.close();
                     me.getVinculosStore().load();
                 },
                 failure:function(a,b){
-                    console.error("Erro ao salvar!");
+                    Etc.error("Erro ao salvar!");
                 }
             });
         }
@@ -351,7 +349,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     },
     saveAndClose: function(button) 
     {
-        console.log('manda salvar');
+        Etc.info('Save and Close');
         var me = this;
         win =me.saveObject(button);
         if(win!==false)
@@ -359,7 +357,6 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     },
     saveObject: function(button) 
     {
-        console.info('Entrou no save');
         var me=this;
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
             formDefault   = win.down('#frmDefault').getForm(),
@@ -377,7 +374,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             formDefault.updateRecord(r);
             r.save({
                 success: function(a,b){
-                    console.info("Salvo com sucesso!");
+                    Etc.info("Salvo com sucesso!");
                     /**
                      * TODO selecionar o objeto salvo/cridado
                      */
@@ -387,7 +384,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                         rd.set('programacao_id',a.get('id'));
                         rd.save({
                             success: function(c,d){
-                               console.info("Detalhes salvos com sucesso!");                                
+                               Etc.info("Detalhes salvos com sucesso!");                                
                             }
                         });
                     }
@@ -397,7 +394,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                         recProgramado.set('programacao_id',a.get('id'));
                         recProgramado.save({
                             success: function(c,d){
-                               console.info("Orçamento salvo com sucesso!");         
+                               Etc.info("Orçamento salvo com sucesso!");         
                             }
                         });
                         me.getFinanceiroStore().load();
@@ -417,7 +414,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                         treePanelStore.load({node:node});
                     }
                 
-                    console.info("Salvo com sucesso!");
+                    Etc.info("Salvo com sucesso!");
                     
                     Ext.MessageBox.show({
 			title: 'Salvar'
@@ -427,7 +424,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                     });
                 },
                 failure:function(a,b){
-                    console.error("Erro ao salvar!");
+                    Etc.error("Erro ao salvar!");
                     
                     Ext.MessageBox.show({
 			title: 'Salvar'
@@ -526,7 +523,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
       //var gr = new Graphics();
 
       if( g ) {
-          params = id!= undefined ?'&node_id='+id:'';
+          params = typeof(id) !== 'undefined' ?'&node_id='+id:'';
           JSGantt.parseXML(baseUrl+'/data/gantt?format=xml'+params,g);
           g.Draw();
           g.DrawDependencies();
@@ -536,7 +533,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     },
     selectRecord : function(me)
     {        
-        console.log('entrou no refresh. this.selectNewRecord='+this.selectNewRecord);
+        Etc.log('entrou no refresh. this.selectNewRecord='+this.selectNewRecord);
         if ( this.selectNewRecord===false || typeof(this.selectNewRecord)==='undefined');
             return;
         
@@ -546,7 +543,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     }   , 
     callRender : function(me)
     {
-        console.log('entrou no render');
+        Etc.log('entrou no render');
         me.getView().on('refresh', this.selectRecord);
     }
 });

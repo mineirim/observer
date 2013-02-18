@@ -2,10 +2,12 @@ Ext.Loader.setConfig({
     enabled: true,
     paths :{
     'Js'    : './view',
-    'Ext.ux'    : '../extjs/examples/ux'
+    'Ext.ux'    : './ux'
     }
 });
-if(env=='production'){
+
+Ext.require(['Ext.ux.TextMaskPlugin'])
+if(env==='production'){
     Ext.Loader.setConfig('disableCaching',false);
 }
 

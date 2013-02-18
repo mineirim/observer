@@ -26,7 +26,10 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                     name    : 'valor',
                     id      :  'vlr_financeiro',
                     ref     : 'valor',
-                    fieldLabel: 'Valor Programado'
+                    fieldLabel: 'Valor Programado',                    
+                    plugins : 'textmask',
+                    mask    : 'R$ #9.999.990,00',
+                    money   : true
                 },
                 {
                     xtype: 'hiddenfield',

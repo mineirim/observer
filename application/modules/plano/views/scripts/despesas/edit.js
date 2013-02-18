@@ -43,7 +43,15 @@ Ext.define('ExtZF.view.plano.despesas.Edit', {
                             }
                           }
         },
-	{xtype: 'textfield',name : 'valor',ref: 'valor',fieldLabel: 'valor'},]}
+	{   xtype: 'textfield',
+            name : 'valor',
+            ref: 'valor',
+            fieldLabel: 'valor',    
+            plugins : 'textmask',
+            mask    : 'R$ #9.999.990,00',
+            money   : true
+        }
+        ]}
         ];
 
         // botões da janela

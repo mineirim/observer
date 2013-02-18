@@ -51,12 +51,17 @@ Ext.define('ExtZF.view.plano.financeiro.Edit', {
 //                            queryParam  : 'getOrcamento',
 //                            allQuery    : ' '
 //                        },
+
                         {
                             xtype   : 'textfield',
+                            plugins : 'textmask',
+                            mask    : 'R$ #9.999.990,00',
+                            money   : true,
                             name    : 'valor',
-                            id      :  'vlr_financeiro',
+                            id      : 'vlr_financeiro',
                             ref     : 'valor',
                             fieldLabel: 'Valor Previsto'
+				
                         },
                         {
                             xtype: 'htmleditor',

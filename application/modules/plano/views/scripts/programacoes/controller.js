@@ -329,7 +329,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         this.editarProgramacao(rec);  
     },
     deleteObject:function() {
-        var grid = this.getGrid(); // recupera lista de usuários
+        var grid = this.getTreegrid(); // recupera lista de usuários
         var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
         	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
@@ -341,7 +341,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
 				return;
 			grid.el.mask('Excluindo registro(s)');
                         store = this.getProgramacoesStore();
-                        store.remove(ids);
+                        record = store.getById(ids[0].get('id'));
+                        store.remove(record);
                         store.sync();
                         this.getProgramacoesTreeStoreStore().load();
                         grid.el.unmask();

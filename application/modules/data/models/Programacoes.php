@@ -3,7 +3,7 @@
 class Data_Model_Programacoes {
 
     public function getRecursive($id=null, $instrumento_id=null) {
-        $where = "1 = 1 ";
+        $where = "1 = 1 and situacao_id <>2";
         if($instrumento_id){
             $where .= " and instrumento_id=$instrumento_id ";
         }
@@ -14,7 +14,7 @@ class Data_Model_Programacoes {
                     SELECT  1 as nivel, * 
                     FROM    programacoes 
                     WHERE   $where
-
+                        
                     UNION ALL 
                     SELECT  prog.nivel+1,p.*
                     FROM    programacoes p 
@@ -113,7 +113,7 @@ class Data_Model_Programacoes {
     public function getAll($where=null, $order='ordem', $limit=null,$offset=null) {
         
         $programacoes_table = new Data_Model_DbTable_Programacoes();
-
+        $where = $where ? $where.'and situacao_id <>2' : 'situacao_id <>2';
         $programacoes = $programacoes_table->fetchAll($where, $order, $limit,$offset);
         $objs = array();
         foreach ($programacoes as $value) {
@@ -155,7 +155,7 @@ class Data_Model_Programacoes {
     public function getFilter($where=null, $order='ordem') {
         $programacoes_table = new Data_Model_DbTable_Programacoes();
 
-        $programacoes = $programacoes_table->fetchAll($where, $order);
+        $programacoes = $programacoes_table->fetchAll($where. 'and situacao_id <>2', $order);
         $objs = array();
         foreach ($programacoes as $value) {
             $child = array(
@@ -181,7 +181,7 @@ class Data_Model_Programacoes {
      */
     public function getProgramacao($id, $withAssociations=false) {
         $programacoes = new Data_Model_DbTable_Programacoes();
-        $where = "id=$id";
+        $where = "id=$id and situacao_id <>2";
         $programacao = $programacoes->fetchRow($where,'ordem');
         $row = $programacao->toArray();
         $operativo = $programacao->findDependentRowset('Data_Model_DbTable_Operativos');
@@ -215,6 +215,7 @@ class Data_Model_Programacoes {
                                 ->from(array('p' => 'programacoes'), 'p.*')
                                 ->join(array('i' => 'instrumentos'), 'p.instrumento_id = i.id', array())
                                 ->where('i.has_operativo = ?', true)
+                                ->where('and situacao_id <>?', 2)
                                 ->where("p.menu like '%$menu%'"));
         $rows = $programacoes;
         return $rows;
@@ -229,7 +230,7 @@ class Data_Model_Programacoes {
         
         $rows = array();
         $where = $programacao_id ? "programacao_id=$programacao_id" : "instrumento_id=$instrumento_id";
-        $select = " SELECT *, (select count(*) from programacoes pr where programacao_id=p.id) as leaf,programacao_id as parent FROM programacoes p WHERE $where ORDER BY ordem";
+        $select = " SELECT *, (select count(*) from programacoes pr where programacao_id=p.id and pr.situacao_id <>2) as leaf,programacao_id as parent FROM programacoes p WHERE $where and p.situacao_id <>2 ORDER BY ordem";
         $stmt = Zend_Registry::get('db')->query($select);
         $stmt->setFetchMode(Zend_Db::FETCH_OBJ);
         $arr_tree = array();
@@ -268,5 +269,9 @@ class Data_Model_Programacoes {
         
         return $stmt->fetchAll();
     }
-    
+    public function delete($id){
+                
+        $table_programacoes = new \Data_Model_DbTable_Programacoes();
+        $table_programacoes->update(array('situacao_id'=>2), "id=$id");
+    }
 }

@@ -80,7 +80,9 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
             $this->view->menu = 'root';
             $this->view->root = array('text'=>$text,'menu'=>$text);
             $this->view->instrumento = 'root';
+            $this->getResponse()->setHttpResponseCode(200);
         }catch(Exception $e){
+            $this->getResponse()->setHttpResponseCode(500);
             $this->success=false;
             $this->msg = $e->getMessage();
         }
@@ -96,6 +98,7 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
         $this->_helper->viewRenderer->setNoRender(true);
         $this->view->success=true;
         $this->view->rows= $rows;
+        $this->getResponse()->setHttpResponseCode(200);
     }
     public function putAction() 
     {
@@ -116,8 +119,10 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
                 $obj = $programacoes_table->fetchRow("id=$id");
                 $this->view->rows = $obj->toArray();
                 $this->view->success=true;
+                $this->getResponse()->setHttpResponseCode(200);
         
             }  catch (Exception $e){
+                $this->getResponse()->setHttpResponseCode(500);
                 $this->view->dados =$formData;
                 $this->view->success=false;
                 $this->view->method = $this->getRequest()->getMethod();
@@ -125,6 +130,7 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
             }
         }else{
             $this->view->msg="Método ".$this->getRequest()->getMethod();
+            $this->getResponse()->setHttpResponseCode(501);
         }
     }
 
@@ -149,14 +155,17 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
                 $this->view->rows = $obj->toArray();
                 $this->view->success=true;
                 $this->view->metodo = $this->getRequest()->getMethod();
+                $this->getResponse()->setHttpResponseCode(200);
         
             }  catch (Exception $e){
+                $this->getResponse()->setHttpResponseCode(500);
                 $this->view->success = false;
                 $this->view->method  = $this->getRequest()->getMethod();
                 $this->view->msg     = "Erro ao atualizar/inserir registro<br>".$e->getMessage()."<br>".$e->getTraceAsString();
             }
         }else{
             $this->view->msg="Método ".$this->getRequest()->getMethod();
+            $this->getResponse()->setHttpResponseCode(501);
         }
     }
 
@@ -164,18 +173,21 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
     {
         if($this->getRequest()->isDelete()){
             try{
-                $programacoes_table = new Data_Model_DbTable_Programacoes();
+                $programacoes_table = new Data_Model_Programacoes();
                 $id = $this->_getParam('id');
-                $programacoes_table->delete('id='.$id);
+                $programacoes_table->delete((int)$id);
                 $this->view->success=true;
                 $this->view->msg="Dados apagados com sucesso!";
+                $this->getResponse()->setHttpResponseCode(204);
             }  catch (Exception $e){
+                $this->getResponse()->setHttpResponseCode(500);
                 $this->view->success=false;
                 $this->view->msg = "Erro ao apagar o registro<br>".$e->getTraceAsString();
             }
         }else{
             $this->view->msg="Método delete";
             $this->view->parametros = $this->_getAllParams();
+            $this->getResponse()->setHttpResponseCode(501);
         }
     }
 

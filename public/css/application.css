@@ -65,6 +65,9 @@
 .icon-user{
     background-image: url(../images/icons/user.png)  !important;
 }
+.silk-user{
+    background-image: url(../images/icons/user.png)  !important;
+}
 .icon-admin{
     background-image: url(../images/icons/config.png)  !important;
 }

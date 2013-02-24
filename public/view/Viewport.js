@@ -75,21 +75,6 @@ Ext.define('Js.Viewport', {
                     iconCls  : "icon-dashboard"
                 }]
         }
-    },
-    {
-        region      : 'east',
-        width       : 100,
-        id          : 'ctnRight',
-        collapsible : true,
-        collapsed  : true,
-        split       : false
-    },
-    {
-        xtype       : 'container',
-        region      : 'south',
-        height      : 16,
-        id          : 'ctnBotton',
-        collapsible  : true
     }
     ]
 });

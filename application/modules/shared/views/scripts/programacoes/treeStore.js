@@ -6,15 +6,16 @@ Ext.define('ExtZF.store.programacoes.TreeStore', {
     model   : 'ExtZF.model.programacoes.Model4tree',
     autoLoad    : true,
     
-    root                : {
-        
+    root                : {        
         expanded        : true,
-        name            : 'Root'
+        text            : 'Root',
+        menu            : 'menu'
         
     },
     listeners: {
         load: function(sender, node, records) {
-            node.expand();
+           node.data.menu = node.raw.text;
+           node.expand();
         }
     }
 });

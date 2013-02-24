@@ -95,7 +95,7 @@ class Data_Model_Programacoes {
                 if(isset($arr_tree[$nivel+1][$value->id]))
                     $children = $this->getRecursiveArray($arr_tree,$nivel+1,$value);
                 if (count($children) > 0) {
-                    $child['expanded'] = true;
+                    $child['expanded'] = false;
                     $child['rows'] = $children;
                     $child['leaf'] = false;
                 } else {

@@ -24,7 +24,7 @@ Ext.define('ExtZF.view.plano.programacoes.TreePanel' ,{
             }
             ],
     initComponent: function() {
-        Ext.log({
+        Etc.log({
             msg:'Inicia o treegrid',
             level:'info',
             dump:arguments

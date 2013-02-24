@@ -25,7 +25,7 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
     {
         $this->_auth = Zend_Auth::getInstance ();
         $identity = $this->_auth->getIdentity();
-            
+        $text = "";
         try{
             $programacoes_table = new Data_Model_Programacoes();
             $this->_helper->viewRenderer->setNoRender(true);
@@ -54,6 +54,7 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
                     $instrumento = $model_instrumentos->fetchRow('instrumento_id='.$arr_node[1]);
                     $instrumento_id = $instrumento->id;
                     $node_id=null;
+                    $text = $instrumento->singular;
                 }
                 $this->view->rows= $programacoes_table->getRecursive($node_id, $instrumento_id);
             }else if ($this->_hasParam ('query'))
@@ -73,11 +74,11 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
                 $this->view->rows = $programacoes_table->getAll();
             }
             $this->view->success= true;
-            $this->view->text = '.';
-            $this->view->expanded = true;
+            $this->view->text = $text;
             $this->view->id = 'root';
+            $this->view->expanded =  true;
             $this->view->menu = 'root';
-            $this->view->root = array('expanded'=>true,'text'=>'textode');
+            $this->view->root = array('text'=>$text,'menu'=>$text);
             $this->view->instrumento = 'root';
         }catch(Exception $e){
             $this->success=false;

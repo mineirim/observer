@@ -64,7 +64,7 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
                                     iconCls: 'x-menu-item-lst'
                                 },
                                 {
-                                    text        : 'Instrumentos',
+                                    text        : 'Estrutura',
                                     iconCls     : 'silk-add',
                                     data        : 'admin.Instrumentos',
                                     action      : "loadController",

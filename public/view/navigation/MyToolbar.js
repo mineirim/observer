@@ -74,7 +74,7 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
             }
             ]
 
-        },{
+        },'->',{xtype : 'authControle'},'-',{
             text: 'Sair',
             id: 'btnSair',
             iconCls : 'icon-sair',

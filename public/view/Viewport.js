@@ -20,14 +20,13 @@ Ext.define('Js.Viewport', {
         tbar        : {
             id          : 'basic-statusbar',
             items       : [
-            '<span style="font-size:1.3em"><b>Sistema de Planejamento, Programa&ccedil;&atilde;o e Monitoramento - SPPMv1.0.4 </b></span>',
+            '<span style="font-size:1.3em"><b>Sistema de Planejamento, Programa&ccedil;&atilde;o e Monitoramento - SPPM 2.0 - RC1 </b></span>',
             '->',{
                 text    : '',
                 id      : 'text',
                 iconCls : 'silk-user'
             },
-            'Bem Vindo(a), <span id="main_username" class="username">'+usuario+'</span></b>',
-            '-',{xtype : 'authControle'}]
+            'Bem Vindo(a), <span id="main_username" class="username">'+usuario+'</span></b>']
         },
         items : {
             xtype : 'mytoolbar'

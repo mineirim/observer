@@ -9,7 +9,7 @@ Ext.define('ExtZF.view.admin.situacoes.List' ,{
     tbar :[{
     	text: 'Incluir',
     	action: 'incluir' // action identificada para executar na camada controller
-    },{
+    },'->',{
     	text: 'Excluir',
     	action: 'excluir'
     }],

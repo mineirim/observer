@@ -11,7 +11,7 @@ Ext.define('ExtZF.view.plano.financeiro.List' ,{
                     iconCls: 'icon-new',
                     action: 'incluir',
                     id: 'btnIncluir'
-                },{
+                },'->',{
                     text: 'Excluir',
                     iconCls: 'icon-delete',
                     action: 'excluir'

@@ -9,7 +9,7 @@ Ext.define('ExtZF.view.admin.users.List' ,{
     	text: 'Novo',
         iconCls: 'icon-new',
     	action: 'new' // action identificada para executar na camada controller
-    },{
+    },'->',{
     	text: 'Excluir',
         iconCls: 'icon-delete',
     	action: 'delete'

@@ -10,7 +10,7 @@ Ext.define('ExtZF.view.admin.setores.List' ,{
     	text: 'Incluir',
         iconCls: 'icon-new',
     	action: 'incluir' // action identificada para executar na camada controller
-    },{
+    },'->',{
     	text: 'Excluir',
         iconCls: 'icon-delete',
     	action: 'excluir'

@@ -14,7 +14,7 @@ Ext.define('ExtZF.view.admin.cargos.List' ,{
         iconCls: 'icon-delete',
     	action: 'excluir'
     }],
-	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, width: 20},
+	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, hidden:true},
 		{header: 'Nome',  dataIndex: 'nome',  flex: 1},
 		{header: 'Descrição',  dataIndex: 'descricao',  flex: 1}
             ],

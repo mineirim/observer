@@ -14,7 +14,7 @@ Ext.define('ExtZF.view.plano.operativos.List' ,{
         iconCls: 'icon-delete',
     	action: 'excluir'
     }],
-	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, width: '20'},
+	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, hidden:true},
 		{header: 'Programacao_id',  dataIndex: 'programacao_id',  flex: 1},
 		{header: 'Peso',  dataIndex: 'peso',  flex: 1},
 		{header: 'Responsavel_id',  dataIndex: 'responsavel_id',  flex: 1},

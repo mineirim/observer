@@ -15,7 +15,7 @@ Ext.define('ExtZF.view.admin.users.List' ,{
     	action: 'delete'
     }],
 	columns: [
-        {header: 'Cód.' ,  dataIndex: 'id'      , flex: 0, width:20},
+        {header: 'Id.' ,  dataIndex: 'id'      , flex: 0, hidden:true},
 	{header: 'Nome' ,  dataIndex: 'nome'    , flex: 3},
         {header: 'E-Mail', dataIndex: 'email'   , flex: 3},
         {header: 'Login',  dataIndex: 'usuario', flex: 1}

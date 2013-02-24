@@ -13,7 +13,7 @@ Ext.define('ExtZF.view.admin.situacoes.List' ,{
     	text: 'Excluir',
     	action: 'excluir'
     }],
-	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 1},
+	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 1,hidden:true},
 		{header: 'Descricao',  dataIndex: 'descricao',  flex: 1}],
     // Paginação
     dockedItems: [{

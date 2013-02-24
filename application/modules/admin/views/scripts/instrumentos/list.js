@@ -14,7 +14,7 @@ Ext.define('ExtZF.view.admin.instrumentos.List' ,{
         iconCls: 'icon-delete',
     	action: 'excluir'
     }],
-	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, width:20, hidden:true},
+	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0,  hidden:true},
 		{header: 'Menu'         , dataIndex: 'menu',  flex: 2},
 		{header: 'Descricao'    , dataIndex: 'descricao',  flex: 3},
 		{header: 'Indicadores'  , xtype: 'booleancolumn', trueText: 'S',falseText: 'N',dataIndex: 'has_indicador',  flex: 1},

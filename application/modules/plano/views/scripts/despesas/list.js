@@ -14,7 +14,7 @@ Ext.define('ExtZF.view.plano.despesas.List' ,{
 //        iconCls: 'icon-delete',
 //    	action: 'excluir'
 //    }],
-	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, width: 20},
+	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, hidden:true},
 		{header: 'Descricao',  dataIndex: 'descricao',  flex: 4, width: 150},
 		{header: 'Origem Recurso',   dataIndes : 'financeiro', width: 150 ,
                    renderer : function(value, metaData, record){

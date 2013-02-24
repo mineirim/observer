@@ -14,7 +14,7 @@ Ext.define('ExtZF.view.plano.grupodespesas.List' ,{
         iconCls: 'icon-delete',
     	action: 'excluir'
     }],
-	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, width: '20'},
+	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, hidden:true},
 		{header: 'Descricao',  dataIndex: 'descricao',  flex: 1},
 		{header: 'Abreviatura',  dataIndex: 'abreviatura',  flex: 1}],
     // Paginação

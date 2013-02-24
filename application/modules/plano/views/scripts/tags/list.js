@@ -14,7 +14,7 @@ Ext.define('ExtZF.view.plano.tags.List' ,{
         iconCls: 'icon-delete',
     	action: 'excluir'
     }],
-	columns: [{header: 'Id.',  dataIndex: 'id', width: 20},
+	columns: [{header: 'Id.',  dataIndex: 'id', hidden:true},
 		{header: 'Tag',  dataIndex: 'tag',  flex: 1},
 		{header: 'Descricao',  dataIndex: 'descricao',  flex: 1}],
     // Paginação

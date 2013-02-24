@@ -16,7 +16,7 @@ Ext.define('ExtZF.view.plano.financeiro.List' ,{
                     iconCls: 'icon-delete',
                     action: 'excluir'
                 }],
-    columns     : [{header: 'Id.',  dataIndex: 'id',  flex: 0, width: '20', hidden:true},
+    columns     : [{header: 'Id.',  dataIndex: 'id',  flex: 0, hidden:true},
 		   {header: 'Descricao',  dataIndex: 'descricao',  flex: 5},
 		   {header: 'Valor Programado',  dataIndex: 'valor',  flex: 1},
 		   {header: 'Valor Executado',  dataIndex: 'valor_executado',  flex: 1}],

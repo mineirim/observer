@@ -15,7 +15,7 @@ Ext.define('ExtZF.view.admin.setores.List' ,{
         iconCls: 'icon-delete',
     	action: 'excluir'
     }],
-	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, width:15, hidden:true},
+	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, hidden:true},
 		{header: 'Nome',  dataIndex: 'nome',  flex: 2},
 		{header: 'Sigla',  dataIndex: 'sigla',  flex: 1},
 		{header: 'Descricao',  dataIndex: 'descricao',  flex: 3}],

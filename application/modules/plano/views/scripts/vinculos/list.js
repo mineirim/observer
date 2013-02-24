@@ -14,7 +14,7 @@ Ext.define('ExtZF.view.plano.vinculos.List' ,{
         iconCls: 'icon-delete',
     	action: 'excluir'
     }],
-	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, width: '20'},
+	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0,hidden:true},
 		{header: 'Programacao_id',  dataIndex: 'programacao_id',  flex: 1},
 		{header: 'Depende_programacao_id',  dataIndex: 'depende_programacao_id',  flex: 1},
 		{header: 'Justificativa',  dataIndex: 'justificativa',  flex: 1},

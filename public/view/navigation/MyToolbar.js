@@ -38,25 +38,13 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
                 createView : 'adminCargosList',
                 iconCls: 'icon-cargos'
             },
-            {
-                text        : 'Organiza&ccedil;&otilde;es',
-                iconCls     : 'icon-org',
-                data        : 'admin.Organizacoes',
-                action      : "loadController",
-                createView  : "adminOrganizacoesList"
-            },
+            
             {
                 text        : 'Equipes',
                 iconCls     : 'icon-setores',
                 data        : 'admin.Setores',
                 action      : "loadController",
                 createView  : "adminSetoresList"
-            },{
-                text        : 'Tags',
-                iconCls     : 'icon-tag',
-                data        : 'plano.Tags',
-                action      : "loadController",
-                createView  : "planoTagsList"
             },{
                 text        : 'Arquivos',
                 iconCls     : 'icon-attach',

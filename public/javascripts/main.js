@@ -1,3 +1,6 @@
+Ext.override(Ext.window.Window, { 
+    modal: true
+});
 Ext.Loader.setConfig({
     enabled: true,
     paths :{

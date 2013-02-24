@@ -38,12 +38,14 @@ Ext.define('Js.Viewport', {
         region      : 'west',
         collapsed   :false,
         width       : 200,
-        layout      : 'accordion',
+        layout      : 'fit',
         activeItem  : 0,
         id          : 'ctnLeft',
         collapsible     :true,
         split           :true,
-        collapseMode    : 'mini',
+        collapseMode    : 'header',
+        hideCollapseTool: true,
+        padding         :'0 4 0 0',
         items       : [
 
                         {
@@ -54,10 +56,6 @@ Ext.define('Js.Viewport', {
                             items   : [{
                                 xtype:'navigationTreePanel'
                             }]
-                        },{
-                            xtype: 'panel',
-                            title: 'Organizações',
-                            id: 'pnlOrganizacoes'
                         }
                         ]
     },

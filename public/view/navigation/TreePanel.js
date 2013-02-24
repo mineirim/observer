@@ -2,12 +2,11 @@ Ext.define('ExtZF.view.navigation.TreePanel' ,{
     extend      : 'Ext.tree.Panel',
     alias       : 'widget.navigationTreePanel', // nome definido para acessar a grid
     useArrows   : true,
-    rootVisible  : false,
-    lines       :true,
+    rootVisible : false,
+    lines       : true,
     store       : 'Treenav', 
     //storeId     : 'programacoesStoreId',
     singleExpand: false,
-    collapsible : true,
     hideHeaders : true,
     id          : 'treeNavPanel',
     

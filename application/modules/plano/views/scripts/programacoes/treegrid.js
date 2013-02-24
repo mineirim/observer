@@ -9,10 +9,6 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
     //selModel: {mode: 'SINGLE'}, // Permite selecionar mais de uma linha da grid
     // botões do cabeçalho
     tbar :[{
-                text: 'Novo Macro-Objetivo',
-                iconCls: 'icon-new',
-                action: 'newRoot'
-            },{
                 text: 'Incluir',
                 iconCls: 'icon-new',
                 action: 'incluir',

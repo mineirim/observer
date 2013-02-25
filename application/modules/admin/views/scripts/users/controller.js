@@ -101,7 +101,9 @@ Ext.define('ExtZF.controller.admin.Users', {
                     win.close();
                     me.getUsuariosStore().load();
                 },
-                failure:function(a,b){
+                failure:function(record,b,dados){
+                    obj =  eval('(' + b.request.callback.arguments[2].responseText + ')');
+                    Ext.Msg.alert('Erro', obj.msg);
                     Etc.error({msg:"Erro ao salvar!",level:"error"});
                 }
                 });

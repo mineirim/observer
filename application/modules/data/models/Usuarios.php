@@ -35,6 +35,13 @@ class Data_Model_Usuarios {
         
         return $table_usuarios->fetchRow('id = ' . $id);;
     }
+    
+    public function checaDuplicidade($login){
+        $table_usuarios = new Data_Model_DbTable_Usuarios();
+        if($table_usuarios->fetchRow(array("usuario=?"=>$login)))
+            throw new Exception("Login \"$login\" já cadastrado");
+                
+    }
     /**
      *
      * @param string $where

@@ -56,6 +56,7 @@ class Data_UsuariosController extends Zend_Rest_Controller {
                 $usuarios_table = new Data_Model_Usuarios();
                 $formData = $this->getRequest()->getPost('rows');
                 $formData = json_decode($formData, true);
+                $usuarios_table->checaDuplicidade($formData['usuario']);
                 unset($formData['id']);
                 $obj = $usuarios_table->addUsuario($formData);
                 $this->view->msg = "Dados inseridos com sucesso!";
@@ -65,7 +66,8 @@ class Data_UsuariosController extends Zend_Rest_Controller {
             } catch (Exception $e) {
                 $this->view->success = false;
                 $this->view->method = $this->getRequest()->getMethod();
-                $this->view->msg = "Erro ao inserir registro<br>" . $e->getMessage() . "<br>" . $e->getTraceAsString();
+                $this->view->msg = "<b>Erro ao inserir registro</b><br>" . $e->getMessage() ;
+                $this->view->trace = $e->getTraceAsString();
                 $this->getResponse()->setHttpResponseCode(500);
             }
         } else {

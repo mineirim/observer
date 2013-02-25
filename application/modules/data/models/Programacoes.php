@@ -62,6 +62,11 @@ class Data_Model_Programacoes {
                     $usuario = $this->usuarios->fetchRow('id='.$value->responsavel_usuario_id);
                 $usuario = $usuario ? $usuario->toArray() : array();
 
+                $supervisor=array();
+                if($value->supervisor_usuario_id)
+                    $supervisor = $this->usuarios->fetchRow('id='.$value->supervisor_usuario_id);
+                $supervisor = isset($supervisor) && is_object($supervisor) ? $supervisor->toArray() : array();
+                
                 $setor = $value->setor_id ? $this->setores->fetchRow('id='.$value->setor_id):array();
                 $setor = $setor ? $setor->toArray() : array();
 
@@ -84,6 +89,7 @@ class Data_Model_Programacoes {
                     'responsavel_usuario_id' => $value->responsavel_usuario_id,
                     'supervisor_usuario_id' => $value->supervisor_usuario_id,
                     'responsavel' => $usuario,
+                    'supervisor' => $supervisor,
                     'setor' => $setor,
                     'instrumento' => $instrumento,
                     'parent' => $parent,

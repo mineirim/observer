@@ -17,6 +17,7 @@ class IndexController extends Zend_Controller_Action
 
             $ident = $this->_auth->getIdentity();
             $this->view->usuario = $ident->usuario;
+            $this->view->nomeUsuario = $ident->nome;
             if($ident->alterar_senha){
                 $model_usuarios = new Data_Model_Usuarios();
                 $usuario = $model_usuarios->getUsuario($ident->id);

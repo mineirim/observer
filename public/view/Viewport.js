@@ -26,7 +26,7 @@ Ext.define('Js.Viewport', {
                 id      : 'text',
                 iconCls : 'silk-user'
             },
-            'Bem vindo(a), <span id="main_username" class="username">'+usuario+'</span></b>']
+            'Bem vindo(a), <span id="main_username" class="username">'+nomeUsuario+'</span></b>']
         },
         items : {
             xtype : 'mytoolbar'

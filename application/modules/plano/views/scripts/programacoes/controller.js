@@ -470,7 +470,22 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var bookTpl = Ext.create('Ext.XTemplate', bookTplMarkup);
         var showDetail = Ext.getCmp('showDetail');
         bookTpl.overwrite(showDetail.body, record.data);         
-
+        if(record.get('instrumento').has_responsavel){
+             if(typeof(record.get('responsavel')) !== 'undefined'){
+                 responsavel = record.get('responsavel');
+                 var tpl_responsavel = new Ext.XTemplate([
+                                '<div class="tplDetail"><b>Responsável: </b>{nome}<br/></div>']);
+                 tpl_responsavel.append(showDetail.body, responsavel);
+             }
+        }
+        if(record.get('instrumento').has_supervisor){
+             if(typeof(record.get('supervisor')) !== 'undefined'){
+                 supervisor = record.get('supervisor');
+                 var tpl_supervisor = new Ext.XTemplate([
+                                '<div class="tplDetail"><b>Supervisor: </b>{nome}<br/></div>']);
+                 tpl_supervisor.append(showDetail.body, supervisor);
+             }
+        }
         if(record.get('instrumento').has_operativo){
              if(record.get('operativo').length>0){
                  operativo = record.get('operativo')[0];
@@ -487,7 +502,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                  tpl_operativo.append(showDetail.body, operativo);
              }
         }
-        
+
+       
         if(record.get('instrumento').has_vlr_programado){            
             planilhaOrcamentaria = detailPanel.child("#planilhaOrcamentaria");
             planilhaOrcamentaria.show();
@@ -496,7 +512,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             if(planilhaOrcamentaria) 
                 planilhaOrcamentaria.hide();
         }
-        this.getGantt(record.get('id'));
+        //this.getGantt(record.get('id'));
         
         this.getFinanceiroStore().remoteFilter = false;
         this.getFinanceiroStore().suspendEvents();

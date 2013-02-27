@@ -329,10 +329,13 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         
         
     },
-    editDblClick :function(grid, rec) {
+    editDblClick :function(view, record) {
+        var me= this;
+        if(record.get('parentId')===null)
+            return;
         var store =  this.getProgramacoesStore();
-        var record = store.getById(rec.get('id'));
-        this.editarProgramacao(rec);  
+        var programacaoRecord = store.getById(record.get('id'));
+        this.editarProgramacao(programacaoRecord);  
     },
     deleteObject:function() {
         var grid = this.getTreegrid(); // recupera lista de usuários

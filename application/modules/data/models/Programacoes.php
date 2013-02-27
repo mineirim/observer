@@ -3,7 +3,7 @@
 class Data_Model_Programacoes {
 
     public function getRecursive($id=null, $instrumento_id=null) {
-        $where = "1 = 1 and situacao_id <>2";
+        $where = "1 = 1 and situacao_id <>2 ";
         if($instrumento_id){
             $where .= " and instrumento_id=$instrumento_id ";
         }
@@ -20,6 +20,8 @@ class Data_Model_Programacoes {
                     FROM    programacoes p 
                     JOIN    prog  
                     ON      p.programacao_id = prog.id 
+                    WHERE p.situacao_id <>2 
+                    
                     ) 
             SELECT * from prog order by nivel,programacao_id,ordem
             ";

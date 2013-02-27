@@ -27,11 +27,12 @@ class Data_InstrumentosController extends Zend_Rest_Controller
         $page = $instrumentos_table->getOnePageOfOrderEntries($this->getAllParams());
         $this->view->rows =$page['rows'];
         $this->view->total = $page['total'];
+        $this->getResponse()->setHttpResponseCode(200);
     }
 
     public function getAction()
     {
-        // action body
+        return $this->_forward('index');
     }
 
     public function putAction()
@@ -52,14 +53,17 @@ class Data_InstrumentosController extends Zend_Rest_Controller
                 $obj = $instrumentos_table->fetchRow("id=$id");
                 $this->view->rows = $obj->toArray();
                 $this->view->success=true;
+                $this->getResponse()->setHttpResponseCode(200);
         
             }  catch (Exception $e){
                 $this->view->success=false;
                 $this->view->method = $this->getRequest()->getMethod();
                 $this->view->msg = "Erro ao atualizar registro<br>".$e->getMessage() ."<br>".$e->getTraceAsString();
+                $this->getResponse()->setHttpResponseCode(500);
             }
         }else{
             $this->view->msg="Método ".$this->getRequest()->getMethod();
+                $this->getResponse()->setHttpResponseCode(501);
         }
     }
 
@@ -84,13 +88,19 @@ class Data_InstrumentosController extends Zend_Rest_Controller
                 $this->view->rows = $obj;
                 $this->view->success=true;
                 $this->view->metodo = $this->getRequest()->getMethod();
+                $this->getResponse()->setHttpResponseCode(200);
         
             }  catch (Exception $e){
                 $this->view->success = false;
                 $this->view->method  = $this->getRequest()->getMethod();
-                $this->view->msg     = "Erro ao atualizar/inserir registro<br>$e->getMessage()<br>$e->getTraceAsString()";
+                $this->view->msg     = "Erro ao atualizar/inserir registro<br>{$e->getMessage()}";
+                $this->view->trace  ="{$e->getTraceAsString()}";
+                
+                $this->getResponse()->setHttpResponseCode(500);
             }
         }else{
+            
+                $this->getResponse()->setHttpResponseCode(501);
             $this->view->msg="Método ".$this->getRequest()->getMethod();
         }
     }
@@ -108,9 +118,13 @@ class Data_InstrumentosController extends Zend_Rest_Controller
                 $this->view->success=false;
                 $this->view->msg = "Erro ao apagar o registro<br>".$e->getTraceAsString();
             }
+            
+                $this->getResponse()->setHttpResponseCode(204);
         }else{
             $this->view->msg="Método delete";
             $this->view->parametros = $this->_getAllParams();
+            
+                $this->getResponse()->setHttpResponseCode(501);
         }
     }
 

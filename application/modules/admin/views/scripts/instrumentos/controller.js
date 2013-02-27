@@ -63,18 +63,21 @@ Ext.define('ExtZF.controller.admin.Instrumentos', {
     saveObject: function(button) {
         var me=this;
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
-            form   = win.down('form').getForm() // recupera item abaixo(filho) da window do tipo form
+            form   = win.down('form').getForm(); // recupera item abaixo(filho) da window do tipo form
         if (form.isValid()) {
             r = form.getRecord();
             form.updateRecord(r);
             r.save({
                 success: function(a,b){
-                    Ext.log({msg:"Salvo com sucesso!",level:"info",dump:a});
+                    Etc.log({msg:"Salvo com sucesso!",level:"info",dump:a});
+                    Ext.Msg.alert('Salvo', "Registro salvo com sucesso");
                     win.close();
                     me.getInstrumentosStore().load();
                 },
                 failure:function(a,b){
-                    Ext.log({msg:"Erro ao salvar!",level:"error"});
+                    obj =  eval('(' + b.request.callback.arguments[2].responseText + ')');
+                    Ext.Msg.alert('Erro', obj.msg);
+                    Etc.error({msg:"Erro ao salvar!",level:"error"});
                 }
                 });
             

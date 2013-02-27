@@ -34,6 +34,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             }
         ],
     init: function() {
+        Etc.log("init no controller Programações");
         me = this;
         this.control(
         {
@@ -123,6 +124,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     itemContextMenu :  function( view, record, item, index, event, options){
         event.stopEvent();
         var me= this;
+        if(record.get('parentId')==="root")
+            return;
         instrumento_filho = this.getInstrumentosStore().findRecord('instrumento_id',record.get('instrumento_id'));
         items = [];
         mycontroller = this.getController('ExtZF.controller.plano.Programacoes');

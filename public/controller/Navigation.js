@@ -5,7 +5,8 @@ Ext.define('ExtZF.controller.Navigation', {
     models      :['Treenav','Programacoes','Instrumentos','Operativos','Vinculos' ],
     views       :   [
                     'navigation.MyToolbar',
-                    'navigation.TreePanel'
+                    'navigation.TreePanel',
+                    'plano.programacoes.Edit'
                     ],
     constructor : function() 
     {
@@ -26,7 +27,10 @@ Ext.define('ExtZF.controller.Navigation', {
         this.control(
         {
             'menuitem[action=loadController]': {click: me.loadControllerFromMenu},
-            'navigationTreePanel': {itemclick: me.loadTreeController},
+            'navigationTreePanel':{
+                        itemclick       : me.loadTreeController,
+                        itemcontextmenu : me.itemContextMenu
+                    },
             '[action=logout]': {click: me.logout}
             
         });
@@ -80,7 +84,7 @@ Ext.define('ExtZF.controller.Navigation', {
     {
         this.loadController(obj);
     },
-    loadController : function(a,record,c)
+    loadController : function(a,record,c,createView)
     {
          var view ="",
             screen = Ext.getCmp('ctnPrincipal'),
@@ -146,6 +150,94 @@ Ext.define('ExtZF.controller.Navigation', {
         
         return view;
 
+    },   
+    
+    newRoot: function(instrumento_id) {
+        /**
+         * TODO pegar automaticamente o root do instrumento(quando mais de um instrumento)
+         */     
+        
+
+        var obj = { text: 'Programa&ccedil;&atilde;o',
+                    id          : 'testeId',
+                    data        : 'plano.Programacoes',
+                    action      : "loadController",
+                    iconCls     : "icon-programacao",
+                    createView  : "planoProgramacoesEdit"
+                  };        
+        
+        var options = {single: true};
+
+        var view = this.criaView(obj);
+        view.setTitle('Inserir');
+
+        
+        var options={instrumento_id :instrumento_id};
+        record = Ext.ModelMgr.create(options,'ExtZF.model.Programacoes');
+      	view.down('form').loadRecord(record);
+        return view;
+    },
+    itemContextMenu :  function( view, record, item, index, event, options){
+        event.stopEvent();
+        
+        var me= this;
+        screen = Ext.getCmp('criaLayout')
+        screen.el.mask('aguarde');
+        var controller = this.getController('ExtZF.controller.plano.Programacoes');
+        controller.init.apply(controller);
+        //me.loadTreeController(view, record, item, index, event, options);
+        screen.el.unmask();
+        var items = [];
+        if(record.get('parentId')==="root"){
+            var id = record.get('id').split("-")[1];
+            st = Ext.getStore("Instrumentos");
+            var instrumento = st.findRecord('instrumento_id',id);
+            id = instrumento.get('id');
+            Etc.log(instrumento);
+                items.push({
+                    text: 'Adicionar ' + instrumento.get('singular'),// + instrumento.get('singular'), //@todo(adicionar singular
+                    handler:  function(){
+                        me.newRoot(id);
+                    } 
+                });
+                items.push('-');
+        }else{
+            instrumento_filho = this.getInstrumentosStore().findRecord('instrumento_id',record.get('instrumento_id'));
+            
+            mycontroller = this.getController('ExtZF.controller.plano.Programacoes');
+            myStore = Ext.StoreManager.get('Treenav');
+            rootRecord = this.getProgramacoesStore().findRecord('id',myStore.getRootNode().get('id') );
+            items.push({text: 'Editar',
+                        handler : function(){
+                            mycontroller.editarProgramacao(record);
+                        }
+                    });
+            if(mycontroller.rootNodeSelected){
+                rootInstrumento = this.getInstrumentosStore().findRecord('instrumento_id',rootRecord.get('instrumento_id'));
+                items.push({
+                    text: 'Adicionar '+ rootInstrumento.get('singular'),
+                    handler:  function(){
+                        mycontroller.novaProgramacao(rootRecord);
+                    } 
+                });
+                items.push('-');
+            }
+
+            if(instrumento_filho){
+                items.push({
+                    text:"Adicionar "+instrumento_filho.get('singular'),
+                    handler: function(){
+                        mycontroller.novaProgramacao(record);
+                    } 
+                });
+            }
+                    
+
+        }
+        var menu = Ext.create('Ext.menu.Menu',{
+        items: items
+        });
+        menu.showAt(event.xy);
     }
 
 });

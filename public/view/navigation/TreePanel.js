@@ -23,7 +23,7 @@ Ext.define('ExtZF.view.navigation.TreePanel' ,{
             }
             ],
     initComponent: function() {
-        Ext.log({
+        Etc.log({
             msg:'Inicia o treegrid',
             level:'info',
             dump:arguments

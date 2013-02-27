@@ -19,7 +19,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
      *nó selecionado na navegação à esquerda
      */
     rootNodeSelected : false,
-    
+    is_initialized   : false,
     /** @var selectNewRecord registro a ser selecionado após criação*/
     selectNewRecord  : false,
     refs: [{
@@ -34,8 +34,11 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             }
         ],
     init: function() {
-        Etc.log("init no controller Programações");
         me = this;
+        if(me.is_initialized===true)
+            return;
+        Etc.log("init no controller Programações");
+        
         this.control(
         {
             'planoProgramacoesList': {
@@ -85,11 +88,11 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             },
             'planoVinculosEdit depende_programacao_id':{
                 change: this.verificaResponsavel
-            }
+            }           
             
-            
-            
+           
         });
+        this.getController('ExtZF.controller.plano.Programacoes').is_initialized =true; 
         
     },
     showDespesasForm : function(button){
@@ -124,7 +127,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     itemContextMenu :  function( view, record, item, index, event, options){
         event.stopEvent();
         var me= this;
-        if(record.get('parentId')==="root")
+        if(record.get('parentId')===null)
             return;
         instrumento_filho = this.getInstrumentosStore().findRecord('instrumento_id',record.get('instrumento_id'));
         items = [];

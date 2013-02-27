@@ -9,7 +9,7 @@ Ext.Loader.setConfig({
     }
 });
 
-Ext.require(['Ext.ux.TextMaskPlugin'])
+Ext.require(['Ext.ux.TextMaskPlugin']);
 if(env==='production'){
     Ext.Loader.setConfig('disableCaching',false);
 }

@@ -54,7 +54,7 @@ Ext.define('ExtZF.controller.Navigation', {
    
         }else{
             arr_params= param_id.split('-');
-            if(arr_params[0]=='financeiro'){
+            if(arr_params[0]==='financeiro'){
                 // TODO criar abertura condicional
             }
         }
@@ -71,7 +71,7 @@ Ext.define('ExtZF.controller.Navigation', {
     
     openEditForm : function(args)
      {
-        if(typeof(args.controller) == 'undefined')
+        if(typeof(args.controller) === 'undefined')
             return;
         var controller = this.getController(args.controller);
         controller.showEdit(args.parent_record);
@@ -154,10 +154,7 @@ Ext.define('ExtZF.controller.Navigation', {
     
     newRoot: function(instrumento_id) {
         /**
-         * TODO pegar automaticamente o root do instrumento(quando mais de um instrumento)
-         */     
-        
-
+         * TODO pegar automaticamente o root do instrumento(quando mais de um instrumento)     */     
         var obj = { text: 'Programa&ccedil;&atilde;o',
                     id          : 'testeId',
                     data        : 'plano.Programacoes',
@@ -169,24 +166,18 @@ Ext.define('ExtZF.controller.Navigation', {
         var options = {single: true};
 
         var view = this.criaView(obj);
-        view.setTitle('Inserir');
-
-        
+        view.setTitle('Inserir');        
         var options={instrumento_id :instrumento_id};
         record = Ext.ModelMgr.create(options,'ExtZF.model.Programacoes');
       	view.down('form').loadRecord(record);
         return view;
     },
     itemContextMenu :  function( view, record, item, index, event, options){
-        event.stopEvent();
-        
+        event.stopEvent();        
         var me= this;
-        screen = Ext.getCmp('criaLayout')
-        screen.el.mask('aguarde');
-        var controller = this.getController('ExtZF.controller.plano.Programacoes');
-        controller.init.apply(controller);
-        //me.loadTreeController(view, record, item, index, event, options);
-        screen.el.unmask();
+        screen = Ext.getCmp('criaLayout');
+        var programacoesController = this.getController('ExtZF.controller.plano.Programacoes');
+        programacoesController.init.apply(programacoesController);
         var items = [];
         if(record.get('parentId')==="root"){
             var id = record.get('id').split("-")[1];
@@ -202,37 +193,23 @@ Ext.define('ExtZF.controller.Navigation', {
                 });
                 items.push('-');
         }else{
-            instrumento_filho = this.getInstrumentosStore().findRecord('instrumento_id',record.get('instrumento_id'));
+            var programacaoRecord = me.getProgramacoesStore().findRecord('id',record.get('id'));
+            var instrumento_filho = this.getInstrumentosStore().findRecord('instrumento_id',programacaoRecord.get('instrumento_id'));
             
-            mycontroller = this.getController('ExtZF.controller.plano.Programacoes');
-            myStore = Ext.StoreManager.get('Treenav');
-            rootRecord = this.getProgramacoesStore().findRecord('id',myStore.getRootNode().get('id') );
             items.push({text: 'Editar',
                         handler : function(){
-                            mycontroller.editarProgramacao(record);
+                            programacoesController.editarProgramacao(programacaoRecord);
                         }
                     });
-            if(mycontroller.rootNodeSelected){
-                rootInstrumento = this.getInstrumentosStore().findRecord('instrumento_id',rootRecord.get('instrumento_id'));
-                items.push({
-                    text: 'Adicionar '+ rootInstrumento.get('singular'),
-                    handler:  function(){
-                        mycontroller.novaProgramacao(rootRecord);
-                    } 
-                });
                 items.push('-');
-            }
-
             if(instrumento_filho){
                 items.push({
                     text:"Adicionar "+instrumento_filho.get('singular'),
                     handler: function(){
-                        mycontroller.novaProgramacao(record);
+                        programacoesController.novaProgramacao(programacaoRecord);
                     } 
                 });
-            }
-                    
-
+            }                    
         }
         var menu = Ext.create('Ext.menu.Menu',{
         items: items

@@ -56,13 +56,13 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
                 text        : 'Configurações',
                 iconCls     : 'icon-config',
                 menu       : [
-                                {
-                                    text: 'Situa&ccedil;&otilde;es',
-                                    data: 'admin.Situacoes',
-                                    action: 'loadController',
-                                    createView : 'adminSituacoesList',
-                                    iconCls: 'x-menu-item-lst'
-                                },
+//                                {
+//                                    text: 'Situa&ccedil;&otilde;es',
+//                                    data: 'admin.Situacoes',
+//                                    action: 'loadController',
+//                                    createView : 'adminSituacoesList',
+//                                    iconCls: 'x-menu-item-lst'
+//                                },
                                 {
                                     text        : 'Estrutura',
                                     iconCls     : 'silk-add',

@@ -495,6 +495,14 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                  tpl_supervisor.append(showDetail.body, supervisor);
              }
         }
+        if(record.get('instrumento').has_equipe){
+             if(typeof(record.get('setor')) !== 'undefined'){
+                 equipe = record.get('setor');
+                 var tpl_equipe = new Ext.XTemplate([
+                                '<div class="tplDetail"><b>Equipe: </b>{nome}<br/></div>']);
+                 tpl_equipe.append(showDetail.body, equipe);
+             }
+        }
         if(record.get('instrumento').has_operativo){
              if(record.get('operativo').length>0){
                  operativo = record.get('operativo')[0];

@@ -16,7 +16,8 @@ Ext.define('ExtZF.view.plano.programacoes.Detalhes' ,{
                     },{
                       id    : 'planilhaOrcamentaria',
                       xtype : 'planoProgramacoesGridFinanceiro',
-                      flex  : 2
+                      flex  : 2,
+                      hidden:true
                   }]
 });
 

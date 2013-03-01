@@ -12,12 +12,14 @@ Ext.define('ExtZF.view.plano.programacoes.Detalhes' ,{
                     bodyPadding : 7,
                     id      : 'showDetail',
                     html    : ' ',
-                    flex    : 2
+                    flex    : 2,
+                    autoScroll:true
                     },{
                       id    : 'planilhaOrcamentaria',
                       xtype : 'planoProgramacoesGridFinanceiro',
                       flex  : 2,
-                      hidden:true
+                      hidden:true,
+                      autoscroll: true
                   }]
 });
 

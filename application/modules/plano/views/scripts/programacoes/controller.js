@@ -505,18 +505,24 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         }
         if(record.get('instrumento').has_operativo){
              if(record.get('operativo').length>0){
+                 olOperativo ={}; 
                  operativo = record.get('operativo')[0];
+                 olOperativo.data_inicio =new Date(operativo['data_inicio'] + ' 00:00:00');
+                 olOperativo.data_prazo =new Date(operativo['data_prazo'] + ' 00:00:00');
+                 if(operativo['data_encerramento']!== null)
+                    olOperativo.data_encerramento = new Date(operativo['data_encerramento']);
+                 olOperativo.peso = operativo['peso'];
                  var tpl_operativo = new Ext.XTemplate([
                                 '<br/><br/><b>Definições:</b><br/>',
                                 '<ul class="tplDetail">',
                                     '<tpl for=".">',
-                                        '<li>Peso: {peso}</li>',
+                                        '<li>Peso: {peso}%</li>',
                                         '<li>Início: {data_inicio:date("d/m/Y")}</li>',
                                         '<li>Prazo: {data_prazo:date("d/m/Y")}</li>',
                                         '<li>Encerramento: {data_encerramento}</li>',
                                     '</tpl>',
                                 '</ul>']);
-                 tpl_operativo.append(showDetail.body, operativo);
+                 tpl_operativo.append(showDetail.body, olOperativo);
              }
         }
 
@@ -530,13 +536,14 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 planilhaOrcamentaria.hide();
         }
         //this.getGantt(record.get('id'));
-        
+        view.doLayout();
         this.getFinanceiroStore().remoteFilter = false;
         this.getFinanceiroStore().suspendEvents();
         this.getFinanceiroStore().clearFilter();
         this.getFinanceiroStore().resumeEvents();
         this.getFinanceiroStore().remoteFilter = true;
         this.getFinanceiroStore().filter('programacao_id',record.get('id'));
+        showDetail.doLayout();
     },
     getGantt : function(id){
         var g = new JSGantt.GanttChart('g',document.getElementById('GanttChartDIV'), 'month');

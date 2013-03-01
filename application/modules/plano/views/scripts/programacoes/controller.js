@@ -536,7 +536,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 planilhaOrcamentaria.hide();
         }
         //this.getGantt(record.get('id'));
-        view.doLayout();
+        
         this.getFinanceiroStore().remoteFilter = false;
         this.getFinanceiroStore().suspendEvents();
         this.getFinanceiroStore().clearFilter();

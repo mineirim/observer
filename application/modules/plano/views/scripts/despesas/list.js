@@ -21,7 +21,7 @@ Ext.define('ExtZF.view.plano.despesas.List' ,{
                         return record.get('financeiro').descricao;
                     },                               
                    flex: 2},
-		{header: 'Valor',  dataIndex: 'valor',  flex: 2, align : 'right',width: 80}],
+		{header: 'Valor',  dataIndex: 'valor',  flex: 2, align : 'right',width: 80, xtype: 'numbercolumn'}],
     // Paginação
     dockedItems: [{
         xtype: 'pagingtoolbar',

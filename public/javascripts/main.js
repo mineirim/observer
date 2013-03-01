@@ -49,3 +49,11 @@ var Etc = function(){
     return Etc;
 };
 Etc = new Etc();
+
+
+Ext.util.Format.brMoney = function(v){
+return "R$ " + Ext.util.Format.number(v, '0.000,00/i');
+}
+
+Ext.util.Format.thousandSeparator = '.';
+Ext.util.Format.decimalSeparator = ',';

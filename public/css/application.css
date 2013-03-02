@@ -90,10 +90,17 @@
     background-image: url(../images/icons/tag_blue.png)  !important;
 
 }
-.tplDetail li {
+table.tplDetail {
+    min-width: 200px;
+}
+.tplDetail {
     font-size: 103%;
     margin-left: 12px !important;
     list-style: disc outside none !important;
+}
+table.tplDetail, table.tplDetail tr td {
+    border-collapse: collapse;
+    border: #000000 thin solid;
 }
 .icon-upload{
     background-image: url(../images/icons/upload2.jpg)  !important;

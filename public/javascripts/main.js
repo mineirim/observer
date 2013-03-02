@@ -28,6 +28,8 @@ Ext.application({
     
     launch: function() {
          Ext.create('Js.Viewport');
+         _myAppGlobal = this;
+   
     }
 
 });

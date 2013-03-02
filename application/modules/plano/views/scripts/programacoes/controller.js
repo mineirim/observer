@@ -507,22 +507,26 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
              if(record.get('operativo').length>0){
                  olOperativo ={}; 
                  operativo = record.get('operativo')[0];
+                 olOperativo.id = operativo['id'];
                  olOperativo.data_inicio =new Date(operativo['data_inicio'] + ' 00:00:00');
                  olOperativo.data_prazo =new Date(operativo['data_prazo'] + ' 00:00:00');
                  if(operativo['data_encerramento']!== null)
                     olOperativo.data_encerramento = new Date(operativo['data_encerramento']);
                  olOperativo.peso = operativo['peso'];
                  var tpl_operativo = new Ext.XTemplate([
-                                '<br/><br/><b>Definições:</b><br/>',
-                                '<ul class="tplDetail">',
-                                    '<tpl for=".">',
-                                        '<li>Peso: {peso}%</li>',
-                                        '<li>Início: {data_inicio:date("d/m/Y")}</li>',
-                                        '<li>Prazo: {data_prazo:date("d/m/Y")}</li>',
-                                        '<li>Encerramento: {data_encerramento}</li>',
-                                    '</tpl>',
-                                '</ul>']);
-                 tpl_operativo.append(showDetail.body, olOperativo);
+                                '<br/><b>Planilha Operativa:</b><br>',
+                                '<tpl for=".">',
+                                    '<button alt={id} name="btnExecucao">Registrar Execução:</button>',
+                                    '<table class="tplDetail">',
+                                            '<tr><td class="tplDetail">Peso: </td><td> {peso}%</td></tr>',
+                                            '<tr><td class="tplDetail">Início:</td><td> {data_inicio:date("d/m/Y")}</td></tr>',
+                                            '<tr><td class="tplDetail">Prazo: </td><td> {data_prazo:date("d/m/Y")}</td></tr>',
+                                            '<tr><td class="tplDetail">Encerramento: </td><td> {data_encerramento}</td></tr>',
+                                    '</table>',
+                                '</tpl>',
+                            ]);
+                 var elements = tpl_operativo.append(showDetail.body, olOperativo,true);
+                 elements.parent().down('button').on('click', me.clickOnDetailsButton);
              }
         }
 
@@ -586,5 +590,20 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     {
         Etc.log('entrou no render');
         me.getView().on('refresh', this.selectRecord);
+    },
+    /**
+     * executa ação de botões na view detalhes
+     */
+    clickOnDetailsButton : function(event,target)
+    {
+        var me = this;
+        if(target.name === "btnExecucao")
+        {
+            var controller = _myAppGlobal.getController('ExtZF.controller.plano.Operativos');
+            controller.init();
+            record = controller.getOperativosStore().findRecord('id',target.getAttribute('alt'));
+            controller.editObject(null, record);
+            
+        }
     }
 });

@@ -510,18 +510,18 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
              }
         }
         if(record.get('instrumento').has_operativo){
-             if(record.get('operativo').length>0){
+            operativo = me.getOperativosStore().findRecord('programacao_id',record.get('id'))
+             if(operativo){
                  olOperativo ={}; 
-                 operativo = record.get('operativo')[0];
-                 olOperativo.id = operativo['id'];
-                 olOperativo.data_inicio =new Date(operativo['data_inicio'] + ' 00:00:00');
-                 olOperativo.data_prazo =new Date(operativo['data_prazo'] + ' 00:00:00');
-                 if(operativo['data_encerramento']!== null)
-                    olOperativo.data_encerramento = new Date(operativo['data_encerramento'] + ' 00:00:00');
-                 olOperativo.percentual_execucao    =operativo['percentual_execucao'];
-                 olOperativo.avaliacao_andamento    = operativo['avaliacao_andamento'];
-                 olOperativo.andamento_id           =operativo['andamento_id'];
-                 olOperativo.peso                   = operativo['peso'];
+                 olOperativo.id = operativo.get('id');
+                 olOperativo.data_inicio =new Date(operativo.get('data_inicio') + ' 00:00:00');
+                 olOperativo.data_prazo =new Date(operativo.get('data_prazo') + ' 00:00:00');
+                 if(operativo.get('data_encerramento')!== null)
+                    olOperativo.data_encerramento = new Date(operativo.get('data_encerramento') + ' 00:00:00');
+                 olOperativo.percentual_execucao    =operativo.get('percentual_execucao');
+                 olOperativo.avaliacao_andamento    = operativo.get('avaliacao_andamento');
+                 olOperativo.andamento_id           =operativo.get('andamento_id');
+                 olOperativo.peso                   = operativo.get('peso');
                  var tpl_operativo = new Ext.XTemplate([
                                 '<br/><b>Planilha Operativa:</b><br>',
                                 '<tpl for=".">',
@@ -539,7 +539,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                             ]);
                  tpl_operativo.append(showDetail.body, olOperativo,true);
                  btnExecucao.show();
-                 btnExecucao.value = operativo['id'];
+                 btnExecucao.value = operativo.get('id');
              }
         }
        

@@ -20,15 +20,28 @@ Ext.define('ExtZF.view.plano.operativos.Edit', {
                     {xtype: 'displayfield', name: 'data_prazo', ref: 'data_prazo', fieldLabel: 'Prazo',
                         renderer: Ext.util.Format.dateRenderer('d/m/y')
                     },
-//                    {xtype: 'combo', name: 'andamento_id', ref: 'andamento_id', fieldLabel: 'Andamento',
-//                        store: 'Andamentos',
-//                        displayField: 'descricao',
-//                        valueField: 'id',
-//                        queryMode: 'local',
-//                        anchor: '50%',
-//                        typeAhead: true
-//                    },
-                    {xtype: 'htmleditor', name: 'avaliacao_andamento', ref: 'avaliacao_andamento', fieldLabel: 'Avaliacao do andamento'},
+                    {xtype: 'combo', name: 'andamento_id', ref: 'andamento_id', fieldLabel: 'Andamento',
+                        store: 'Andamentos',
+                        displayField: 'descricao',
+                        valueField: 'id',
+                        queryMode: 'local',
+                        anchor: '90%',
+                        typeAhead: true,
+                        listConfig: {
+                                itemTpl: Ext.create('Ext.XTemplate',
+                                '<tpl for=".">',
+                                '<div style="clear: both; border: 1px solid white; width: 98%;">',
+                                        '<div style="text-align: left; clear: both;"><b>{descricao}</b></div>',
+                                        '<div style="text-align: left; clear: both;font-size:0.9em;font-style: italic;">{conceito}</div>',
+                                '</div>',
+                                '</tpl>'
+                                )
+                        }
+                    },
+                    {xtype: 'htmleditor', name: 'avaliacao_andamento', ref: 'avaliacao_andamento',
+                        fieldLabel: 'Avaliacao do andamento',
+                        anchor: '90%'
+                    },
                     {xtype: 'sliderfield', name: 'percentual_execucao', ref: 'percentual_execucao', fieldLabel: 'Percentual de execucao',
                         increment: 1,
                         minValue: 0,
@@ -37,7 +50,7 @@ Ext.define('ExtZF.view.plano.operativos.Edit', {
                             return String(thumb.value) + '%';
 
                         },
-                        anchor: '95%'
+                        anchor: '90%'
                     },
                     {xtype: 'datefield', name: 'data_encerramento', ref: 'data_encerramento',
                         fieldLabel: 'Data de encerramento',

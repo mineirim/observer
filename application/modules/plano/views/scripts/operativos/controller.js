@@ -1,8 +1,8 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Operativos', {
     extend: 'Ext.app.Controller',
-    stores: ['Operativos','Situacoes'], // Store utilizado no gerenciamento do usuário
-    models: ['Operativos','Situacoes'], // Modelo do usuário
+    stores: ['Operativos','Situacoes','Andamentos'], // Store utilizado no gerenciamento do usuário
+    models: ['Operativos','Situacoes','Andamentos'], // Modelo do usuário
      views: [
     'plano.operativos.List',
     'plano.operativos.Edit'
@@ -39,6 +39,7 @@ Ext.define('ExtZF.controller.plano.Operativos', {
         me.getController('ExtZF.controller.plano.Operativos').is_initialized =true; 
     },
     editObject: function(grid, record) {
+        var me = this;
         var view = Ext.widget('planoOperativosEdit');
         view.setTitle('Edição ');
         if(!record.data){
@@ -46,6 +47,11 @@ Ext.define('ExtZF.controller.plano.Operativos', {
             this.getOperativosStore().add(record);
             view.setTitle('Cadastro');
         }
+        if(parseInt(record.get('andamento_id'),10)===1){
+            record.set('andamento_id',2);
+            me.getOperativosStore().sync();
+        }
+        
       	view.down('form').loadRecord(record);
     },
     deleteObject: function() {

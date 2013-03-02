@@ -88,8 +88,10 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             },
             'planoVinculosEdit depende_programacao_id':{
                 change: this.verificaResponsavel
-            }           
-            
+            },           
+            'planoProgramacoesDetalhes button[action=execucao]' : {
+                 click : me.clickOnDetailsButton
+            }
            
         });
         this.getController('ExtZF.controller.plano.Programacoes').is_initialized =true; 
@@ -453,6 +455,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     changeButtonAction: function(view, record, item, index, e, options)
     {
          var detailPanel = Ext.getCmp('detailPanel');
+         var btnExecucao = detailPanel.down('button[action=execucao]');
+         btnExecucao.hide();
+         btnExecucao.value =null;
          if( !record){
              detailPanel.hide();
              return;
@@ -478,6 +483,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var bookTplMarkup = ['<div class="tplDetail"><b>Descrição: </b>{descricao}<br/></div>'];
         var bookTpl = Ext.create('Ext.XTemplate', bookTplMarkup);
         var showDetail = Ext.getCmp('showDetail');
+        
         bookTpl.overwrite(showDetail.body, record.data);         
         if(record.get('instrumento').has_responsavel){
              if(typeof(record.get('responsavel')) !== 'undefined'){
@@ -511,25 +517,31 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                  olOperativo.data_inicio =new Date(operativo['data_inicio'] + ' 00:00:00');
                  olOperativo.data_prazo =new Date(operativo['data_prazo'] + ' 00:00:00');
                  if(operativo['data_encerramento']!== null)
-                    olOperativo.data_encerramento = new Date(operativo['data_encerramento']);
-                 olOperativo.peso = operativo['peso'];
+                    olOperativo.data_encerramento = new Date(operativo['data_encerramento'] + ' 00:00:00');
+                 olOperativo.percentual_execucao    =operativo['percentual_execucao'];
+                 olOperativo.avaliacao_andamento    = operativo['avaliacao_andamento'];
+                 olOperativo.andamento_id           =operativo['andamento_id'];
+                 olOperativo.peso                   = operativo['peso'];
                  var tpl_operativo = new Ext.XTemplate([
                                 '<br/><b>Planilha Operativa:</b><br>',
                                 '<tpl for=".">',
-                                    '<button alt={id} name="btnExecucao">Registrar Execução:</button>',
                                     '<table class="tplDetail">',
+                                            '<tr><td colspan="2" align="center" class="tplDetail">Programado</td></tr>',
                                             '<tr><td class="tplDetail">Peso: </td><td> {peso}%</td></tr>',
                                             '<tr><td class="tplDetail">Início:</td><td> {data_inicio:date("d/m/Y")}</td></tr>',
                                             '<tr><td class="tplDetail">Prazo: </td><td> {data_prazo:date("d/m/Y")}</td></tr>',
-                                            '<tr><td class="tplDetail">Encerramento: </td><td> {data_encerramento}</td></tr>',
+                                            '<tr><td colspan="2" align="center" class="tplDetail">Executado</td></tr>',
+                                            '<tr><td class="tplDetail">% execução: </td><td> {percentual_execucao}%</td></tr>',
+                                            '<tr><td class="tplDetail">Andamento: </td><td> {avaliacao_andamento}</td></tr>',
+                                            '<tr><td class="tplDetail">Encerramento: </td><td> {data_encerramento:date("d/m/Y")}</td></tr>',
                                     '</table>',
-                                '</tpl>',
+                                '</tpl>'
                             ]);
-                 var elements = tpl_operativo.append(showDetail.body, olOperativo,true);
-                 elements.parent().down('button').on('click', me.clickOnDetailsButton);
+                 tpl_operativo.append(showDetail.body, olOperativo,true);
+                 btnExecucao.show();
+                 btnExecucao.value = operativo['id'];
              }
         }
-
        
         if(record.get('instrumento').has_vlr_programado){            
             planilhaOrcamentaria = detailPanel.child("#planilhaOrcamentaria");
@@ -548,6 +560,22 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         this.getFinanceiroStore().remoteFilter = true;
         this.getFinanceiroStore().filter('programacao_id',record.get('id'));
         showDetail.doLayout();
+    },
+    /**
+     * executa ação de botões na view detalhes
+     */
+    clickOnDetailsButton : function(button, event)
+    {
+        var me = this;
+        target = event.getTarget();
+        if(button.action === "execucao")
+        {
+            var controller = _myAppGlobal.getController('ExtZF.controller.plano.Operativos');
+            controller.init();
+            record = controller.getOperativosStore().findRecord('id',button.value);
+            controller.editObject(null, record);
+            
+        }
     },
     getGantt : function(id){
         var g = new JSGantt.GanttChart('g',document.getElementById('GanttChartDIV'), 'month');
@@ -590,20 +618,6 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     {
         Etc.log('entrou no render');
         me.getView().on('refresh', this.selectRecord);
-    },
-    /**
-     * executa ação de botões na view detalhes
-     */
-    clickOnDetailsButton : function(event,target)
-    {
-        var me = this;
-        if(target.name === "btnExecucao")
-        {
-            var controller = _myAppGlobal.getController('ExtZF.controller.plano.Operativos');
-            controller.init();
-            record = controller.getOperativosStore().findRecord('id',target.getAttribute('alt'));
-            controller.editObject(null, record);
-            
-        }
     }
+    
 });

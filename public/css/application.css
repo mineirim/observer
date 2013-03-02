@@ -91,7 +91,7 @@
 
 }
 table.tplDetail {
-    min-width: 200px;
+    min-width: 300px;
 }
 .tplDetail {
     font-size: 103%;
@@ -101,6 +101,9 @@ table.tplDetail {
 table.tplDetail, table.tplDetail tr td {
     border-collapse: collapse;
     border: #000000 thin solid;
+}
+td.tplDetail{
+    font-weight: bold;
 }
 .icon-upload{
     background-image: url(../images/icons/upload2.jpg)  !important;

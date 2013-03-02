@@ -1,8 +1,8 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Operativos', {
     extend: 'Ext.app.Controller',
-    stores: ['Operativos'], // Store utilizado no gerenciamento do usuário
-    models: ['Operativos'], // Modelo do usuário
+    stores: ['Operativos','Situacoes'], // Store utilizado no gerenciamento do usuário
+    models: ['Operativos','Situacoes'], // Modelo do usuário
      views: [
     'plano.operativos.List',
     'plano.operativos.Edit'

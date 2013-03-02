@@ -1,6 +1,18 @@
 Ext.define('ExtZF.model.Operativos', {
         extend         : 'Ext.data.Model',
         fields         : ['id','programacao_id','peso','responsavel_id','data_inicio','data_prazo','data_encerramento','andamento_id','avaliacao_andamento','percentual_execucao','situacao_id'],
+        
+        belongsTo:[
+        {
+          name:'responsavel',
+          instanceName:'responsavel',
+          model:'ExtZF.model.Usuarios',
+          getterName:'getResponsavel',
+          setterName:'setResponsavel',
+          associationKey:'responsavel',
+          foreignKey:'responsavel_id'
+        }
+        ],
         proxy          : {
         simpleSortMode : true, 
         type           : 'rest',

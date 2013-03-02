@@ -71,7 +71,7 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
             items: [
             {
                 width: 400,
-                increment: 5,
+                increment: 1,
                 minValue: 0,
                 maxValue: 100,
                 xtype: 'sliderfield',

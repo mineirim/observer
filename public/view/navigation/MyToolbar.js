@@ -53,25 +53,13 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
                 createView  : "planoAnexosList"
             },
             {
-                text        : 'Configurações',
-                iconCls     : 'icon-config',
-                menu       : [
-//                                {
-//                                    text: 'Situa&ccedil;&otilde;es',
-//                                    data: 'admin.Situacoes',
-//                                    action: 'loadController',
-//                                    createView : 'adminSituacoesList',
-//                                    iconCls: 'x-menu-item-lst'
-//                                },
-                                {
-                                    text        : 'Estrutura',
-                                    iconCls     : 'silk-add',
-                                    data        : 'admin.Instrumentos',
-                                    action      : "loadController",
-                                    createView  : "adminInstrumentosList"
-                                }
-                            ]
+                text        : 'Estrutura',
+                iconCls     : 'silk-add',
+                data        : 'admin.Instrumentos',
+                action      : "loadController",
+                createView  : "adminInstrumentosList"
             }
+
             ]
 
         },'->',{xtype : 'authControle'},'-',{

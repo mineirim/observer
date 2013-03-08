@@ -6,7 +6,7 @@ Ext.define('ExtZF.view.admin.users.List' ,{
     selModel: {mode: 'MULTI'}, // Permite selecionar mais de uma linha da grid
     
     tbar :[{
-    	text: 'Novo',
+    	text: 'Incluir',
         iconCls: 'icon-new',
     	action: 'new' // action identificada para executar na camada controller
     },'->',{

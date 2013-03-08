@@ -458,10 +458,14 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
          var btnExecucao = detailPanel.down('button[action=execucao]');
          btnExecucao.hide();
          btnExecucao.value =null;
+         var buttonExcluir = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=excluir]')[0];
          if( !record){
              detailPanel.hide();
+             
+             buttonExcluir.hide();
              return;
          }
+         buttonExcluir.show()
          detailPanel.show();
          
          var instrumento = this.getInstrumentosStore().findRecord('instrumento_id',record.get('instrumento_id'));
@@ -478,6 +482,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
          } else {
              button.hide();
              buttonVincular.hide();
+             buttonExcluir.hide();
          }
          
         var bookTplMarkup = ['<div class="tplDetail"><b>Descrição: </b>{descricao}<br/></div>'];

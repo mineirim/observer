@@ -30,15 +30,7 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
                 action: 'loadController',
                 createView : 'adminUsersList',
                 iconCls: 'icon-user'
-            },
-            {
-                text: 'Cargos',
-                data: 'admin.Cargos',
-                action: 'loadController',
-                createView : 'adminCargosList',
-                iconCls: 'icon-cargos'
-            },
-            
+            },            
             {
                 text        : 'Equipes',
                 iconCls     : 'icon-setores',

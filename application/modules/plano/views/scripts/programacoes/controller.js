@@ -180,8 +180,15 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var options ={instrumento_id: ''};
         if( typeof(parent)!=='undefined'){
             parent_id  = parent.get('id');
-            options.programacao_id = parent_id;
-            instrumento = this.getInstrumentosStore().findRecord('instrumento_id',parent.get('instrumento_id'));
+            if(parent_id.toString().split('-').length > 1){                
+                instrumento = this.getInstrumentosStore().findRecord('instrumento_id', parent_id.split('-')[1]);
+            }else{
+                if(parent.get('root')){
+                    parent = this.getProgramacoesStore().findRecord('id',parent.get('id'));
+                }
+                options.programacao_id = parent_id;
+                instrumento = this.getInstrumentosStore().findRecord('instrumento_id',parent.get('instrumento_id'));                
+            }
             options.instrumento_id =instrumento.get('id');
         }
         this.configuraForm(view,false,instrumento);
@@ -459,18 +466,32 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
          btnExecucao.hide();
          btnExecucao.value =null;
          var buttonExcluir = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=excluir]')[0];
+         var button = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=incluir]')[0];
+         var buttonVincular = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=vincular]')[0];
          if( !record){
              detailPanel.hide();
-             
+             button.hide();
              buttonExcluir.hide();
              return;
          }
-         buttonExcluir.show()
+         buttonExcluir.show();
          detailPanel.show();
          
-         var instrumento = this.getInstrumentosStore().findRecord('instrumento_id',record.get('instrumento_id'));
-         var button = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=incluir]')[0];
-         var buttonVincular = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=vincular]')[0];
+         var instrumento =undefined;
+         if(record.get('root')===true){
+             buttonExcluir.hide();
+             rootId = record.get('id');
+             if(record.get('id')>0){
+                 var rootRecord = this.getProgramacoesStore().findRecord('id',record.get('id'));
+                 instrumento= this.getInstrumentosStore().findRecord('instrumento_id',rootRecord.get('instrumento_id'));
+             }else if( rootId.split('-').length > 1 ){
+                 instrumento= this.getInstrumentosStore().findRecord('instrumento_id',rootId.split('-')[1]);
+             }
+             
+         }else{
+             instrumento = this.getInstrumentosStore().findRecord('instrumento_id',record.get('instrumento_id'));
+         }
+         
          if(instrumento){
              button.show();
              button.setText('Adicionar '+instrumento.get('singular'));

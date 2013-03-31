@@ -66,6 +66,8 @@ Ext.define('ExtZF.controller.Navigation', {
                     createView  : "planoProgramacoesContainer"
                   };
         this.loadController(obj,record);
+        this.getController('ExtZF.controller.plano.Programacoes').changeButtonAction();
+        
               
     },
     
@@ -109,13 +111,14 @@ Ext.define('ExtZF.controller.Navigation', {
         
          if(record){
             var store = Ext.StoreManager.get('programacoes.TreeStore');
-            store.setRootNode({id:record.data.id,text:record.data.menu, desc:'descricao'});
+            store.setRootNode({id:record.data.id,text:record.data.menu, desc:'descricao', instrumento:record.data.instrumento});
             root_id = ''+record.get('id');
             if(root_id.split('-').length <=1){
                 this.getController('ExtZF.controller.plano.Programacoes').rootNodeSelected = record;
             }else{
                 this.getController('ExtZF.controller.plano.Programacoes').rootNodeSelected =false;
             }
+            
         }else{
              this.getController('ExtZF.controller.plano.Programacoes').rootNodeSelected =false;
         };

@@ -5,6 +5,7 @@ Ext.define('ExtZF.view.admin.users.Edit', {
     layout: 'fit',
     autoShow: true, 
     width : 740,
+    
     initComponent: function() {
     	// Itens da janela
         this.items = [{
@@ -36,6 +37,16 @@ Ext.define('ExtZF.view.admin.users.Edit', {
                     allowBlank  : false,
                     vtype       : 'alphanum'
                     //regex: /[a-zA-Z0-9]+/
+                },
+                {
+                    xtype       : 'checkbox',
+                    name        : 'is_su',
+                    ref         : 'is_su',
+                    fieldLabel  : 'Super-usuário(administrador)',
+                    allowBlank  : true,
+                    anchor      :'95%',
+                    labelWidth  : 200,
+                    labelStyle  : 'white-space: nowrap;'
                 }
             ]}
         ];

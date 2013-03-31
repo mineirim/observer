@@ -71,6 +71,11 @@
 .icon-admin{
     background-image: url(../images/icons/config.png)  !important;
 }
+.icon-su{
+    background-image: url(../images/icons/user_suit.png)  !important;
+    background-repeat: no-repeat;
+}
+
 .icon-cargos{
     background-image: url(../images/icons/cargos.jpg)  !important;
 }

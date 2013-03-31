@@ -18,7 +18,17 @@ Ext.define('ExtZF.view.admin.users.List' ,{
         {header: 'Id.' ,  dataIndex: 'id'      , flex: 0, hidden:true},
 	{header: 'Nome' ,  dataIndex: 'nome'    , flex: 3},
         {header: 'E-Mail', dataIndex: 'email'   , flex: 3},
-        {header: 'Login',  dataIndex: 'usuario', flex: 1}
+        {header: 'Login',  dataIndex: 'usuario', flex: 1},
+        {header: 'S.U.', dataIndex: 'is_su' , flex: 0, width:'38px',
+                renderer: function(value, metaData, record, rowIndex, colIndex, store) {
+                    
+                    if(value){
+                        metaData.tdCls = 'icon-su';
+                    }
+                     
+                     return '';
+                 }
+        }
     ],
     // Paginação
     dockedItems: [{

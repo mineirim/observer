@@ -26,6 +26,46 @@ class IndexController extends Zend_Controller_Action
                     $this->_helper->layout()->setLayout('acesso');
                 }
             }
+            if($ident->is_su){
+            $this->view->adminMenu = "{
+                    text: 'Administra&ccedil;&atilde;o',
+                    id: 'btnAdministracao',
+                    iconCls : 'icon-admin',
+                    menu: [
+                    {
+                        text: 'Usuários',
+                        data: 'admin.Users',
+                        action: 'loadController',
+                        createView : 'adminUsersList',
+                        iconCls: 'icon-user'
+                    },            
+                    {
+                        text        : 'Equipes',
+                        iconCls     : 'icon-setores',
+                        data        : 'admin.Setores',
+                        action      : 'loadController',
+                        createView  : 'adminSetoresList'
+                    },{
+                        text        : 'Arquivos',
+                        iconCls     : 'icon-attach',
+                        data        : 'plano.Anexos',
+                        action      : 'loadController',
+                        createView  : 'planoAnexosList'
+                    },
+                    {
+                        text        : 'Estrutura',
+                        iconCls     : 'silk-add',
+                        data        : 'admin.Instrumentos',
+                        action      : 'loadController',
+                        createView  : 'adminInstrumentosList'
+                    }
+
+                    ]
+
+                };";
+            }else{
+                $this->view->adminMenu = "{}";
+            }
         }else{
             $this->_helper->layout()->setLayout('acesso');
         }

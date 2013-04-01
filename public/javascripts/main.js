@@ -46,6 +46,12 @@ var Etc = function(){
         error : function(obj)
         {
             window.console.error(obj);
+        },
+        getLoggedUser : function(){
+            var _user, _store;
+            _store = Ext.StoreMgr.get('Usuarios');
+            _user = _store.findRecord('usuario',usuario);
+            return _user;
         }
     };
     return Etc;
@@ -55,7 +61,7 @@ Etc = new Etc();
 
 Ext.util.Format.brMoney = function(v){
 return "R$ " + Ext.util.Format.number(v, '0.000,00/i');
-}
+};
 
 Ext.util.Format.thousandSeparator = '.';
 Ext.util.Format.decimalSeparator = ',';

@@ -15,7 +15,8 @@ Ext.define('ExtZF.model.Programacoes', {
                             {name:'instrumento', persist:false},
                             {name:'parent',persist:false},
                             {name:'operativo',persist:false},
-                            {name:'financeiro',persist:false}
+                            {name:'financeiro',persist:false},
+                            {name: 'locked',persist: false, type: 'boolean'}
                         ],
         proxy          : {
                         type           : 'rest',

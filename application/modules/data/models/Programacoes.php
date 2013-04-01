@@ -119,7 +119,8 @@ class Data_Model_Programacoes {
     }
 
     public function getAll($where=null, $order='ordem', $limit=null,$offset=null) {
-        
+        $_auth = Zend_Auth::getInstance ();
+        $identitity = $_auth->getIdentity();
         $programacoes_table = new Data_Model_DbTable_Programacoes();
         $where = $where ? $where.'and situacao_id <>2' : 'situacao_id <>2';
         $programacoes = $programacoes_table->fetchAll($where, $order, $limit,$offset);
@@ -152,7 +153,8 @@ class Data_Model_Programacoes {
                 'instrumento'   => $instrumento,
                 'parent'        => $parent,
                 'operativo'     => $operativo,
-                'financeiro'    => $financeiro
+                'financeiro'    => $financeiro,
+                'locked'        => !$identitity->is_su
             );
             $objs[] = $child;
         }

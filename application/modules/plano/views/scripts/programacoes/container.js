@@ -17,7 +17,7 @@ Ext.define('ExtZF.view.plano.programacoes.Container' ,{
         xtype : 'planoProgramacoesTreegrid'
     }, 
      {
-        id          : 'baixo',
+        id          : 'ctnDetail',
         region      : 'center',
         xtype       : 'container',
         layout      :   {type: 'vbox', align: 'stretch'},
@@ -29,6 +29,7 @@ Ext.define('ExtZF.view.plano.programacoes.Container' ,{
                         },*/
                         {
                             xtype   : 'tabpanel',
+                            id      : 'tabDetailPanel',
                             flex    : 1,
                             layout  : 'fit',
                             items   :[

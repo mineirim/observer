@@ -58,7 +58,11 @@ Ext.define('ExtZF.controller.acesso.Auth', {
             Ext.Msg.alert('Alteração de senha', 'Senha não confere. Tente novamente!');
             return;
         }
-        
+        var store =  me.getUsuariosStore4passStore();
+        store.remoteFilter = false;
+        store.clearFilter();
+        store.remoteFilter = true;
+        store.filter('usuario',usuario);
         Ext.Ajax.request({
             url: baseUrl+'/acesso/auth/checklogin',
             params: {
@@ -70,7 +74,6 @@ Ext.define('ExtZF.controller.acesso.Auth', {
             success: function(response){
                 obj = Ext.decode(response.responseText);
                 if(obj.success){
-                    store =  Ext.StoreManager.get('usuarios.Store4pass');
                     record = store.findRecord('usuario',usuario);
                     record.set('senha',senha_nova.value);
                     record.save({
@@ -99,6 +102,12 @@ Ext.define('ExtZF.controller.acesso.Auth', {
                 
     },
     createChangeWindow: function(){
+        me = this;
+        var store =  me.getUsuariosStore4passStore();
+        store.remoteFilter = false;
+        store.clearFilter();
+        store.remoteFilter = true;
+        store.filter('usuario',usuario);        
         win = Ext.widget('acessoAuthChangepassword');
     },
     onSpecialkey: function(field,event){
@@ -108,7 +117,6 @@ Ext.define('ExtZF.controller.acesso.Auth', {
     },
     login: function(button) {
         me=this;
-        Ext.log('Efetuando o login');
           
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
             form   = win.down('form').getForm()
@@ -123,6 +131,11 @@ Ext.define('ExtZF.controller.acesso.Auth', {
                         me.createChangeWindow();
                         me.forceChange = true
                         usuario = action.result.usuario;
+                        var store =  me.getUsuariosStore4passStore();
+                        store.remoteFilter = false;
+                        store.clearFilter();
+                        store.remoteFilter = true;
+                        store.filter('usuario',usuario);                        
                     }else{
                         window.location.reload();
                     }

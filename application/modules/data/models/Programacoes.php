@@ -14,7 +14,7 @@ class Data_Model_Programacoes {
                     SELECT  1 as nivel, * 
                     FROM    programacoes 
                     WHERE   $where
-                        
+              
                     UNION ALL 
                     SELECT  prog.nivel+1,p.*
                     FROM    programacoes p 

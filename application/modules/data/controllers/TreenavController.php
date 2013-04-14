@@ -39,7 +39,7 @@ class Data_TreenavController extends Zend_Rest_Controller
         
         if ( $node== 'root') {
             $select = $instrumentos_table->select();
-            $instrumentos_root= $instrumentos_table->fetchAll($select->where('instrumento_id is null'));
+            $instrumentos_root= $instrumentos_table->fetchAll($select->where('instrumento_id is null')->order('ordem'));
             $rows = array();
             foreach ($instrumentos_root as $value) {
                 $root = array(

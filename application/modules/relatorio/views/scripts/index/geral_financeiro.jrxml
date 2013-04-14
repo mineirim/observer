@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geral_financeiro" pageWidth="555" pageHeight="802" columnWidth="535" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="c37fc5d7-804c-4cfd-bd01-0fffba3f9b70">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="programacao_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     sum(despesas."valor") AS despesas_valor,
+     financeiro."descricao" AS financeiro_descricao,
+     financeiro."programacao_id" AS financeiro_programacao_id,
+     origem."menu" AS programacoes_menu,
+     financeiro."valor" AS financeiro_valor
+FROM
+     "public"."programacoes" origem INNER JOIN "public"."financeiro" financeiro ON origem."id" = financeiro."origem_recurso_id"
+     INNER JOIN "public"."despesas" despesas ON financeiro."id" = despesas."financeiro_id"
+WHERE
+     financeiro."programacao_id" = $P{programacao_id}
+GROUP BY
+     financeiro_descricao,
+     financeiro_valor,
+     programacoes_menu,
+     financeiro_programacao_id]]>
+	</queryString>
+	<field name="despesas_valor" class="java.math.BigDecimal"/>
+	<field name="financeiro_descricao" class="java.lang.String"/>
+	<field name="financeiro_programacao_id" class="java.lang.Integer"/>
+	<field name="programacoes_menu" class="java.lang.String"/>
+	<field name="financeiro_valor" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="19" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="dc926514-4f71-4317-ae0c-00f3e4e655ac" style="Title" x="3" y="5" width="539" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Programação;execução financeira]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="2ccf9974-61ac-44a7-8a7e-affc3a47cf99" style="Column header" x="0" y="0" width="190" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Descrição]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6307ad97-3a0a-4181-945e-dcd66ee3c0db" style="Column header" x="190" y="0" width="190" height="12"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Origem]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0b09732f-a955-4262-ac52-785db1af90b7" style="Column header" x="382" y="0" width="55" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Programado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0b09732f-a955-4262-ac52-785db1af90b7" style="Column header" x="437" y="0" width="55" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Executado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0b09732f-a955-4262-ac52-785db1af90b7" style="Column header" x="494" y="1" width="55" height="12"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Executado]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="11" splitType="Stretch">
+			<line>
+				<reportElement uuid="460aa493-0104-42fe-a3f3-8ac89b5e8a61" positionType="FixRelativeToBottom" x="0" y="10" width="550" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement uuid="096fd90a-9cdb-4877-a376-f27bd68a180b" style="Detail" x="0" y="0" width="190" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{financeiro_descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6596b367-db40-458c-8278-5cf0934edf43" style="Detail" x="190" y="0" width="190" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{programacoes_menu}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="74598543-e166-4fec-94d6-6083419d8eac" style="Detail" x="382" y="0" width="55" height="11"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{financeiro_valor}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="74598543-e166-4fec-94d6-6083419d8eac" style="Detail" x="437" y="0" width="55" height="11"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{despesas_valor}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement uuid="74598543-e166-4fec-94d6-6083419d8eac" style="Detail" x="492" y="0" width="55" height="11"/>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{financeiro_valor}.doubleValue() - $F{despesas_valor}.doubleValue()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

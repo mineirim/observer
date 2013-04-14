@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e69bc383-12d4-4901-8503-507569fba44c">
+	<property name="ireport.zoom" value="1.2100000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="50" isBold="true"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="9"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<style name="grupo" mode="Opaque" backcolor="#CCCCCC"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/scratch/webdev/observer/application/modules/relatorio/views/scripts/index/"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[with 	n1 as ( SELECT  p1.id AS p1_id, p1.singular as p1_singular, p1.has_responsavel as p1_has_responsavel, p1.has_supervisor as p1_has_supervisor, p1.has_equipe as p1_has_equipe, p1.menu as p1_menu, p1.descricao as p1_descricao, p1.ordem as p1_ordem, p1.programacao_id as p1_programacao_id, p1.equipe as p1_equipe, p1.responsavel as p1_responsavel, p1.supervisor as p1_supervisor, p1.instrumento_id as p1_instrumento_id
+	        FROM  vw_report_base p1 where p1.programacao_id is null and p1.instrumento_id=2),
+	n2 as (
+		SELECT n1.*, p2.id AS p2_id, p2.singular as p2_singular, p2.has_responsavel as p2_has_responsavel, p2.has_supervisor as p2_has_supervisor, p2.has_equipe as p2_has_equipe, p2.menu as p2_menu, p2.descricao as p2_descricao, p2.ordem as p2_ordem, p2.programacao_id as p2_programacao_id, p2.equipe as p2_equipe, p2.responsavel as p2_responsavel, p2.supervisor as p2_supervisor, p2.instrumento_id as p2_instrumento_id
+	        FROM    vw_report_base p2 RIGHT JOIN n1 on p2.programacao_id=n1.p1_id),
+	n3 as (
+		SELECT n2.*, p3.id AS p3_id, p3.singular as p3_singular, p3.has_responsavel as p3_has_responsavel, p3.has_supervisor as p3_has_supervisor, p3.has_equipe as p3_has_equipe, p3.menu as p3_menu, p3.descricao as p3_descricao, p3.ordem as p3_ordem, p3.programacao_id as p3_programacao_id, p3.equipe as p3_equipe, p3.responsavel as p3_responsavel, p3.supervisor as p3_supervisor, p3.instrumento_id as p3_instrumento_id
+	        FROM    vw_report_base p3 RIGHT JOIN n2 on p3.programacao_id=n2.p2_id),
+	n4 as (
+		SELECT n3.*, p4.id AS p4_id, p4.singular as p4_singular, p4.has_responsavel as p4_has_responsavel, p4.has_supervisor as p4_has_supervisor, p4.has_equipe as p4_has_equipe, p4.menu as p4_menu, p4.descricao as p4_descricao, p4.ordem as p4_ordem, p4.programacao_id as p4_programacao_id, p4.equipe as p4_equipe, p4.responsavel as p4_responsavel, p4.supervisor as p4_supervisor, p4.instrumento_id as p4_instrumento_id
+	        FROM    vw_report_base p4 RIGHT JOIN n3 on p4.programacao_id=n3.p3_id),
+	n5 as (
+		SELECT n4.*, p5.id AS p5_id, p5.singular as p5_singular, p5.has_responsavel as p5_has_responsavel, p5.has_supervisor as p5_has_supervisor, p5.has_equipe as p5_has_equipe, p5.menu as p5_menu, p5.descricao as p5_descricao, p5.ordem as p5_ordem, p5.programacao_id as p5_programacao_id, p5.equipe as p5_equipe, p5.responsavel as p5_responsavel, p5.supervisor as p5_supervisor, p5.instrumento_id as p5_instrumento_id
+	        FROM    vw_report_base p5 RIGHT JOIN n4 on p5.programacao_id=n4.p4_id)		        
+SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
+	</queryString>
+	<field name="p1_id" class="java.lang.Integer"/>
+	<field name="p1_singular" class="java.lang.String"/>
+	<field name="p1_has_responsavel" class="java.lang.Boolean"/>
+	<field name="p1_has_supervisor" class="java.lang.Boolean"/>
+	<field name="p1_has_equipe" class="java.lang.Boolean"/>
+	<field name="p1_menu" class="java.lang.String"/>
+	<field name="p1_descricao" class="java.lang.String"/>
+	<field name="p1_ordem" class="java.lang.Integer"/>
+	<field name="p1_programacao_id" class="java.lang.Integer"/>
+	<field name="p1_equipe" class="java.lang.String"/>
+	<field name="p1_responsavel" class="java.lang.String"/>
+	<field name="p1_supervisor" class="java.lang.String"/>
+	<field name="p1_instrumento_id" class="java.lang.Integer"/>
+	<field name="p2_id" class="java.lang.Integer"/>
+	<field name="p2_singular" class="java.lang.String"/>
+	<field name="p2_has_responsavel" class="java.lang.Boolean"/>
+	<field name="p2_has_supervisor" class="java.lang.Boolean"/>
+	<field name="p2_has_equipe" class="java.lang.Boolean"/>
+	<field name="p2_menu" class="java.lang.String"/>
+	<field name="p2_descricao" class="java.lang.String"/>
+	<field name="p2_ordem" class="java.lang.Integer"/>
+	<field name="p2_programacao_id" class="java.lang.Integer"/>
+	<field name="p2_equipe" class="java.lang.String"/>
+	<field name="p2_responsavel" class="java.lang.String"/>
+	<field name="p2_supervisor" class="java.lang.String"/>
+	<field name="p2_instrumento_id" class="java.lang.Integer"/>
+	<field name="p3_id" class="java.lang.Integer"/>
+	<field name="p3_singular" class="java.lang.String"/>
+	<field name="p3_has_responsavel" class="java.lang.Boolean"/>
+	<field name="p3_has_supervisor" class="java.lang.Boolean"/>
+	<field name="p3_has_equipe" class="java.lang.Boolean"/>
+	<field name="p3_menu" class="java.lang.String"/>
+	<field name="p3_descricao" class="java.lang.String"/>
+	<field name="p3_ordem" class="java.lang.Integer"/>
+	<field name="p3_programacao_id" class="java.lang.Integer"/>
+	<field name="p3_equipe" class="java.lang.String"/>
+	<field name="p3_responsavel" class="java.lang.String"/>
+	<field name="p3_supervisor" class="java.lang.String"/>
+	<field name="p3_instrumento_id" class="java.lang.Integer"/>
+	<field name="p4_id" class="java.lang.Integer"/>
+	<field name="p4_singular" class="java.lang.String"/>
+	<field name="p4_has_responsavel" class="java.lang.Boolean"/>
+	<field name="p4_has_supervisor" class="java.lang.Boolean"/>
+	<field name="p4_has_equipe" class="java.lang.Boolean"/>
+	<field name="p4_menu" class="java.lang.String"/>
+	<field name="p4_descricao" class="java.lang.String"/>
+	<field name="p4_ordem" class="java.lang.Integer"/>
+	<field name="p4_programacao_id" class="java.lang.Integer"/>
+	<field name="p4_equipe" class="java.lang.String"/>
+	<field name="p4_responsavel" class="java.lang.String"/>
+	<field name="p4_supervisor" class="java.lang.String"/>
+	<field name="p4_instrumento_id" class="java.lang.Integer"/>
+	<field name="p5_id" class="java.lang.Integer"/>
+	<field name="p5_singular" class="java.lang.String"/>
+	<field name="p5_has_responsavel" class="java.lang.Boolean"/>
+	<field name="p5_has_supervisor" class="java.lang.Boolean"/>
+	<field name="p5_has_equipe" class="java.lang.Boolean"/>
+	<field name="p5_menu" class="java.lang.String"/>
+	<field name="p5_descricao" class="java.lang.String"/>
+	<field name="p5_ordem" class="java.lang.Integer"/>
+	<field name="p5_programacao_id" class="java.lang.Integer"/>
+	<field name="p5_equipe" class="java.lang.String"/>
+	<field name="p5_responsavel" class="java.lang.String"/>
+	<field name="p5_supervisor" class="java.lang.String"/>
+	<field name="p5_instrumento_id" class="java.lang.Integer"/>
+	<group name="nivel">
+		<groupExpression><![CDATA[$F{p1_id}]]></groupExpression>
+		<groupHeader>
+			<band height="56">
+				<printWhenExpression><![CDATA[$F{p1_id}!=null]]></printWhenExpression>
+				<frame>
+					<reportElement uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5" key="frame_grupo" style="grupo" mode="Opaque" x="2" y="0" width="555" height="46"/>
+					<textField isStretchWithOverflow="true">
+						<reportElement uuid="ab7f1c6c-f283-43d2-ae49-e7cb58d2ab06" style="Detail" x="1" y="0" width="551" height="15"/>
+						<textElement>
+							<font size="10" isBold="true" isUnderline="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{p1_singular} + " - " + $F{p1_menu}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true">
+						<reportElement uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7" style="Detail" x="0" y="27" width="550" height="12"/>
+						<textElement markup="html">
+							<font size="8" isBold="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{p1_descricao} != null ? "Descrição: " + $F{p1_descricao} :""]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true">
+						<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" x="373" y="14" width="166" height="12"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{p1_equipe} != null ? "Equipe: " + $F{p1_equipe} : ""]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" x="0" y="14" width="188" height="12"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{p1_responsavel} != null ? "Responsável: " + $F{p1_responsavel} : ""]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" x="188" y="14" width="185" height="12"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{p1_supervisor} != null ? "Supervisor: " + $F{p1_supervisor} : ""]]></textFieldExpression>
+					</textField>
+					<staticText>
+						<reportElement uuid="907668cb-ec16-435b-8d5d-2059bd72a2c0" x="134" y="41" width="100" height="20"/>
+						<textElement/>
+						<text><![CDATA[Static text]]></text>
+					</staticText>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="30" splitType="Stretch">
+			<image>
+				<reportElement uuid="813c3241-f995-4c65-a596-0456db78a260" x="0" y="3" width="100" height="27"/>
+				<imageExpression><![CDATA["/scratch/webdev/observer/public/images/logo-mini.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="66" splitType="Stretch">
+			<printWhenExpression><![CDATA[$F{p5_id} != null]]></printWhenExpression>
+			<frame>
+				<reportElement uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5" style="Row" mode="Opaque" x="1" y="0" width="555" height="60"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="ab7f1c6c-f283-43d2-ae49-e7cb58d2ab06" style="Detail" x="1" y="0" width="550" height="15"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p5_singular} + " - " + $F{p5_menu}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7" style="Detail" x="0" y="27" width="551" height="12"/>
+					<textElement markup="html">
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p5_descricao} != null ? "Descrição: " + $F{p5_descricao} :""]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" x="373" y="14" width="178" height="12"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p5_equipe} != null ? "Equipe: " + $F{p5_equipe} : ""]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" x="0" y="14" width="188" height="12"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p5_responsavel} != null ? "Responsável: " + $F{p5_responsavel} : ""]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" x="188" y="14" width="185" height="12"/>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{p5_supervisor} != null ? "Supervisor: " + $F{p5_supervisor} : ""]]></textFieldExpression>
+				</textField>
+				<subreport runToBottom="false">
+					<reportElement uuid="0d2cbe1d-4c7a-4a49-b692-57c543f601f8" x="4" y="44" width="536" height="14"/>
+					<subreportParameter name="programacao_id">
+						<subreportParameterExpression><![CDATA[$F{p5_id}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "geral_financeiro.jasper"]]></subreportExpression>
+				</subreport>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="5" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement uuid="113d0c6a-9365-49bb-8b43-8fd8fd9fd51c" mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="d4eb09fc-5d9d-4727-b7ca-dcbd93fb0ede" style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="52330dd2-21e1-451b-9d3b-e36126d48203" style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="78e96ecb-4eda-459b-ae1a-1518d4cb767b" style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

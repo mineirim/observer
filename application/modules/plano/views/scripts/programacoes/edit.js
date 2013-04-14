@@ -134,6 +134,8 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
 
             {
                 xtype: 'htmleditor',
+                enableFont : false,
+                enableFontSize: false,  
                 name : 'descricao',
                 ref: 'descricao',
                 fieldLabel: 'Descrição',

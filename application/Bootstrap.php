@@ -5,6 +5,11 @@
 */
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
+    protected function _initConfigs()
+    {
+        $this->config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', APPLICATION_ENV);
+        Zend_Registry::set('config', $this->config);
+    }
     protected function _initAutoload()
     {
          $loader = new Zend_Application_Module_Autoloader(array(

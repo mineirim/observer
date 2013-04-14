@@ -82,9 +82,10 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
             $this->view->instrumento = 'root';
             $this->getResponse()->setHttpResponseCode(200);
         }catch(Exception $e){
-            $this->getResponse()->setHttpResponseCode(500);
-            $this->success=false;
-            $this->msg = $e->getMessage();
+            echo $e->getMessage();die;
+            $this->getResponse()->setHttpResponseCode(502);
+            $this->view->success=false;
+            $this->view->msg = $e->getMessage();
         }
     }
     

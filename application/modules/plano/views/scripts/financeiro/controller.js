@@ -28,11 +28,50 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
             'planoFinanceiroList button[action=excluir]': {
                 click: this.deleteObject
             },
+            'planoFinanceiroEdit': {
+                afterrender: this.editRender
+            },
+            'planoFinanceiroEdit combo[ref=cmb_fonte]': {
+                select: this.filterByFonte
+            },
+            'planoFinanceiroEdit combo[ref=cmb_grupo_despesas]': {
+                select: this.filterByGrupoDespesas
+            },
             'planoFinanceiroEdit button[action=salvar]': {
                 click: this.saveObject
             }
         });
         this.initiated=true;
+    },
+    filterByFonte : function(cmb,records){
+        record  =records[0];
+        var grupo_despesas = Ext.getCmp('cmb_grupo_despesas');
+        grupo_despesas.clearValue();
+        grupo_despesas.getStore().remoteFilter=false;
+        grupo_despesas.getStore().clearFilter();
+        grupo_despesas.getStore().remoteFilter=true;
+        grupo_despesas.getStore().filter('programacao_id',record.get('id'));
+        var item_despesa =  Ext.getCmp('origem_recurso_id');
+        item_despesa.clearValue();
+        item_despesa.filter('1','2');
+    },
+    filterByGrupoDespesas : function(cmb,records){
+        record  =records[0];
+        var item_despesa =  Ext.getCmp('origem_recurso_id');
+        item_despesa.clearValue();
+        item_despesa.getStore().remoteFilter=false;
+        item_despesa.getStore().clearFilter();
+        item_despesa.getStore().remoteFilter=true;
+        item_despesa.getStore().filter('programacao_id',record.get('id'));
+    },
+    editRender : function(panel, opts){
+            var fonte = Ext.getCmp('cmb_fonte');
+            var grupo = Ext.getCmp('cmb_grupo_despesas');
+            var item = Ext.getCmp('origem_recurso_id');
+            var new_store= Etc.cloneStore(item.getStore(),'Fonte');            
+            fonte.bindStore(new_store);
+            new_store= Etc.cloneStore(item.getStore(),'Grupo');            
+            grupo.bindStore(new_store);
     },
     editObject: function(grid, record,obj,x) 
     {

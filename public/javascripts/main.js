@@ -52,6 +52,22 @@ var Etc = function(){
             _store = Ext.StoreMgr.get('Usuarios');
             _user = _store.findRecord('usuario',usuario);
             return _user;
+        },
+        cloneStore : function(source,alias){
+            var obj= {model: source.model};
+            if(typeof(alias)!=='undefined'){
+                obj.alias = alias;
+            }
+            var target = Ext.create ('Ext.data.Store',obj);
+
+            Ext.each (source.getRange (), function (record) {
+                var newRecordData = Ext.clone (record.copy().data);
+                var model = new source.model (newRecordData, newRecordData.id);
+
+                target.add (model);
+            });
+
+            return target;
         }
     };
     return Etc;

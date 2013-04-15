@@ -17,6 +17,36 @@ Ext.define('ExtZF.view.plano.financeiro.Edit', {
             items       : [
                          {
                             xtype       : 'combo',
+                            id          : 'cmb_fonte',
+                            ref         : 'cmb_fonte',
+                            fieldLabel  : 'Fonte', 
+                            displayField: 'menu',
+                            valueField  : 'id',
+                            anchor      : '95%',
+                            hidden      : false,
+                            allowBlank  : false,
+                            typeAhead   : true,
+                            width       : 650,
+                            mode        : 'remote',
+                            
+                            allQuery    : ' AND instrumento_id=8 '
+                        },{
+                            xtype       : 'combo',
+                            id          : 'cmb_grupo_despesas',
+                            ref         : 'cmb_grupo_despesas',
+                            fieldLabel  : 'Grupo de despesas',
+                            displayField: 'menu',
+                            valueField  : 'id',
+                            anchor      : '95%',
+                            hidden      : false,
+                            allowBlank  : false,
+                            typeAhead   : true,
+                            width       : 650,
+                            mode        : 'remote',
+                            
+                            allQuery    : ' AND instrumento_id=9 '
+                        },{
+                            xtype       : 'combo',
                             id          : 'origem_recurso_id',
                             name        : 'origem_recurso_id',
                             ref         : 'origem_recurso_id',
@@ -30,27 +60,9 @@ Ext.define('ExtZF.view.plano.financeiro.Edit', {
                             typeAhead   : true,
                             width       : 650,
                             mode        : 'remote',
-                            queryParam  : 'getOrcamento',
-                            allQuery    : ' '
-                        },  
-//                        {
-//                            xtype       : 'combo',
-//                            id          : 'grupo_despesa_id',
-//                            name        : 'grupo_despesa_id',
-//                            ref         : 'grupo_despesa_id',
-//                            fieldLabel  : 'Grupo de despesas', 
-//                            store       : 'GrupoDespesas',
-//                            displayField: 'descricao',
-//                            valueField  : 'id',
-//                            anchor      : '95%',
-//                            hidden      : false,
-//                            allowBlank  : false,
-//                            typeAhead   : true,
-//                            width       : 650,
-//                            mode        : 'remote',
-//                            queryParam  : 'getOrcamento',
-//                            allQuery    : ' '
-//                        },
+                            queryParam  : 'get_all_itens',
+                            allQuery    : 'get_all'
+                        },
 
                         {
                             xtype   : 'textfield',

@@ -30,10 +30,19 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
             $programacoes_table = new Data_Model_Programacoes();
             $this->_helper->viewRenderer->setNoRender(true);
             if($this->_getParam('getRecurso'))
-            {
-                
-                $where  = "instrumento_id in (select id from instrumentos where has_vlr_programado=true and has_vlr_executado=false)";
-                
+            {   
+                $where =" situacao_id <>2 ";
+                if($this->_hasParam('filter'))
+                {
+                    $filtro  = json_decode($this->_getParam('filter'),true);
+                    $where .= " AND " . $filtro[0]['property']."=". $filtro[0]['value'];
+                }
+                if($this->_getParam('get_all_itens')){
+                    $where  .= " AND instrumento_id in (select id from instrumentos where has_vlr_programado=true and has_vlr_executado=false)";
+                }elseif($this->_getParam('query')){
+                    $where  .= $this->_getParam('query');
+                    
+                }
                 $this->view->rows = $programacoes_table->getFilter($where);
             }elseif($this->_getParam('getOrcamento'))
             {

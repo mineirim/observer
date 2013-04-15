@@ -25,7 +25,7 @@ Ext.define('ExtZF.view.plano.despesas.Edit', {
             name : 'financeiro_id',ref: 'financeiro_id',
             xtype       : 'combo',
             id          : 'financeiro_id',
-            fieldLabel  : 'Grupo de despesas', 
+            fieldLabel  : 'Ítem de despesa', 
             store       : 'Financeiro',
             displayField: 'descricao',
             valueField  : 'id',

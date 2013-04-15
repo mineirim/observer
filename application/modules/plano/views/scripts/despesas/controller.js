@@ -17,10 +17,12 @@ Ext.define('ExtZF.controller.plano.Despesas', {
             }
         ],
     init: function() {
+        var me = this;
         this.control(
         {
             'planoDespesasList': {
-                itemdblclick: this.editObject
+                itemdblclick: this.editObject,
+                itemcontextmenu : me.itemContextMenu
             },
             'planoDespesasList button[action=incluir]': {
                 click: this.editObject
@@ -34,6 +36,26 @@ Ext.define('ExtZF.controller.plano.Despesas', {
         });
         this.initiated=true;
     },
+    itemContextMenu :  function( view, record, item, index, event, options){
+        event.stopEvent();
+        var me= this;
+        items = [];
+        items.push({text: 'Editar',
+                    handler : function(){
+                        me.editObject(view,record);
+                    }
+                });
+        items.push({text: 'Excluir',
+                    handler : function(){
+                        me.deleteObject();
+                    }
+                });
+        var menu = Ext.create('Ext.menu.Menu',{
+        items: items
+        });
+        menu.showAt(event.xy);
+    },
+            
     showEdit : function(parent_record,record){
         
         var view = Ext.widget('planoDespesasEdit');
@@ -62,6 +84,7 @@ Ext.define('ExtZF.controller.plano.Despesas', {
             view.setTitle('Cadastro');
         }
       	view.down('form').loadRecord(record);
+        view.show();
     },
     deleteObject: function() {
         var grid = this.getGrid(); // recupera lista de usuários

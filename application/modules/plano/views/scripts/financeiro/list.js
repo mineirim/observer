@@ -7,7 +7,7 @@ Ext.define('ExtZF.view.plano.financeiro.List' ,{
     // botões do cabeçalho
     programacao_id:0,
     tbar        :[{
-                    text: 'Incluir',
+                    text: 'Alocação',
                     iconCls: 'icon-new',
                     action: 'incluir',
                     id: 'btnIncluir'

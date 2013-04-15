@@ -18,7 +18,7 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
                 iconCls: 'icon-new',
                 action: 'vincular',
                 hidden   :true
-            },"->",{
+            },"->","|",{
                 text: 'Excluir',
                 iconCls: 'icon-delete',
                 action: 'excluir'

@@ -4,7 +4,7 @@ Ext.define('ExtZF.view.plano.dashboard.Painel' ,{
     layout      : 'anchor',
     defaults    : {forcefit:true},
         initComponent: function() {
-            Ext.log({msg:'Inicia o treegrid',level:'info',dump:arguments});
+            Etc.log({msg:'Inicia o treegrid',level:'info',dump:arguments});
             
             
             

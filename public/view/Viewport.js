@@ -70,7 +70,7 @@ Ext.define('Js.Viewport', {
             id:'ctnPrincipal',
             items:[{
                     xtype    : "planoDashboardPainel",                    
-                    closable : true,
+                    closable : false,
                     title    : "Dashboard",
                     iconCls  : "icon-dashboard"
                 }]

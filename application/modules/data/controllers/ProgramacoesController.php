@@ -69,7 +69,7 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
             }else if ($this->_hasParam ('query'))
             {
                 $this->view->rows = $programacoes_table->searchProgramacao($this->_getParam('query'));
-            }elseif($this->_hasParam('filter'))
+            }elseif($this->_hasParam('get_my')) // filtro por supervisor e responsável
             {
                 $filtro  = json_decode($this->_getParam('filter'),true);
                 

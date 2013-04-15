@@ -19,7 +19,7 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
         this.control(
         {
             'planoDashboardPainel': {
-               //render: this.checkList
+               render: this.checkList
             },
             'planoAnexosList button[action=incluir]': {
                 click: this.editObject
@@ -39,7 +39,7 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
         
         dashboard.add(this.checkMyItems());
         dashboard.add(this.checkSupervisor());
-        dashboard.add(this.checkPendentes());
+        //dashboard.add(this.checkPendentes());
         
     },
     
@@ -90,6 +90,7 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
             proxy     : {
                         type           : 'rest',
                         url            :   'data/programacoes',
+                        extraParams    : {get_my:true},
                         reader         : {
                                 type    : 'json',
                                 root    : 'rows',

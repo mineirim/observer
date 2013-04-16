@@ -59,6 +59,7 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
             proxy     : {
                         type           : 'rest',
                         url            :   'data/programacoes',
+                        extraParams    : {get_my:true},
                         reader         : {
                                 type    : 'json',
                                 root    : 'rows',

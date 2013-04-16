@@ -66,14 +66,16 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
                     $text = $instrumento->singular;
                 }
                 $this->view->rows= $programacoes_table->getRecursive($node_id, $instrumento_id);
+            }elseif($this->_hasParam('get_my')) // filtro por supervisor e responsável
+            {
+                $where =" situacao_id <>2 ";
+                $filtro  = json_decode($this->_getParam('filter'),true);                
+                $where .= " AND ". $filtro[0]['property']."=".$identity->id;
+                
+                $this->view->rows = $programacoes_table->getFilter($where);
             }else if ($this->_hasParam ('query'))
             {
                 $this->view->rows = $programacoes_table->searchProgramacao($this->_getParam('query'));
-            }elseif($this->_hasParam('get_my')) // filtro por supervisor e responsável
-            {
-                $filtro  = json_decode($this->_getParam('filter'),true);
-                
-                $this->view->rows = $programacoes_table->getFilter($filtro[0]['property']."=".$identity->id);
             }elseif($this->_hasParam('pendentes'))
             {
                 

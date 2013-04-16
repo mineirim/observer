@@ -524,7 +524,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
          } else {
              button.hide();
              buttonVincular.hide();
-             buttonExcluir.hide();
+             //buttonExcluir.hide();
          }
          
         var bookTplMarkup = ['<div class="tplDetail"><b>Descrição: </b>{descricao}<br/></div>'];

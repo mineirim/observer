@@ -34,5 +34,27 @@ class Data_Model_Financeiro
         }
         return $rows;
     }
+    public function getExecucaoOrcamentaria($programacao_id){
+        $financeiro_table = new Data_Model_DbTable_Financeiro();
+        
+        $financeiro = $financeiro_table->fetchRow('programacao_id='.$programacao_id);       
+        if(!$financeiro){
+            $return['programado']=0;
+            $return['executado'] = 0;
+            $return['saldo'] =0;
+            return $return;        
+        }
+        $tabledespesas = new Data_Model_DbTable_Despesas();
+        $select = $tabledespesas->select();
+        $select->from('despesas','SUM(valor) AS valor');
+        $despesas = $financeiro->findDependentRowset('Data_Model_DbTable_Despesas',null,$select);        
+        $return = array();
+        
+        $return['programado']=$financeiro->valor  ? $financeiro->valor:0;
+        $return['executado'] = $despesas->current()->valor ? $despesas->current()->valor :0;
+        $return['saldo'] = (doubleval($financeiro->valor) - doubleval($despesas->current()->valor));
+        
+        return $return;
+    }
 }
 

@@ -43,7 +43,13 @@ class Data_FinanceiroController extends Zend_Rest_Controller
 
     public function getAction()
     {
-        // action body
+        $this->_helper->viewRenderer->setNoRender(true);
+        $financeiro_model = new Data_Model_Financeiro();
+        $execucao_orcamentaria = $financeiro_model->getExecucaoOrcamentaria($this->getParam('id'));
+        $this->view->executado= number_format($execucao_orcamentaria['executado'],2,',','.');
+        $this->view->programado=number_format($execucao_orcamentaria['programado'],2,',','.');
+        $this->view->saldo = number_format($execucao_orcamentaria['saldo'],2,',','.');
+        $this->getResponse()->setHttpResponseCode(200);
     }
 
     public function putAction()

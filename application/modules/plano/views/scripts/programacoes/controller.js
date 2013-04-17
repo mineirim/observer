@@ -494,6 +494,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
              showDetail.doLayout();
              button.hide();
              buttonExcluir.hide();
+             planilhaOrcamentaria = detailPanel.child('#planilhaOrcamentaria');
+             if(typeof(planilhaOrcamentaria)!=='undefined' || planilhaOrcamentaria !== null)
+                planilhaOrcamentaria.hide();
              return;
          }
          buttonExcluir.show();
@@ -590,9 +593,35 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
              }
         }
        
-        if(record.get('instrumento').has_vlr_programado){            
-            planilhaOrcamentaria = detailPanel.child("#planilhaOrcamentaria");
-            planilhaOrcamentaria.show();
+        if(record.get('instrumento').has_vlr_programado===true){ 
+            if(record.get('instrumento').has_vlr_executado===true){ 
+                planilhaOrcamentaria = detailPanel.child("#planilhaOrcamentaria");
+                planilhaOrcamentaria.show();
+            }else{
+                var restUrl = 'data/financeiro/' + record.get('id');
+                Ext.Ajax.request({
+                    url: restUrl,
+                    success: function(response, opts) {
+                        var obj = Ext.decode(response.responseText);
+                        var tpl_orcamento = new Ext.XTemplate([
+                                '<br/><b>Execução Orçamentária:</b><br>',
+                                '<tpl for=".">',
+                                    '<table class="tplDetail">',
+                                            '<tr><td class="tplDetail">Programado: </td><td  align="right" > {programado}</td></tr>',
+                                            '<tr><td class="tplDetail">Executado: </td><td align="right" > {executado}</td></tr>',
+                                            '<tr><td class="tplDetail">Saldo: </td><td align="right" > {saldo}</td></tr>',
+                                    '</table>',
+                                '</tpl>'
+                            ]);
+                        tpl_orcamento.append(showDetail.body, obj,true);                
+                    },
+                    failure: function(response, opts) {
+                        console.log('server-side failure with status code ' + response.status);
+                    }
+                });
+                
+                
+            }
         }else{
             planilhaOrcamentaria = detailPanel.child('#planilhaOrcamentaria');
             if(planilhaOrcamentaria) 

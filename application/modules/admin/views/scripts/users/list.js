@@ -22,7 +22,7 @@ Ext.define('ExtZF.view.admin.users.List' ,{
         {header: 'S.U.', dataIndex: 'is_su' , flex: 0, width:'38px',
                 renderer: function(value, metaData, record, rowIndex, colIndex, store) {
                     
-                    if(value){
+                    if(value==="true"){
                         metaData.tdCls = 'icon-su';
                     }
                      

@@ -38,6 +38,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     protected function _initRoutes(){
         $this->bootstrap('FrontController');
         $this->_frontController = $this->getResource('FrontController');
+
+	$this->_frontController->registerPlugin(new Etc_Cache(), 502);
+
         $router = $this->_frontController->getRouter();
         $config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/routes.ini', 'routes');
 

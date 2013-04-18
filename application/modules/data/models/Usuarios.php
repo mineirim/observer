@@ -30,6 +30,7 @@ class Data_Model_Usuarios {
         $this->makePassword($password);
         $dados['senha'] = $this->password_md5;
         $dados['salt'] = $this->salt;
+        
         $id = $table_usuarios->insert($dados);
         $table_usuarios->getAdapter()->commit();
         

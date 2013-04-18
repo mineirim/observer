@@ -7,7 +7,7 @@ Ext.define('ExtZF.model.Usuarios', {
             {name : 'usuario', type: 'string'},
             {name: 'cargo_id', type: 'int', useNull:true},
             {name: 'setor_id', type: 'int', useNull:true},
-            {name: 'is_su', type: 'boolean', useNull:true}],
+            {name: 'is_su', type: 'string', useNull:true}],
 
     validations: [{
         type: 'length',

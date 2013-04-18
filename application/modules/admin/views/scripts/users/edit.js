@@ -43,7 +43,7 @@ Ext.define('ExtZF.view.admin.users.Edit', {
                     name        : 'is_su',
                     ref         : 'is_su',
                     fieldLabel  : 'Super-usuário(administrador)',
-                    allowBlank  : true,
+                    allowBlank  : false,
                     anchor      :'95%',
                     labelWidth  : 200,
                     labelStyle  : 'white-space: nowrap;'

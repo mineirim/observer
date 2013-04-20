@@ -38,7 +38,7 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
         dashboard = this.getPainel();
         
         dashboard.add(this.checkMyItems());
-        //dashboard.add(this.checkSupervisor());
+        dashboard.add(this.checkSupervisor());
         //dashboard.add(this.checkPendentes());
         
     },

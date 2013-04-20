@@ -10,7 +10,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $tag = `git describe --tags`;
         $version = substr($tag,0,strrpos($tag,'-'));
-        Zend_Registry::set('tag_version',$version);
+        $date = `git log --pretty=format:'%ad' --abbrev-commit --date=short -1`;
+        $date = new Zend_Date($date,"yyyy-mm-dd");
+        Zend_Registry::set('tag_version',"Rev.: " . $version . " de ". $date->toString("dd/mm/yyyy"));
         $this->config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', APPLICATION_ENV);
         Zend_Registry::set('config', $this->config);
     }

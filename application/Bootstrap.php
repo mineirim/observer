@@ -1,3 +1,4 @@
+
 <?php
 /**
 * @author Marcone Costa <blog@marconecosta.com.br>
@@ -7,6 +8,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
     protected function _initConfigs()
     {
+        $tag = `git describe --tags`;
+        $version = substr($tag,0,strrpos($tag,'-'));
+        Zend_Registry::set('tag_version',$version);
         $this->config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', APPLICATION_ENV);
         Zend_Registry::set('config', $this->config);
     }

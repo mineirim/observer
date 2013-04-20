@@ -8,6 +8,7 @@
     var nomeUsuario = '<?php echo $this->nomeUsuario?>'; 
     var adminMenu = <?php echo $this->adminMenu ?>;
     var env = '<?php echo APPLICATION_ENV;?>';
+    var tag_version = '<?php echo Zend_Registry::get('tag_version'); ?>';
 </script>
 <?php echo $this->headMeta ();?>
 <?php echo $this->headTitle ();?>

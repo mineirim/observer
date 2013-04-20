@@ -18,6 +18,7 @@ Ext.define('ExtZF.view.acesso.auth.Changepassword',{
             items : [
                 {xtype: 'textfield'
                 ,inputType : 'password'
+                ,vtype       : 'alphanum'
                 ,fieldLabel : 'Senha atual'
                 ,emptyText  : 'Informe a senha atual'
                 ,msgTarget  : 'side'
@@ -29,6 +30,7 @@ Ext.define('ExtZF.view.acesso.auth.Changepassword',{
             ,{
                 xtype : 'textfield'
                 ,inputType : 'password'
+                ,vtype       : 'alphanum'
                 ,fieldLabel : 'Nova senha'
                 ,emptyText : 'Informe a nova senha'
                 ,msgTarget : 'side'
@@ -40,6 +42,7 @@ Ext.define('ExtZF.view.acesso.auth.Changepassword',{
             },{
                 xtype : 'textfield'
                 ,inputType : 'password'
+                ,vtype       : 'alphanum'
                 ,fieldLabel : 'Confirme'
                 ,emptyText : 'Confirme a nova senha'
                 ,msgTarget : 'side'

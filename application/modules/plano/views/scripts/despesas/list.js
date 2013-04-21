@@ -1,6 +1,7 @@
 Ext.define('ExtZF.view.plano.despesas.List' ,{
     extend: 'Ext.grid.Panel',
     alias : 'widget.planoDespesasList', 
+    id    : 'planoDespesasList',
     store: 'Despesas', 
     title : 'Lista',
     selModel: {mode: 'MULTI'}, // Permite selecionar mais de uma linha da grid

@@ -1,6 +1,7 @@
 Ext.define('ExtZF.view.plano.financeiro.List' ,{
     extend      : 'Ext.grid.Panel',
     alias       : 'widget.planoFinanceiroList', // nome definido para acessar a grid
+    id          : 'planoFinanceiroList',
     store       : 'Financeiro', // store definido em store/Financeiro.js
     title       : 'Lista',
     selModel    : {mode: 'MULTI'}, // Permite selecionar mais de uma linha da grid

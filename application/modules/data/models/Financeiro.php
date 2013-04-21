@@ -2,7 +2,12 @@
 
 class Data_Model_Financeiro
 {
-
+    private $_db_table;
+    public function getFinanceiroDBTable(){
+        if(!$this->_db_table)
+            $this->_db_table = new Data_Model_DbTable_Financeiro();
+        return $this->_db_table;
+    }
     public function getArray($where=null, $order=null, $relationships=false){
         $financeiro_table = new Data_Model_DbTable_Financeiro();
         

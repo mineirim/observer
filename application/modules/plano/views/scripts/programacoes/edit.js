@@ -1,6 +1,7 @@
 Ext.define('ExtZF.view.plano.programacoes.Edit', {
     extend      : 'Ext.window.Window',
     alias       : 'widget.planoProgramacoesEdit', // nome definido a janela
+    id          : 'planoProgramacoesEdit',
     title       : 'Edição',
     layout      : 'fit',
     width       : 840,

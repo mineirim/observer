@@ -35,6 +35,11 @@ Ext.define('ExtZF.controller.plano.Despesas', {
             }
         });
         this.initiated=true;
+        
+        this.application.on({
+            filterDespesasByProgramacao: me.filterStore, 
+            scope: this
+        });
     },
     itemContextMenu :  function( view, record, item, index, event, options){
         event.stopEvent();
@@ -90,7 +95,7 @@ Ext.define('ExtZF.controller.plano.Despesas', {
         var grid = this.getGrid(); // recupera lista de usuários
         ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
-        	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
+        	Etc.alert('Atenção', 'Nenhum registro selecionado');
         	return ;
         }
         Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir o(s) registro(s) selecionado(s)?',
@@ -122,5 +127,15 @@ Ext.define('ExtZF.controller.plano.Despesas', {
                 }
             });
         }
+    },
+    filterStore : function(record_id){
+        var me = this;
+        me.getDespesasStore().remoteFilter = false;
+        me.getDespesasStore().suspendEvents();
+        me.getDespesasStore().clearFilter();
+        me.getDespesasStore().resumeEvents();
+        me.getDespesasStore().remoteFilter = true;
+        me.getDespesasStore().filter('programacao_id',record_id);
     }
+    
 });

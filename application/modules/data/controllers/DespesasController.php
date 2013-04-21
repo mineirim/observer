@@ -24,7 +24,29 @@ class Data_DespesasController extends Zend_Rest_Controller
     {
         $despesas_table = new Data_Model_Despesas();
         $this->_helper->viewRenderer->setNoRender(true);
-        $page = $despesas_table->getArray($this->getAllParams(),null,true);
+        $where=null;
+        if($this->_getParam('filter')){
+            $filtro  = json_decode($this->_getParam('filter'),true);
+            //se passado filtro =null, então deve retornar objeto vazio
+            if(!$filtro[0]['value'])
+                return;
+           
+            
+            if($filtro[0]['property']=='programacao_id' && $filtro[0]['value']){
+                $where = $filtro[0]['property']."=".$filtro[0]['value'];
+                $financeiro_table = new Data_Model_Financeiro();
+                $arr_financeiros = $financeiro_table->getArray($where);
+                $ids = array();
+                foreach ($arr_financeiros as $key => $value)
+                {
+                    
+                    $ids[]= $value['id'];
+                }
+                $where  = count($ids)>0 ? ' financeiro_id in(' . implode(',', $ids) . ') ': ' false ';
+            }
+            
+        } 
+        $page = $despesas_table->getArray($this->getAllParams(), $where,true);
         $this->view->rows =$page['rows'];
         $this->view->total = $page['total'];
     }

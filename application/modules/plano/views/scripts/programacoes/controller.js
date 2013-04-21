@@ -240,9 +240,12 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 this.getFinanceiroStore().clearFilter();
                 this.getFinanceiroStore().remoteFilter = true;
                 this.getFinanceiroStore().filter('programacao_id',idrecord);
-                
-                view.showGridProgramacao(idrecord);
-                    
+                var prog_id = false;
+                if(idrecord !==null && typeof(idrecord)!=='undefined'){
+                    view.showGridProgramacao(idrecord);
+                    prog_id =record.get('id');
+                }
+                me.application.fireEvent('filterDespesasByProgramacao', prog_id);    
                 
             }else{
                 //... se não existir valor executado, significa que é um item de despesa e deverá ser exibido apenas um campo com valor
@@ -409,6 +412,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         if (formDefault.isValid()) {
             r = formDefault.getRecord();
             formDefault.updateRecord(r);
+            var check_programacao = typeof(r.get('id'))==='undefined';
+            var instrumento = me.getInstrumentosStore().getById(parseInt(r.get('instrumento_id'),10));
             r.save({
                 success: function(a,b){
                     Etc.info("Salvo com sucesso!");
@@ -435,6 +440,15 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                             }
                         });
                         me.getFinanceiroStore().load();
+                    }
+                    if(check_programacao){                        
+                        if(instrumento.get('has_vlr_programado')==="true" &&
+                            instrumento.get('has_vlr_executado')==="true"){                                
+                                var programacoesEdit = Ext.getCmp('planoProgramacoesEdit');
+                                programacoesEdit.showGridProgramacao(parseInt(a.get('id'),10));
+                                programacoesEdit.doLayout();
+                                me.application.fireEvent('filterDespesasByProgramacao', r.get('id'));
+                            }            
                     }
                     me.getProgramacoesTreeStoreStore().load();
                     me.getProgramacoesStore().load();
@@ -634,7 +648,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         this.getFinanceiroStore().clearFilter();
         this.getFinanceiroStore().resumeEvents();
         this.getFinanceiroStore().remoteFilter = true;
-        this.getFinanceiroStore().filter('programacao_id',record.get('id'));
+        this.getFinanceiroStore().filter('programacao_id',parseInt(record.get('id'),10));
         showDetail.doLayout();
     },
     /**

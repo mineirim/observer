@@ -21,10 +21,10 @@ class Data_Model_DbTable_OperativosHistorico extends Zend_Db_Table_Abstract
      */
     public function getOnePageOfOrderEntries($params, $where=null) {
 
-        $pageNumber = $params['page'];
+        $pageNumber = isset($params['page']) ? $params['page'] : 1;
         if (empty($pageNumber)) { $pageNumber = 1; }
 
-        $limit = $params['limit'];
+        $limit = isset($params['limit']) ?$params['limit'] :null;
         if (empty($limit)) { $limit = null; }
 
         if (!isset($params['sort'])) { 

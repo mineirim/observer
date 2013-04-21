@@ -22,11 +22,22 @@ class Data_OperativosHistoricoController extends Zend_Rest_Controller
     }
     public function indexAction()
     {
-        $operativos_table = new Data_Model_DbTable_OperativosHistorico();
+        $operativo_id = $this->getParam('operativo_id');
+        if(!$operativo_id)
+            return;
+        
+        $operativos_table = new Data_Model_DbTable_Operativos();
+        $operativo = $operativos_table->fetchRow('id='.$operativo_id);
+        $operativo_current = $operativo->toArray();
+        $operativo_current['operativo_id'] = $operativo->id;
+        $operativo_current['id'] = 0;
+        $historico = new Data_Model_DbTable_OperativosHistorico();
         $this->_helper->viewRenderer->setNoRender(true);
-        $page = $operativos_table->getOnePageOfOrderEntries($this->getAllParams());
-        $this->view->rows =$page['rows'];
-        $this->view->total = $page['total'];
+        $page = $historico->getOnePageOfOrderEntries($this->getAllParams());
+        $rows = array();
+        $rows[] = $operativo_current;
+        $this->view->rows = array_merge($rows, $page['rows']);
+        $this->view->total = $page['total']+1;
         $this->getResponse()->setHttpResponseCode(200);
     }
 

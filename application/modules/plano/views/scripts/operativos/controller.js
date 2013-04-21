@@ -1,8 +1,8 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Operativos', {
     extend: 'Ext.app.Controller',
-    stores: ['Operativos','Situacoes','Andamentos'], // Store utilizado no gerenciamento do usuário
-    models: ['Operativos','Situacoes','Andamentos'], // Modelo do usuário
+    stores: ['Operativos','OperativosHistorico','Situacoes','Andamentos'], // Store utilizado no gerenciamento do usuário
+    models: ['Operativos','OperativosHistorico','Situacoes','Andamentos'], // Modelo do usuário
      views: [
     'plano.operativos.List',
     'plano.operativos.Edit'
@@ -37,6 +37,21 @@ Ext.define('ExtZF.controller.plano.Operativos', {
             }
         });
         me.getController('ExtZF.controller.plano.Operativos').is_initialized =true; 
+        
+        this.application.on({
+            filtrarHistoricoPorOperativo: me.filtrarHistoricoPorOperativo, 
+            scope: this
+        });
+    },
+    filtrarHistoricoPorOperativo: function(operativo_id){
+        var me = this;
+        me.getOperativosHistorico().remoteFilter = false;
+        me.getOperativosHistorico().suspendEvents();
+        me.getOperativosHistorico().clearFilter();
+        me.getOperativosHistorico().resumeEvents();
+        me.getOperativosHistorico().remoteFilter = true;
+        me.getOperativosHistorico().filter('operativo_id',operativo_id);
+        
     },
     editObject: function(grid, record) {
         var me = this;

@@ -21,6 +21,7 @@ Ext.define('ExtZF.view.plano.programacoes.Container' ,{
         region      : 'center',
         xtype       : 'container',
         layout      :   {type: 'vbox', align: 'stretch'},
+        
         items       : [
             /**{
                             id      : 'ctnAnexos',
@@ -32,12 +33,14 @@ Ext.define('ExtZF.view.plano.programacoes.Container' ,{
                             id      : 'tabDetailPanel',
                             flex    : 1,
                             layout  : 'fit',
+                            autoHeight : true,
+                            overflowY : 'auto',
                             items   :[
                                     {
                                         id      : 'detailPanel',
                                         xtype   : 'planoProgramacoesDetalhes',
-                                        title   : 'Detalhes'
-
+                                        title   : 'Detalhes',
+                                        autoScroll: true  
                                     },
                                     {
                                         id      : 'ganttPanel',

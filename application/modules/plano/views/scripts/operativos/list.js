@@ -4,9 +4,11 @@ Ext.define('ExtZF.view.plano.operativos.List' ,{
     id    : 'planoOperativosList',
     store : 'OperativosHistorico', // store definido em store/Operativos.js
     title : 'Lista',
+    height      : 150,
+    layout      : 'fit', 
     selModel: {mode: 'MULTI'}, // Permite selecionar mais de uma linha da grid
   
-	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, hidden:true},
+    columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, hidden:true},
 		{header: 'Peso',  dataIndex: 'peso',  flex: 1},
 		{header: 'Data de início',  dataIndex: 'data_inicio',  flex: 1},
 		{header: 'Previsão de conclusão',  dataIndex: 'data_prazo',  flex: 1},
@@ -14,12 +16,5 @@ Ext.define('ExtZF.view.plano.operativos.List' ,{
 		{header: 'Andamento',  dataIndex: 'andamento_id',  flex: 1},
 		{header: 'Avaliacao do andamento',  dataIndex: 'avaliacao_andamento',  flex: 1},
 		{header: '% de execucao',  dataIndex: 'percentual_execucao',  flex: 1}
-                ],
-    // Paginação
-    dockedItems: [{
-        xtype: 'pagingtoolbar',
-        store: 'OperativosHistorico',
-        dock: 'bottom',
-        displayInfo: true
-    }]
+                ]
 });

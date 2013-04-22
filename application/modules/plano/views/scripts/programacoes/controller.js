@@ -2,8 +2,8 @@ Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Programacoes', {
     extend: 'Ext.app.Controller',
     id      : 'controllerPlanoProgramacoes',
-    stores: ['programacoes.TreeStore', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas'], // Store utilizado no gerenciamento do usuário
-    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas'], // Modelo do usuário
+    stores: ['programacoes.TreeStore', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico'], // Store utilizado no gerenciamento do usuário
+    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico'], // Modelo do usuário
     views: [
         'plano.programacoes.List',
         'plano.programacoes.Treegrid',
@@ -13,7 +13,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         'plano.programacoes.Detalhes',
         'plano.vinculos.Edit',
         'plano.anexos.Edit',
-        'plano.programacoes.GridFinanceiro'
+        'plano.programacoes.GridFinanceiro',
+        'plano.Operativos.List'
         ],
     /**
      *nó selecionado na navegação à esquerda
@@ -573,6 +574,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                  tpl_equipe.append(showDetail.body, equipe);
              }
         }
+        planilhaOperativa = detailPanel.child("#planilhaOperativa");
         if(record.get('instrumento').has_operativo){
             operativo = me.getOperativosStore().findRecord('programacao_id',record.get('id'))
              if(operativo){
@@ -603,14 +605,18 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                             ]);
                  tpl_operativo.append(showDetail.body, olOperativo,true);
                  btnExecucao.show();
-                 btnExecucao.value = operativo.get('id');
+                 btnExecucao.value = operativo.get('id');                 
+                 planilhaOperativa.show();
              }
+        }else{
+            planilhaOperativa.hide();
         }
        
         if(record.get('instrumento').has_vlr_programado===true){ 
             if(record.get('instrumento').has_vlr_executado===true){ 
                 planilhaOrcamentaria = detailPanel.child("#planilhaOrcamentaria");
                 planilhaOrcamentaria.show();
+                
             }else{
                 var restUrl = 'data/financeiro/' + record.get('id');
                 Ext.Ajax.request({

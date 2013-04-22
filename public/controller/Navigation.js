@@ -34,7 +34,7 @@ Ext.define('ExtZF.controller.Navigation', {
             '[action=logout]': {click: me.logout}
             
         });
-        this.application.on('openEditForm' , this.openEditForm);
+        me.application.on('openEditForm' , me.openEditForm);
     },
     
     logout      : function() 

@@ -4,6 +4,9 @@ Ext.define('ExtZF.store.OperativosHistorico', {
     alias : 'ExtZF.store.OperativosHistorico',
     model: 'ExtZF.model.OperativosHistorico',
     autoLoad: true,
-    remoteSort: true 
-
+    remoteSort: true,
+    sorters: [{
+             property: 'alteracao_data',
+             direction: 'DESC'
+         }]
 });

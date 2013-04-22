@@ -44,13 +44,13 @@ Ext.define('ExtZF.controller.plano.Operativos', {
         });
     },
     filtrarHistoricoPorOperativo: function(operativo_id){
-        var me = this;
-        me.getOperativosHistorico().remoteFilter = false;
-        me.getOperativosHistorico().suspendEvents();
-        me.getOperativosHistorico().clearFilter();
-        me.getOperativosHistorico().resumeEvents();
-        me.getOperativosHistorico().remoteFilter = true;
-        me.getOperativosHistorico().filter('operativo_id',operativo_id);
+        var me = this;   
+        me.getOperativosHistoricoStore().remoteFilter = false;
+        me.getOperativosHistoricoStore().suspendEvents();
+        me.getOperativosHistoricoStore().clearFilter();
+        me.getOperativosHistoricoStore().resumeEvents();
+        me.getOperativosHistoricoStore().remoteFilter = true;
+        me.getOperativosHistoricoStore().filter('operativo_id',operativo_id);
         
     },
     editObject: function(grid, record) {

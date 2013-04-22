@@ -1,16 +1,18 @@
 Ext.define('ExtZF.model.OperativosHistorico', {
         extend         : 'Ext.data.Model',
-        fields         : ['id','operativo_id',
-                            'programacao_id',
+        fields         : ['id',
+                            {name:'operativo_id', type:'int'},
+                            {name:'programacao_id', type:'int'},
                             'peso',
-                            'responsavel_id',
+                            {name:'responsavel_id', type:'int'},
                             'data_inicio',
                             'data_prazo',
                             'data_encerramento',
-                            'andamento_id',
+                            {name:'andamento_id', type:'int'},
                             'avaliacao_andamento',
                             'percentual_execucao',
-                            {name:'situacao_id',type:'int'}],
+                            {name:'situacao_id',type:'int'},
+                            {name: 'alteracao_data', type:'date'} ],
         
         proxy          : {
         simpleSortMode : true, 

@@ -22,12 +22,21 @@ class Data_OperativosHistoricoController extends Zend_Rest_Controller
     }
     public function indexAction()
     {
-        $operativo_id = $this->getParam('operativo_id');
-        if(!$operativo_id)
-            return;
+        $where=null;
+         if($this->_hasParam('filter'))
+        {
+            $filtro  = json_decode($this->_getParam('filter'),true);
+            if($filtro[0]['property']=='operativo_id')
+                $where =  "id=". $filtro[0]['value'];
+        }else{
+            $operativo_id = $this->getParam('operativo_id');
+            if(!$operativo_id)
+                return;
+            $where = 'id='.$operativo_id;
+        }
         
         $operativos_table = new Data_Model_DbTable_Operativos();
-        $operativo = $operativos_table->fetchRow('id='.$operativo_id);
+        $operativo = $operativos_table->fetchRow($where);
         $operativo_current = $operativo->toArray();
         $operativo_current['operativo_id'] = $operativo->id;
         $operativo_current['id'] = 0;

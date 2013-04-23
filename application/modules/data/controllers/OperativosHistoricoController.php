@@ -22,12 +22,16 @@ class Data_OperativosHistoricoController extends Zend_Rest_Controller
     }
     public function indexAction()
     {
+        
+        $this->_helper->viewRenderer->setNoRender(true);
         $where=null;
          if($this->_hasParam('filter'))
         {
             $filtro  = json_decode($this->_getParam('filter'),true);
-            if($filtro[0]['property']=='operativo_id')
+            if($filtro[0]['property']=='operativo_id'){
                 $where =  "id=". $filtro[0]['value'];
+                $whereHistorico = "operativo_id=". $filtro[0]['value'];
+            }
         }else{
             $operativo_id = $this->getParam('operativo_id');
             if(!$operativo_id)
@@ -41,8 +45,7 @@ class Data_OperativosHistoricoController extends Zend_Rest_Controller
         $operativo_current['operativo_id'] = $operativo->id;
         $operativo_current['id'] = 0;
         $historico = new Data_Model_DbTable_OperativosHistorico();
-        $this->_helper->viewRenderer->setNoRender(true);
-        $page = $historico->getOnePageOfOrderEntries($this->getAllParams());
+        $page = $historico->getOnePageOfOrderEntries($this->getAllParams(),$whereHistorico);
         $rows = array();
         $rows[] = $operativo_current;
         $this->view->rows = array_merge($rows, $page['rows']);

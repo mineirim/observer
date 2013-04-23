@@ -28,8 +28,8 @@ class Data_Model_DbTable_OperativosHistorico extends Zend_Db_Table_Abstract
         if (empty($limit)) { $limit = null; }
 
         if (!isset($params['sort'])) { 
-            $sort = 'id'; }
-        else{  
+            $sort = 'id';             
+        }else{  
             $sort = $params['sort'].' '.$params['dir'];
         }              
         

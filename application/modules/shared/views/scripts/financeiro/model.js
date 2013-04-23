@@ -9,7 +9,8 @@ Ext.define('ExtZF.model.Financeiro', {
                             'valor',
                             'origem_recurso_id',
                             {name:'grupoDespesa', persist:false},
-                            {name:'valor_executado', persist:false}
+                            {name:'valor_executado', persist:false},
+                            {name:'parent_rows', persist:false}                            
                         ],
         proxy          : {
         simpleSortMode : true, 

@@ -7,6 +7,7 @@ Ext.define('ExtZF.view.plano.financeiro.List' ,{
     selModel    : {mode: 'MULTI'}, // Permite selecionar mais de uma linha da grid
     // botões do cabeçalho
     programacao_id:0,
+    autoScroll :true,
     tbar        :[{
                     text: 'Alocação',
                     iconCls: 'icon-new',
@@ -18,7 +19,16 @@ Ext.define('ExtZF.view.plano.financeiro.List' ,{
                     action: 'excluir'
                 }],
     columns     : [{header: 'Id.',  dataIndex: 'id',  flex: 0, hidden:true},
-		   {header: 'Descricao',  dataIndex: 'descricao',  flex: 5},
+                   {header: 'Origem Recurso',  dataIndex: 'parent_rows',  flex: 6,
+                        renderer: function(value, metaData, record){
+                            var origem = '';
+                            for(var p in value){
+                                origem = value[p].singular + " - " + value[p].menu + " -> " + origem;
+                            }
+                            return origem;
+                        }
+                    },
+		   {header: 'Ítem',  dataIndex: 'descricao',  flex: 4},
 		   {header: 'Valor Programado',  dataIndex: 'valor',  flex: 1, align : 'right', xtype: 'numbercolumn'},
 		   {header: 'Valor Executado',  dataIndex: 'valor_executado', align : 'right',  flex: 1, xtype: 'numbercolumn'}],
     // Paginação

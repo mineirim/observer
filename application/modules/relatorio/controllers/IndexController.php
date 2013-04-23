@@ -29,7 +29,7 @@ class Relatorio_IndexController extends Zend_Controller_Action
         $instrumentos_table = new Data_Model_Instrumentos();
         $programacao_row = $programacoes_table->fetchRow('programacao_id='.$programacao_id);
         
-        $estrutura = $instrumentos_table->getRecursiveStructure($programacao_row->id);
+        $estrutura = $instrumentos_table->getRecursiveStructure($programacao_row->instrumento_id);
         $numHeaders = $estrutura->rowCount();
         
         $script_paths =$this->view->getScriptPaths();

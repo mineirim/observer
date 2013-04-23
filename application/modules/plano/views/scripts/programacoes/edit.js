@@ -4,9 +4,9 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
     id          : 'planoProgramacoesEdit',
     title       : 'Edição',
     layout      : 'fit',
-    width       : 840,
+    width       : 1020,
     minHeight   : 390,
-    height      : 400,
+    height      : 600,
     maxHeight   : 590,
     
     
@@ -246,11 +246,11 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
         //this.down('#btnVlrProgramado').show(); 
         var gridProgramacao =  Ext.create('ExtZF.view.plano.financeiro.List',
                                     {dockedItems:[],
-                                        height      : 150, 
                                         title       :'Programação',
                                         forceFit    : true,
                                         programacao_id : progId,
-                                        autoShow    :false
+                                        autoShow    :false,
+                                        flex        : 5
                                     }
                                 );
         gridProgramacao.down("#btnIncluir").programacao_id=progId;
@@ -259,7 +259,7 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
 
         var gridDespesas =  Ext.create('ExtZF.view.plano.despesas.List',
                                     {dockedItems:[],
-                                        height      : 300, 
+                                        flex      : 7, 
                                         title       :'Execução',
                                         forceFit    : true,
                                         financeiro_id : progId,
@@ -272,6 +272,8 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                 {
                     id  : 'panel_orcamento',
                     title : 'Planilha Orçamentária',
+                    autoScroll:true,
+                    autoWidth:true,
                     height:500, 
                     items:[gridProgramacao, gridDespesas]});
          this.progTab.add(orcamentoPanel);

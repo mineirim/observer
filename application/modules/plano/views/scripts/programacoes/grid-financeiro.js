@@ -7,12 +7,16 @@ Ext.define('ExtZF.view.plano.programacoes.GridFinanceiro' ,{
     layout      : 'fit',   
     columns     : [
                     {header: 'Id.',  dataIndex: 'id',  flex: 0, hidden:true},
-                    {header: 'Grupo de despesas',  dataIndex: 'grupo_despesa_id',  flex: 2,
+                    {header: 'Origem Recurso',  dataIndex: 'parent_rows',  flex: 6,
                         renderer: function(value, metaData, record){
-                                
-                                return record.get('grupoDespesa').descricao;
-                            }},
-                    {header: 'Descrição',  dataIndex: 'descricao',  flex: 3},
+                            var origem = '';
+                            for(var p in value){
+                                origem = value[p].singular + " - " + value[p].menu + " -> " + origem;
+                            }
+                            return origem;
+                        }
+                    },
+                    {header: 'Ítem',  dataIndex: 'descricao',  flex: 4},
                     {header: 'Valor Orçamento',  dataIndex: 'valor',  flex: 1, align : 'right', xtype: 'numbercolumn'},
                     {header: 'Valor Gasto', dataIndex: 'valor_executado',  flex: 1, align : 'right', xtype:'numbercolumn'}
                  ]

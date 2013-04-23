@@ -8,14 +8,27 @@ class Data_Model_Financeiro
             $this->_db_table = new Data_Model_DbTable_Financeiro();
         return $this->_db_table;
     }
+    
     public function getArray($where=null, $order=null, $relationships=false){
         $financeiro_table = new Data_Model_DbTable_Financeiro();
         
         $financeiros = $financeiro_table->fetchAll($where, $order);       
         if(!$relationships)
             return $financeiros ? $financeiros->toArray():array();
+        
+        $instrumentos_model = new Data_Model_Instrumentos();
+        $programacao_model = new Data_Model_Programacoes();
+        
         $rows = array();
         foreach ($financeiros as $financeiro) {
+            $origem = $programacao_model->getRow("id=".$financeiro->origem_recurso_id);
+            $origem_instrumentos = $instrumentos_model->getRecursiveParents($origem->instrumento_id);
+            $parents = array();
+            foreach ($origem_instrumentos as $instrumento){                
+                $parents[$instrumento->ix]['singular'] = $instrumento->singular;
+                $parents[$instrumento->ix]['menu'] = $origem->menu;
+                $origem = $origem->findParentRow('Data_Model_DbTable_Programacoes');                
+            }
             $tabledespesas = new Data_Model_DbTable_Despesas();
             $select = $tabledespesas->select();
             $select->from('despesas','SUM(valor) AS valor');
@@ -32,7 +45,8 @@ class Data_Model_Financeiro
                 'valor'             => $financeiro->valor,
                 'origem_recurso_id' => $financeiro->origem_recurso_id,
                 'grupoDespesa'      => $grupoDespesa,
-                'valor_executado'   => $despesas->current()->valor
+                'valor_executado'   => $despesas->current()->valor,
+                'parent_rows'       => $parents
             );
 
             $rows[] = $row;

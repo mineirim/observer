@@ -1,7 +1,20 @@
 <?php
 
 class Data_Model_Programacoes {
-
+    private $_model ='';
+    public function __construct(){
+        $this->_model = new Data_Model_DbTable_Programacoes();
+    }
+    /**
+     * 
+     * @param type $where
+     * @param type $order
+     * @param type $offset
+     * @return Zend_Db_Table_Row
+     */
+    public function getRow($where=null, $order=null, $offset=null){
+        return $this->_model->fetchRow($where, $order, $offset);
+    }
     public function getRecursive($id=null, $instrumento_id=null) {
         $where = "1 = 1 and situacao_id <>2 ";
         if($instrumento_id){

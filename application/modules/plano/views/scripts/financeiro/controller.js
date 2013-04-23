@@ -17,6 +17,7 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
             }
         ],
     init: function() {
+        var me=this;
         this.control(
         {
             'planoFinanceiroList': {
@@ -41,10 +42,21 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
                 click: this.saveObject
             }
         });
-        this.initiated=true;
+        
+        me.application.on({
+            planoFinanceiroSave: me.save, 
+            scope: this
+        });
+        me.application.on({
+            'planoProgramacaoFinanceiro.filterByProgramacao': me.reloadStoreByProgramacao, 
+            scope: this
+        });
+         
+        
+        me.initiated=true;
     },
     filterByFonte : function(cmb,records){
-        record  =records[0];
+        var record  =records[0];
         var grupo_despesas = Ext.getCmp('cmb_grupo_despesas');
         grupo_despesas.clearValue();
         grupo_despesas.getStore().remoteFilter=false;
@@ -56,7 +68,7 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
         item_despesa.filter('1','2');
     },
     filterByGrupoDespesas : function(cmb,records){
-        record  =records[0];
+        var record  =records[0];
         var item_despesa =  Ext.getCmp('origem_recurso_id');
         item_despesa.clearValue();
         item_despesa.getStore().remoteFilter=false;
@@ -116,7 +128,7 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
     },
     deleteObject: function() {
         var grid = this.getGrid(); // recupera lista de usuários
-        ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
+        var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
         	Ext.Msg.error('Atenção', 'Nenhum registro selecionado');
         	return ;
@@ -132,31 +144,53 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
                         grid.el.unmask();
 		}, this);
     },
-    saveObject: function(button) {
+    save: function(record){
         console.log("salvando orçamento");
+        var me = this;
+        record.save({
+                success: function(a,b){
+                    Pcs.info("Salvo com sucesso!");                   
+                    me.getFinanceiroStore().load();
+                },
+                failure:function(a,b){
+                    throw{ 
+                            name:        "Save error", 
+                            level:       "problema ao salvar", 
+                            message:     "Erro ao salvar o registro.", 
+                            htmlMessage: "Erro ao salvar o registo." 
+                        };
+                }
+            });
+    },
+    saveObject: function(button) {
+        
         var me=this;
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
             form   = win.down('form').getForm(); // recupera item abaixo(filho) da window do tipo form
         if (form.isValid()) {
             r = form.getRecord();
             form.updateRecord(r);
-            r.save({
-                success: function(a,b){
-                    console.info("Salvo com sucesso!");
-                    Ext.Msg.alert('Salvo', 'Registro salvo com sucesso');
-                    win.close();
-                    me.getFinanceiroStore().load();
-                },
-                failure:function(a,b){
-                    Ext.MessageBox.show({
+            try{
+                me.save(r);
+                Ext.Msg.alert('Salvo', 'Registro salvo com sucesso');
+                win.close();
+            }catch(e){
+                Ext.MessageBox.show({
 			title: 'Salvar'
 			,buttons: Ext.MessageBox.OK
 			,icon: Ext.MessageBox.ERROR
 			,msg: 'Erro ao salvar o ítem de orçamento!'
                     });
-                    console.error("Erro ao salvar!");
-                }
-            });
+            }
         }
+    },
+    reloadStoreByProgramacao : function(programacao_id){
+        var me = this;
+        me.getFinanceiroStore().remoteFilter = false;
+        me.getFinanceiroStore().suspendEvents();
+        me.getFinanceiroStore().clearFilter();
+        me.getFinanceiroStore().resumeEvents();
+        me.getFinanceiroStore().remoteFilter = true;
+        me.getFinanceiroStore().filter('programacao_id',parseInt(programacao_id,10));
     }
 });

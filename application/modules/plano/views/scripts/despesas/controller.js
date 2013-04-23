@@ -34,9 +34,9 @@ Ext.define('ExtZF.controller.plano.Despesas', {
                 click: this.saveObject
             }
         });
-        this.initiated=true;
+        me.initiated=true;
         
-        this.application.on({
+        me.application.on({
             filterDespesasByProgramacao: me.filterStore, 
             scope: this
         });
@@ -64,7 +64,7 @@ Ext.define('ExtZF.controller.plano.Despesas', {
     showEdit : function(parent_record,record){
         
         var view = Ext.widget('planoDespesasEdit');
-        options = {single: true};
+        var options = {single: true};
         // Call the controller init method when the view is rendered
         
         if(!record){

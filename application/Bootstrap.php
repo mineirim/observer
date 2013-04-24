@@ -6,6 +6,27 @@
 */
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
+     protected function _initCache() {
+          $frontendOptions = array(
+              'lifetime' => 7200, // cache lifetime of 2 hours
+              'automatic_serialization' => true
+          );
+
+          $backendOptions = array(
+              'cache_dir' => APPLICATION_PATH . '/../tmp/' // Directory where
+          );
+
+          // getting a Zend_Cache_Core object
+          $this->cache = Zend_Cache::factory('Core', 'File',
+            $frontendOptions, $backendOptions);
+
+          Zend_Registry::set('cache', $this->cache);
+
+          Zend_Date::setOptions(array(
+              'cache' => $this->cache
+          ));
+    }
+
     protected function _initConfigs()
     {
         $tag = `git describe --tags`;

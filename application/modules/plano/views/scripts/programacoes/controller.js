@@ -236,19 +236,15 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         if (instrumento.get('has_vlr_programado')==="true") {
             if(instrumento.get('has_vlr_executado')==="true"){
                 // se existir valor executado, deverá ser apresentado um grid para programação...
-                var idrecord = null;
-                if(record)
+                var idrecord = false;
+                if(record){
                     idrecord =record.get('id');
-                this.getFinanceiroStore().remoteFilter = false;
-                this.getFinanceiroStore().clearFilter();
-                this.getFinanceiroStore().remoteFilter = true;
-                this.getFinanceiroStore().filter('programacao_id',idrecord);
-                var prog_id = false;
+                    me.application.fireEvent('planoProgramacaoFinanceiro.filterByProgramacao', idrecord);
+                }
                 if(idrecord !==null && typeof(idrecord)!=='undefined'){
                     view.showGridProgramacao(idrecord);
-                    prog_id =record.get('id');
                 }
-                me.application.fireEvent('filterDespesasByProgramacao', prog_id);    
+                me.application.fireEvent('filterDespesasByProgramacao', idrecord);    
                 
             }else{
                 //... se não existir valor executado, significa que é um item de despesa e deverá ser exibido apenas um campo com valor
@@ -580,16 +576,6 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         if(record.get('instrumento').has_operativo){
             operativo = me.getOperativosStore().findRecord('programacao_id',parseInt(record.get('id'),10))
              if(operativo){
-                 olOperativo ={}; 
-                 olOperativo.id = operativo.get('id');
-                 olOperativo.data_inicio =new Date(operativo.get('data_inicio') + ' 00:00:00');
-                 olOperativo.data_prazo =new Date(operativo.get('data_prazo') + ' 00:00:00');
-                 if(operativo.get('data_encerramento')!== null)
-                    olOperativo.data_encerramento = new Date(operativo.get('data_encerramento') + ' 00:00:00');
-                 olOperativo.percentual_execucao    =operativo.get('percentual_execucao');
-                 olOperativo.avaliacao_andamento    = operativo.get('avaliacao_andamento');
-                 olOperativo.andamento_id           =operativo.get('andamento_id');
-                 olOperativo.peso                   = operativo.get('peso');
                  btnExecucao.show();
                  btnExecucao.value = operativo.get('id');                 
                  planilhaOperativa.show();
@@ -635,13 +621,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 planilhaOrcamentaria.hide();
         }
         //this.getGantt(record.get('id'));
+        me.application.fireEvent('planoProgramacaoFinanceiro.filterByProgramacao', record.get('id'));
         
-        this.getFinanceiroStore().remoteFilter = false;
-        this.getFinanceiroStore().suspendEvents();
-        this.getFinanceiroStore().clearFilter();
-        this.getFinanceiroStore().resumeEvents();
-        this.getFinanceiroStore().remoteFilter = true;
-        this.getFinanceiroStore().filter('programacao_id',parseInt(record.get('id'),10));
         showDetail.doLayout();
     },
     /**

@@ -19,7 +19,7 @@
      financeiro."valor" AS financeiro_valor
 FROM
      "public"."programacoes" origem INNER JOIN "public"."financeiro" financeiro ON origem."id" = financeiro."origem_recurso_id"
-     INNER JOIN "public"."despesas" despesas ON financeiro."id" = despesas."financeiro_id"
+     LEFT OUTER JOIN "public"."despesas" despesas ON financeiro."id" = despesas."financeiro_id"
 WHERE
      financeiro."programacao_id" = $P{programacao_id}
 GROUP BY

@@ -141,11 +141,6 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 						</textElement>
 						<textFieldExpression><![CDATA[$F{p1_supervisor} != null ? "Supervisor: " + $F{p1_supervisor} : ""]]></textFieldExpression>
 					</textField>
-					<staticText>
-						<reportElement uuid="907668cb-ec16-435b-8d5d-2059bd72a2c0" x="134" y="41" width="100" height="20"/>
-						<textElement/>
-						<text><![CDATA[Static text]]></text>
-					</staticText>
 				</frame>
 			</band>
 		</groupHeader>
@@ -211,7 +206,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 					<textFieldExpression><![CDATA[$F{p5_supervisor} != null ? "Supervisor: " + $F{p5_supervisor} : ""]]></textFieldExpression>
 				</textField>
 				<subreport runToBottom="false">
-					<reportElement uuid="0d2cbe1d-4c7a-4a49-b692-57c543f601f8" x="4" y="44" width="536" height="14"/>
+					<reportElement uuid="0d2cbe1d-4c7a-4a49-b692-57c543f601f8" x="4" y="43" width="536" height="14"/>
 					<subreportParameter name="programacao_id">
 						<subreportParameterExpression><![CDATA[$F{p5_id}]]></subreportParameterExpression>
 					</subreportParameter>

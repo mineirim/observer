@@ -11,7 +11,7 @@ Ext.define('ExtZF.view.plano.programacoes.GridFinanceiro' ,{
                         renderer: function(value, metaData, record){
                             var origem = '';
                             for(var p in value){
-                                origem = value[p].singular + " - " + value[p].menu + " -> " + origem;
+                                origem = "<b>" +  value[p].singular + " - </b> " + value[p].menu + " -> " + origem;
                             }
                             return origem;
                         }

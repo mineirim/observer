@@ -2,7 +2,7 @@ Ext.define('ExtZF.view.plano.vinculos.Edit', {
     extend: 'Ext.window.Window',
     alias : 'widget.planoVinculosEdit', // nome definido a janela
     title : 'Edição',
-    layout: 'fit',
+    layout: 'fit',    
     width : 740,
     minHeight : '690px',    
     autoShow: true, // exibir a janela automaticamente ao chamá-la
@@ -10,6 +10,7 @@ Ext.define('ExtZF.view.plano.vinculos.Edit', {
         // Itens da janela
         this.items = [{
             xtype: 'form',
+            labelWidth: 350,
             items: [
             {
                 xtype: 'hiddenfield',
@@ -18,9 +19,11 @@ Ext.define('ExtZF.view.plano.vinculos.Edit', {
             },
             {
                 xtype: 'displayfield',
-                fieldLabel: 'Atividade',
-                name: 'atividade',
-                anchor:'95%'
+                fieldLabel: 'Adicionar vínculo à',
+                name: 'menu',
+                ref : 'menu',
+                anchor:'95%',
+                labelStyle: 'white-space: nowrap;'
             },
             
             {
@@ -46,14 +49,20 @@ Ext.define('ExtZF.view.plano.vinculos.Edit', {
                 xtype: 'htmleditor',
                 name : 'justificativa',
                 ref: 'justificativa',
-                fieldLabel: 'Justificativa'
+                fieldLabel: 'Justificativa',
+                anchor:'95%',
+                enableFont : false,
+                enableFontSize: false
             },
 
             {
                 xtype: 'htmleditor',
                 name : 'observacoes',
                 ref: 'observacoes',
-                fieldLabel: 'Observações'
+                fieldLabel: 'Observações',
+                anchor:'95%',
+                enableFont : false,
+                enableFontSize: false
             },]
             }
         ];

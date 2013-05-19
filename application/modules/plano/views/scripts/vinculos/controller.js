@@ -1,6 +1,7 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Vinculos', {
-    extend: 'Ext.app.Controller',
+    extend: 'Ext.app.Controller',    
+    is_initialized   : false,
     stores: ['Vinculos'], // Store utilizado no gerenciamento do usuário
     models: ['Vinculos'], // Modelo do usuário
      views: [
@@ -16,6 +17,9 @@ Ext.define('ExtZF.controller.plano.Vinculos', {
             }
         ],
     init: function() {
+        var me = this        
+        if(me.is_initialized===true)
+            return;
         this.control(
         {
             'planoVinculosList': {
@@ -31,6 +35,19 @@ Ext.define('ExtZF.controller.plano.Vinculos', {
                 click: this.saveObject
             }
         });
+        
+        me.application.on({
+            'planoProgramacaoVinculo.add': me.addVinculo, 
+            scope: this
+        });
+    },
+    addVinculo : function(selected){
+
+        var view = Ext.widget('planoVinculosEdit');
+        view.setTitle('Configurar Vínculo');
+        options={programacao_id : selected.get('id'),  menu : selected.get('menu')};
+        record = Ext.ModelMgr.create(options,'ExtZF.model.Vinculos');
+      	view.down('form').loadRecord(record);
     },
     editObject: function(grid, record) {
         var view = Ext.widget('planoVinculosEdit');
@@ -69,14 +86,14 @@ Ext.define('ExtZF.controller.plano.Vinculos', {
             form.updateRecord(r);
             r.save({
                 success: function(a,b){
-                    Ext.log({msg:"Salvo com sucesso!",level:"info"});
+                    Etc.log({msg:"Vínculo salvo com sucesso!",level:"info"});
                     win.close();
                     me.getVinculosStore().load();
                 },
                 failure:function(a,b){
-                    Ext.log({msg:"Erro ao salvar!",level:"error"});
+                    Etc.log({msg:"Erro ao salvar!",level:"error", data : r});
                 }
             });
         }
-    }
+    }, 
 });

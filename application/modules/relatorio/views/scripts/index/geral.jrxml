@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e69bc383-12d4-4901-8503-507569fba44c">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geral" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e69bc383-12d4-4901-8503-507569fba44c">
 	<property name="ireport.zoom" value="1.2100000000000006"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -178,35 +178,35 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 					<textFieldExpression><![CDATA[$F{p5_singular} + " - " + $F{p5_menu}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7" style="Detail" x="0" y="27" width="551" height="12"/>
+					<reportElement uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7" style="Detail" positionType="Float" x="0" y="27" width="551" height="12"/>
 					<textElement markup="html">
 						<font size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{p5_descricao} != null ? "Descrição: " + $F{p5_descricao} :""]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" x="373" y="14" width="178" height="12"/>
+					<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" positionType="Float" x="373" y="14" width="178" height="12"/>
 					<textElement>
 						<font size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{p5_equipe} != null ? "Equipe: " + $F{p5_equipe} : ""]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" x="0" y="14" width="188" height="12"/>
+					<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" positionType="Float" x="0" y="14" width="188" height="12"/>
 					<textElement>
 						<font size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{p5_responsavel} != null ? "Responsável: " + $F{p5_responsavel} : ""]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" x="188" y="14" width="185" height="12"/>
+					<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" positionType="Float" x="188" y="14" width="185" height="12"/>
 					<textElement>
 						<font size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{p5_supervisor} != null ? "Supervisor: " + $F{p5_supervisor} : ""]]></textFieldExpression>
 				</textField>
 				<subreport runToBottom="false">
-					<reportElement uuid="0d2cbe1d-4c7a-4a49-b692-57c543f601f8" x="4" y="43" width="536" height="14"/>
+					<reportElement uuid="0d2cbe1d-4c7a-4a49-b692-57c543f601f8" positionType="Float" x="3" y="43" width="536" height="14"/>
 					<subreportParameter name="programacao_id">
 						<subreportParameterExpression><![CDATA[$F{p5_id}]]></subreportParameterExpression>
 					</subreportParameter>

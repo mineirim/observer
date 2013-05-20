@@ -231,16 +231,19 @@ class Data_Model_Programacoes {
      * @param type $menu
      * @return type array
      */
-    public function searchProgramacao($menu) {
+    public function searchProgramacao($menu,$params=null) {
         $dbProgramacoes = new Data_Model_DbTable_Programacoes();
-        $programacoes = $dbProgramacoes->getAdapter()->fetchAll(
-                        $dbProgramacoes->select()->setIntegrityCheck(false)
-                                ->from(array('p' => 'programacoes'), 'p.*')
-                                ->join(array('i' => 'instrumentos'), 'p.instrumento_id = i.id', array())
-                                ->where('i.has_operativo = ?', true)
-                                ->where('and situacao_id <>?', 2)
-                                ->where("p.menu like '%$menu%'"));
-        $rows = $programacoes;
+        
+//        $programacoes = $dbProgramacoes->getAdapter()->fetchAll(
+//                        $dbProgramacoes->select()->setIntegrityCheck(false)
+//                                ->from(array('p' => 'programacoes'), 'p.*')
+//                                ->join(array('i' => 'instrumentos'), 'p.instrumento_id = i.id', array())
+//                                ->where('i.has_operativo = ?', true)
+//                                ->where('p.situacao_id <>?', 2)
+//                                ->where("p.menu like '%$menu%'"));
+        $where = "situacao_id<>2 AND menu like '%$menu%'";
+        $rows = $dbProgramacoes->getOnePageOfOrderEntries($params, $where);
+        
         return $rows;
     }
 

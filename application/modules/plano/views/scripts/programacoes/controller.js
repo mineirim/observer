@@ -11,7 +11,6 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         'plano.programacoes.Container',
         'plano.programacoes.Anexos',
         'plano.programacoes.Detalhes',
-        'plano.vinculos.Edit',
         'plano.anexos.Edit',
         'plano.programacoes.GridFinanceiro',
         'plano.Operativos.List'
@@ -83,12 +82,6 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             },
             'planoProgramacoesTreegrid button[action=vincular]': {
                 click: this.linkInstrumento
-            },
-            'planoVinculosEdit button[action=salvar]':{
-                click: this.saveLinkObject
-            },
-            'planoVinculosEdit depende_programacao_id':{
-                change: this.verificaResponsavel
             },           
             'planoProgramacoesDetalhes button[action=execucao]' : {
                  click : me.clickOnDetailsButton
@@ -96,8 +89,11 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
            
         });
         this.getController('ExtZF.controller.plano.Programacoes').is_initialized =true; 
-        var operativosController = this.getController('ExtZF.controller.plano.Operativos');
+        var operativosController = _myAppGlobal.getController('ExtZF.controller.plano.Operativos');
         operativosController.init();
+        
+        var vinculos_controller = _myAppGlobal.getController('ExtZF.controller.plano.Vinculos');
+            vinculos_controller.init();
         
     },
     showDespesasForm : function(button){
@@ -112,7 +108,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         args.parent_record = rec;
         args.controller = 'plano.Despesas';
         this.application.fireEvent('openEditForm', args);
-        view.doLayout();
+        his.application.fireEvent('openEditForm', args);view.doLayout();
     }
     ,
     showFinanceiro : function(button){
@@ -169,7 +165,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             items.push({
                 text:"Adicionar Vínculo",
                 data: {record: record},
-                handler: this.addVinculo 
+                handler: me.linkInstrumento 
             });
         }        
         var menu = Ext.create('Ext.menu.Menu',{
@@ -299,40 +295,15 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     },
     
     linkInstrumento  : function(){
-        var view = Ext.widget('planoVinculosEdit');
-        view.setTitle('Vincular Atividades');
-        var grid = this.getTreegrid(); 
-        selected = grid.getSelectionModel().getSelection()[0]; 
-        options={programacao_id : selected.get('id'),  atividade : selected.get('menu')};
-        record = Ext.ModelMgr.create(options,'ExtZF.model.Vinculos');
-      	view.down('form').loadRecord(record);
-    },
-    /**
-     * Metodo salvar copiado do controller:
-     * ExtZF.controller.plano.Vinculos
-     * até que seja resolvido o carregamento deste
-     * @param button
-     */
-    saveLinkObject: function(button) {
-        var me=this;
-        var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
-            form   = win.down('form').getForm(); // recupera item abaixo(filho) da window do tipo form
-        if (form.isValid()) {
-            r = form.getRecord();
-            form.updateRecord(r);
-            r.save({
-                success: function(a,b){
-                    Etc.info("Salvo com sucesso!");
-                    win.close();
-                    me.getVinculosStore().load();
-                },
-                failure:function(a,b){
-                    Etc.error("Erro ao salvar!");
-                }
-            });
+        var me = this;
+        if(me.id ==="plano.Programacoes"){
+            var grid = me.getTreegrid(); 
+            selected = grid.getSelectionModel().getSelection()[0]; 
+        }else{
+            selected = me.data.record;
         }
+        _myAppGlobal.fireEvent('planoProgramacaoVinculo.add', selected);
     },    
-    
     newRoot: function() {
         var view = Ext.widget('planoProgramacoesEdit');
         view.setTitle('Inserir');

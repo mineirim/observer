@@ -1,6 +1,7 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Vinculos', {
-    extend: 'Ext.app.Controller',
+    extend: 'Ext.app.Controller',    
+    is_initialized   : false,
     stores: ['Vinculos'], // Store utilizado no gerenciamento do usuário
     models: ['Vinculos'], // Modelo do usuário
      views: [
@@ -16,21 +17,53 @@ Ext.define('ExtZF.controller.plano.Vinculos', {
             }
         ],
     init: function() {
+        var me = this        
+        if(me.is_initialized===true)
+            return;
         this.control(
         {
             'planoVinculosList': {
-                itemdblclick: this.editObject
+                itemdblclick: me.editObject
             },
             'planoVinculosList button[action=incluir]': {
-                click: this.editObject
+                click: me.editObject
             },
             'planoVinculosList button[action=excluir]': {
-                click: this.deleteObject
+                click: me.deleteObject
             },
             'planoVinculosEdit button[action=salvar]': {
-                click: this.saveObject
+                click: me.saveObject
+            },
+            'planoVinculosEdit combo[id="depende_programacao_id"]':{
+                select : me.verificaResponsavel,
+                scope  : this
             }
         });
+        
+        me.application.on({
+            'planoProgramacaoVinculo.add': me.addVinculo, 
+            scope: this
+        });
+    },
+    addVinculo : function(selected){
+
+        var view = Ext.widget('planoVinculosEdit');
+        view.setTitle('Configurar Vínculo');
+        options={programacao_id : selected.get('id'),  menu : selected.get('menu'), pactuado:'false'};
+        record = Ext.ModelMgr.create(options,'ExtZF.model.Vinculos');
+      	view.down('form').loadRecord(record);
+        var observacoes = Ext.getCmp('observacoes');
+        observacoes.hide();
+    },
+    pactuaVinculo : function(record){
+
+        var view = Ext.widget('planoVinculosEdit');
+        view.setTitle('Pactuar Vínculo');
+      	view.down('form').loadRecord(record);
+        var observacoes = Ext.getCmp('observacoes');
+        observacoes.show();
+        Ext.getCmp('justificativa').setReadOnly(true);
+        Ext.getCmp('pactuado_group').show();
     },
     editObject: function(grid, record) {
         var view = Ext.widget('planoVinculosEdit');
@@ -63,20 +96,26 @@ Ext.define('ExtZF.controller.plano.Vinculos', {
     saveObject: function(button) {
         var me=this;
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
-            form   = win.down('form').getForm() // recupera item abaixo(filho) da window do tipo form
+            form   = win.down('form').getForm(); // recupera item abaixo(filho) da window do tipo form
         if (form.isValid()) {
             r = form.getRecord();
             form.updateRecord(r);
             r.save({
                 success: function(a,b){
-                    Ext.log({msg:"Salvo com sucesso!",level:"info"});
+                    Etc.log({msg:"Vínculo salvo com sucesso!",level:"info"});
                     win.close();
                     me.getVinculosStore().load();
                 },
                 failure:function(a,b){
-                    Ext.log({msg:"Erro ao salvar!",level:"error"});
+                    Etc.log({msg:"Erro ao salvar!",level:"error", data : r});
                 }
             });
+        }
+    }, 
+    verificaResponsavel : function(combo, record, index){
+        if(Etc.getLoggedUser().get('id')===record[0].get('responsavel_usuario_id')){
+            var pactuado = Ext.getCmp('pactuado_group');
+            pactuado.setValue({pactuado:'true'});
         }
     }
 });

@@ -5,7 +5,7 @@ Ext.define('ExtZF.model.Vinculos', {
                             'depende_programacao_id',
                             'justificativa',
                             'observacoes',
-                            'pactuado',
+                            {name :'pactuado'},
                             'pacto_responsavel_id',
                             'situacao_id',
                             {name:'menu', persist:false}    

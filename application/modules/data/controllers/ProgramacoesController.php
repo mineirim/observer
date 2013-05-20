@@ -75,7 +75,9 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
                 $this->view->rows = $programacoes_table->getFilter($where);
             }else if ($this->_hasParam ('query'))
             {
-                $this->view->rows = $programacoes_table->searchProgramacao($this->_getParam('query'));
+                $page = $programacoes_table->searchProgramacao($this->_getParam('query'), $this->getAllParams());
+                $this->view->rows =$page['rows'];
+                $this->view->total = $page['total'];
             }elseif($this->_hasParam('pendentes'))
             {
                 

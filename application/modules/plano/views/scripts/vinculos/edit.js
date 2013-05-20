@@ -4,7 +4,7 @@ Ext.define('ExtZF.view.plano.vinculos.Edit', {
     title : 'Edição',
     layout: 'fit',    
     width : 740,
-    minHeight : '690px',    
+    minHeight : 390,    
     autoShow: true, // exibir a janela automaticamente ao chamá-la
     initComponent: function() {
         // Itens da janela
@@ -19,7 +19,8 @@ Ext.define('ExtZF.view.plano.vinculos.Edit', {
             },
             {
                 xtype: 'displayfield',
-                fieldLabel: 'Adicionar vínculo à',
+                fieldLabel: 'Adicionar vínculo à ',
+                labelWidth : 120,
                 name: 'menu',
                 ref : 'menu',
                 anchor:'95%',
@@ -29,18 +30,19 @@ Ext.define('ExtZF.view.plano.vinculos.Edit', {
             {
                 xtype: 'combo',
                 name        : 'depende_programacao_id',
+                id          : 'depende_programacao_id',
                 ref         : 'depende_programacao_id',
                 fieldLabel  : 'Dependência', 
                 store       : 'Programacoes',
                 valueField  : 'id',
                 displayField: 'menu',
-                minChars :  0,
-                queryMode: 'remote',
-                anchor:'95%',
-                typeAhead: true,
-                loadingText: 'Pesquisando...',
-                pageSize:10,
-                hideTrigger:false
+                minChars    :  0,
+                queryMode   : 'remote',
+                anchor      :'95%',
+                typeAhead   : true,
+                loadingText : 'Pesquisando...',
+                pageSize    :10,
+                hideTrigger :false
                 
             },
             
@@ -48,22 +50,35 @@ Ext.define('ExtZF.view.plano.vinculos.Edit', {
             {
                 xtype: 'htmleditor',
                 name : 'justificativa',
-                ref: 'justificativa',
+                id   : 'justificativa',
+                ref  : 'justificativa',
                 fieldLabel: 'Justificativa',
                 anchor:'95%',
                 enableFont : false,
                 enableFontSize: false
+            },{
+                xtype: 'radiogroup',
+                fieldLabel: 'Pactuado',
+                id  : 'pactuado_group',
+                columns: 1,
+                hidden: true,
+                defaults:{name:'pactuado', xtype:'radio'},
+                items: [
+                    {boxLabel: 'Sim', name: 'pactuado', inputValue: 'true'},
+                    {boxLabel: 'Não', name: 'pactuado', inputValue: 'false', checked:'true'}
+                
+                ]
             },
-
             {
                 xtype: 'htmleditor',
                 name : 'observacoes',
+                id   : 'observacoes',
                 ref: 'observacoes',
                 fieldLabel: 'Observações',
                 anchor:'95%',
                 enableFont : false,
                 enableFontSize: false
-            },]
+            }]
             }
         ];
 

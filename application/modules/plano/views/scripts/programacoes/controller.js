@@ -11,7 +11,6 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         'plano.programacoes.Container',
         'plano.programacoes.Anexos',
         'plano.programacoes.Detalhes',
-        'plano.vinculos.Edit',
         'plano.anexos.Edit',
         'plano.programacoes.GridFinanceiro',
         'plano.Operativos.List'
@@ -83,9 +82,6 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             },
             'planoProgramacoesTreegrid button[action=vincular]': {
                 click: this.linkInstrumento
-            },
-            'planoVinculosEdit depende_programacao_id':{
-                change: this.verificaResponsavel
             },           
             'planoProgramacoesDetalhes button[action=execucao]' : {
                  click : me.clickOnDetailsButton

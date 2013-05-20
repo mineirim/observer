@@ -250,7 +250,8 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                                         forceFit    : true,
                                         programacao_id : progId,
                                         autoShow    :false,
-                                        flex        : 5
+                                        flex        : 5,
+                                        minHeight   : 220 
                                     }
                                 );
         gridProgramacao.down("#btnIncluir").programacao_id=progId;
@@ -263,7 +264,8 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                                         title       :'Execução',
                                         forceFit    : true,
                                         financeiro_id : progId,
-                                        autoShow    :false
+                                        autoShow    :false,
+                                        minHeight   : 280
                                     }
                                 );
          

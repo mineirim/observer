@@ -54,7 +54,7 @@ class IndexController extends Zend_Controller_Action
                     },
                     {
                         text        : 'Estrutura',
-                        iconCls     : 'silk-add',
+                        iconCls     : 'icon-instrumentos',
                         data        : 'admin.Instrumentos',
                         action      : 'loadController',
                         createView  : 'adminInstrumentosList'

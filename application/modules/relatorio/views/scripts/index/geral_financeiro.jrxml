@@ -85,7 +85,7 @@ GROUP BY
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA[Executado]]></text>
+				<text><![CDATA[Saldo]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -111,26 +111,26 @@ GROUP BY
 				</textElement>
 				<textFieldExpression><![CDATA[$F{programacoes_menu}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement uuid="74598543-e166-4fec-94d6-6083419d8eac" style="Detail" x="382" y="0" width="55" height="11"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{financeiro_valor}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement uuid="74598543-e166-4fec-94d6-6083419d8eac" style="Detail" x="437" y="0" width="55" height="11"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{despesas_valor}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement uuid="74598543-e166-4fec-94d6-6083419d8eac" style="Detail" x="492" y="0" width="55" height="11"/>
 				<textElement textAlignment="Right">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{financeiro_valor}.doubleValue() - $F{despesas_valor}.doubleValue()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{financeiro_valor}.doubleValue() - ($F{despesas_valor} != null ? $F{despesas_valor}.doubleValue() : 0 )]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

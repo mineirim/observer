@@ -19,6 +19,12 @@ class Reports {
         $fromDom = dom_import_simplexml($from);
         $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
     }
+    /**
+     * 
+     * @param string $jrxml
+     * @param type $xpath
+     * @return  \SimpleXMLElement
+     */
     public function getReportXml($jrxml, $xpath = false)
     {
         if (!file_exists($jrxml))
@@ -47,13 +53,13 @@ class Reports {
         {
             throw new \Exception('Este tipo de relatório não é suportado neste servidor.');
         }
-        $jasperReportsLib = "/opt/jasperreports/lib";
+        $jasperReportsLib = "/scratch/sistemas/jasperreports/lib";
         $handle = @opendir($jasperReportsLib);
         while (($new_item = readdir($handle)) !== false)
         {
             \java_require($jasperReportsLib . '/' . $new_item);
         }
-        $jasperReportsDist = "/opt/jasperreports/dist";
+        $jasperReportsDist = "/scratch/sistemas/jasperreports/dist";
         $handle1 = @opendir($jasperReportsDist);
         while (($new_item = readdir($handle1)) !== false)
         {

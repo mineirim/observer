@@ -80,6 +80,18 @@ class Reports {
         $this->_conn = $objDbm->getConnection($dbUrl, $dbConf->username, $dbConf->password);
         return $this->_conn;
     }
+    /**
+     * 
+     * @param type $query
+     * @return JasperDesign
+     */
+    public function setQuery($query){
+                
+        $jDesignQuery = new \java('net.sf.jasperreports.engine.design.JRDesignQuery');
+        $jDesignQuery->setText($query);
+        $this->_jJasperDesign->setQuery($jDesignQuery);  
+        return $this->_jJasperDesign;
+    }
 
     private $_sJcm, $_report, $_JRXmlLoader = null;
 
@@ -128,7 +140,8 @@ class Reports {
 
     public function load($reportFileName)
     {
-        return $this->getJRXmlLoader()->load($reportFileName);
+        $this->_jJasperDesign = $this->getJRXmlLoader()->load($reportFileName);
+        return $this->_jJasperDesign;
     }
     public function loadXml($xml){
         return $this->getJRXmlLoader()->loadXML($xml);

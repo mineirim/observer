@@ -27,7 +27,7 @@ class Relatorio_IndexController extends Zend_Controller_Action
         $programacao_id = $this->_getParam('id');
         $programacoes_table = new Data_Model_DbTable_Programacoes();
         $instrumentos_table = new Data_Model_Instrumentos();
-        $programacao_row = $programacoes_table->fetchRow('programacao_id='.$programacao_id);
+        $programacao_row = $programacoes_table->fetchRow('id='.$programacao_id);
         
         $estrutura = $instrumentos_table->getRecursiveStructure($programacao_row->instrumento_id);
         /**
@@ -46,64 +46,70 @@ class Relatorio_IndexController extends Zend_Controller_Action
         $dom_report = \dom_import_simplexml($xml_report[0]);
         $dom_report->removeChild($dom_report->getElementsByTagName('group')->item(0));
         
-        $ix=1;
-        while ($value = $estrutura ->fetch() )
-        {            
-            if($ix == $numHeaders-1)
-                    break;
-            $ix++;
-            $px ="p".$value->id."_";
-            
-            $xml_text = str_replace('p1_', $px, $xml_group_base);
-            $xml_text = str_replace('nivel', $px.'nivel', $xml_text);
-
-            $node_new = new SimpleXMLElement($xml_text);
-
-            $dom_group_xml  = dom_import_simplexml($node_new);
-            $dom_group  = $dom_report->ownerDocument->importNode($dom_group_xml , TRUE);
-            unset($dom_group_xml);
-            $node = $dom_report->getElementsByTagName("background")->item(0);
-            $dom_report->insertBefore($dom_group,$node);
-            //$dom_report->appendChild($dom_group );
-            //$xml_report[0]->{$node_new->getName()} = $node_new;
-                        
-        }       
-        //echo "<textarea rows='40' cols='150'>".$xml_report[0]->asXML()."</textarea>";die;
         
+        $estrutura_arr  = $estrutura ->fetchAll();
+        
+        $sql =false;
+        
+        $order = array();
+        for ( $ix =1 ; $ix< $numHeaders; $ix ++  )
+        {            
+            $value = $estrutura_arr[$ix];
+        
+            if($programacao_row->instrumento_id == $value->id){
+                $filter_id = $programacao_row->id;
+            }else{
+                $filter_id=false;
+            }
+            $sql  .= $sql ? ", " : ""; 
+            $sql  .= $this->getQuery($ix, $value, $filter_id);
+            $px ="p".$ix."_";
+            $order[]= 'p'.$ix.'_id';
+            if($ix > 0 && $ix< $numHeaders-1){
+                
+                $xml_text = str_replace('p1_', $px, $xml_group_base);
+                $xml_text = str_replace('nivel', $px.'nivel', $xml_text);
+
+                $node_new = new SimpleXMLElement($xml_text);
+
+                $dom_group_xml  = dom_import_simplexml($node_new);
+                $dom_group  = $dom_report->ownerDocument->importNode($dom_group_xml , TRUE);
+                unset($dom_group_xml);
+                $node = $dom_report->getElementsByTagName("background")->item(0);
+                $dom_report->insertBefore($dom_group,$node);
+            }                    
+        }       
+        $ix--;
+        $sql .= " SELECT * FROM n{$ix} order by " . implode(',', $order);
+        //echo "<textarea rows='40' cols='150'>".$xml_report[0]->asXML()."</textarea>";die;
         
                 //echo "<textarea cols=150 rows=40>".$xml_report[0]->asXML()."</textarea>";die;
         $is = $this->getInputStream($xml_report[0]->asXML());
         
         $report = $jasper_reports->load($is);        
-        
+        $jasper_reports->setQuery($sql);
         $jasper_reports->compileLoadedReport($report);
-        
-// JRDesignQuery query = new JRDesignQuery();
-//    query.setText("SELECT * FROM Address $P!{OrderByClause}");
-//    jasperDesign.setQuery(query);        
+      
         
         $this->getResponse()->setHttpResponseCode(200);
         $jasper_reports->compileReport('geral');
     }
-    private function getQuery(){
-        $template = "n1 as ( SELECT  p1.id AS p1_id, p1.singular as p1_singular, p1.has_responsavel as p1_has_responsavel, p1.has_supervisor as p1_has_supervisor, p1.has_equipe as p1_has_equipe, p1.menu as p1_menu, p1.descricao as p1_descricao, p1.ordem as p1_ordem, p1.programacao_id as p1_programacao_id, p1.equipe as p1_equipe, p1.responsavel as p1_responsavel, p1.supervisor as p1_supervisor, p1.instrumento_id as p1_instrumento_id
-//                            FROM  vw_report_base p1 where p1.programacao_id is null and p1.instrumento_id=2)";
-//            with 	n1 as ( SELECT  p1.id AS p1_id, p1.singular as p1_singular, p1.has_responsavel as p1_has_responsavel, p1.has_supervisor as p1_has_supervisor, p1.has_equipe as p1_has_equipe, p1.menu as p1_menu, p1.descricao as p1_descricao, p1.ordem as p1_ordem, p1.programacao_id as p1_programacao_id, p1.equipe as p1_equipe, p1.responsavel as p1_responsavel, p1.supervisor as p1_supervisor, p1.instrumento_id as p1_instrumento_id
-//                            FROM  vw_report_base p1 where p1.programacao_id is null and p1.instrumento_id=2),
-//                    n2 as (
-//                            SELECT n1.*, p2.id AS p2_id, p2.singular as p2_singular, p2.has_responsavel as p2_has_responsavel, p2.has_supervisor as p2_has_supervisor, p2.has_equipe as p2_has_equipe, p2.menu as p2_menu, p2.descricao as p2_descricao, p2.ordem as p2_ordem, p2.programacao_id as p2_programacao_id, p2.equipe as p2_equipe, p2.responsavel as p2_responsavel, p2.supervisor as p2_supervisor, p2.instrumento_id as p2_instrumento_id
-//                            FROM    vw_report_base p2 RIGHT JOIN n1 on p2.programacao_id=n1.p1_id),
-//                    n3 as (
-//                            SELECT n2.*, p3.id AS p3_id, p3.singular as p3_singular, p3.has_responsavel as p3_has_responsavel, p3.has_supervisor as p3_has_supervisor, p3.has_equipe as p3_has_equipe, p3.menu as p3_menu, p3.descricao as p3_descricao, p3.ordem as p3_ordem, p3.programacao_id as p3_programacao_id, p3.equipe as p3_equipe, p3.responsavel as p3_responsavel, p3.supervisor as p3_supervisor, p3.instrumento_id as p3_instrumento_id
-//                            FROM    vw_report_base p3 RIGHT JOIN n2 on p3.programacao_id=n2.p2_id),
-//                    n4 as (
-//                            SELECT n3.*, p4.id AS p4_id, p4.singular as p4_singular, p4.has_responsavel as p4_has_responsavel, p4.has_supervisor as p4_has_supervisor, p4.has_equipe as p4_has_equipe, p4.menu as p4_menu, p4.descricao as p4_descricao, p4.ordem as p4_ordem, p4.programacao_id as p4_programacao_id, p4.equipe as p4_equipe, p4.responsavel as p4_responsavel, p4.supervisor as p4_supervisor, p4.instrumento_id as p4_instrumento_id
-//                            FROM    vw_report_base p4 RIGHT JOIN n3 on p4.programacao_id=n3.p3_id),
-//                    n5 as (
-//                            SELECT n4.*, p5.id AS p5_id, p5.singular as p5_singular, p5.has_responsavel as p5_has_responsavel, p5.has_supervisor as p5_has_supervisor, p5.has_equipe as p5_has_equipe, p5.menu as p5_menu, p5.descricao as p5_descricao, p5.ordem as p5_ordem, p5.programacao_id as p5_programacao_id, p5.equipe as p5_equipe, p5.responsavel as p5_responsavel, p5.supervisor as p5_supervisor, p5.instrumento_id as p5_instrumento_id
-//                            FROM    vw_report_base p5 RIGHT JOIN n4 on p5.programacao_id=n4.p4_id)		        
-//            SELECT * FROM n5 order by p1_id,p2_id,p3_id  
-        $query = " ";
+    private function getQuery($ix, $estrutura, $filter_id=false){
+        
+        if($ix==1){
+        $template = "with 	n1 as ( SELECT  p1.id AS p1_id, p1.singular as p1_singular, p1.has_responsavel as p1_has_responsavel, p1.has_supervisor as p1_has_supervisor, p1.has_equipe as p1_has_equipe, p1.menu as p1_menu, p1.descricao as p1_descricao, p1.ordem as p1_ordem, p1.programacao_id as p1_programacao_id, p1.equipe as p1_equipe, p1.responsavel as p1_responsavel, p1.supervisor as p1_supervisor, p1.instrumento_id as p1_instrumento_id
+                            FROM  vw_report_base p1 where p1.programacao_id is null and p1.instrumento_id={$estrutura->id})";
+        }else{
+            $join = $filter_id ? " INNER " : " RIGHT ";
+            $where = $filter_id ? " WHERE p{$ix}.id=".$filter_id:" ";
+            $template = "n__ix__ as (
+                                SELECT n__iy__.*, p__ix__.id AS p__ix___id, p__ix__.singular as p__ix___singular, p__ix__.has_responsavel as p__ix___has_responsavel, p__ix__.has_supervisor as p__ix___has_supervisor, p__ix__.has_equipe as p__ix___has_equipe, p__ix__.menu as p__ix___menu, p__ix__.descricao as p__ix___descricao, p__ix__.ordem as p__ix___ordem, p__ix__.programacao_id as p__ix___programacao_id, p__ix__.equipe as p__ix___equipe, p__ix__.responsavel as p__ix___responsavel, p__ix__.supervisor as p__ix___supervisor, p__ix__.instrumento_id as p__ix___instrumento_id
+                                FROM    vw_report_base p__ix__ {$join} JOIN n__iy__ on p__ix__.programacao_id=n__iy__.p__iy___id $where
+                         )";
+        }
+        $query = str_replace('__ix__', $ix, $template);
+        $query = str_replace('__iy__', $ix -1, $query);
+        return $query;
     }
     public function getInputStream( $value){
         

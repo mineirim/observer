@@ -53,13 +53,13 @@ class Reports {
         {
             throw new \Exception('Este tipo de relatório não é suportado neste servidor.');
         }
-        $jasperReportsLib = "/scratch/sistemas/jasperreports/lib";
+        $jasperReportsLib = "/opt/jasperreports/lib";
         $handle = @opendir($jasperReportsLib);
         while (($new_item = readdir($handle)) !== false)
         {
             \java_require($jasperReportsLib . '/' . $new_item);
         }
-        $jasperReportsDist = "/scratch/sistemas/jasperreports/dist";
+        $jasperReportsDist = "/opt/jasperreports/dist";
         $handle1 = @opendir($jasperReportsDist);
         while (($new_item = readdir($handle1)) !== false)
         {

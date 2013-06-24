@@ -81,18 +81,61 @@ class Relatorio_IndexController extends Zend_Controller_Action
         }       
         $ix--;
         $sql .= " SELECT * FROM n{$ix} order by " . implode(',', $order);
-        //echo "<textarea rows='40' cols='150'>".$xml_report[0]->asXML()."</textarea>";die;
         
-                //echo "<textarea cols=150 rows=40>".$xml_report[0]->asXML()."</textarea>";die;
-        $is = $this->getInputStream($xml_report[0]->asXML());
         
-        $report = $jasper_reports->load($is);        
+        //$xml_report_text = str_replace('__detail_', $px, $xml_report[0]->asXML());
+        
+        
+        $xml_report_text = str_replace('__detail_', $px, $xml_report[0]->asXML());
+        $is = $this->getInputStream($xml_report_text);
+        /* @var $jasperDesign \EtcReport\Jasper\Manager\JasperDesign */
+        $jasperDesign = $jasper_reports->load($is);  
+        
+        for ( $ix =2 ; $ix< $numHeaders; $ix ++  )
+        {            
+            $value = $estrutura_arr[$ix];
+       
+            if($ix > 0 && $ix< $numHeaders-1){
+                $this->addFields($jasperDesign, $ix);
+            }                    
+        }              
+        
         $jasper_reports->setQuery($sql);
-        $jasper_reports->compileLoadedReport($report);
+        $jasper_reports->compileLoadedReport($jasperDesign);
       
         
         $this->getResponse()->setHttpResponseCode(200);
         $jasper_reports->compileReport('geral');
+    }
+    /**
+     * 
+     * @param \EtcReport\Jasper\Manager\JasperDesign $jasperDesign
+     * @param int $seq
+     */
+    private function addFields( $jasperDesign, $seq){
+        $fields =array(
+            	array('name'=>'id' ,'class'=>'java.lang.Integer'),
+                array('name'=>'singular' ,'class'=>'java.lang.String'),
+                array('name'=>'has_responsavel' ,'class'=>'java.lang.Boolean'),
+                array('name'=>'has_supervisor' ,'class'=>'java.lang.Boolean'),
+                array('name'=>'has_equipe' ,'class'=>'java.lang.Boolean'),
+                array('name'=>'menu' ,'class'=>'java.lang.String'),
+                array('name'=>'descricao' ,'class'=>'java.lang.String'),
+                array('name'=>'ordem' ,'class'=>'java.lang.Integer'),
+                array('name'=>'programacao_id' ,'class'=>'java.lang.Integer'),
+                array('name'=>'equipe' ,'class'=>'java.lang.String'),
+                array('name'=>'responsavel' ,'class'=>'java.lang.String'),
+                array('name'=>'supervisor' ,'class'=>'java.lang.String'),
+                array('name'=>'instrumento_id' ,'class'=>'java.lang.Integer'),
+        );
+        foreach ($fields as $value) {
+            /* @var $jField \EtcReport\Jasper\Java\JRDesignField  */
+             $jField = new \java('net.sf.jasperreports.engine.design.JRDesignField');
+             $jField->setName('p'.$seq.'_'. $value['name']);
+             $jField->setValueClassName($value['class']);
+             $jasperDesign->addField($jField);
+        }
+	
     }
     private function getQuery($ix, $estrutura, $filter_id=false){
         

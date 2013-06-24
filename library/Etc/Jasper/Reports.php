@@ -1,7 +1,20 @@
 <?php
 
 namespace Etc\Jasper;
+use \EtcReport\Jasper\Manager\JasperDesign,
+ \EtcReport\Jasper\Java\JRDesignBand;
 
+/* no java_require() include the java.inc for PHP/Java Bridge */
+if ( ! function_exists('java_require') ) {
+    require_once("http://localhost:8080/JavaBridge/java/Java.inc"); 
+}
+
+/* declare this, it doesn't exist with Zend Java, but is needed for PHP/Java Bridge */
+if ( ! function_exists('java_cast')) {
+    function java_cast($whatever) {
+        return $whatever;
+    }
+}
 /**
  *
  * @author Marcone Costa
@@ -13,6 +26,9 @@ class Reports {
     public function __construct()
     {
         $this->_getJavaIncludes();
+    }
+    public function addFields(){
+        
     }
     public function sxml_append(SimpleXMLElement $to, SimpleXMLElement $from) {
         $toDom = dom_import_simplexml($to);
@@ -49,22 +65,22 @@ class Reports {
 
     private function _getJavaIncludes()
     {
-        if (!function_exists('java_require'))
-        {
-            throw new \Exception('Este tipo de relatório não é suportado neste servidor.');
-        }
-        $jasperReportsLib = "/opt/jasperreports/lib";
-        $handle = @opendir($jasperReportsLib);
-        while (($new_item = readdir($handle)) !== false)
-        {
-            \java_require($jasperReportsLib . '/' . $new_item);
-        }
-        $jasperReportsDist = "/opt/jasperreports/dist";
-        $handle1 = @opendir($jasperReportsDist);
-        while (($new_item = readdir($handle1)) !== false)
-        {
-            \java_require($jasperReportsDist . '/' . $new_item);
-        }
+//        if (!function_exists('java_require'))
+//        {
+//            throw new \Exception('Este tipo de relatório não é suportado neste servidor.');
+//        }
+//        $jasperReportsLib = "/opt/jasperreports/lib";
+//        $handle = @opendir($jasperReportsLib);
+//        while (($new_item = readdir($handle)) !== false)
+//        {
+//            \java_require($jasperReportsLib . '/' . $new_item);
+//        }
+//        $jasperReportsDist = "/opt/jasperreports/dist";
+//        $handle1 = @opendir($jasperReportsDist);
+//        while (($new_item = readdir($handle1)) !== false)
+//        {
+//            \java_require($jasperReportsDist . '/' . $new_item);
+//        }
     }
 
     public function _makeJasperConnection()
@@ -232,7 +248,6 @@ class Reports {
                 //java.text.NumberFormat.getCurrencyInstance(new Locale("pt","br")).format($F{suaField}.doubleValue())  
             }
 
-
             $map->put('pcs_param.IMAGES_PATH',
                     APPLICATION_PATH . '/../public/img/');
             $print = $sJfm->fillReport(
@@ -291,17 +306,17 @@ class Reports {
         {
             $this->_helper->viewRenderer->setNoRender(true);
             print "jclass cast: " . $ex->toString();
-        } catch (JavaException $ex)
+        } catch (\JavaException $ex)
         {
             $exStr = $ex->toString();
             echo "Exception occured; mixed trace: $exStr\n";
-            $trace = new java("java.io.ByteArrayOutputStream");
+            $trace = new \java("java.io.ByteArrayOutputStream");
             $ex->printStackTrace(new \java("java.io.PrintStream", $trace));
             print "java stack trace: $trace\n";
         } catch (\Exception $e)
         {
-            \Zend_Debug::dump($e);
-            die;
+            print_r($e->message());die;
+            
             throw new \Exception('Houve um problema ao renderizar o relatório selecionado.');
         }
     }

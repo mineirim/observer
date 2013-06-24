@@ -30,7 +30,7 @@
 		SELECT n3.*, p4.id AS p4_id, p4.singular as p4_singular, p4.has_responsavel as p4_has_responsavel, p4.has_supervisor as p4_has_supervisor, p4.has_equipe as p4_has_equipe, p4.menu as p4_menu, p4.descricao as p4_descricao, p4.ordem as p4_ordem, p4.programacao_id as p4_programacao_id, p4.equipe as p4_equipe, p4.responsavel as p4_responsavel, p4.supervisor as p4_supervisor, p4.instrumento_id as p4_instrumento_id
 	        FROM    vw_report_base p4 RIGHT JOIN n3 on p4.programacao_id=n3.p3_id),
 	n5 as (
-		SELECT n4.*, p5.id AS p5_id, p5.singular as p5_singular, p5.has_responsavel as p5_has_responsavel, p5.has_supervisor as p5_has_supervisor, p5.has_equipe as p5_has_equipe, p5.menu as p5_menu, p5.descricao as p5_descricao, p5.ordem as p5_ordem, p5.programacao_id as p5_programacao_id, p5.equipe as p5_equipe, p5.responsavel as p5_responsavel, p5.supervisor as p5_supervisor, p5.instrumento_id as p5_instrumento_id
+		SELECT n4.*, p5.id AS __detail_id, p5.singular as __detail_singular, p5.has_responsavel as __detail_has_responsavel, p5.has_supervisor as __detail_has_supervisor, p5.has_equipe as __detail_has_equipe, p5.menu as __detail_menu, p5.descricao as __detail_descricao, p5.ordem as __detail_ordem, p5.programacao_id as __detail_programacao_id, p5.equipe as __detail_equipe, p5.responsavel as __detail_responsavel, p5.supervisor as __detail_supervisor, p5.instrumento_id as __detail_instrumento_id
 	        FROM    vw_report_base p5 RIGHT JOIN n4 on p5.programacao_id=n4.p4_id)		        
 SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 	</queryString>
@@ -47,58 +47,19 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 	<field name="p1_responsavel" class="java.lang.String"/>
 	<field name="p1_supervisor" class="java.lang.String"/>
 	<field name="p1_instrumento_id" class="java.lang.Integer"/>
-	<field name="p2_id" class="java.lang.Integer"/>
-	<field name="p2_singular" class="java.lang.String"/>
-	<field name="p2_has_responsavel" class="java.lang.Boolean"/>
-	<field name="p2_has_supervisor" class="java.lang.Boolean"/>
-	<field name="p2_has_equipe" class="java.lang.Boolean"/>
-	<field name="p2_menu" class="java.lang.String"/>
-	<field name="p2_descricao" class="java.lang.String"/>
-	<field name="p2_ordem" class="java.lang.Integer"/>
-	<field name="p2_programacao_id" class="java.lang.Integer"/>
-	<field name="p2_equipe" class="java.lang.String"/>
-	<field name="p2_responsavel" class="java.lang.String"/>
-	<field name="p2_supervisor" class="java.lang.String"/>
-	<field name="p2_instrumento_id" class="java.lang.Integer"/>
-	<field name="p3_id" class="java.lang.Integer"/>
-	<field name="p3_singular" class="java.lang.String"/>
-	<field name="p3_has_responsavel" class="java.lang.Boolean"/>
-	<field name="p3_has_supervisor" class="java.lang.Boolean"/>
-	<field name="p3_has_equipe" class="java.lang.Boolean"/>
-	<field name="p3_menu" class="java.lang.String"/>
-	<field name="p3_descricao" class="java.lang.String"/>
-	<field name="p3_ordem" class="java.lang.Integer"/>
-	<field name="p3_programacao_id" class="java.lang.Integer"/>
-	<field name="p3_equipe" class="java.lang.String"/>
-	<field name="p3_responsavel" class="java.lang.String"/>
-	<field name="p3_supervisor" class="java.lang.String"/>
-	<field name="p3_instrumento_id" class="java.lang.Integer"/>
-	<field name="p4_id" class="java.lang.Integer"/>
-	<field name="p4_singular" class="java.lang.String"/>
-	<field name="p4_has_responsavel" class="java.lang.Boolean"/>
-	<field name="p4_has_supervisor" class="java.lang.Boolean"/>
-	<field name="p4_has_equipe" class="java.lang.Boolean"/>
-	<field name="p4_menu" class="java.lang.String"/>
-	<field name="p4_descricao" class="java.lang.String"/>
-	<field name="p4_ordem" class="java.lang.Integer"/>
-	<field name="p4_programacao_id" class="java.lang.Integer"/>
-	<field name="p4_equipe" class="java.lang.String"/>
-	<field name="p4_responsavel" class="java.lang.String"/>
-	<field name="p4_supervisor" class="java.lang.String"/>
-	<field name="p4_instrumento_id" class="java.lang.Integer"/>
-	<field name="p5_id" class="java.lang.Integer"/>
-	<field name="p5_singular" class="java.lang.String"/>
-	<field name="p5_has_responsavel" class="java.lang.Boolean"/>
-	<field name="p5_has_supervisor" class="java.lang.Boolean"/>
-	<field name="p5_has_equipe" class="java.lang.Boolean"/>
-	<field name="p5_menu" class="java.lang.String"/>
-	<field name="p5_descricao" class="java.lang.String"/>
-	<field name="p5_ordem" class="java.lang.Integer"/>
-	<field name="p5_programacao_id" class="java.lang.Integer"/>
-	<field name="p5_equipe" class="java.lang.String"/>
-	<field name="p5_responsavel" class="java.lang.String"/>
-	<field name="p5_supervisor" class="java.lang.String"/>
-	<field name="p5_instrumento_id" class="java.lang.Integer"/>
+	<field name="__detail_id" class="java.lang.Integer"/>
+	<field name="__detail_singular" class="java.lang.String"/>
+	<field name="__detail_has_responsavel" class="java.lang.Boolean"/>
+	<field name="__detail_has_supervisor" class="java.lang.Boolean"/>
+	<field name="__detail_has_equipe" class="java.lang.Boolean"/>
+	<field name="__detail_menu" class="java.lang.String"/>
+	<field name="__detail_descricao" class="java.lang.String"/>
+	<field name="__detail_ordem" class="java.lang.Integer"/>
+	<field name="__detail_programacao_id" class="java.lang.Integer"/>
+	<field name="__detail_equipe" class="java.lang.String"/>
+	<field name="__detail_responsavel" class="java.lang.String"/>
+	<field name="__detail_supervisor" class="java.lang.String"/>
+	<field name="__detail_instrumento_id" class="java.lang.Integer"/>
 	<group name="nivel">
 		<groupExpression><![CDATA[$F{p1_id}]]></groupExpression>
 		<groupHeader>
@@ -167,7 +128,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 	</columnHeader>
 	<detail>
 		<band height="66" splitType="Stretch">
-			<printWhenExpression><![CDATA[$F{p5_id} != null]]></printWhenExpression>
+			<printWhenExpression><![CDATA[$F{__detail_id} != null]]></printWhenExpression>
 			<frame>
 				<reportElement uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5" stretchType="RelativeToBandHeight" mode="Opaque" x="1" y="0" width="555" height="60"/>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
@@ -175,40 +136,40 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 					<textElement>
 						<font size="10" isBold="true"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{p5_singular} + " - " + $F{p5_menu}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{__detail_singular} + " - " + $F{__detail_menu}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
 					<reportElement uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7" style="Detail" positionType="Float" x="0" y="27" width="551" height="12"/>
 					<textElement markup="html">
 						<font size="8"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{p5_descricao} != null ? "Descrição: " + $F{p5_descricao} :""]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{__detail_descricao} != null ? "Descrição: " + $F{__detail_descricao} :""]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" positionType="Float" x="373" y="14" width="178" height="12"/>
 					<textElement>
 						<font size="8"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{p5_equipe} != null ? "Equipe: " + $F{p5_equipe} : ""]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{__detail_equipe} != null ? "Equipe: " + $F{__detail_equipe} : ""]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" positionType="Float" x="0" y="14" width="188" height="12"/>
 					<textElement>
 						<font size="8"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{p5_responsavel} != null ? "Responsável: " + $F{p5_responsavel} : ""]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{__detail_responsavel} != null ? "Responsável: " + $F{__detail_responsavel} : ""]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" positionType="Float" x="188" y="15" width="185" height="12"/>
 					<textElement>
 						<font size="8"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{p5_supervisor} != null ? "Supervisor: " + $F{p5_supervisor} : ""]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{__detail_supervisor} != null ? "Supervisor: " + $F{__detail_supervisor} : ""]]></textFieldExpression>
 				</textField>
 				<subreport runToBottom="false">
 					<reportElement uuid="0d2cbe1d-4c7a-4a49-b692-57c543f601f8" positionType="Float" x="3" y="42" width="548" height="14"/>
 					<subreportParameter name="programacao_id">
-						<subreportParameterExpression><![CDATA[$F{p5_id}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA[$F{__detail_id}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "geral_financeiro.jasper"]]></subreportExpression>

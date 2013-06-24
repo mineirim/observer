@@ -168,10 +168,22 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 handler: me.linkInstrumento 
             });
         }        
+        items.push('-');
+        items.push({
+            text:"Relatório",
+            data: {record: record},
+            handler: function(){
+                    me.showReport(record);
+                }
+        });
+
         var menu = Ext.create('Ext.menu.Menu',{
         items: items
         });
         menu.showAt(event.xy);
+    },
+    showReport : function(record){
+        window.open("relatorio/index/index/id/"+record.get('id'), "relatório"); 
     },
     novaProgramacao: function(parent){; 
         var options ={instrumento_id: ''};

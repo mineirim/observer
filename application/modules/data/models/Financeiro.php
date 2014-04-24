@@ -13,21 +13,25 @@ class Data_Model_Financeiro
         $financeiro_table = new Data_Model_DbTable_Financeiro();
         
         $financeiros = $financeiro_table->fetchAll($where, $order);       
-        if(!$relationships)
+        if(!$relationships){
             return $financeiros ? $financeiros->toArray():array();
-        
+        }       
         $instrumentos_model = new Data_Model_Instrumentos();
         $programacao_model = new Data_Model_Programacoes();
         
         $rows = array();
         foreach ($financeiros as $financeiro) {
-            $origem = $programacao_model->getRow("id=".$financeiro->origem_recurso_id);
-            $origem_instrumentos = $instrumentos_model->getRecursiveParents($origem->instrumento_id);
+            if($financeiro->origem_recurso_id!=null){
+                $origem = $programacao_model->getRow("id=".$financeiro->origem_recurso_id);
+                $origem_instrumentos = $instrumentos_model->getRecursiveParents($origem->instrumento_id);
+            }
             $parents = array();
-            foreach ($origem_instrumentos as $instrumento){                
-                $parents[$instrumento->ix]['singular'] = $instrumento->singular;
-                $parents[$instrumento->ix]['menu'] = $origem->menu;
-                $origem = $origem->findParentRow('Data_Model_DbTable_Programacoes');                
+            if(isset($origem_instrumentos)){
+                foreach ($origem_instrumentos as $instrumento){                
+                    $parents[$instrumento->ix]['singular'] = $instrumento->singular;
+                    $parents[$instrumento->ix]['menu'] = $origem->menu;
+                    $origem = $origem->findParentRow('Data_Model_DbTable_Programacoes');                
+                }
             }
             $tabledespesas = new Data_Model_DbTable_Despesas();
             $select = $tabledespesas->select();

@@ -128,28 +128,28 @@ Ext.define('ExtZF.controller.Navigation', {
                
     },
     criaView :function(a){
-        var controller = this.getController(a.data),
-            args = Array.prototype.slice.call(arguments, 1);
+        var controller = ExtZF.app.getController(a.data);
+        var args = Array.prototype.slice.call(arguments, 1);
         
         //controller.init.apply(controller, args);        
         var view = Ext.widget(a.createView);       
 
         var options = {single: true};
 
-        // Call the controller init method when the view is rendered
-        view.mon(view, 'render', function() {
-                Etc.info('executing init on Controller ' + controller.id + ' passing: ', args);
-                controller.init.apply(controller, args);
-                 
-        }, this, options);
-
-        // Remove the controller and destroy the view when the view component is deactivated
-        
-        view.mon(view, 'destroy', function(view) {
-                        window.console.info('removing controller ' + controller.id + ' & destroying controller ' + view.id);
-                        view.destroy();
-                       // Ext.destroy(this.application.controllers.remove(this));
-                }, this, options);
+//        // Call the controller init method when the view is rendered
+//        view.mon(view, 'render', function() {
+//                Etc.info('executing init on Controller ' + controller.id + ' passing: ', args);
+//                controller.init.apply(controller, args);
+//                 
+//        }, this, options);
+//
+//        // Remove the controller and destroy the view when the view component is deactivated
+//        
+//        view.mon(view, 'destroy', function(view) {
+//                        window.console.info('removing controller ' + controller.id + ' & destroying controller ' + view.id);
+//                        view.destroy();
+//                       // Ext.destroy(this.application.controllers.remove(this));
+//                }, this, options);
         
         return view;
 

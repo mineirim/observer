@@ -1,7 +1,7 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Programacoes', {
     extend: 'Ext.app.Controller',
-    id      : 'controllerPlanoProgramacoes',
+    //id      : 'controllerPlanoProgramacoes',
     stores: ['programacoes.TreeStore', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico'], // Store utilizado no gerenciamento do usuário
     models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico'], // Modelo do usuário
     views: [
@@ -19,7 +19,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
      *nó selecionado na navegação à esquerda
      */
     rootNodeSelected : false,
-    is_initialized   : false,
+//    is_initialized   : false,
     /** @var selectNewRecord registro a ser selecionado após criação*/
     selectNewRecord  : false,
     refs: [{
@@ -35,8 +35,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         ],
     init: function() {
         me = this;
-        if(me.is_initialized===true)
+        if(typeof(ExtZF.app.controllers.map['ExtZF.controller.plano.Programacoes'])==='object')
             return;
+        
         Etc.log("init no controller Programações");
         
         this.control(
@@ -88,7 +89,6 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             }
            
         });
-        this.getController('ExtZF.controller.plano.Programacoes').is_initialized =true; 
         var operativosController = _myAppGlobal.getController('ExtZF.controller.plano.Operativos');
         operativosController.init();
         
@@ -194,7 +194,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 
             }else{
                 parent = this.getProgramacoesStore().findRecord('id',parent.get('id'));
-                if(parent.get('locked')){
+                if(parent !== null && parent.get('locked')){
                     Ext.Msg.alert('Atenção', 'Você não tem permissão para criar novo registro!');
                     return;
                 }                
@@ -604,6 +604,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 planilhaOrcamentaria.hide();
         }
         //this.getGantt(record.get('id'));
+        this.showGantt(record.get('id'));
         me.application.fireEvent('planoProgramacaoFinanceiro.filterByProgramacao', record.get('id'));
         
         showDetail.doLayout();
@@ -629,6 +630,10 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             controller.editObject(null, record);
             
         }
+    },
+    showGantt : function(id){
+        gantt.init('GanttChartDIV');
+        
     },
     getGantt : function(id){
         var g = new JSGantt.GanttChart('g',document.getElementById('GanttChartDIV'), 'month');

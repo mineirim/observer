@@ -16,7 +16,7 @@ if(env==='production'){
 
 Ext.application({
     name: 'ExtZF', 
-    appFolder: baseUrl,
+    appFolder: ' ' + baseUrl,
     autoCreateViewport :false,
     controllers: [
         'Navigation',

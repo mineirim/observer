@@ -21,6 +21,7 @@ Ext.define('ExtZF.controller.admin.Users', {
 
 
     init: function() {
+        console.log('init do user');
         this.control(
         {
             // evento duplo click na tela principal(viewport) --> usuariolista(grid)

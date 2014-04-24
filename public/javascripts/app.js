@@ -1,14 +1,14 @@
 Ext.Loader.setConfig({
 enabled: true,
 paths :{
-'Js'    : './view'
+'Js'    : './view',
 }
 
 });
-
+//Ext.Loader.setPath('App', '');
 Ext.application({
     name: 'ExtZF',
-    appFolder: baseUrl,
+    appFolder: ' ' + baseUrl,
     autoCreateViewport :false,
     controllers: [
         'acesso.Auth'

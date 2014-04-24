@@ -7,7 +7,6 @@ Ext.define('ExtZF.controller.plano.Operativos', {
     'plano.operativos.List',
     'plano.operativos.Edit'
     ],
-    is_initialized   : false,
     refs: [{
                 ref:'grid',
                 selector:'planoOperativosList'
@@ -19,7 +18,7 @@ Ext.define('ExtZF.controller.plano.Operativos', {
     init: function() {
         
         me = this;
-        if(me.getController('ExtZF.controller.plano.Operativos').is_initialized===true)
+        if(typeof(ExtZF.app.controllers.map['ExtZF.controller.plano.Operativos'])==='object')
             return;
         this.control(
         {
@@ -36,7 +35,6 @@ Ext.define('ExtZF.controller.plano.Operativos', {
                 click: this.saveObject
             }
         });
-        me.getController('ExtZF.controller.plano.Operativos').is_initialized =true; 
         
         this.application.on({
             filtrarHistoricoPorOperativo: me.filtrarHistoricoPorOperativo, 

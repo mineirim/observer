@@ -17,6 +17,7 @@
  <?php echo $this->headLink ()->prependStylesheet ( $this->baseUrl ('/codebase/dhtmlxgantt.css') );?>
 <?php  //$this->headScript()->appendFile( $this->baseUrl () . '/javascripts/jsgantt.js') ?>
 <?php  $this->headScript()->appendFile( $this->baseUrl ('/codebase/dhtmlxgantt.js')) ?>
+<?php  $this->headScript()->appendFile( $this->baseUrl ('/codebase/locale/locale_pt.js')) ?>
 <?php
 if(APPLICATION_ENV=='production'){
     $this->headScript()->appendFile( $this->baseUrl () . '/extjs/ext-all.js');

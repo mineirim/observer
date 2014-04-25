@@ -632,8 +632,13 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         }
     },
     showGantt : function(id){
+        gantt.config.xml_date = "%Y-%m-%d";
+                gantt.config.scale_unit = "month";
+        gantt.config.step = 1;
+//        gantt.config.date_scale = "%m";
         gantt.init('GanttChartDIV');
-        
+        params = typeof(id) !== 'undefined' ?'&node_id='+id:'';
+        gantt.load('/data/gantt?format=xml'+params,'xml');
     },
     getGantt : function(id){
         var g = new JSGantt.GanttChart('g',document.getElementById('GanttChartDIV'), 'month');

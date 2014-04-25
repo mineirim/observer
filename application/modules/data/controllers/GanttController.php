@@ -24,9 +24,58 @@ class Data_GanttController extends Zend_Rest_Controller {
         $node_id= $this->_getParam('node_id');
         $this->getResponse()->setHeader('Content-type', 'text/xml');
         $this->_helper->layout()->disableLayout();
-        echo "<project>" . $this->getRecursive($node_id, $node_id ) . "</project>";
+//        echo "<project>" . $this->getRecursive($node_id, $node_id ) . "</project>";
+        echo "<data>" . $this->getData($node_id, $node_id ) . "</data>";
     }
-    
+    private function getData($id=null, $isRoot=false){
+        
+        $model_programacoes = new Data_Model_DbTable_Programacoes();
+        $where = $id ? "programacao_id=$id" : "programacao_id is null";
+        $programacoes = $model_programacoes->fetchAll($where, 'ordem');
+        $root = array();
+        
+        $parent_id = $id && !$isRoot ? (int) $id + 100000: '';
+        $xmlString = '';
+        $task = '';
+        foreach ($programacoes as $programacao) {
+            
+            $vinculadas =array();// $model_vinculos->fetchAll('situacao_id=1 and programacao_id=' . $programacao->id);
+            $str_vinculadas = array();
+            foreach ($vinculadas as $vinculo) {
+                $str_vinculadas[] = (int) $vinculo->depende_programacao_id + 100000;
+            }
+            $str_vinculadas = implode(',', $str_vinculadas);            
+        
+            $usuario = $programacao->findParentRow('Data_Model_DbTable_Usuarios');
+            $nome_responsavel = $usuario ? $usuario->nome:'';
+            $instrumento = $programacao->findParentRow('Data_Model_DbTable_Instrumentos');
+            $parent = $programacao->findParentRow('Data_Model_DbTable_Programacoes');
+            $operativo = $programacao->findDependentRowset('Data_Model_DbTable_Operativos');
+            $data_inicio= $data_prazo='2014-03-01';
+            
+            if(count($operativo)){
+                $operativo = $operativo->current();
+                $data_inicio    = $operativo->data_inicio;
+                $data_prazo     = $operativo->data_prazo;
+            }
+                $opid = (int) $programacao->id + 100000;
+                $task .= '<task id="'.$opid.'" ';
+                $task .= 'start_date="' . $data_inicio . '" ';
+                $task .= 'end_date="' . $data_prazo . '" ';
+                $task .= 'duration="'  . 20 .'" ';
+                $task .= 'parent="'  . $parent_id .'" ';
+                $task .= 'progress="' . 0.7 . '" >';
+                $task .= '<![CDATA[' . $programacao->menu . ']]>';
+                $task .= '<holder><![CDATA[' . $nome_responsavel. ']]></holder>';
+                $task .= '<priority><![CDATA[Medium]]></priority>';
+                
+            $children = $this->getData($programacao->id);
+            $task .= '</task>';
+            $task .= $children;
+        }
+         $xmlString .= $task ;
+        return $xmlString;        
+    }
     public function getRecursive($id=null, $isRoot=false) {
         
         $model_programacoes = new Data_Model_DbTable_Programacoes();

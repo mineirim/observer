@@ -632,6 +632,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         }
     },
     showGantt : function(id){
+        if(document.getElementById('GanttChartDIV')===null)
+            return;
         gantt.config.xml_date = "%Y-%m-%d";
                 gantt.config.scale_unit = "month";
         gantt.config.step = 1;

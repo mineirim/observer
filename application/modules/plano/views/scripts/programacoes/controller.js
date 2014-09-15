@@ -265,7 +265,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                     }
                 }else{
                     financeiro = {};
-                    recFinanceiro = Ext.ModelMgr.create(financeiro,'Financeiro');
+                    recFinanceiro = Ext.ModelMgr.create(financeiro,'ExtZF.model.Financeiro');
                 }
                 view.down('#frmVlrProgramado').getForm().loadRecord(recFinanceiro);
             }

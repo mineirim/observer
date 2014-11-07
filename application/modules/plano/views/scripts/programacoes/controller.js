@@ -380,23 +380,24 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     saveObject: function(button) 
     {
         var me=this;
-        var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
-            formDefault   = win.down('#frmDefault').getForm(),
-            formDetail   = win.down('#frmDetail');
-            if (formDetail !== null)
-                formDetail = formDetail.getForm();
+        var recordSelected;
+        var win    = button.up('window'); // recupera um item acima(pai) do button do tipo window
+        var formDefault   = win.down('#frmDefault').getForm();
+        var formDetail   = win.down('#frmDetail');
+        if (formDetail !== null)
+            formDetail = formDetail.getForm();
 
-            frmVlrProgramado   = win.down('#frmVlrProgramado');
-            if (frmVlrProgramado !== null)
-                frmVlrProgramado = frmVlrProgramado.getForm();
+        var frmVlrProgramado   = win.down('#frmVlrProgramado');
+        if (frmVlrProgramado !== null)
+            frmVlrProgramado = frmVlrProgramado.getForm();
 
 
         if (formDefault.isValid()) {
-            r = formDefault.getRecord();
-            formDefault.updateRecord(r);
-            var check_programacao = typeof(r.get('id'))==='undefined';
-            var instrumento = me.getInstrumentosStore().getById(parseInt(r.get('instrumento_id'),10));
-            r.save({
+            recordSelected = formDefault.getRecord();
+            formDefault.updateRecord(recordSelected);
+            var check_programacao = typeof(recordSelected.get('id'))==='undefined';
+            var instrumento = me.getInstrumentosStore().getById(parseInt(recordSelected.get('instrumento_id'),10));
+            recordSelected.save({
                 success: function(a,b){
                     Etc.info("Salvo com sucesso!");
                     /**
@@ -429,26 +430,24 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                                 var programacoesEdit = Ext.getCmp('planoProgramacoesEdit');
                                 programacoesEdit.showGridProgramacao(parseInt(a.get('id'),10));
                                 programacoesEdit.doLayout();
-                                me.application.fireEvent('filterDespesasByProgramacao', r.get('id'));
+                                me.application.fireEvent('filterDespesasByProgramacao', recordSelected.get('id'));
                             }            
                     }
                     me.getProgramacoesTreeStoreStore().load();
                     me.getProgramacoesStore().load();
                     var treePanelLeft = Ext.getCmp('treeNavPanel');
                     var treePanelStore= treePanelLeft.getStore();
-                    var prog_id = r.get('programacao_id');
+                    var prog_id = recordSelected.get('programacao_id');
                  
                     if(prog_id!==null){
                         var node = treePanelStore.getNodeById(prog_id);
                         treePanelStore.load({node:node});
                     }else{
-                        var inst_id = parseInt(r.get('instrumento_id',10)) - 1;
+                        var inst_id = parseInt(recordSelected.get('instrumento_id',10)) - 1;
                         var node = treePanelStore.getNodeById('instrumentoId-' + inst_id);
                         treePanelStore.load({node:node});
-                    }
-                
-                    Etc.info("Salvo com sucesso!");
-                    
+                    }                
+                    Etc.info("Salvo com sucesso!");                    
                     Ext.MessageBox.show({
 			title: 'Salvar'
 			,buttons: Ext.MessageBox.OK
@@ -457,8 +456,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                     });
                 },
                 failure:function(a,b){
-                    Etc.error("Erro ao salvar!");
-                    
+                    Etc.error("Erro ao salvar!");                    
                     Ext.MessageBox.show({
 			title: 'Salvar'
 			,buttons: Ext.MessageBox.OK
@@ -468,7 +466,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                     return false;
                 }
         });
-        this.selectNewRecord = r; 
+        me.selectNewRecord = recordSelected; 
             
         }
         return win;

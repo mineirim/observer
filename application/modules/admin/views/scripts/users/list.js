@@ -9,6 +9,10 @@ Ext.define('ExtZF.view.admin.users.List' ,{
     	text: 'Incluir',
         iconCls: 'icon-new',
     	action: 'new' // action identificada para executar na camada controller
+    },{
+    	text: 'Resetar Senha',
+        iconCls: 'icon-new',
+    	action: 'reset' // action identificada para executar na camada controller
     },'->',{
     	text: 'Excluir',
         iconCls: 'icon-delete',

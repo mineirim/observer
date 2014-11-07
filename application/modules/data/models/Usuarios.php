@@ -48,7 +48,7 @@ class Data_Model_Usuarios {
      * @param string $where
      * @param string $password 
      */
-    function updatePassword($where, $password=null) {
+    function updatePassword($where, $password=null,$alterar_senha=false) {
         $table_usuarios = new Data_Model_DbTable_Usuarios();
         $dados = array();
        
@@ -56,6 +56,7 @@ class Data_Model_Usuarios {
         $this->makePassword($password);
         $dados['senha'] = $this->password_md5;
         $dados['salt'] = $this->salt;
+        $dados['alterar_senha']=$alterar_senha?1:0;
         $table_usuarios->update($dados, $where);
         $table_usuarios->getAdapter()->commit();
         return $table_usuarios->fetchRow($where);

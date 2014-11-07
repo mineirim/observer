@@ -61,6 +61,11 @@ Ext.define('ExtZF.view.admin.users.Edit', {
             scope: this,
             handler: this.close,
             iconCls : 'icon-cancel'
+        },
+        {
+            text: 'Resetar Senha',
+            action : 'reset',
+            iconCls : 'icon-cancel'
         }];
 
         this.callParent(arguments);

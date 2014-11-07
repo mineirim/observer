@@ -1,7 +1,7 @@
 // Modelagem dos dados - utilizada no store
 Ext.define('ExtZF.model.usuarios.Model4pass', {
     extend: 'Ext.data.Model',
-    fields: ['id','usuario','senha'],
+    fields: ['id','usuario','senha','alterar_senha'],
 
     validations: [{
         type: 'length',

@@ -89,12 +89,13 @@ class Data_UsuariosController extends Zend_Rest_Controller {
         if (($this->getRequest()->isPut())) {
             try {
                 $usuarios_table = new Data_Model_Usuarios();
-                $formData = $this->getRequest()->getParam('rows');
-                $formData = json_decode($formData, true);
+                $formDataJson = $this->getRequest()->getParam('rows');
+                $formData = json_decode($formDataJson, true);
                 $id = $formData['id'];
                 unset($formData['id']);
                 if(isset($formData['senha'])){
-                    $obj = $usuarios_table->updatePassword("id=$id",$formData['senha']);
+                    $alterarSenha = isset($formData['alterar_senha'])? $formData['alterar_senha'] :false;
+                    $obj = $usuarios_table->updatePassword("id=$id",$formData['senha'],$alterarSenha);
                     $sess = new Zend_Session_Namespace('changePassword');
                     if(isset($sess->forceChange)){
                         $logger = Zend_Registry::get('logger');

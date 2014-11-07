@@ -4,9 +4,8 @@ Ext.require('Ext.window.MessageBox');
 // Arquivo que executa as ações do usuário
 Ext.define('ExtZF.controller.admin.Users', {
     extend: 'Ext.app.Controller',
-  
-    stores: ['Usuarios', 'Setores', 'Cargos'], // Store utilizado no gerenciamento do usuário
-    models: ['Usuarios', 'Setores', 'Cargos'], // Modelo do usuário
+    stores: ['Usuarios', 'Setores', 'Cargos','usuarios.Store4pass'], // Store utilizado no gerenciamento do usuário
+    models: ['Usuarios', 'Setores', 'Cargos','usuarios.Model4pass'], // Modelo do usuário
     views: [
     'admin.users.List',
     'admin.users.Edit'
@@ -28,6 +27,10 @@ Ext.define('ExtZF.controller.admin.Users', {
             'adminUsersList': {
                 itemdblclick: this.editarUsuario
             },
+            // evento click no botao (definido com action: reset) da grid definida como usuariolista
+            'adminUsersList button[action=reset]': {
+                click: this.resetPassword
+            },
             // evento click no botao (definido com action: incluir) da grid definida como usuariolista
             'adminUsersList button[action=new]': {
                 click: this.editarUsuario
@@ -39,6 +42,10 @@ Ext.define('ExtZF.controller.admin.Users', {
             // evento click no botao (definido com action: salvar) do formulario definido como usuarioedicao
             'admiUserEdit button[action=save]': {
                 click: this.salvarUsuario
+            },
+            // evento click no botao (definido com action: salvar) do formulario definido como usuarioedicao
+            'admiUserEdit button[action=reset]': {
+                click: this.resetPassword
             }
         });
     },
@@ -69,7 +76,6 @@ Ext.define('ExtZF.controller.admin.Users', {
 		function(opt){
 			if(opt === 'no')
 				return;
-
 			// exibe uma mascará na grid com a mensagem abaixo
 			grid.el.mask('Excluindo registro(s)');
                         store = this.getUsuariosStore();
@@ -80,6 +86,47 @@ Ext.define('ExtZF.controller.admin.Users', {
                         grid.el.unmask();
                         Ext.Msg.alert('Exclusão', 'Usuário(s) excluído(s)!');
                         Etc.info("Usuário(s) excluído(s)");
+			
+		}, this);
+    },
+ // Função para popular o formulario
+    resetPassword: function() {
+        var me = this;
+        var grid = me.getGrid(); // recupera lista de usuários
+        ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
+
+        if(ids.length === 0){
+        	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
+        	return ;
+        }
+
+        Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja resetar a senha do(s) registro(s) selecionado(s)?',
+		function(opt){
+			if(opt === 'no')
+				return;
+			// exibe uma mascará na grid com a mensagem abaixo
+			grid.el.mask('Resetando senha(s)');
+                        var store =  me.getUsuariosStore4passStore();
+                        for(i=0;i<ids.length;i++){
+                            var usuario =store.findRecord('id',ids[i].get('id'));
+                            usuario.set('senha','123456');
+                            usuario.set('alterar_senha','true');
+                            usuario.save({
+                                        success: function(a,b){
+                                            Ext.log({msg:"Senha alterada com sucesso!",level:"info"});
+                                        },
+                                        failure:function(a,b){
+                                            Ext.log({msg:"Erro ao salvar!",level:"error"});
+                                            Ext.Msg.alert('Alteração de senha', 'Erro ao alterar senha!');
+                                        }
+                                });
+                        }
+                        
+                        store.sync();
+                        //this.getUsuariosStore().load();
+                        grid.el.unmask();
+                        Ext.Msg.alert('Reset', 'Senha(s) alterada(s)!');
+                        Etc.info("Senhas(s) alterada(s)");
 			
 		}, this);
     },

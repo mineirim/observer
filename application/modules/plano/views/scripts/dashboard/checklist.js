@@ -3,7 +3,7 @@ Ext.define('ExtZF.view.plano.dashboard.Checklist' ,{
     alias       : 'widget.planoDashboardChecklist',
     
     width       : '100%',
-    height      : 250,
+    height      : 200,
     flex : 0,
     columns: [
         {header: 'Instrumento', dataIndex: 'instrumento_id', flex:1,renderer: function(value){

@@ -71,14 +71,33 @@ class Data_AnexosController extends Zend_Rest_Controller
         if($this->getRequest()->isPost()){
             try{
                 $this->view->resposta =array();
-                $anexos_table = new Data_Model_DbTable_Anexos();
+                $anexosTable = new Data_Model_DbTable_Anexos();
                 $upload = new Zend_File_Transfer_Adapter_Http();
                 $upload->setDestination(APPLICATION_PATH.'/../files');
-                $files = $upload->getFileInfo();
                 if($upload->receive()){
-                    $this->view->resposta['rows'] = array('nome'=> $upload->getFileName(null,false),
-                        'sum_hash'=> $upload->getHash('sha1'));
-                    $this->view->resposta['success']=true;
+                    $formData = $this->getRequest()->getPost();
+                    $data =array('nome'=>$upload->getFileName(null,false),
+                                'caminho'=>$upload->getDestination(),
+                                'mimetype' => $upload->getMimeType(),
+                                'file_size' => $upload->getFileSize(),
+                                'hash_sum' => $upload->getHash('sha1')
+                        );
+                    $id = $anexosTable->insert($data);
+                    $newName = $upload->getDestination()."/".str_pad($id,'5','0',STR_PAD_LEFT) . ' - ' .$upload->getFileName(null,false);
+                    rename($upload->getFileName(), $newName);
+                    $anexosTable->update(array('nome'=>$newName), 'id='.$id);
+                    $anexoTags = new Data_Model_DbTable_AnexoTags();
+                    foreach ($formData['tags'] as $value) {
+                        $anexoTags->insert(array('anexo_id'=>$id, 'tag_id'=>$value));
+                    }
+                    $programacaoAnexosTable = new Data_Model_DbTable_ProgramacaoAnexos();
+                    
+                    $programacaoAnexosTable->insert(array('programacao_id'=>$formData['programacao_id'], 'anexo_id'=>$id));
+                    
+                    
+                    $this->view->resposta['rows'] = array('nome'=> str_pad($id,'5','0',STR_PAD_LEFT) . ' - ' .$upload->getFileName(null,false),
+                        'sum_hash'=> $data['hash_sum']);
+                    $this->view->resposta['success']=true;                    
                     $this->getResponse()->setHttpResponseCode(201);
 
                 }else{

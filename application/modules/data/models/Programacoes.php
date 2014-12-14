@@ -10,7 +10,7 @@ class Data_Model_Programacoes {
      * @param type $where
      * @param type $order
      * @param type $offset
-     * @return Zend_Db_Table_Row
+     * @return Data_Model_DbTable_Row_Programacao
      */
     public function getRow($where=null, $order=null, $offset=null){
         return $this->_model->fetchRow($where, $order, $offset);

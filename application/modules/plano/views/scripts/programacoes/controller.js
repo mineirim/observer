@@ -2,8 +2,8 @@ Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Programacoes', {
     extend: 'Ext.app.Controller',
     //id      : 'controllerPlanoProgramacoes',
-    stores: ['programacoes.TreeStore', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico'], // Store utilizado no gerenciamento do usuário
-    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico'], // Modelo do usuário
+    stores: ['programacoes.TreeStore',  'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico', 'anexos.ProgramacaoAnexosStore'], // Store utilizado no gerenciamento do usuário
+    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico','anexos.ProgramacaoAnexosModel'], // Modelo do usuário
     views: [
         'plano.programacoes.List',
         'plano.programacoes.Treegrid',
@@ -11,7 +11,6 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         'plano.programacoes.Container',
         'plano.programacoes.Anexos',
         'plano.programacoes.Detalhes',
-        'plano.anexos.Edit',
         'plano.programacoes.GridFinanceiro',
         'plano.Operativos.List'
         ],
@@ -34,55 +33,55 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             }
         ],
     init: function() {
-        me = this;
+        var me = this;
         if(typeof(ExtZF.app.controllers.map['ExtZF.controller.plano.Programacoes'])==='object')
             return;
         
         Etc.log("init no controller Programações");
         
-        this.control(
+        me.control(
         {
             'planoProgramacoesList': {
-                itemdblclick: this.editDblClick
+                itemdblclick: me.editDblClick
             },
             'planoProgramacoesList button[action=incluir]': {
-                click: this.newObject
+                click: me.newObject
             },
             'planoProgramacoesList button[action=excluir]': {
-                click: this.deleteObject
+                click: me.deleteObject
             },
             'planoProgramacoesEdit button[action=save]': {
-                click: this.saveObject
+                click: me.saveObject
             },
             'planoProgramacoesEdit button[action=saveAndClose]': {
-                click: this.saveAndClose
+                click: me.saveAndClose
             },
             'planoProgramacoesEdit button[action=addVlrProgramado]':{
-                click: this.showFinanceiro
+                click: me.showFinanceiro
             },
             'planoProgramacoesEdit button[action=addDespesas]':{
-                click: this.showDespesasForm
+                click: me.showDespesasForm
             },
             'planoProgramacoesTreegrid': {
-                itemdblclick    : this.editDblClick,
-                itemclick       : this.changeButtonAction,
-                itemcontextmenu : this.itemContextMenu,
-                render          : this.callRender
+                itemdblclick    : me.editDblClick,
+                itemclick       : me.changeButtonAction,
+                itemcontextmenu : me.itemContextMenu,
+                render          : me.callRender
             },
             'planoProgramacoesTreegrid button[action=incluir]': {
-                click: this.newObject
+                click: me.newObject
             },
             'planoProgramacoesTreegrid button[action=newRoot]': {
-                click: this.newRoot
+                click: me.newRoot
             },
             'planoProgramacoesTreegrid button[action=excluir]': {
-                click: this.deleteObject
+                click: me.deleteObject
             },
             'planoProgramacoesAnexos button[action=attach]': {
-                click: this.attachFile
+                click: me.attachFile
             },
             'planoProgramacoesTreegrid button[action=vincular]': {
-                click: this.linkInstrumento
+                click: me.linkInstrumento
             },           
             'planoProgramacoesDetalhes button[action=execucao]' : {
                  click : me.clickOnDetailsButton
@@ -141,7 +140,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 });
         
         if(mycontroller.rootNodeSelected){
-            rootInstrumento = this.getInstrumentosStore().findRecord('instrumento_id',rootRecord.get('instrumento_id'));
+            rootInstrumento = me.getInstrumentosStore().findRecord('instrumento_id',rootRecord.get('instrumento_id'));
             items.push({
                 text: 'Adicionar '+ rootInstrumento.get('singular'),
                 handler:  function(){
@@ -218,7 +217,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         
     },
     editarProgramacao : function(rec){
-        
+        var me = this;
         //TODO buscar record de um outro store(não tree)
         var store =  this.getProgramacoesStore();
         var record = store.getById(rec.get('id'));
@@ -228,10 +227,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         }
         var view = Ext.widget('planoProgramacoesEdit');
         view.setTitle('Edição ');
-        Etc.info("Carregando registro para edição"); 
         view.down('form').loadRecord(record);
         instrumento = this.getInstrumentosStore().findRecord('id',record.get('instrumento_id'));
-        this.configuraForm(view, record, instrumento);
+        me.configuraForm(view, record, instrumento);
      
     },
     configuraForm : function(view, record, instrumento){
@@ -566,6 +564,24 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                  tpl_equipe.append(showDetail.body, equipe);
              }
         }
+        
+        var tpl_anexos =  new Ext.XTemplate(['Anexos:<tpl for=".">', '<div>', '<a target="_blank" href="/downloads/{data.nome}"><span>{data.nome}</span></a>', '</div>', '</tpl>'])
+        var anexosStore = me.getStore('anexos.ProgramacaoAnexosStore');
+        anexosStore.getProxy().setExtraParam('programacao_id',record.get('id'));
+        anexosStore.load({
+                callback : function(records, operation, success) {
+                    tpl_anexos.append(showDetail.body,records);
+                }
+            });
+        
+//{
+//        xtype: 'component',
+//        autoEl: {
+//            tag: 'a',
+//            href: 'http://www.example.com/',
+//            html: 'Example.com'
+//        }
+//    }        
         planilhaOperativa = detailPanel.child("#planilhaOperativa");
         if(record.get('instrumento').has_operativo){
             operativo = me.getOperativosStore().findRecord('programacao_id',parseInt(record.get('id'),10))

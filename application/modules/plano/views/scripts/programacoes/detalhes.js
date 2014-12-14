@@ -22,7 +22,7 @@ Ext.define('ExtZF.view.plano.programacoes.Detalhes' ,{
                                 text    : 'Registrar Execução',
                                 name    : 'btnExecucao',
                                 iconCls : 'icon-new',
-                                action  : 'execucao', // action identificada para executar na camada controller
+                                action  : 'execucao', 
                                 hidden  :   true
                             }]
                     },{

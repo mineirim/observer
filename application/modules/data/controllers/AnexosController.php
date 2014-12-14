@@ -9,7 +9,7 @@ class Data_AnexosController extends Zend_Rest_Controller
         $swContext->setAutoJsonSerialization(true);
         $swContext->addActionContext('index', array('json', 'xml'))
                         ->addActionContext('put', array( 'json', 'xml'))
-                        //->addActionContext('post', array('html', 'xml'))
+                        ->addActionContext('post', array('json', 'xml'))
                         ->addActionContext('get', array('json', 'xml'))
                         ->addActionContext('delete', array( 'json', 'xml'))
                         ->initContext('json');
@@ -22,10 +22,19 @@ class Data_AnexosController extends Zend_Rest_Controller
 
     public function indexAction()
     {
-        $anexos_table = new Data_Model_DbTable_Anexos();
-        $rows = $anexos_table->fetchAll(null, 'id');
+        $rows=array();
+        if($this->getParam('programacao')){
+            if($this->getParam('programacao_id')){
+                $programacoes_model = new Data_Model_Programacoes();
+                $programcao = $programacoes_model->getRow('id='.$this->getParam('programacao_id'));
+                $rows = $programcao->getAnexos()->toArray();
+            }
+        }else{
+            $anexos_table = new Data_Model_DbTable_Anexos();
+            $rows = $anexos_table->fetchAll(null, 'id')->toArray();
+        }
         $this->_helper->viewRenderer->setNoRender(true);
-        $this->view->rows= $rows->toArray();
+        $this->view->rows= $rows;
         $this->view->total = count($rows);
         $this->getResponse()->setHttpResponseCode(200);
     }
@@ -37,31 +46,7 @@ class Data_AnexosController extends Zend_Rest_Controller
 
     public function putAction()
     {
-        //gerado automaticamente
-        if(($this->getRequest()->isPut())){
-            try{
-                $anexos_table = new Data_Model_DbTable_Anexos();
-                $formData = $this->getRequest()->getParam('rows');
-                $formData = json_decode($formData,true);
-                $id=$formData['id'];
-                unset($formData['id']);
-                $anexos_table->update($formData, "id=$id");
-                $this->view->msg = "Dados atualizados com sucesso!";
-                $obj = $anexos_table->fetchRow("id=$id");
-                $this->view->rows = $obj->toArray();
-                $this->view->success=true;
-                $this->getResponse()->setHttpResponseCode(201);
-        
-            }  catch (Exception $e){
-                $this->view->success=false;
-                $this->view->method = $this->getRequest()->getMethod();
-                $this->view->msg = "Erro ao atualizar registro<br>".$e->getMessage() ."<br>".$e->getTraceAsString();
-                $this->getResponse()->setHttpResponseCode(500);
-            }
-        }else{
-            $this->view->msg="Método ".$this->getRequest()->getMethod();
-            $this->getResponse()->setHttpResponseCode(501);
-        }
+
     }
 
     public function postAction()
@@ -85,7 +70,7 @@ class Data_AnexosController extends Zend_Rest_Controller
                     $id = $anexosTable->insert($data);
                     $newName = $upload->getDestination()."/".str_pad($id,'5','0',STR_PAD_LEFT) . ' - ' .$upload->getFileName(null,false);
                     rename($upload->getFileName(), $newName);
-                    $anexosTable->update(array('nome'=>$newName), 'id='.$id);
+                    $anexosTable->update(array('nome'=>str_pad($id,'5','0',STR_PAD_LEFT) . ' - ' .$upload->getFileName(null,false)), 'id='.$id);
                     $anexoTags = new Data_Model_DbTable_AnexoTags();
                     foreach ($formData['tags'] as $value) {
                         $anexoTags->insert(array('anexo_id'=>$id, 'tag_id'=>$value));

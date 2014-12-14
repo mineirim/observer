@@ -10,6 +10,8 @@ class Shared_AnexosController extends Zend_Controller_Action
         $swContext->addContext('js', array('suffix' => 'js'))
                         ->addActionContext('Store', array( 'js'))
                         ->addActionContext('Model', array('js'))
+                        ->addActionContext('ProgramacaoAnexosStore', array( 'js'))
+                        ->addActionContext('ProgramacaoAnexosModel', array('js'))
                         ->initContext('js');
         $this->_helper->layout()->disableLayout();
     }
@@ -21,6 +23,8 @@ class Shared_AnexosController extends Zend_Controller_Action
     public function modelAction()
     {
     }
+    public function programacaoanexosstoreAction(){}
+    public function programacaoanexosmodelAction(){}
 
 
 }

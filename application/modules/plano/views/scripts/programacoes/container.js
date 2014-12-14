@@ -23,11 +23,12 @@ Ext.define('ExtZF.view.plano.programacoes.Container' ,{
         layout      :   {type: 'vbox', align: 'stretch'},
         
         items       : [
-            /**{
-                            id      : 'ctnAnexos',
-                            xtype   : 'planoProgramacoesAnexos',
-                            flex    : 0
-                        },*/
+//                        {
+//                            id      : 'ctnAnexos',
+//                            xtype   : 'planoProgramacoesAnexos',
+//                            flex    : 0,
+//                            
+//                        },
                         {
                             xtype   : 'tabpanel',
                             id      : 'tabDetailPanel',

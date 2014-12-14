@@ -73,9 +73,10 @@ Ext.define('ExtZF.controller.Navigation', {
     
     openEditForm : function(args)
      {
+        var me=this;
         if(typeof(args.controller) === 'undefined')
             return;
-        var controller = this.getController(args.controller);
+        var controller = me.getController(args.controller);
         controller.showEdit(args.parent_record);
         if(!controller.initiated)
             controller.init();

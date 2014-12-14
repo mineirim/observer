@@ -6,3 +6,5 @@ nb*
 public/extjs*
 public/cache/*
 files/*
+tmp
+tmp/*

@@ -102,13 +102,12 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             form   = win.down('#frmDefault').getForm();
 
         var rec = form.getRecord();
-        form.updateRecord(rec);
-        
+        form.updateRecord(rec);        
         var args ={};
         args.parent_record = rec;
         args.controller = 'plano.Despesas';
-        this.application.fireEvent('openEditForm', args);
-        his.application.fireEvent('openEditForm', args);view.doLayout();
+        me.application.fireEvent('openEditForm', args);
+        view.doLayout();
     }
     ,
     showFinanceiro : function(button){
@@ -167,7 +166,15 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 data: {record: record},
                 handler: me.linkInstrumento 
             });
-        }        
+        }   
+        items.push({
+            text:"Inserir Anexo",
+            data: {record: record},
+            iconCls : 'icon-attach-file',
+            handler: function(){
+                    me.attachFile(record);
+                }
+        })
         items.push('-');
         items.push({
             text:"Relatório",
@@ -301,9 +308,15 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var rec = grid.getStore().getAt(rowIndex);
         alert("Edit " + rec.get('menu'));
     },
-    attachFile  : function(){
-        var view = Ext.widget('planoAnexosEdit');
-        view.setTitle('Anexar arquivo');
+    attachFile  : function(rec){
+        var me=this;
+        var args ={};
+        args.parent_record = rec;
+        args.controller = 'plano.Anexos';
+        me.application.fireEvent('openEditForm', args);
+//        view.doLayout();        
+//        var view = Ext.widget('planoAnexosEdit');
+//        view.setTitle('Anexar arquivo');
     },
     
     linkInstrumento  : function(){

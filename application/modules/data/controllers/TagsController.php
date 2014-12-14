@@ -24,9 +24,9 @@ class Data_TagsController extends Zend_Rest_Controller
     {
         $tags_table = new Data_Model_DbTable_Tags();
         $this->_helper->viewRenderer->setNoRender(true);
-        $page = $setores_table->getOnePageOfOrderEntries($this->getAllParams());
-        $this->view->rows =$page['rows'];
-        $this->view->total = $page['total'];
+        $rows = $tags_table->fetchAll(null, 'tag');
+        $this->view->rows =$rows->toArray();
+        $this->view->total = count($rows);
     }
 
     public function getAction()
@@ -62,13 +62,12 @@ class Data_TagsController extends Zend_Rest_Controller
 
     public function postAction()
     {
-        //gerado automaticamente
         if($this->getRequest()->isPost()){
             try{
         
                 $tags_table = new Data_Model_DbTable_Tags();
-                $formData = $this->getRequest()->getPost('rows');
-                $formData = json_decode($formData,true);
+                $formDataJSON = $this->getRequest()->getPost('rows');
+                $formData = json_decode($formDataJSON,true);
                 unset($formData['id']);
                 foreach ($formData as $key => $value) {
                     if($value=='')

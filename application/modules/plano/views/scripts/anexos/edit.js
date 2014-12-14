@@ -7,54 +7,57 @@ Ext.define('ExtZF.view.plano.anexos.Edit', {
     width   : 700,
     autoShow: true, // exibir a janela automaticamente ao chamá-la
     initComponent: function() {
+        var me=this;
     	// Itens da janela
-        this.items = [{
+        me.items = [{
             xtype: 'form',
              fileUpload: false ,
             items: [
-                {
-                    xtype: 'fileuploadfield',
-                    id: 'form-file',
-                    emptyText: 'Selecione o arquivo para importar',
-                    fieldLabel: 'Arquivo',
-                    name: 'nome',
-                    width:600,
-                    buttonText: 'Navegar',
-                    buttonConfig: {
-                        iconCls: 'icon-upload'
-                    }},
+                    {
+                        xtype: 'fileuploadfield',
+                        id: 'form-file',
+                        emptyText: 'Selecione o arquivo para importar',
+                        fieldLabel: 'Arquivo',
+                        name: 'nome',
+                        width:600,
+                        buttonText: 'Navegar',
+                        buttonConfig: {
+                            iconCls: 'icon-upload'
+                        }
+                    },
                     {
                         xtype: 'checkboxgroup',
                         fieldLabel: 'Tags',
+                        id : 'groupTags',
                         cls: 'x-check-group',
-                        // Distribute controls across 3 even columns, filling each row
-                        // from left to right before starting the next row
                         columns: 3,
                         vertical:true,
                         items: [
-                            {boxLabel: 'TR', name: 'cb-horiz-1'},
-                            {boxLabel: 'PT', name: 'cb-horiz-2'},
-                            {boxLabel: 'Relatório', name: 'cb-horiz-3'},
-                            {boxLabel: 'Comprovante', name: 'cb-horiz-4'},
-                            {boxLabel: 'Passagem', name: 'cb-horiz-5'}
                         ]
+                    },
+                                    {
+                        xtype: 'hiddenfield',
+                        name:'programacao_id',
+                        id:'programacao_id',
+                        ref:'programacao_id'
                     }
                 ]
                 }];
 
         // botões da janela
-        this.buttons = [{
+        me.buttons = [{
             text: 'Enviar',
             iconCls: 'icon-upload-send',
-            action: 'salvar'
+            action  : 'sendFile',
+            id      : 'btnSendFile'
         },
         {
             text: 'Cancelar',
             iconCls: 'icon-cancel',
-            scope: this,
-            handler: this.close
+            scope: me,
+            handler: me.close
         }];
 
-        this.callParent(arguments);
+        me.callParent(arguments);
     }
 });

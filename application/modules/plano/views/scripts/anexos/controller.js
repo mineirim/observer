@@ -1,8 +1,9 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Anexos', {
     extend: 'Ext.app.Controller',
-    stores: ['Anexos'], // Store utilizado no gerenciamento do usuário
-    models: ['Anexos'], // Modelo do usuário
+    initiated:false,
+    stores: ['Anexos','Tags'], // Store utilizado no gerenciamento do usuário
+    models: ['Anexos','Tags'], // Modelo do usuário
      views: [
     'plano.anexos.List',
     'plano.anexos.Edit'
@@ -16,28 +17,69 @@ Ext.define('ExtZF.controller.plano.Anexos', {
             }
         ],
     init: function() {
-        this.control(
+        var me=this;
+        me.control(
         {
             'planoAnexosList': {
-                itemdblclick: this.editObject
+                itemdblclick: me.editObject
             },
             'planoAnexosList button[action=incluir]': {
-                click: this.editObject
+                click: me.editObject
             },
             'planoAnexosList button[action=excluir]': {
-                click: this.deleteObject
+                click: me.deleteObject
             },
-            'planoAnexosEdit button[action=salvar]': {
-                click: this.saveObject
-            }
+            'planoAnexosEdit button[action=sendFile]': {
+                click: me.sendFile
+            },
+            'planoAnexosEdit': {
+                beforerender          : me.callRender
+            },
         });
+        
+        me.initiated=true;
     },
+    callRender : function()
+    {
+        me=this;
+        Etc.log('Renderiza form send file');
+        var checkboxconfigs = [];
+        var tagRecords = me.getTagsStore();
+        tagRecords.load({
+                callback : function(records, operation, success) {
+                    tagRecords.each(function(t){
+                        checkboxconfigs.push({
+                            name : 'tags[' + t.get('id') + ']',
+                            inputValue : t.get('id'),
+                            boxLabel : t.get('tag'),
+                            xtype : 'checkbox'
+                        });
+                    });
+                    Ext.getCmp('groupTags').add(checkboxconfigs);
+                }
+            });
+    },
+    showEdit : function(parent_record,rec){
+        var view = Ext.widget('planoAnexosEdit');
+        var record = rec;
+        if(!record){
+            var opts = {};  
+            record = Ext.ModelMgr.create(opts,'ExtZF.model.Anexos');            
+        }
+        view.down('form').loadRecord(record);
+        view.down('#programacao_id').setValue(parent_record.get('id'));
+        view.programacao_id = parent_record.get('id');
+        view.setTitle('Anexo');
+        view.show();
+        
+    },    
     editObject: function(grid, record) {
         var view = Ext.widget('planoAnexosEdit');
         view.setTitle('Edição ');
         view.setTitle('Anexo');
     },
     deleteObject: function() {
+        var me=this;
         var grid = this.getGrid(); // recupera lista de usuários
         ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
@@ -49,13 +91,13 @@ Ext.define('ExtZF.controller.plano.Anexos', {
 			if(opt === 'no')
 				return;
 			grid.el.mask('Excluindo registro(s)');
-                        store = this.getAnexosStore();
+                        store = me.getAnexosStore();
                         store.remove(ids);
                         store.sync();
                         grid.el.unmask();
 		}, this);
     },
-    saveObject: function(button) {
+    sendFile: function(button) {
         var me=this;
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
             form   = win.down('form').getForm() // recupera item abaixo(filho) da window do tipo form

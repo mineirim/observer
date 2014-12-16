@@ -8,9 +8,9 @@
     ,closable : false
     ,constrain : true
     ,width : 300
-    ,height : 140
+    ,height : 155
     ,labelWidth : 45
-    ,minHeight : 140
+    ,minHeight : 155
     ,minWidth : 220
     ,autoShow : true
     ,items:[{

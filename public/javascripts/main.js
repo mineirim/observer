@@ -13,17 +13,18 @@ Ext.require(['Ext.ux.TextMaskPlugin']);
 if(env==='production'){
     Ext.Loader.setConfig('disableCaching',false);
 }
+    Ext.Loader.setConfig('disableCaching',false);
 
 Ext.application({
     name: 'ExtZF', 
     appFolder: ' ' + baseUrl,
     autoCreateViewport :false,
     controllers: [
-        'Navigation',
-        'acesso.Auth',
-        'plano.Dashboard',
-        'plano.Financeiro',
-        'plano.Despesas'
+            'Navigation',
+            'acesso.Auth',
+            'plano.Dashboard',
+            'plano.Financeiro',
+            'plano.Despesas'
     ],
     
     launch: function() {

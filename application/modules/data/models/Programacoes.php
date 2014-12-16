@@ -24,32 +24,31 @@ class Data_Model_Programacoes {
         $select = "WITH RECURSIVE 
                     prog AS 
                     ( 
-                    SELECT  1 as nivel, * 
+                    SELECT  1 as nivel, coalesce(cast(programacoes.supervisor_usuario_id as varchar),'0')  as supervisores,* 
                     FROM    programacoes 
-                    WHERE   $where
-              
+                    WHERE   $where              
                     UNION ALL 
-                    SELECT  prog.nivel+1,p.*
+                    SELECT  prog.nivel+1,prog.supervisores  || ',' || coalesce(cast(p.supervisor_usuario_id as varchar),'0'),p.*
                     FROM    programacoes p 
                     JOIN    prog  
                     ON      p.programacao_id = prog.id 
                     WHERE p.situacao_id <>2 
                     
                     ) 
-            SELECT * from prog order by nivel,programacao_id,ordem
+            SELECT * FROM prog ORDER BY nivel,programacao_id,ordem
             ";
+        
         $stmt = Zend_Registry::get('db')->query($select);
         $stmt->setFetchMode(Zend_Db::FETCH_OBJ);
         $arr_tree = array();
-        while ($r = $stmt->fetch() ) {
-           
+        while ($r = $stmt->fetch() ) {           
             $arr_tree[$r->nivel][$r->programacao_id][$r->id]['dados'] = $r;
         }
-        $this->usuarios = new Data_Model_DbTable_Usuarios();
-        $this->setores =new Data_Model_DbTable_Setores();
-        $this->instrumentos =  new Data_Model_DbTable_Instrumentos();
-        $this->operativos = new Data_Model_DbTable_Operativos();
-        $this->financeiros = new Data_Model_DbTable_Financeiro();
+        $this->usuarios     = new Data_Model_DbTable_Usuarios();
+        $this->setores      = new Data_Model_DbTable_Setores();
+        $this->instrumentos = new Data_Model_DbTable_Instrumentos();
+        $this->operativos   = new Data_Model_DbTable_Operativos();
+        $this->financeiros  = new Data_Model_DbTable_Financeiro();
         $parent = null;
         if($id){
             $model_programacoes = new Data_Model_DbTable_Programacoes();
@@ -58,8 +57,7 @@ class Data_Model_Programacoes {
         return $this->getRecursiveArray($arr_tree, 1, $parent);
     }
     
-    public function getRecursiveArray($arr_tree,$nivel=1, $parent=null) {
-     
+    public function getRecursiveArray($arr_tree,$nivel=1, $parent=null) {     
         $root = array();
         if(!$parent){
             $parent= null;
@@ -67,30 +65,23 @@ class Data_Model_Programacoes {
         }else{
             $ix = $parent->id;
         }
-
         if(isset($arr_tree[$nivel][$ix])){
-            foreach ($arr_tree[$nivel][$ix] as $key => $v) {
-
+            foreach ($arr_tree[$nivel][$ix] as $v) {
                 $value = $v['dados'];
-                $usuario=array();
                 if($value->responsavel_usuario_id)
                     $usuario = $this->usuarios->fetchRow('id='.$value->responsavel_usuario_id);
-                $usuario = $usuario ? $usuario->toArray() : array();
-
-                $supervisor=array();
+                $usuario = isset($usuario) && is_object($usuario) ? $usuario->toArray() : array();
                 if($value->supervisor_usuario_id)
                     $supervisor = $this->usuarios->fetchRow('id='.$value->supervisor_usuario_id);
                 $supervisor = isset($supervisor) && is_object($supervisor) ? $supervisor->toArray() : array();
                 
-                $setor = $value->setor_id ? $this->setores->fetchRow('id='.$value->setor_id):array();
-                $setor = $setor ? $setor->toArray() : array();
+                $setorObj = $value->setor_id ? $this->setores->fetchRow('id='.$value->setor_id):array();
+                $setor = is_object($setorObj) ? $setorObj->toArray() : array();
 
                 $instrumento = $this->instrumentos->fetchRow('id='. $value->instrumento_id)->toArray();
                 $parent = $parent ? (array) $parent : array();
                 $operativos = $this->operativos->fetchAll('programacao_id='.$value->id,'ordem');
-
-                $operativo = count($operativos) > 0 ? $operativos->toArray() : array();
-                
+                $operativo = count($operativos) > 0 ? $operativos->toArray() : array();                
                 $financeiros = $this->financeiros->fetchAll('programacao_id='.$value->id,'id');
                 $financeiro = count($financeiros) > 0 ? $financeiros->toArray() : array('teste'=>'xpto');
                 $child = array(
@@ -110,7 +101,9 @@ class Data_Model_Programacoes {
                     'parent' => $parent,
                     'operativo' => $operativo,
                     'financeiro' => $financeiro,
-                    'iconCls' => 'x-tree-noicon'
+                    'iconCls' => 'x-tree-noicon',
+                    'supervisores' => $value->supervisores,
+                    'situacao_id' => $value->situacao_id
                 );
                 $children=array();
                 if(isset($arr_tree[$nivel+1][$value->id]))
@@ -126,31 +119,29 @@ class Data_Model_Programacoes {
             }
         }else{
             //echo "<br>$nivel - $ix -> ";
-        }
-                    
+        }                    
         return $root;
     }
 
     public function getAll($where=null, $order='ordem', $limit=null,$offset=null) {
         $_auth = Zend_Auth::getInstance ();
-        $identitity = $_auth->getIdentity();
+        $identitity = $_auth->getIdentity();        
         $programacoes_table = new Data_Model_DbTable_Programacoes();
         $where = $where ? $where.'and situacao_id <>2' : 'situacao_id <>2';
         $programacoes = $programacoes_table->fetchAll($where, $order, $limit,$offset);
         $objs = array();
         foreach ($programacoes as $value) {
-            $usuario = $value->findParentRow('Data_Model_DbTable_Usuarios');
-            $usuario = $usuario ? $usuario->toArray() : array();
-            $setor = $value->findParentRow('Data_Model_DbTable_Setores');
-            $setor = $setor ? $setor->toArray() : array();
+            $usuarioObj = $value->findParentRow('Data_Model_DbTable_Usuarios');
+            $usuario = $usuarioObj ? $usuarioObj->toArray() : array();
+            $setorObj = $value->findParentRow('Data_Model_DbTable_Setores');
+            $setor = $setorObj ? $setorObj->toArray() : array();
             $instrumento = $value->findParentRow('Data_Model_DbTable_Instrumentos')->toArray();
-            $parent = $value->findParentRow('Data_Model_DbTable_Programacoes');
-            $parent = $parent ? $parent->toArray() : array();
-            $operativo = $value->findDependentRowset('Data_Model_DbTable_Operativos');
-            $operativo = count($operativo) > 0 ? $operativo->toArray() : array();
-            $financeiros = $value->findDependentRowset('Data_Model_DbTable_Financeiro');
-            $financeiro = count($financeiros) > 0 ? $financeiros->toArray(1,2) : array();
-
+            $parentObj = $value->findParentRow('Data_Model_DbTable_Programacoes');
+            $parent = $parentObj ? $parentObj->toArray() : array();
+            $operativoObj = $value->findDependentRowset('Data_Model_DbTable_Operativos');
+            $operativo = count($operativoObj) > 0 ? $operativoObj->toArray() : array();
+            $financeirosObj = $value->findDependentRowset('Data_Model_DbTable_Financeiro');
+            $financeiro = count($financeirosObj) > 0 ? $financeirosObj->toArray(1,2) : array();
             $child = array(
                 'id'            => $value->id,
                 'menu'          => $value->menu,
@@ -167,7 +158,8 @@ class Data_Model_Programacoes {
                 'parent'        => $parent,
                 'operativo'     => $operativo,
                 'financeiro'    => $financeiro,
-                'locked'        => !$identitity->is_su
+                'locked'        => !$identitity->is_su,
+                'situacao_id'   => $value->situacao_id
             );
             $objs[] = $child;
         }

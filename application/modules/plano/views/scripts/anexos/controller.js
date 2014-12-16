@@ -100,11 +100,12 @@ Ext.define('ExtZF.controller.plano.Anexos', {
     sendFile: function(button) {
         var me=this;
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
-            form   = win.down('form').getForm() // recupera item abaixo(filho) da window do tipo form
-        if (form.isValid()) {
+            form   = win.down('form').getForm(); // recupera item abaixo(filho) da window do tipo form
+        if(form.isValid()){
             form.submit({
                         url: '/data/anexos',
                         waitMsg: 'Enviando arquivo...',
+                        headers: { 'Content-Type': 'application/json' },
                         success: function(fp, o) {
                             Ext.Msg.alert('Success', 'Arquivo enviado: ' );
                             win.close();

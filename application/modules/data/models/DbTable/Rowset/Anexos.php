@@ -13,14 +13,16 @@ class Data_Model_DbTable_Rowset_Anexos extends Zend_Db_Table_Rowset_Abstract
     public function getAsArray()
     {
         $anexos = array();
+        $i=0;
         while ($this->valid()) {
-            $tag = $this->current();
-            $anexos[] = $tag->nome;  
+            $anexo = $this->current();
+            $arr_anexo = $anexo->toArray();
+            $arr_anexo['usuario'] =$anexo->findParentRow('Data_Model_DbTable_Usuarios')->nome;
+            $anexos[] = $arr_anexo;  
             $this->next();
         }
- 
         $this->rewind();
- 
         return $anexos;
     }
+    
 }

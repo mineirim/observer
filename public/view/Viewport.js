@@ -36,7 +36,7 @@ Ext.define('Js.Viewport', {
     {
         
         region      : 'west',
-        collapsed   :false,
+        collapsed   : false,
         width       : 200,
         layout      : 'fit',
         activeItem  : 0,
@@ -47,7 +47,6 @@ Ext.define('Js.Viewport', {
         hideCollapseTool: true,
         padding         :'0 4 0 0',
         items       : [
-
                         {
                             xtype   : 'panel',
                             title   : 'Instrumentos',

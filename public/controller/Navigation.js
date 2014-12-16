@@ -2,7 +2,7 @@ Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.Navigation', {
     extend      : 'Ext.app.Controller',
     stores      : ['Treenav','Programacoes','Instrumentos','Operativos','Vinculos', 'Usuarios' ],
-    models      :['Treenav','Programacoes','Instrumentos','Operativos','Vinculos', 'Usuarios' ],
+    models      : ['Treenav','Programacoes','Instrumentos','Operativos','Vinculos', 'Usuarios' ],
     views       :   [
                     'navigation.MyToolbar',
                     'navigation.TreePanel',
@@ -49,7 +49,8 @@ Ext.define('ExtZF.controller.Navigation', {
     },
     loadTreeController : function (view, record, item, index, e, options)
     {
-        param_id = record.get('id');
+        var me=this;
+        var param_id = record.get('id');
         if(Ext.isNumeric(param_id)){
    
         }else{
@@ -65,8 +66,8 @@ Ext.define('ExtZF.controller.Navigation', {
                     iconCls     : "icon-programacao",
                     createView  : "planoProgramacoesContainer"
                   };
-        this.loadController(obj,record);
-        this.getController('ExtZF.controller.plano.Programacoes').changeButtonAction();
+        me.loadController(obj,record);
+        me.getController('ExtZF.controller.plano.Programacoes').changeButtonAction();
         
               
     },
@@ -89,6 +90,7 @@ Ext.define('ExtZF.controller.Navigation', {
     },
     loadController : function(a,record,c,createView)
     {
+        var me=this;
          var view ="",
             screen = Ext.getCmp('ctnPrincipal'),
             titulo = a.text;
@@ -103,7 +105,7 @@ Ext.define('ExtZF.controller.Navigation', {
 
         // cria nova aba no centro da aplicação
         if(!novaAba){
-            view = this.criaView(a);
+            view = me.criaView(a);
             view.title = titulo;
             view.iconCls = a.iconCls;
             view.closable=true;
@@ -115,13 +117,13 @@ Ext.define('ExtZF.controller.Navigation', {
             store.setRootNode({id:record.data.id,text:record.data.menu, desc:'descricao', instrumento:record.data.instrumento});
             root_id = ''+record.get('id');
             if(root_id.split('-').length <=1){
-                this.getController('ExtZF.controller.plano.Programacoes').rootNodeSelected = record;
+                me.getController('ExtZF.controller.plano.Programacoes').rootNodeSelected = record;
             }else{
-                this.getController('ExtZF.controller.plano.Programacoes').rootNodeSelected =false;
+                me.getController('ExtZF.controller.plano.Programacoes').rootNodeSelected =false;
             }
             
         }else{
-             this.getController('ExtZF.controller.plano.Programacoes').rootNodeSelected =false;
+             me.getController('ExtZF.controller.plano.Programacoes').rootNodeSelected =false;
         };
 
         screen.setActiveTab(novaAba);

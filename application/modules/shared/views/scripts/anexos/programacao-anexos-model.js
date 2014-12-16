@@ -1,6 +1,7 @@
 Ext.define('ExtZF.model.anexos.ProgramacaoAnexosModel', {
         extend         : 'Ext.data.Model',
-        fields         : ['id','nome','caminho','mimetype','hash_sum','inclusao_usuario_id','inclusao_data','programacao_id'],
+        fields         : ['id','nome','caminho','mimetype','hash_sum','inclusao_usuario_id','inclusao_data','programacao_id',
+                        {name:'usuario', persist:false},],
         proxy          : {
         simpleSortMode : true, 
         extraParams    : {programacao:true},

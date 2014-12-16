@@ -10,13 +10,15 @@ Ext.define('ExtZF.model.programacoes.Model4tree', {
                             'setor_id',
                             'responsavel_usuario_id',
                             'supervisor_usuario_id',
+                            'situacao_id',
                             {name:'responsavel', persist:false},
                             {name:'supervisor', persist:false},
                             {name:'setor', persist:false},
                             {name:'instrumento', persist:false},
                             {name:'operativo',persist:false},
                             {name:'financeiro',persist:false},
-                            {name:'parent',persist:false}
+                            {name:'parent',persist:false},
+                            {name:'supervisores',persist: false, type: 'string'}
                         ],
         proxy          : {
                         type           : 'rest',

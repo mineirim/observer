@@ -9,8 +9,8 @@ Ext.define('ExtZF.view.plano.operativos.Edit', {
     maxHeight: 590,
     autoShow: true, // exibir a janela automaticamente ao chamá-la
     initComponent: function() {
-        // Itens da janela
-        this.items = [{
+        var me = this;
+        me.items = [{
                 xtype: 'form',
                 items: [
                     {xtype: 'displayfield', name: 'peso', ref: 'peso', fieldLabel: 'Peso'},
@@ -60,7 +60,7 @@ Ext.define('ExtZF.view.plano.operativos.Edit', {
         ];
 
         // botões da janela
-        this.buttons = [{
+        me.buttons = [{
                 text: 'Salvar',
                 iconCls: 'icon-save',
                 action: 'salvar'
@@ -69,9 +69,9 @@ Ext.define('ExtZF.view.plano.operativos.Edit', {
                 text: 'Cancelar',
                 iconCls: 'icon-cancel',
                 scope: this,
-                handler: this.close
+                handler: me.close
             }];
 
-        this.callParent(arguments);
+        me.callParent(arguments);
     }
 });

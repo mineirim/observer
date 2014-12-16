@@ -9,7 +9,7 @@ class Data_AnexosController extends Zend_Rest_Controller
         $swContext->setAutoJsonSerialization(true);
         $swContext->addActionContext('index', array('json', 'xml'))
                         ->addActionContext('put', array( 'json', 'xml'))
-                        ->addActionContext('post', array('json', 'xml'))
+//                        ->addActionContext('post', array('json', 'xml'))// quando envia arquivo via extjs a resposta precisa ser text/html *http://stackoverflow.com/questions/14110084/why-success-callback-is-not-called-in-extjs-form-submission
                         ->addActionContext('get', array('json', 'xml'))
                         ->addActionContext('delete', array( 'json', 'xml'))
                         ->initContext('json');
@@ -27,7 +27,7 @@ class Data_AnexosController extends Zend_Rest_Controller
             if($this->getParam('programacao_id')){
                 $programacoes_model = new Data_Model_Programacoes();
                 $programcao = $programacoes_model->getRow('id='.$this->getParam('programacao_id'));
-                $rows = $programcao->getAnexos()->toArray();
+                $rows = $programcao->getAnexos()->getAsArray();                
             }
         }else{
             $anexos_table = new Data_Model_DbTable_Anexos();
@@ -83,7 +83,7 @@ class Data_AnexosController extends Zend_Rest_Controller
                     $this->view->resposta['rows'] = array('nome'=> str_pad($id,'5','0',STR_PAD_LEFT) . ' - ' .$upload->getFileName(null,false),
                         'sum_hash'=> $data['hash_sum']);
                     $this->view->resposta['success']=true;                    
-                    $this->getResponse()->setHttpResponseCode(201);
+                    $this->getResponse()->setHttpResponseCode(200);
 
                 }else{
                     

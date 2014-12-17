@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e69bc383-12d4-4901-8503-507569fba44c">
 	<property name="ireport.zoom" value="1.6105100000000008"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="64"/>
+	<property name="ireport.y" value="48"/>
 	<style name="Title" fontName="Arial" fontSize="50" isBold="true"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -14,6 +14,7 @@
 		</conditionalStyle>
 	</style>
 	<style name="grupo" mode="Opaque" backcolor="#CCCCCC"/>
+	<parameter name="APPLICATION_PATH" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[with 	n1 as ( SELECT  p1.id AS p1_id, p1.singular as p1_singular, p1.has_responsavel as p1_has_responsavel, p1.has_supervisor as p1_has_supervisor, p1.has_equipe as p1_has_equipe, p1.menu as p1_menu, p1.descricao as p1_descricao, p1.ordem as p1_ordem, p1.programacao_id as p1_programacao_id, p1.equipe as p1_equipe, p1.responsavel as p1_responsavel, p1.supervisor as p1_supervisor, p1.instrumento_id as p1_instrumento_id
 	        FROM  vw_report_base p1 where p1.programacao_id is null and p1.instrumento_id=2),
@@ -102,37 +103,37 @@ SELECT * FROM n5]]>
 			<band height="56">
 				<printWhenExpression><![CDATA[$F{p1_id}!=null]]></printWhenExpression>
 				<frame>
-					<reportElement uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5" key="frame_grupo" style="grupo" mode="Opaque" x="2" y="0" width="555" height="46"/>
+					<reportElement key="frame_grupo" style="grupo" mode="Opaque" x="2" y="0" width="555" height="46" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
 					<textField isStretchWithOverflow="true">
-						<reportElement uuid="ab7f1c6c-f283-43d2-ae49-e7cb58d2ab06" style="Detail" x="1" y="0" width="551" height="15"/>
+						<reportElement style="Detail" x="1" y="0" width="551" height="15" uuid="ab7f1c6c-f283-43d2-ae49-e7cb58d2ab06"/>
 						<textElement>
 							<font fontName="Arial Black" size="10" isBold="true" isUnderline="false"/>
 						</textElement>
 						<textFieldExpression><![CDATA[$F{p1_singular} + " - " + $F{p1_menu}]]></textFieldExpression>
 					</textField>
 					<textField isStretchWithOverflow="true">
-						<reportElement uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7" style="Detail" x="0" y="27" width="550" height="12"/>
+						<reportElement style="Detail" x="0" y="27" width="550" height="12" uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7"/>
 						<textElement markup="html">
 							<font fontName="Arial Black" size="8" isBold="false"/>
 						</textElement>
 						<textFieldExpression><![CDATA[$F{p1_descricao} != null ? "Descrição: " + $F{p1_descricao} :""]]></textFieldExpression>
 					</textField>
 					<textField isStretchWithOverflow="true">
-						<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" x="373" y="14" width="166" height="12"/>
+						<reportElement style="Detail" x="373" y="14" width="166" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
 						<textElement>
 							<font fontName="Arial Black" size="8"/>
 						</textElement>
 						<textFieldExpression><![CDATA[$F{p1_equipe} != null ? "Equipe: " + $F{p1_equipe} : ""]]></textFieldExpression>
 					</textField>
 					<textField>
-						<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" x="0" y="14" width="188" height="12"/>
+						<reportElement style="Detail" x="0" y="14" width="188" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
 						<textElement>
 							<font fontName="Arial Black" size="8"/>
 						</textElement>
 						<textFieldExpression><![CDATA[$F{p1_responsavel} != null ? "Responsavel: " + $F{p1_responsavel} : ""]]></textFieldExpression>
 					</textField>
 					<textField>
-						<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" x="188" y="14" width="185" height="12"/>
+						<reportElement style="Detail" x="188" y="14" width="185" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
 						<textElement>
 							<font fontName="Arial Black" size="8"/>
 						</textElement>
@@ -151,37 +152,37 @@ SELECT * FROM n5]]>
 			<band height="56">
 				<printWhenExpression><![CDATA[$F{p2_id}!=null]]></printWhenExpression>
 				<frame>
-					<reportElement uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5" key="frame_grupo" style="grupo" mode="Opaque" x="2" y="0" width="555" height="46"/>
+					<reportElement key="frame_grupo" style="grupo" mode="Opaque" x="2" y="0" width="555" height="46" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
 					<textField isStretchWithOverflow="true">
-						<reportElement uuid="ab7f1c6c-f283-43d2-ae49-e7cb58d2ab06" style="Detail" x="1" y="0" width="551" height="15"/>
+						<reportElement style="Detail" x="1" y="0" width="551" height="15" uuid="ab7f1c6c-f283-43d2-ae49-e7cb58d2ab06"/>
 						<textElement>
 							<font size="10" isBold="true" isUnderline="false"/>
 						</textElement>
 						<textFieldExpression><![CDATA[$F{p2_singular} + " - " + $F{p2_menu}]]></textFieldExpression>
 					</textField>
 					<textField isStretchWithOverflow="true">
-						<reportElement uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7" style="Detail" x="0" y="27" width="550" height="12"/>
+						<reportElement style="Detail" x="0" y="27" width="550" height="12" uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7"/>
 						<textElement markup="html">
 							<font size="8" isBold="false"/>
 						</textElement>
 						<textFieldExpression><![CDATA[$F{p2_descricao} != null ? "Descrição: " + $F{p2_descricao} :""]]></textFieldExpression>
 					</textField>
 					<textField isStretchWithOverflow="true">
-						<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" x="373" y="14" width="166" height="12"/>
+						<reportElement style="Detail" x="373" y="14" width="166" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
 						<textElement>
 							<font size="8"/>
 						</textElement>
 						<textFieldExpression><![CDATA[$F{p2_equipe} != null ? "Equipe: " + $F{p2_equipe} : ""]]></textFieldExpression>
 					</textField>
 					<textField>
-						<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" x="0" y="14" width="188" height="12"/>
+						<reportElement style="Detail" x="0" y="14" width="188" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
 						<textElement>
 							<font size="8"/>
 						</textElement>
 						<textFieldExpression><![CDATA[$F{p2_responsavel} != null ? "Responsavel: " + $F{p2_responsavel} : ""]]></textFieldExpression>
 					</textField>
 					<textField>
-						<reportElement uuid="731fd018-e852-453f-829e-5193458d2662" style="Detail" x="188" y="14" width="185" height="12"/>
+						<reportElement style="Detail" x="188" y="14" width="185" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
 						<textElement>
 							<font size="8"/>
 						</textElement>
@@ -199,9 +200,9 @@ SELECT * FROM n5]]>
 	</background>
 	<title>
 		<band height="49" splitType="Stretch">
-			<image>
-				<reportElement uuid="813c3241-f995-4c65-a596-0456db78a260" x="0" y="3" width="100" height="27"/>
-				<imageExpression><![CDATA["/scratch/webdev/observer/public/images/logo-mini.jpg"]]></imageExpression>
+			<image onErrorType="Blank">
+				<reportElement x="0" y="3" width="100" height="27" uuid="813c3241-f995-4c65-a596-0456db78a260"/>
+				<imageExpression><![CDATA[$P{APPLICATION_PATH} + "/../public/images/logo-mini.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>
@@ -219,7 +220,7 @@ SELECT * FROM n5]]>
 	<columnFooter>
 		<band height="45" splitType="Stretch">
 			<line>
-				<reportElement uuid="6c66cd10-4b00-407d-91dc-f6e93ad936a6" positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1"/>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="6c66cd10-4b00-407d-91dc-f6e93ad936a6"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineColor="#999999"/>
 				</graphicElement>

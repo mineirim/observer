@@ -5,12 +5,14 @@ Ext.define('ExtZF.view.plano.programacoes.Container' ,{
     width: 740,
     height: 700,
     layout: 'border',// {type: 'vbox', align: 'stretch'},
+    frame: false,
     items: [
      {
         id: 'gridPanel',
         viewConfig: {
             forceFit: true
         },
+        frame: false,
         height: '33%',
         split: true,
         region: 'north',
@@ -21,7 +23,7 @@ Ext.define('ExtZF.view.plano.programacoes.Container' ,{
         region      : 'center',
         xtype       : 'container',
         layout      :   {type: 'vbox', align: 'stretch'},
-        
+        frame: false,
         items       : [
 //                        {
 //                            id      : 'ctnAnexos',
@@ -36,17 +38,20 @@ Ext.define('ExtZF.view.plano.programacoes.Container' ,{
                             layout  : 'fit',
                             autoHeight : true,
                             overflowY : 'auto',
+                            frame: false,
                             items   :[
                                     {
                                         id      : 'detailPanel',
                                         xtype   : 'planoProgramacoesDetalhes',
                                         title   : 'Detalhes',
-                                        autoScroll: true  
+                                        frame: false,
+                                        autoScroll: true                                          
                                     },
                                     {
                                         id      : 'ganttPanel',
                                         html    : '<div id="GanttChartDIV"></div>',
-                                        title   : 'Gantt'
+                                        title   : 'Gantt',
+                                        frame: false
                                     }
                                     ]
                         }

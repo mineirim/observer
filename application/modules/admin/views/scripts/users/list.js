@@ -4,7 +4,7 @@ Ext.define('ExtZF.view.admin.users.List' ,{
     store: 'Usuarios', 
     title : '<?php echo $this->title; ?>', // exemplo do título da view passado via PHP
     selModel: {mode: 'MULTI'}, // Permite selecionar mais de uma linha da grid
-    
+    frame: false,
     tbar :[{
     	text: 'Incluir',
         iconCls: 'icon-new',

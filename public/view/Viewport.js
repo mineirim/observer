@@ -3,6 +3,7 @@ Ext.define('Js.Viewport', {
     extend: 'Ext.container.Viewport',
     id: 'criaLayout',
     alias: 'myviewport',
+    frame: false,
     layout: {
         type: 'border',
         padding: 5
@@ -16,6 +17,7 @@ Ext.define('Js.Viewport', {
         height      : 75,
         margins     : '0 0 0 0',
         id: 'ctnTop',
+        frame: false,
                 
         tbar        : {
             id          : 'basic-statusbar',
@@ -46,6 +48,7 @@ Ext.define('Js.Viewport', {
         collapseMode    : 'header',
         hideCollapseTool: true,
         padding         :'0 4 0 0',
+        frame: false,
         items       : [
                         {
                             xtype   : 'panel',

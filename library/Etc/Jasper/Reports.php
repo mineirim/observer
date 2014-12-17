@@ -25,7 +25,7 @@ class Reports {
 
     public function __construct()
     {
-        $this->_getJavaIncludes();
+       
     }
     public function addFields(){
         
@@ -63,25 +63,6 @@ class Reports {
         return;
     }
 
-    private function _getJavaIncludes()
-    {
-//        if (!function_exists('java_require'))
-//        {
-//            throw new \Exception('Este tipo de relatório não é suportado neste servidor.');
-//        }
-//        $jasperReportsLib = "/opt/jasperreports/lib";
-//        $handle = @opendir($jasperReportsLib);
-//        while (($new_item = readdir($handle)) !== false)
-//        {
-//            \java_require($jasperReportsLib . '/' . $new_item);
-//        }
-//        $jasperReportsDist = "/opt/jasperreports/dist";
-//        $handle1 = @opendir($jasperReportsDist);
-//        while (($new_item = readdir($handle1)) !== false)
-//        {
-//            \java_require($jasperReportsDist . '/' . $new_item);
-//        }
-    }
 
     public function _makeJasperConnection()
     {
@@ -183,22 +164,15 @@ class Reports {
     public function compileReport($reportFileName, $format = 'pdf',
             $params = array())
     {
-
-
         $reportsPath = $this->getReportsPath();
         try
         {
             $Conn = $this->_makeJasperConnection();
-
             $this->compileFileReport($reportsPath . $reportFileName . ".jrxml");
             $report = $this->getReport();
             $sJfm = new \Java("net.sf.jasperreports.engine.JasperFillManager");
             $map = new \Java("java.util.HashMap");
-
-
             $map_params = $this->getParamsFromReport($reportFileName, true);
-
-
             foreach ($params as $paramName => $value)
             {
                 $param = $map_params[$paramName];
@@ -219,6 +193,7 @@ class Reports {
                                 $jdata = new \Java('java.sql.Timestamp',
                                         $gregCal->getTimeInMillis());
                                 $value = $jdata;
+                                break;
                             case 'java.sql.Timestamp':
 
                                 $zd = new \Zend_Date($value);
@@ -247,7 +222,8 @@ class Reports {
                         new \Java('java.util.Locale', "pt", "BR"));
                 //java.text.NumberFormat.getCurrencyInstance(new Locale("pt","br")).format($F{suaField}.doubleValue())  
             }
-
+            $map->put('SUBREPORT_DIR', $this->getReportsPath());
+            $map->put('APPLICATION_PATH', APPLICATION_PATH);
             $map->put('pcs_param.IMAGES_PATH',
                     APPLICATION_PATH . '/../public/img/');
             $print = $sJfm->fillReport(

@@ -15,7 +15,7 @@
 	</style>
 	<style name="grupo" mode="Opaque" backcolor="#CCCCCC"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["/scratch/webdev/observer/application/modules/relatorio/views/scripts/index/"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["./"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="APPLICATION_PATH" class="java.lang.String"/>
 	<queryString>

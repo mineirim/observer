@@ -9,6 +9,7 @@ Ext.define('ExtZF.view.navigation.TreePanel' ,{
     singleExpand: false,
     hideHeaders : true,
     id          : 'treeNavPanel',
+//    frame   : false,
     
     selModel: {
         mode: 'SINGLE'

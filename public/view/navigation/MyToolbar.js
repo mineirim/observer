@@ -2,9 +2,11 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
     extend: 'Ext.Toolbar',
     alias:      'widget.mytoolbar',
     id:         'tbrMenu',
+    frame : false,
+    frameHeader : false,
     initComponent: function() {
-        
-        this.items = [
+        var me = this;
+        me.items = [
         adminMenu,'->',{xtype : 'authControle'},'-',{
             text: 'Sair',
             id: 'btnSair',
@@ -12,6 +14,6 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
             action : 'logout'
         }
         ];
-        this.superclass.initComponent.call(this);
+        me.superclass.initComponent.call(me);
     }
 });

@@ -4,6 +4,10 @@ Ext.define('Js.Viewport', {
     id: 'criaLayout',
     alias: 'myviewport',
     frame: false,
+    defaulst : {
+        frame:false,
+        frameHeader : false,
+    },
     layout: {
         type: 'border',
         padding: 5
@@ -32,6 +36,7 @@ Ext.define('Js.Viewport', {
             'Bem vindo(a), <span id="main_username" class="username">'+nomeUsuario+'</span></b>']
         },
         items : {
+            frame: false,
             xtype : 'mytoolbar'
         }
     },
@@ -66,14 +71,22 @@ Ext.define('Js.Viewport', {
         region: 'center',
         id: 'ctnCenter',
         layout: 'fit',
+        frame:false,
         items :
         {
             xtype : 'tabpanel',
             layout:'fit',
             id:'ctnPrincipal',
+            frame:false,            
+            frameHeader : false,
+            defaults: {
+                hideMode: 'offsets'
+            },
             items:[{
                     xtype    : "planoDashboardPainel",                    
                     closable : false,
+                    frame:false,
+                    frameHeader : false,
                     title    : "Dashboard",
                     iconCls  : "icon-dashboard"
                 }]

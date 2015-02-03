@@ -6,6 +6,7 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
     //storeId     : 'programacoesStoreId',
     singleExpand: false,
     frame       : false,
+    frameHeader : false,
     //selModel: {mode: 'SINGLE'}, // Permite selecionar mais de uma linha da grid
     // botões do cabeçalho
     tbar :[{

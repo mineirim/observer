@@ -21,7 +21,9 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
         {
             'planoDashboardPainel': {
                afterrender: me.checkList,
-               afterlayout : me.reloadDashboard
+            },
+            'planoDashboardPainel button[action=reload]': {
+               click : me.reloadDashboard
             },
             'planoAnexosList button[action=incluir]': {
                 click: me.editObject
@@ -40,21 +42,19 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
         mycheck.getView().getStore().load({
             callback: function(r,option,success){
                 mycheck.getView().refresh();
-                mycheck.reconfigure();
             }
         });
-        mysup = Ext.getCmp('my_supervision');
+        var mysup = Ext.getCmp('my_supervision');
         mysup.getView().getStore().load({
             callback: function(r,option,success){
-                mysup.reconfigure();
                 mysup.getView().refresh();
             }
         });
-        pendentes = Ext.getCmp('not_approved');
+        var pendentes = Ext.getCmp('not_approved');
         pendentes.getView().getStore().load({
             callback: function(r,option,success){
-                pendentes.reconfigure();
                 pendentes.getView().refresh();
+                pendentes.ownerCt.doLayout();
             }
         });
         
@@ -64,7 +64,8 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
         me.checkMyItems();
         me.checkSupervisor();
         me.checkPendentes();
-//        var dashboard = me.getPainel();
+        var dashboard = me.getPainel();
+        dashboard.doLayout();
 //        dashboard.add(me.checkMyItems());
 //        dashboard.add(me.checkSupervisor());
 //        dashboard.add(me.checkPendentes());
@@ -75,7 +76,7 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
         
         var myStore = Ext.create('ExtZF.store.Planejamento',{id:'myItemsStore'});
         myStore.getProxy().extraParams = {get_my:true, 'owntype': 'responsavel'}
-        myStore.proxy.url=myStore.proxy.url + '?xxxxxxxxxxxxxxxxxx=xxxxxxxxx'
+//        myStore.proxy.url=myStore.proxy.url ;
         var mycheck = Ext.getCmp('my_responsability');
         mycheck.getView().bindStore(myStore);
         mycheck.setTitle("Sob minha responsabilidade");
@@ -103,3 +104,32 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
 
 
 
+//        Ext.create('Ext.data.Store', {
+//            id:'supItemsStore',
+//            fields    :  ['id',
+//                            'menu',
+//                            'descricao',
+//                            'ordem',
+//                            {name:'instrumento_id', type: 'int'},
+//                            'programacao_id',
+//                            'setor_id',
+//                            'responsavel_usuario_id',
+//                            'supervisor_usuario_id'
+//                        ],
+//            proxy     : {
+//                        type           : 'rest',
+//                        url            :   'data/programacoes',
+//                        extraParams    : {get_my:true},
+//                        reader         : {
+//                                type    : 'json',
+//                                root    : 'rows',
+//        			successProperty: 'success'
+//                        }
+//            },
+//            autoLoad :true,
+//            filters : {property: 'supervisor_usuario_id',
+//                        value:1}
+//        });
+//        var checklist = Ext.create('ExtZF.view.plano.dashboard.Checklist',{store: Ext.data.StoreManager.lookup('supItemsStore')});
+//        checklist.title = "Sob minha supervisão";
+//        return checklist;

@@ -2,7 +2,10 @@
 
 class Plano_DashboardController extends Zend_Controller_Action
 {
-
+/**
+ * AS VIEWS DESTE CONTROLLER FORAM MOVIDAS PARA public/view/dashboard
+ * caso necessário, criar novamente a pasta de views e os respectivos arquivos js e phtml
+ */
     public function init()
     {
         $this->getResponse()

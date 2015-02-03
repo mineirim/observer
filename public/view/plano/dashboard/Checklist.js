@@ -6,6 +6,7 @@ Ext.define('ExtZF.view.plano.dashboard.Checklist' ,{
     height      : 200,
     flex : 0,
     hideHeaders: true,
+    store : 'Planejamento',
     columns: [
         {header: 'Instrumento', dataIndex: 'instrumento_id', flex:1,
             renderer: function(value, p, record){
@@ -17,25 +18,24 @@ Ext.define('ExtZF.view.plano.dashboard.Checklist' ,{
            }
         }
     ],
-    plugins: [{
-            ptype: 'rowexpander',
-            rowBodyTpl : [
-                '<p><b>Company:</b> {menu}</p><br>',
-                '<p><b>Summary:</b> {descricao}</p>'
-            ]
-        }],
+//    plugins: [{
+//            ptype: 'rowexpander',
+//            rowBodyTpl : [
+//                '<p><b>Descrição:</b> {descricao}</p>'
+//            ]
+//        }],
     initComponent: function() {
         var me=this;
-//        Ext.apply(me, {
-//            viewConfig: {
-//               plugins: [{
-//                   pluginId: 'preview',
-//                   ptype: 'preview',
-//                   bodyField: 'descricao',
-//                   expanded: false
-//               }]
-//           }
-//        });
+        Ext.apply(me, {
+            viewConfig: {
+               plugins: [{
+                   pluginId: 'preview',
+                   ptype: 'preview',
+                   bodyField: 'descricao',
+                   expanded: false
+               }]
+           }
+        });
         me.callParent(arguments);
     }
 });

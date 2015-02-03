@@ -13,6 +13,12 @@ Ext.define('ExtZF.view.plano.dashboard.Painel' ,{
         var me=this;
         me.callParent(arguments);
     },
+    tbar        :[{
+                    text: 'Clique para carregar o Dashboard',
+                    iconCls: 'icon-new',
+                    action: 'reload',
+                    id: 'btnReload'
+                }],
     items: [
         {xtype:'planoDashboardChecklist', flex:1, id:'my_responsability'},
         {xtype:'planoDashboardChecklist', flex:1, id:'my_supervision'},

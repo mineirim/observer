@@ -68,7 +68,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 			<band height="48">
 				<printWhenExpression><![CDATA[$F{p1_id}!=null]]></printWhenExpression>
 				<frame>
-					<reportElement key="frame_grupo" style="grupo" mode="Opaque" x="2" y="0" width="555" height="46" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
+					<reportElement key="frame_grupo" style="grupo" mode="Opaque" x="0" y="0" width="555" height="46" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
 					<textField isStretchWithOverflow="true">
 						<reportElement style="Detail" positionType="Float" x="1" y="0" width="551" height="15" uuid="ab7f1c6c-f283-43d2-ae49-e7cb58d2ab06"/>
 						<textElement>
@@ -107,9 +107,6 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 				</frame>
 			</band>
 		</groupHeader>
-		<groupFooter>
-			<band height="6"/>
-		</groupFooter>
 	</group>
 	<background>
 		<band splitType="Stretch"/>
@@ -129,26 +126,29 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="66" splitType="Stretch">
+		<band height="91" splitType="Stretch">
 			<printWhenExpression><![CDATA[$F{__detail_id} != null]]></printWhenExpression>
 			<frame>
-				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="1" y="0" width="555" height="60" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="0" width="555" height="86" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="1" y="0" width="550" height="15" uuid="ab7f1c6c-f283-43d2-ae49-e7cb58d2ab06"/>
+					<reportElement style="Detail" positionType="Float" x="0" y="0" width="555" height="15" uuid="ab7f1c6c-f283-43d2-ae49-e7cb58d2ab06"/>
 					<textElement>
 						<font size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{__detail_singular} + " - " + $F{__detail_menu}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true">
-					<reportElement style="Detail" positionType="Float" x="0" y="27" width="551" height="12" uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7"/>
+					<reportElement style="Detail" positionType="Float" x="0" y="27" width="555" height="12" uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7"/>
 					<textElement markup="html">
 						<font size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{__detail_descricao} != null ? "Descrição: " + $F{__detail_descricao} :""]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement style="Detail" positionType="Float" x="373" y="14" width="178" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
+					<reportElement style="Detail" positionType="Float" x="373" y="15" width="182" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
 					<textElement>
 						<font size="8"/>
 					</textElement>
@@ -169,22 +169,31 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 					<textFieldExpression><![CDATA[$F{__detail_supervisor} != null ? "Supervisor: " + $F{__detail_supervisor} : ""]]></textFieldExpression>
 				</textField>
 				<subreport runToBottom="false">
-					<reportElement positionType="Float" x="3" y="42" width="548" height="14" uuid="0d2cbe1d-4c7a-4a49-b692-57c543f601f8"/>
+					<reportElement positionType="Float" x="0" y="72" width="555" height="8" uuid="0d2cbe1d-4c7a-4a49-b692-57c543f601f8"/>
 					<subreportParameter name="programacao_id">
 						<subreportParameterExpression><![CDATA[$F{__detail_id}]]></subreportParameterExpression>
 					</subreportParameter>
 					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "geral_financeiro.jasper"]]></subreportExpression>
 				</subreport>
-				<line>
-					<reportElement x="0" y="59" width="555" height="1" uuid="a74780b9-7bdc-4944-a948-541d54be8225"/>
-				</line>
+				<subreport>
+					<reportElement x="0" y="62" width="555" height="7" uuid="87150993-1cca-4ce0-934c-a91f2fbe35a8"/>
+					<subreportParameter name="programacao_id">
+						<subreportParameterExpression><![CDATA[$F{__detail_id}]]></subreportParameterExpression>
+					</subreportParameter>
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "geral_operativo.jasper"]]></subreportExpression>
+				</subreport>
+				<staticText>
+					<reportElement style="Detail" positionType="Float" x="0" y="46" width="555" height="15" uuid="37953b06-7767-42cd-ae57-a3ad26b28da2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[PROGRAMAÇÃO /  EXECUÇÃO]]></text>
+				</staticText>
 			</frame>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="5" splitType="Stretch"/>
-	</columnFooter>
 	<pageFooter>
 		<band height="25" splitType="Stretch">
 			<frame>

@@ -5,7 +5,7 @@ Ext.define('ExtZF.view.plano.operativos.Edit', {
     layout: 'fit',
     width: 840,
     minHeight: 390,
-    height: 400,
+    height: 590,
     maxHeight: 590,
     autoShow: true, // exibir a janela automaticamente ao chamá-la
     initComponent: function() {

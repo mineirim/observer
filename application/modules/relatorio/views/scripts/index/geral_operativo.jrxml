@@ -7,6 +7,30 @@
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="8"/>
+	<style name="Atencao" mode="Opaque" backcolor="#00CC33">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{operativos_andamento_id} <  new Integer("6") &&
+($F{operativos_data_inicio}.before(new java.util.Date()) &&
+$F{operativos_data_prazo}.after( new java.util.Date() ))
+&&
+((((new java.util.Date()).getTime()-$F{operativos_data_inicio}.getTime() ).doubleValue()/($F{operativos_data_prazo}.getTime() - $F{operativos_data_inicio}.getTime()).doubleValue()) > new Double(0.8))]]></conditionExpression>
+			<style backcolor="#CCFF00"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{operativos_andamento_id} < new Integer("6")  &&
+($F{operativos_data_prazo}.before( new java.util.Date() ) )]]></conditionExpression>
+			<style backcolor="#333300"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{operativos_andamento_id}.equals( new Integer("6") ) 
+&& $F{operativos_data_prazo}.before( $F{operativos_data_encerramento})]]></conditionExpression>
+			<style backcolor="#660099"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{operativos_andamento_id}.equals( new Integer("6") )]]></conditionExpression>
+			<style backcolor="#0066FF"/>
+		</conditionalStyle>
+	</style>
 	<parameter name="programacao_id" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -20,7 +44,8 @@
      operativos."percentual_execucao" AS operativos_percentual_execucao,
      operativos."alteracao_data" AS operativos_alteracao_data,
      andamentos."descricao" AS andamentos_descricao,
-     operativos."inclusao_data" AS operativos_inclusao_data
+     operativos."inclusao_data" AS operativos_inclusao_data,
+     operativos."andamento_id" AS operativos_andamento_id
 FROM
      "public"."andamentos" andamentos INNER JOIN "public"."operativos" operativos ON andamentos."id" = operativos."andamento_id"
 WHERE
@@ -38,6 +63,7 @@ ORDER BY
 	<field name="operativos_alteracao_data" class="java.sql.Timestamp"/>
 	<field name="andamentos_descricao" class="java.lang.String"/>
 	<field name="operativos_inclusao_data" class="java.sql.Timestamp"/>
+	<field name="operativos_andamento_id" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -57,7 +83,7 @@ ORDER BY
 					<textFieldExpression><![CDATA[$F{operativos_avaliacao_andamento}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="390" y="0" width="38" height="12" uuid="fbfaa3a5-9137-443f-bed4-c11bf97e752a"/>
+					<reportElement style="Detail" positionType="Float" x="350" y="0" width="38" height="12" uuid="fbfaa3a5-9137-443f-bed4-c11bf97e752a"/>
 					<textFieldExpression><![CDATA[$F{operativos_peso}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
@@ -74,7 +100,7 @@ ORDER BY
 					<textFieldExpression><![CDATA[$F{operativos_data_encerramento}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="#,##0.00 %" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="501" y="11" width="54" height="12" uuid="e38b720d-b9c6-433a-b625-23b1cc100b1e"/>
+					<reportElement style="Detail" positionType="Float" x="459" y="11" width="54" height="12" uuid="e38b720d-b9c6-433a-b625-23b1cc100b1e"/>
 					<textFieldExpression><![CDATA[$F{operativos_percentual_execucao}.doubleValue()/100]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy HH:mm:ss" isBlankWhenNull="true">
@@ -82,7 +108,7 @@ ORDER BY
 					<textFieldExpression><![CDATA[$F{operativos_alteracao_data} != null ?$F{operativos_alteracao_data} : $F{operativos_inclusao_data}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-					<reportElement style="Detail" positionType="Float" x="79" y="11" width="349" height="12" uuid="831886c9-e098-4846-ab26-7fd48d5c2462"/>
+					<reportElement style="Detail" positionType="Float" x="79" y="11" width="335" height="12" uuid="831886c9-e098-4846-ab26-7fd48d5c2462"/>
 					<textFieldExpression><![CDATA[$F{andamentos_descricao}]]></textFieldExpression>
 				</textField>
 				<staticText>
@@ -93,7 +119,7 @@ ORDER BY
 					<text><![CDATA[Andamento:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="Detail" positionType="Float" x="347" y="0" width="43" height="12" uuid="f1ecfc5a-5ef9-49f7-853c-03b47fbf6405"/>
+					<reportElement style="Detail" positionType="Float" x="307" y="0" width="43" height="12" uuid="f1ecfc5a-5ef9-49f7-853c-03b47fbf6405"/>
 					<textElement>
 						<font isBold="true"/>
 					</textElement>
@@ -121,12 +147,18 @@ ORDER BY
 					<text><![CDATA[Última atualização:]]></text>
 				</staticText>
 				<staticText>
-					<reportElement style="Detail" positionType="Float" x="428" y="11" width="73" height="12" uuid="80fd6d1e-d2e1-4485-838e-486e3fc37116"/>
+					<reportElement style="Detail" positionType="Float" x="414" y="11" width="45" height="12" uuid="80fd6d1e-d2e1-4485-838e-486e3fc37116"/>
 					<textElement>
 						<font isBold="true"/>
 					</textElement>
 					<text><![CDATA[Execução:]]></text>
 				</staticText>
+				<ellipse>
+					<reportElement style="Atencao" x="533" y="0" width="22" height="22" uuid="e28b4f6c-3a1a-46cf-9a7d-1d4342c69068"/>
+					<graphicElement>
+						<pen lineWidth="0.5"/>
+					</graphicElement>
+				</ellipse>
 			</frame>
 		</band>
 	</detail>

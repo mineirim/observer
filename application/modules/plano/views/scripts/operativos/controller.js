@@ -1,4 +1,5 @@
 Ext.require('Ext.window.MessageBox');
+ixxx=0;
 Ext.define('ExtZF.controller.plano.Operativos', {
     extend: 'Ext.app.Controller',
     stores: ['Operativos','OperativosHistorico','Situacoes','Andamentos'], // Store utilizado no gerenciamento do usuário
@@ -16,30 +17,31 @@ Ext.define('ExtZF.controller.plano.Operativos', {
             }
         ],
     init: function() {
-        
-        me = this;
-        if(typeof(ExtZF.app.controllers.map['ExtZF.controller.plano.Operativos'])==='object'){
+        var me = this;
+        if(typeof(ExtZF.app.controllers.map['ExtZF.controller.plano.Operativos'])==='object'
+                && me.initiated===true){
             return;
         }
         me.control(
         {
             'planoOperativosList': {
-                itemdblclick: this.editObject
+                itemdblclick: me.editObject
             },
             'planoOperativosList button[action=incluir]': {
-                click: this.editObject
+                click: me.editObject
             },
             'planoOperativosList button[action=excluir]': {
-                click: this.deleteObject
+                click: me.deleteObject
             },
             'planoOperativosEdit button[action=salvar]': {
-                click: this.saveObject
+                click: me.saveObject
             }
         });
         me.application.on({
             filtrarHistoricoPorOperativo: me.filtrarHistoricoPorOperativo, 
-            scope: this
+            scope: me
         });
+        me.initiated=true;
     },
     filtrarHistoricoPorOperativo: function(operativo_id){
         var me = this;   
@@ -92,9 +94,12 @@ Ext.define('ExtZF.controller.plano.Operativos', {
         if (form.isValid()) {
             r = form.getRecord();
             form.updateRecord(r);
-            this.getOperativosStore().sync();
+            me.getOperativosStore().sync();
             win.close();
-            this.getOperativosStore().load();
+            Ext.Msg.alert('Salvo', 'Registro salvo com sucesso',{duration:500});
+            me.getOperativosStore().load();
+        }else{
+            Etc.alert('formulário inválido');
         }
     }
 });

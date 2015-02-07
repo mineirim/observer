@@ -1,8 +1,8 @@
 Ext.define('ExtZF.view.navigation.MyToolbar', {
     extend: 'Ext.Toolbar',
-    alias:      'widget.mytoolbar',
-    id:         'tbrMenu',
-    frame : false,
+    alias   : 'widget.mytoolbar',
+    id      : 'tbrMenu',
+    frame   : false,
     frameHeader : false,
     initComponent: function() {
         var me = this;

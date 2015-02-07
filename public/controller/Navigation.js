@@ -31,12 +31,15 @@ Ext.define('ExtZF.controller.Navigation', {
                         itemclick       : me.loadTreeController,
                         itemcontextmenu : me.itemContextMenu
                     },
-            '[action=logout]': {click: me.logout}
+            '[action=logout]': {click: me.logout},
+            'ctnTop' : {afterrender: me.recalcula}
             
         });
         me.application.on('openEditForm' , me.openEditForm);
     },
-    
+    recalcula : function(){
+        alert('x');
+    },
     logout      : function() 
     {
         Ext.Ajax.request({

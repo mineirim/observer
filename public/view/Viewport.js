@@ -4,13 +4,13 @@ Ext.define('Js.Viewport', {
     id: 'criaLayout',
     alias: 'myviewport',
     frame: false,
-    defaulst : {
+    defaults : {
         frame:false,
         frameHeader : false,
     },
     layout: {
         type: 'border',
-        padding: 5
+        padding: 0
     },
     items : [
     {
@@ -18,27 +18,34 @@ Ext.define('Js.Viewport', {
         region: 'north',
         split       : false,
         collapsible : false,
-        height      : 75,
+        height      : 66,
         margins     : '0 0 0 0',
         id: 'ctnTop',
-        frame: false,
-                
+        frame: false,       
         tbar        : {
             id          : 'basic-statusbar',
-            items       : [
-            '<span style="font-size:1.3em"><b>SISPLAN UNA-SUS</b></span>',
-            '|','<span style="font-size:0.8em"><b>' + tag_version + '</b></span>',
-            '->' ,{
-                text    : '',
-                id      : 'text',
-                iconCls : 'silk-user'
+             layoutConfig : {
+                align : 'stretch'
             },
-            'Bem vindo(a), <span id="main_username" class="username">'+nomeUsuario+'</span></b>']
+            defaults : {
+                top : 0  
+            },
+            items       : [
+                {xtype: 'tbtext', width:'105px',text: '<span width="105px" height="30px"><img src="images/logo_24px.png" height="24px"></span>'},
+                ' ',
+                '<span style="font-size:1.3em"> <b>SISPLAN UNA-SUS</b></span>',
+                {xtype: 'tbseparator'},
+                '<span style="font-size:0.8em"><b>' + tag_version + '</b></span>',
+                '->' ,{
+                    text    : '',
+                    id      : 'text',
+                    iconCls : 'silk-user'
+                },
+                'Bem vindo(a), <span id="main_username" class="username">'+nomeUsuario+'</span></b>'
+            ]
         },
-        items : {
-            frame: false,
-            xtype : 'mytoolbar'
-        }
+        bbar    :{frame:false,xtype : 'mytoolbar', padding: '0 2 2 0'},
+        
     },
     {
         

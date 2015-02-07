@@ -18,7 +18,7 @@ Ext.define('Js.Viewport', {
         region: 'north',
         split       : false,
         collapsible : false,
-        height      : 66,
+        height      : 80,
         margins     : '0 0 0 0',
         id: 'ctnTop',
         frame: false,       
@@ -30,12 +30,13 @@ Ext.define('Js.Viewport', {
             defaults : {
                 top : 0  
             },
+            height: 50,
             items       : [
                 {xtype: 'tbtext', width:'105px',text: '<span width="105px" height="30px"><img src="images/logo_24px.png" height="24px"></span>'},
                 ' ',
-                '<span style="font-size:1.3em"> <b>SISPLAN UNA-SUS</b></span>',
+                '<span style="font-size:1.2em"> <b>SISPLAN UNA-SUS</b></span>',
                 {xtype: 'tbseparator'},
-                '<span style="font-size:0.8em"><b>' + tag_version + '</b></span>',
+                '<span style="font-size:0.7em"><b>' + tag_version + '</b></span>',
                 '->' ,{
                     text    : '',
                     id      : 'text',

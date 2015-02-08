@@ -1,5 +1,4 @@
 Ext.require('Ext.window.MessageBox');
-ixxx=0;
 Ext.define('ExtZF.controller.plano.Operativos', {
     extend: 'Ext.app.Controller',
     stores: ['Operativos','OperativosHistorico','Situacoes','Andamentos'], // Store utilizado no gerenciamento do usuário
@@ -25,7 +24,7 @@ Ext.define('ExtZF.controller.plano.Operativos', {
         me.control(
         {
             'planoOperativosList': {
-                itemdblclick: me.editObject
+//                itemdblclick: me.editObject
             },
             'planoOperativosList button[action=incluir]': {
                 click: me.editObject
@@ -59,7 +58,7 @@ Ext.define('ExtZF.controller.plano.Operativos', {
         view.setTitle('Edição ');
         if(!record.data){
             record = new ExtZF.model.Operativos();
-            this.getOperativosStore().add(record);
+            me.getOperativosStore().add(record);
             view.setTitle('Cadastro');
         }
         if(parseInt(record.get('andamento_id'),10)===1){

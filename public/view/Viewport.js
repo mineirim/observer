@@ -18,7 +18,7 @@ Ext.define('Js.Viewport', {
         region: 'north',
         split       : false,
         collapsible : false,
-        height      : 80,
+        height      : 78,
         margins     : '0 0 0 0',
         id: 'ctnTop',
         frame: false,       

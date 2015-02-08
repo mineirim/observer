@@ -3,7 +3,7 @@ Ext.define('ExtZF.view.plano.operativos.List' ,{
     alias : 'widget.planoOperativosList', // nome definido para acessar a grid
     id    : 'planoOperativosList',
     store : 'OperativosHistorico', // store definido em store/Operativos.js
-    title : 'Lista',
+    title : 'Histórico',
     height      : 150,
     layout      : 'fit', 
     

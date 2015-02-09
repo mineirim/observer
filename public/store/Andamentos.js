@@ -1,4 +1,3 @@
-
 Ext.define('ExtZF.store.Andamentos', {
     extend: 'Ext.data.Store',
     alias : 'ExtZF.store.Andamentos',

@@ -12,7 +12,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         'plano.programacoes.Anexos',
         'plano.programacoes.Detalhes',
         'plano.programacoes.GridFinanceiro',
-        'plano.Operativos.List'
+        'plano.operativos.List'
         ],
     /**
      *nó selecionado na navegação à esquerda

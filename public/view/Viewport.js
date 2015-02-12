@@ -32,9 +32,9 @@ Ext.define('Js.Viewport', {
             },
             height: 50,
             items       : [
-                {xtype: 'tbtext', width:'105px',text: '<span width="105px" height="30px"><img src="images/logo_24px.png" height="24px"></span>'},
+                {xtype: 'tbtext', width:'140px',text: '<div width="130px" height="42px"><img src="images/logo_sisplan.png" height="40px" ></span>'},
                 ' ',
-                '<span style="font-size:1.2em"> <b>SISPLAN UNA-SUS</b></span>',
+                '<span style="font-size:1.4em"> <b>SISPLAN UNA-SUS</b></span>',
                 {xtype: 'tbseparator'},
                 '<span style="font-size:0.7em"><b>' + tag_version + '</b></span>',
                 '->' ,{

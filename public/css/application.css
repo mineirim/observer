@@ -120,10 +120,15 @@ td.tplDetail{
 .icon-instrumentos{
     background-image: url(../images/icons/sitemap_color.png)  !important;
 }
-
+.img-responsive {
+    display: block;
+    height: auto;
+    max-width: 100%;
+}
 .atrasada .x-grid-cell {
         background-color: #5491BD !important;
     }
 .emtempo .x-grid-cell {
         background-color: #2233ff !important;
     }
+    

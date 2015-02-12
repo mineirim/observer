@@ -9,7 +9,24 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
     frameHeader : false,
     //selModel: {mode: 'SINGLE'}, // Permite selecionar mais de uma linha da grid
     // botões do cabeçalho
-    tbar :[{
+    tbar :{ padding: '0 0 0 0', margin: '0 0 0 0',
+        items:[{
+                text: 'Editar',
+                iconCls: 'icon-edit',
+                action: 'edit'
+            },{
+                text: 'Anexo',
+                iconCls: 'icon-attach',
+                action: 'attach'
+            },{
+                text: 'Relatório',
+                iconCls: 'icon-report',
+                action: 'report'
+            },{
+                text: 'E-mail',
+                iconCls: 'icon-email',
+                action: 'sendmail'
+            },{
                 text: 'Incluir',
                 iconCls: 'icon-new',
                 action: 'incluir',
@@ -23,7 +40,7 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
                 text: 'Excluir',
                 iconCls: 'icon-delete',
                 action: 'excluir'
-            }],
+            }]},
     columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0,  hidden:true},
             {header: 'Menu',  dataIndex: 'menu',  flex: 3,xtype: 'treecolumn', 
                 renderer: function(value, metaData, record){

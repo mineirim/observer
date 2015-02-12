@@ -95,6 +95,14 @@
     background-image: url(../images/icons/tag_blue.png)  !important;
 
 }
+.icon-report{
+    background-image: url(../images/icons/report.png)  !important;
+
+}
+.icon-email{
+    background-image: url(../images/icons/email.png)  !important;
+
+}
 table.tplDetail {
     min-width: 300px;
 }

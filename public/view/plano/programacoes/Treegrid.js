@@ -13,19 +13,23 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
         items:[{
                 text: 'Editar',
                 iconCls: 'icon-edit',
-                action: 'edit'
+                action: 'grid',
+                name :'edit'
             },{
                 text: 'Anexo',
                 iconCls: 'icon-attach',
-                action: 'attach'
+                action: 'grid',
+                name: 'attach'
             },{
                 text: 'Relatório',
                 iconCls: 'icon-report',
-                action: 'report'
+                action: 'grid',
+                name: 'report',
             },{
                 text: 'E-mail',
                 iconCls: 'icon-email',
-                action: 'sendmail'
+                action: 'grid',
+                name: 'sendmail',
             },{
                 text: 'Incluir',
                 iconCls: 'icon-new',
@@ -34,12 +38,14 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
             },{
                 text: 'Vincular',
                 iconCls: 'icon-new',
-                action: 'vincular',
+                action: 'grid',
+                name: 'link',
                 hidden   :true
             },"->","|",{
                 text: 'Excluir',
                 iconCls: 'icon-delete',
-                action: 'excluir'
+                action: 'grid',
+                name: 'delete',
             }]},
     columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0,  hidden:true},
             {header: 'Menu',  dataIndex: 'menu',  flex: 3,xtype: 'treecolumn', 

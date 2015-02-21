@@ -73,18 +73,10 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             'planoProgramacoesTreegrid button[action=newRoot]': {
                 click: me.newRoot
             },
-            'planoProgramacoesTreegrid button[action=excluir]': {
-                click: me.deleteObject
+            'planoProgramacoesTreegrid button[action=grid]': {
+                'click' : me.buttonActions
             },
-            'planoProgramacoesTreegrid button[action=edit]': {
-                click: me.editButtonAction
-            },
-            'planoProgramacoesAnexos button[action=attach]': {
-                click: me.attachFile
-            },
-            'planoProgramacoesTreegrid button[action=vincular]': {
-                click: me.linkInstrumento
-            },           
+            
             'planoProgramacoesDetalhes button[action=execucao]' : {
                  click : me.clickOnDetailsButton
             }
@@ -310,19 +302,27 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var rec = grid.getStore().getAt(rowIndex);
         alert("Edit " + rec.get('menu'));
     },
+    attachButtonAction: function(btn, ev) {
+        var me = this;
+        var grid = me.getTreegrid(); 
+        var selected = grid.getSelectionModel().getSelection();
+        if(selected.length === 0){
+        	Ext.Msg.alert('Atenção', 'Selecione um registro para editar');
+        	return ;
+        }
+        me.editarProgramacao(selected[0]);  
+    },    
     attachFile  : function(rec){
         var me=this;
         var args ={};
         args.parent_record = rec;
         args.controller = 'plano.Anexos';
         me.application.fireEvent('openEditForm', args);
-//        view.doLayout();        
-//        var view = Ext.widget('planoAnexosEdit');
-//        view.setTitle('Anexar arquivo');
     },
     
     linkInstrumento  : function(){
         var me = this;
+        var selected;
         if(me.id ==="plano.Programacoes"){
             var grid = me.getTreegrid(); 
             selected = grid.getSelectionModel().getSelection()[0]; 
@@ -349,15 +349,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         
         
     },
-    editDblClick :function(view, record) {
-        var me= this;
-        if(record.get('parentId')===null)
-            return;
-        var store =  me.getStore('Programacoes');
-        var programacaoRecord = store.getById(record.get('id'));
-        me.editarProgramacao(programacaoRecord);  
-    },
-    editButtonAction: function(btn, ev) {
+    buttonActions: function(btn, ev) {
         var me = this;
         var grid = me.getTreegrid(); 
         var selected = grid.getSelectionModel().getSelection();
@@ -365,7 +357,37 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         	Ext.Msg.alert('Atenção', 'Selecione um registro para editar');
         	return ;
         }
-        me.editarProgramacao(selected[0]);  
+        switch(btn.name){
+            case "edit" :
+                me.editarProgramacao(selected[0]);  
+                break;
+            case "delete":
+                me.deleteObject(selected[0]);
+                break;
+            case "link" :
+                _myAppGlobal.fireEvent('planoProgramacaoVinculo.add', selected);
+                break;
+            case "attach" :
+                me.attachFile(selected[0])
+                break;
+            case "report" :
+                me.showReport(selected[0]);
+                break;
+            case "sendmail" :
+                me.sendMail(selected[0]);
+                break;
+        }
+    },    
+    sendMail : function(record){
+        Ext.Msg.alert('Atenção', 'Em desenvolvimento');
+    },
+    editDblClick :function(view, record) {
+        var me= this;
+        if(record.get('parentId')===null)
+            return;
+        var store =  me.getStore('Programacoes');
+        var programacaoRecord = store.getById(record.get('id'));
+        me.editarProgramacao(programacaoRecord);  
     },
     editarProgramacao : function(rec){
         var me = this;
@@ -384,7 +406,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
      
     },
 
-    deleteObject:function() {
+    deleteObject:function(r) {
         var  me=this;
         var grid = me.getTreegrid(); 
         var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
@@ -522,9 +544,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
          var showDetail = Ext.getCmp('showDetail');
          btnExecucao.hide();
          btnExecucao.value =null;
-         var buttonExcluir = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=excluir]')[0];
+         var buttonExcluir = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[name=delete]')[0];
          var button = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=incluir]')[0];
-         var buttonVincular = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=vincular]')[0];
+         var buttonVincular = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[name=link]')[0];
          if( !record){
              var tpl = ['<div class="tplDetail"><b>Selecione para exibir detalhes </b><br/></div>'];
              var clearTpl = Ext.create('Ext.XTemplate', tpl);

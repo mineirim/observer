@@ -76,6 +76,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             'planoProgramacoesTreegrid button[action=excluir]': {
                 click: me.deleteObject
             },
+            'planoProgramacoesTreegrid button[action=edit]': {
+                click: me.editButtonAction
+            },
             'planoProgramacoesAnexos button[action=attach]': {
                 click: me.attachFile
             },
@@ -233,22 +236,6 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
       	view.down('form').loadRecord(record);
         
     },
-    editarProgramacao : function(rec){
-        var me = this;
-        //TODO buscar record de um outro store(não tree)
-        var store =  me.getStore('Programacoes');
-        var record = store.getById(rec.get('id'));
-        if(record.get('locked') && !me.isInSupervisores(rec) && !me.checkPermission(rec)){
-            Ext.Msg.alert('Atenção', 'Você não tem permissão para editar o registro!');
-            return;
-        }
-        var view = Ext.widget('planoProgramacoesEdit');
-        view.setTitle('Edição ');
-        view.down('form').loadRecord(record);
-        instrumento = me.getStore('Instrumentos').findRecord('id',record.get('instrumento_id'));
-        me.configuraForm(view, record, instrumento);
-     
-    },
     configuraForm : function(view, record, instrumento){
         var me=this;
         if (instrumento.get('has_operativo')==="true") {
@@ -370,16 +357,43 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var programacaoRecord = store.getById(record.get('id'));
         me.editarProgramacao(programacaoRecord);  
     },
+    editButtonAction: function(btn, ev) {
+        var me = this;
+        var grid = me.getTreegrid(); 
+        var selected = grid.getSelectionModel().getSelection();
+        if(selected.length === 0){
+        	Ext.Msg.alert('Atenção', 'Selecione um registro para editar');
+        	return ;
+        }
+        me.editarProgramacao(selected[0]);  
+    },
+    editarProgramacao : function(rec){
+        var me = this;
+        //TODO buscar record de um outro store(não tree)
+        var store =  me.getStore('Programacoes');
+        var record = store.getById(rec.get('id'));
+        if(record.get('locked') && !me.isInSupervisores(rec) && !me.checkPermission(rec)){
+            Ext.Msg.alert('Atenção', 'Você não tem permissão para editar o registro!');
+            return;
+        }
+        var view = Ext.widget('planoProgramacoesEdit');
+        view.setTitle('Edição ');
+        view.down('form').loadRecord(record);
+        var instrumento = me.getStore('Instrumentos').findRecord('id',record.get('instrumento_id'));
+        me.configuraForm(view, record, instrumento);
+     
+    },
+
     deleteObject:function() {
         var  me=this;
-        var grid = this.getTreegrid(); // recupera lista de usuários
+        var grid = me.getTreegrid(); 
         var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
         	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
         	return ;
         }
-        store = me.getStore('Programacoes');
-        record = store.findRecord('id', ids[0].get('id'));
+        var store = me.getStore('Programacoes');
+        var record = store.findRecord('id', ids[0].get('id'));
         if(record.get('locked')){
             Ext.Msg.alert('Atenção', 'Você não tem permissão para excluir o registro!');
             return;

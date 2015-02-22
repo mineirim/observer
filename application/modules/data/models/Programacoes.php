@@ -127,7 +127,7 @@ class Data_Model_Programacoes {
         $_auth = Zend_Auth::getInstance ();
         $identitity = $_auth->getIdentity();        
         $programacoes_table = new Data_Model_DbTable_Programacoes();
-        $where = $where ? $where.'and situacao_id <>2' : 'situacao_id <>2';
+        $where = $where ? $where.' and situacao_id <>2' : 'situacao_id <>2';
         $programacoes = $programacoes_table->fetchAll($where, $order, $limit,$offset);
         $objs = array();
         foreach ($programacoes as $value) {

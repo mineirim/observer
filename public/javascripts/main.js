@@ -13,7 +13,7 @@ Ext.require(['Ext.ux.TextMaskPlugin']);
 if(env==='production'){
     Ext.Loader.setConfig('disableCaching',false);
 }
-    Ext.Loader.setConfig('disableCaching',false);
+    Ext.Loader.setConfig('disableCaching',true);
 
 Ext.application({
     name: 'ExtZF', 

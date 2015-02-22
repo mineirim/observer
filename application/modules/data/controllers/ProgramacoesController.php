@@ -83,7 +83,15 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
                 $this->view->rows = $programacoes_table->getPendentes();
             }else 
             {
-                $this->view->rows = $programacoes_table->getAll();
+                $where = ' 1=1 ';
+                if($this->_hasParam('filter'))
+                {
+                    $filtro  = json_decode($this->_getParam('filter'),true);
+                    foreach ($filtro as $f){
+                        $where .= ' AND ' . $f['property'].'='. $f['value'];
+                    }
+                }
+                $this->view->rows = $programacoes_table->getAll($where);
             }
             $this->view->success= true;
             $this->view->text = $text;

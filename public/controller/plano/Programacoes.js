@@ -383,26 +383,35 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     },
     editDblClick :function(view, record) {
         var me= this;
-        if(record.isRoot() || record.get('parentId')===null)
+        if(record.isRoot() || record.get('parentId')===null){
             return;
+        }
+        me.editarProgramacao(record);  
+    },
+    filterProgramacoes : function(field,value,calback){
         var store =  me.getStore('Programacoes');
-        var programacaoRecord = store.getById(record.get('id'));
-        me.editarProgramacao(programacaoRecord);  
+        store.remoteFilter=false;
+        store.clearFilter();        
+        store.filter(field,value);
+        store.remoteFilter=true;
+        return store;
     },
     editarProgramacao : function(rec){
         var me = this;
         //TODO buscar record de um outro store(não tree)
-        var store =  me.getStore('Programacoes');
-        var record = store.getById(rec.get('id'));
-        if(record.get('locked') && !me.isInSupervisores(rec) && !me.checkPermission(rec)){
-            Ext.Msg.alert('Atenção', 'Você não tem permissão para editar o registro!');
-            return;
-        }
-        var view = Ext.widget('planoProgramacoesEdit');
-        view.setTitle('Edição ');
-        view.down('form').loadRecord(record);
-        var instrumento = me.getStore('Instrumentos').findRecord('id',record.get('instrumento_id'));
-        me.configuraForm(view, record, instrumento);
+        var store = me.filterProgramacoes('id',rec.get('id'));        
+        store.load(function(){
+            var record = store.getById(rec.get('id'));
+            if(record.get('locked') && !me.isInSupervisores(rec) && !me.checkPermission(rec)){
+                Ext.Msg.alert('Atenção', 'Você não tem permissão para editar o registro!');
+                return;
+            }
+            var view = Ext.widget('planoProgramacoesEdit');
+            view.setTitle('Edição ');
+            view.down('form').loadRecord(record);
+            var instrumento = me.getStore('Instrumentos').findRecord('id',record.get('instrumento_id'));
+            me.configuraForm(view, record, instrumento);
+        });
      
     },
 
@@ -414,25 +423,30 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
         	return ;
         }
-        var store = me.getStore('Programacoes');
-        var record = store.findRecord('id', ids[0].get('id'));
-        if(record.get('locked')){
-            Ext.Msg.alert('Atenção', 'Você não tem permissão para excluir o registro!');
-            return;
-        }
-        
-        Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir o(s) registro(s) selecionado(s)?',
-		function(opt){
-			if(opt === 'no')
-				return;
-			grid.el.mask('Excluindo registro(s)');
-                        store = me.getStore('Programacoes');
-                        record = store.getById(ids[0].get('id'));
-                        store.remove(record);
-                        store.sync();
-                        this.getProgramacoesTreeStoreStore().load();
-                        grid.el.unmask();
-		}, this);
+        var store = me.filterProgramacoes('id', ids[0].get('id'));        
+        store.load(function(){
+            var record = store.findRecord('id', ids[0].get('id'));
+            if(typeof(record==='undefined')){
+                Ext.Msg.alert('Atenção', 'Erro ao excluir o registro!');
+                return;
+            }
+            if(record.get('locked')){
+                Ext.Msg.alert('Atenção', 'Você não tem permissão para excluir o registro!');
+                return;
+            }
+            Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir o(s) registro(s) selecionado(s)?',
+                    function(opt){
+                            if(opt === 'no')
+                                    return;
+                            grid.el.mask('Excluindo registro(s)');
+                            store = me.getStore('Programacoes');
+                            record = store.getById(ids[0].get('id'));
+                            store.remove(record);
+                            store.sync();
+                            me.getProgramacoesTreeStoreStore().load();
+                            grid.el.unmask();
+                    }, me);
+                });
     },
     saveAndClose: function(button) 
     {
@@ -544,152 +558,155 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
          var showDetail = Ext.getCmp('showDetail');
          btnExecucao.hide();
          btnExecucao.value =null;
-         var buttonExcluir = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[name=delete]')[0];
          var button = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=incluir]')[0];
          var buttonVincular = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[name=link]')[0];
-         if( !record || record.isRoot()){
+         if( !record ){
              var tpl = ['<div class="tplDetail"><b>Selecione para exibir detalhes </b><br/></div>'];
              var clearTpl = Ext.create('Ext.XTemplate', tpl);
              clearTpl.overwrite(showDetail.body, []);               
              showDetail.doLayout();
              button.hide();
-             buttonExcluir.hide();
              planilhaOrcamentaria = detailPanel.child('#planilhaOrcamentaria');
              if(typeof(planilhaOrcamentaria)!=='undefined' || planilhaOrcamentaria !== null)
                 planilhaOrcamentaria.hide();
              return;
          }
-         buttonExcluir.show();
-         detailPanel.show();
-         var instrumento =undefined;
-         if(record.get('root')===true){
-             buttonExcluir.hide();
-             rootId = record.get('id');
-             if(record.get('id')>0){
-                 var rootRecord = me.getStore('Programacoes').findRecord('id',record.get('id'));
-                 instrumento= me.getStore('Instrumentos').findRecord('instrumento_id',rootRecord.get('instrumento_id'));
-             }else if( rootId.split('-').length > 1 ){
-                 instrumento= me.getStore('Instrumentos').findRecord('instrumento_id',rootId.split('-')[1]);
-             }
-             
-         }else{
-             instrumento = me.getStore('Instrumentos').findRecord('instrumento_id',record.get('instrumento_id'));
-         }
-         
-         if(instrumento){
-             button.show();
-             button.setText('Adicionar '+instrumento.get('singular'));
-             buttonVincular.hide();
-         }else if (record.get('instrumento').has_operativo){
-             buttonVincular.show();
-             buttonVincular.setText('Adicionar Vínculo');
-             button.hide();
-         } else {
-             button.hide();
-             buttonVincular.hide();
-             //buttonExcluir.hide();
-         }
-         
-        var bookTplMarkup = ['<div class="tplDetail"><b>Descrição: </b>{descricao}<br/></div>'];
-        var bookTpl = Ext.create('Ext.XTemplate', bookTplMarkup);
-
-        showDetail.doLayout();
-        bookTpl.overwrite(showDetail.body, record.data);         
-        if(record.get('instrumento').has_responsavel){
-             if(typeof(record.get('responsavel')) !== 'undefined'){
-                 responsavel = record.get('responsavel');
-                 var tpl_responsavel = new Ext.XTemplate([
-                                '<div class="tplDetail"><b>Responsável: </b>{nome}<br/></div>']);
-                 tpl_responsavel.append(showDetail.body, responsavel);
-             }
-        }
-        if(record.get('instrumento').has_supervisor){
-             if(typeof(record.get('supervisor')) !== 'undefined'){
-                 supervisor = record.get('supervisor');
-                 var tpl_supervisor = new Ext.XTemplate([
-                                '<div class="tplDetail"><b>Supervisor: </b>{nome}<br/></div>']);
-                 tpl_supervisor.append(showDetail.body, supervisor);
-             }
-        }
-        if(record.get('instrumento').has_equipe){
-             if(typeof(record.get('setor')) !== 'undefined'){
-                 equipe = record.get('setor');
-                 var tpl_equipe = new Ext.XTemplate([
-                                '<div class="tplDetail"><b>Equipe: </b>{nome}<br/></div>']);
-                 tpl_equipe.append(showDetail.body, equipe);
-             }
-        }
-        
-        var tpl_anexos =  new Ext.XTemplate(['Anexos:<tpl for=".">', '<div>', '<a target="_blank" href="/downloads/{data.nome}"><span>{data.nome}</span></a>',' - <span>Por: {data.usuario}</span>', '</div>', '</tpl>'])
-        var anexosStore = me.getStore('anexos.ProgramacaoAnexosStore');
-        anexosStore.getProxy().setExtraParam('programacao_id',record.get('id'));
-        anexosStore.load({
-                callback : function(records, operation, success) {
-                    tpl_anexos.append(showDetail.body,records);
+        var store = me.filterProgramacoes('id', record.get('id'));        
+        store.load(function(){ 
+            detailPanel.show();
+            var instrumento =undefined;
+            if(record.isRoot()){
+                rootId = record.get('id');
+                if(record.get('id')>0){
+                    var rootRecord = me.getStore('Programacoes').findRecord('id',record.get('id'));
+                    instrumento= me.getStore('Instrumentos').findRecord('instrumento_id',rootRecord.get('instrumento_id'));
+                }else if( rootId.split('-').length > 1 ){
+                    instrumento= me.getStore('Instrumentos').findRecord('instrumento_id',rootId.split('-')[1]);
                 }
-            });
-        
-//{
-//        xtype: 'component',
-//        autoEl: {
-//            tag: 'a',
-//            href: 'http://www.example.com/',
-//            html: 'Example.com'
-//        }
-//    }        
-        planilhaOperativa = detailPanel.child("#planilhaOperativa");
-        if(record.get('instrumento').has_operativo){
-            operativo = me.getStore('Operativos').findRecord('programacao_id',parseInt(record.get('id'),10))
-             if(operativo){
-                 btnExecucao.show();
-                 btnExecucao.value = operativo.get('id');                 
-                 planilhaOperativa.show();
-                 me.application.fireEvent('filtrarHistoricoPorOperativo', operativo.get('id'));                 
-             }
-        }else{
-            planilhaOperativa.hide();
-        }
-       
-        if(record.get('instrumento').has_vlr_programado===true){ 
-            if(record.get('instrumento').has_vlr_executado===true){ 
-                planilhaOrcamentaria = detailPanel.child("#planilhaOrcamentaria");
-                planilhaOrcamentaria.show();
-                
             }else{
-                var restUrl = 'data/financeiro/' + record.get('id');
-                Ext.Ajax.request({
-                    url: restUrl,
-                    success: function(response, opts) {
-                        var obj = Ext.decode(response.responseText);
-                        var tpl_orcamento = new Ext.XTemplate([
-                                '<br/><b>Execução Orçamentária:</b><br>',
-                                '<tpl for=".">',
-                                    '<table class="tplDetail">',
-                                            '<tr><td class="tplDetail">Programado: </td><td  align="right" > {programado}</td></tr>',
-                                            '<tr><td class="tplDetail">Executado: </td><td align="right" > {executado}</td></tr>',
-                                            '<tr><td class="tplDetail">Saldo: </td><td align="right" > {saldo}</td></tr>',
-                                    '</table>',
-                                '</tpl>'
-                            ]);
-                        tpl_orcamento.append(showDetail.body, obj,true);                
-                    },
-                    failure: function(response, opts) {
-                        console.log('server-side failure with status code ' + response.status);
+                instrumento = me.getStore('Instrumentos').findRecord('instrumento_id',record.get('instrumento_id'));
+            }
+
+            if(instrumento){
+                button.show();
+                button.setText('Adicionar '+instrumento.get('singular'));
+                buttonVincular.hide();
+            }else if (record.get('instrumento').has_operativo){
+                buttonVincular.show();
+                buttonVincular.setText('Adicionar Vínculo');
+                button.hide();
+            } else {
+                button.hide();
+                buttonVincular.hide();
+            }
+           var bookTplMarkup = ['<div class="tplDetail"><b>Descrição: </b>{descricao}<br/></div>'];
+           var bookTpl = Ext.create('Ext.XTemplate', bookTplMarkup);
+
+           showDetail.doLayout();
+           bookTpl.overwrite(showDetail.body, record.data);         
+           if(record.get('instrumento').has_responsavel){
+                if(typeof(record.get('responsavel')) !== 'undefined'){
+                    var responsavel = record.get('responsavel');
+                    var tpl_responsavel = new Ext.XTemplate([
+                                   '<div class="tplDetail"><b>Responsável: </b>{nome}<br/></div>']);
+                    tpl_responsavel.append(showDetail.body, responsavel);
+                }
+           }
+           if(record.get('instrumento').has_supervisor){
+                if(typeof(record.get('supervisor')) !== 'undefined'){
+                    var supervisor = record.get('supervisor');
+                    var tpl_supervisor = new Ext.XTemplate([
+                                   '<div class="tplDetail"><b>Supervisor: </b>{nome}<br/></div>']);
+                    tpl_supervisor.append(showDetail.body, supervisor);
+                }
+           }
+           if(record.get('instrumento').has_equipe){
+                if(typeof(record.get('setor')) !== 'undefined'){
+                    var equipe = record.get('setor');
+                    var tpl_equipe = new Ext.XTemplate([
+                                   '<div class="tplDetail"><b>Equipe: </b>{nome}<br/></div>']);
+                    tpl_equipe.append(showDetail.body, equipe);
+                }
+           }
+
+           var tpl_anexos =  new Ext.XTemplate(['Anexos:<tpl for=".">', '<div>', '<a target="_blank" href="/downloads/{data.nome}"><span>{data.nome}</span></a>',' - <span>Por: {data.usuario}</span>', '</div>', '</tpl>'])
+           var anexosStore = me.getStore('anexos.ProgramacaoAnexosStore');
+           anexosStore.getProxy().setExtraParam('programacao_id',record.get('id'));
+           anexosStore.load({
+                   callback : function(records, operation, success) {
+                       tpl_anexos.append(showDetail.body,records);
+                   }
+               });
+
+   //{
+   //        xtype: 'component',
+   //        autoEl: {
+   //            tag: 'a',
+   //            href: 'http://www.example.com/',
+   //            html: 'Example.com'
+   //        }
+   //    }        
+           var planilhaOperativa = detailPanel.child("#planilhaOperativa");
+           if(record.get('instrumento').has_operativo){
+               var operativoStore = me.getStore('Operativos');
+               operativoStore.remoteFilter=false;
+               operativoStore.filter('programacao_id',parseInt(record.get('id'),10));
+               operativoStore.remoteFilter=true;
+               operativoStore.load(function(){
+                    var operativo = me.getStore('Operativos').findRecord('programacao_id',parseInt(record.get('id'),10))
+                     if(operativo){
+                         btnExecucao.show();
+                         btnExecucao.value = operativo.get('id');                 
+                         me.application.fireEvent('filtrarHistoricoPorOperativo', operativo.get('id'));                 
+                         planilhaOperativa.show();
+                    }else{
+                        planilhaOperativa.hide();
                     }
                 });
-                
-                
-            }
-        }else{
-            planilhaOrcamentaria = detailPanel.child('#planilhaOrcamentaria');
-            if(planilhaOrcamentaria) 
-                planilhaOrcamentaria.hide();
-        }
-        //this.getGantt(record.get('id'));
-        this.showGantt(record.get('id'));
-        me.application.fireEvent('planoProgramacaoFinanceiro.filterByProgramacao', record.get('id'));
-        
-        showDetail.doLayout();
+           }else{
+               planilhaOperativa.hide();
+           }
+           if(record.get('instrumento').has_vlr_programado===true){ 
+               if(record.get('instrumento').has_vlr_executado===true){ 
+                   planilhaOrcamentaria = detailPanel.child("#planilhaOrcamentaria");
+                   planilhaOrcamentaria.show();
+
+               }else{
+                   var restUrl = 'data/financeiro/' + record.get('id');
+                   Ext.Ajax.request({
+                       url: restUrl,
+                       success: function(response, opts) {
+                           var obj = Ext.decode(response.responseText);
+                           var tpl_orcamento = new Ext.XTemplate([
+                                   '<br/><b>Execução Orçamentária:</b><br>',
+                                   '<tpl for=".">',
+                                       '<table class="tplDetail">',
+                                               '<tr><td class="tplDetail">Programado: </td><td  align="right" > {programado}</td></tr>',
+                                               '<tr><td class="tplDetail">Executado: </td><td align="right" > {executado}</td></tr>',
+                                               '<tr><td class="tplDetail">Saldo: </td><td align="right" > {saldo}</td></tr>',
+                                       '</table>',
+                                   '</tpl>'
+                               ]);
+                           tpl_orcamento.append(showDetail.body, obj,true);                
+                       },
+                       failure: function(response, opts) {
+                           console.log('server-side failure with status code ' + response.status);
+                       }
+                   });
+
+
+               }
+           }else{
+               planilhaOrcamentaria = detailPanel.child('#planilhaOrcamentaria');
+               if(planilhaOrcamentaria) 
+                   planilhaOrcamentaria.hide();
+           }
+           //this.getGantt(record.get('id'));
+           me.showGantt(record.get('id'));
+           me.application.fireEvent('planoProgramacaoFinanceiro.filterByProgramacao', record.get('id'));
+
+           showDetail.doLayout();
+       });
     },
     /**
      * executa ação de botões na view detalhes
@@ -697,13 +714,13 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     clickOnDetailsButton : function(button, event)
     {
         var me = this;
-        target = event.getTarget();
+        var target = event.getTarget();
         if(button.action === "execucao")
         {
             var controller = _myAppGlobal.getController('ExtZF.controller.plano.Operativos');
             controller.init();
-            record = controller.getStore('Operativos').findRecord('id',button.value);
-            programacao  = me.getStore('Programacoes').findRecord('id',record.get('programacao_id'))
+            var record = controller.getStore('Operativos').findRecord('id',button.value);
+            var programacao  = me.getStore('Programacoes').findRecord('id',record.get('programacao_id'))
             if(!me.checkPermission(programacao)){
                     Ext.Msg.alert('Atenção', 'Você não é o responsável pela execução da etapa!');
                     return;                

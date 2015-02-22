@@ -4,6 +4,7 @@ Ext.define('ExtZF.store.Programacoes', {
     alias   : 'ExtZF.store.Programacoes',
     storeId : 'programacoesStore',
     model   : 'ExtZF.model.Programacoes',
-    autoLoad    : true
-
+    autoLoad    : false,
+    remoteSort  : true ,
+    remoteFilter : true
 });

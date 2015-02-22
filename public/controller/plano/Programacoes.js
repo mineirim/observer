@@ -353,8 +353,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var me = this;
         var grid = me.getTreegrid(); 
         var selected = grid.getSelectionModel().getSelection();
-        if(selected.length === 0){
-        	Ext.Msg.alert('Atenção', 'Selecione um registro para editar');
+        if(selected.length === 0 || selected[0].isRoot()){
+        	Ext.Msg.alert('Atenção', 'Necessário selecionar um registro');
         	return ;
         }
         switch(btn.name){
@@ -383,7 +383,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     },
     editDblClick :function(view, record) {
         var me= this;
-        if(record.get('parentId')===null)
+        if(record.isRoot() || record.get('parentId')===null)
             return;
         var store =  me.getStore('Programacoes');
         var programacaoRecord = store.getById(record.get('id'));
@@ -547,7 +547,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
          var buttonExcluir = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[name=delete]')[0];
          var button = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[action=incluir]')[0];
          var buttonVincular = Ext.ComponentQuery.query('planoProgramacoesTreegrid button[name=link]')[0];
-         if( !record){
+         if( !record || record.isRoot()){
              var tpl = ['<div class="tplDetail"><b>Selecione para exibir detalhes </b><br/></div>'];
              var clearTpl = Ext.create('Ext.XTemplate', tpl);
              clearTpl.overwrite(showDetail.body, []);               

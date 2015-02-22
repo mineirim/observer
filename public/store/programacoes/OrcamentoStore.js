@@ -4,5 +4,5 @@ Ext.define('ExtZF.store.programacoes.OrcamentoStore', {
     alias   : 'ExtZF.store.programacoes.OrcamentoStore',
     storeId : 'programacoesOrcamentoStore',
     model   : 'ExtZF.model.programacoes.OrcamentoModel',
-    autoLoad    : true
+    autoLoad    : false
 });

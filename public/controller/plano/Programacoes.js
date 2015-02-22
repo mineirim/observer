@@ -383,26 +383,35 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     },
     editDblClick :function(view, record) {
         var me= this;
-        if(record.isRoot() || record.get('parentId')===null)
+        if(record.isRoot() || record.get('parentId')===null){
             return;
+        }
+        me.editarProgramacao(record);  
+    },
+    filterProgramacoes : function(field,value,calback){
         var store =  me.getStore('Programacoes');
-        var programacaoRecord = store.getById(record.get('id'));
-        me.editarProgramacao(programacaoRecord);  
+        store.remoteFilter=false;
+        store.clearFilter();        
+        store.filter(field,value);
+        store.remoteFilter=true;
+        return store;
     },
     editarProgramacao : function(rec){
         var me = this;
         //TODO buscar record de um outro store(não tree)
-        var store =  me.getStore('Programacoes');
-        var record = store.getById(rec.get('id'));
-        if(record.get('locked') && !me.isInSupervisores(rec) && !me.checkPermission(rec)){
-            Ext.Msg.alert('Atenção', 'Você não tem permissão para editar o registro!');
-            return;
-        }
-        var view = Ext.widget('planoProgramacoesEdit');
-        view.setTitle('Edição ');
-        view.down('form').loadRecord(record);
-        var instrumento = me.getStore('Instrumentos').findRecord('id',record.get('instrumento_id'));
-        me.configuraForm(view, record, instrumento);
+        var store = me.filterProgramacoes('id',rec.get('id'));        
+        store.load(function(){
+            var record = store.getById(rec.get('id'));
+            if(record.get('locked') && !me.isInSupervisores(rec) && !me.checkPermission(rec)){
+                Ext.Msg.alert('Atenção', 'Você não tem permissão para editar o registro!');
+                return;
+            }
+            var view = Ext.widget('planoProgramacoesEdit');
+            view.setTitle('Edição ');
+            view.down('form').loadRecord(record);
+            var instrumento = me.getStore('Instrumentos').findRecord('id',record.get('instrumento_id'));
+            me.configuraForm(view, record, instrumento);
+        });
      
     },
 
@@ -414,25 +423,30 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
         	return ;
         }
-        var store = me.getStore('Programacoes');
-        var record = store.findRecord('id', ids[0].get('id'));
-        if(record.get('locked')){
-            Ext.Msg.alert('Atenção', 'Você não tem permissão para excluir o registro!');
-            return;
-        }
-        
-        Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir o(s) registro(s) selecionado(s)?',
-		function(opt){
-			if(opt === 'no')
-				return;
-			grid.el.mask('Excluindo registro(s)');
-                        store = me.getStore('Programacoes');
-                        record = store.getById(ids[0].get('id'));
-                        store.remove(record);
-                        store.sync();
-                        this.getProgramacoesTreeStoreStore().load();
-                        grid.el.unmask();
-		}, this);
+        var store = me.filterProgramacoes('id', ids[0].get('id'));        
+        store.load(function(){
+            var record = store.findRecord('id', ids[0].get('id'));
+            if(typeof(record==='undefined')){
+                Ext.Msg.alert('Atenção', 'Erro ao excluir o registro!');
+                return;
+            }
+            if(record.get('locked')){
+                Ext.Msg.alert('Atenção', 'Você não tem permissão para excluir o registro!');
+                return;
+            }
+            Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir o(s) registro(s) selecionado(s)?',
+                    function(opt){
+                            if(opt === 'no')
+                                    return;
+                            grid.el.mask('Excluindo registro(s)');
+                            store = me.getStore('Programacoes');
+                            record = store.getById(ids[0].get('id'));
+                            store.remove(record);
+                            store.sync();
+                            me.getProgramacoesTreeStoreStore().load();
+                            grid.el.unmask();
+                    }, me);
+                });
     },
     saveAndClose: function(button) 
     {

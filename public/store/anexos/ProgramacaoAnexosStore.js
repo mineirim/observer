@@ -4,7 +4,7 @@ Ext.define('ExtZF.store.anexos.ProgramacaoAnexosStore', {
     alias : 'ExtZF.store.anexos.ProgramacaoAnexos',
     storeId : 'programacaoAnexosStore',
     model: 'ExtZF.model.anexos.ProgramacaoAnexosModel',
-    autoLoad: true,
+    autoLoad: false,
     remoteFilter : true,
     remoteSort: true 
 

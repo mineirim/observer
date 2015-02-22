@@ -4,7 +4,7 @@ Ext.define('ExtZF.store.Setores', {
     alias       : 'ExtZF.store.Setores',
     model       : 'ExtZF.model.Setores',
     storeId     : 'setoresStore',
-    autoLoad    : true,
+    autoLoad    : false,
     remoteSort  : true 
 
 });

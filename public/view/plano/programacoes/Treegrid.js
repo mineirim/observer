@@ -64,6 +64,7 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
             }
         ],
         initComponent: function() {
-            this.callParent(arguments);
+            var me = this;
+            me.callParent(arguments);
         }
     });

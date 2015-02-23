@@ -768,20 +768,19 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         alert("not defined");
       }
     },
-    selectRecord : function(me)
+    selectRecord : function(treeview)
     {        
-        Etc.log('entrou no refresh. this.selectNewRecord='+this.selectNewRecord);
-        if ( this.selectNewRecord===false || typeof(this.selectNewRecord)==='undefined');
-            return;
-        
-
-        me.getSelectionModel().select(this.selectNewRecord);
         //Ext.defer(this.setScrollTop, 30, this, [this.getView().scrollState.top]);
+        if ( this.selectNewRecord===false || typeof(this.selectNewRecord)==='undefined');
+            return;       
+        treeview.getSelectionModel().select(this.selectNewRecord);
+
     }   , 
-    callRender : function(me)
+    callRender : function(gridPanel)
     {
-        Etc.log('entrou no render');
-        me.getView().on('refresh', this.selectRecord);
+        var me=this;
+        gridPanel.getView().on('refresh', me.selectRecord);
+
     }
     
 });

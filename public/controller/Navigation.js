@@ -1,4 +1,5 @@
 Ext.require('Ext.window.MessageBox');
+xx='';
 Ext.define('ExtZF.controller.Navigation', {
     extend      : 'Ext.app.Controller',
     stores      : ['Treenav','Programacoes','Instrumentos','Operativos','Vinculos', 'Usuarios' ],
@@ -117,7 +118,17 @@ Ext.define('ExtZF.controller.Navigation', {
         
          if(record){
             var store = Ext.StoreManager.get('programacoes.TreeStore');
+            var v =novaAba.down('planoProgramacoesTreegrid');
+            v.setLoading(true); // <-- show default load mask to grid
+            v.setLoading('Carregando...'); // <-- show load mask with your text
             store.setRootNode({id:record.data.id,text:record.data.menu, desc:'descricao', instrumento:record.data.instrumento});
+            store.load({
+                    scope:this, 
+                    callback: function(){
+                        v.setLoading(false);
+                    }
+                    });
+            
             root_id = ''+record.get('id');
             if(root_id.split('-').length <=1){
                 me.getController('ExtZF.controller.plano.Programacoes').rootNodeSelected = record;

@@ -1,4 +1,5 @@
 Ext.require('Ext.window.MessageBox');
+xx='';
 Ext.define('ExtZF.controller.Navigation', {
     extend      : 'Ext.app.Controller',
     stores      : ['Treenav','Programacoes','Instrumentos','Operativos','Vinculos', 'Usuarios' ],
@@ -117,7 +118,17 @@ Ext.define('ExtZF.controller.Navigation', {
         
          if(record){
             var store = Ext.StoreManager.get('programacoes.TreeStore');
+            var v =novaAba.down('planoProgramacoesTreegrid');
+            v.setLoading(true); // <-- show default load mask to grid
+            v.setLoading('Carregando...'); // <-- show load mask with your text
             store.setRootNode({id:record.data.id,text:record.data.menu, desc:'descricao', instrumento:record.data.instrumento});
+            store.load({
+                    scope:this, 
+                    callback: function(){
+                        v.setLoading(false);
+                    }
+                    });
+            
             root_id = ''+record.get('id');
             if(root_id.split('-').length <=1){
                 me.getController('ExtZF.controller.plano.Programacoes').rootNodeSelected = record;
@@ -184,8 +195,7 @@ Ext.define('ExtZF.controller.Navigation', {
     itemContextMenu :  function( view, record, item, index, event, options){
         event.stopEvent();        
         var me= this;
-        screen = Ext.getCmp('criaLayout');
-        var programacoesController = this.getController('ExtZF.controller.plano.Programacoes');
+        var programacoesController = me.getController('ExtZF.controller.plano.Programacoes');
         programacoesController.init.apply(programacoesController);
         var items = [];
         if(record.get('parentId')==="root"){
@@ -202,20 +212,18 @@ Ext.define('ExtZF.controller.Navigation', {
                 });
                 items.push('-');
         }else{
-            var programacaoRecord = me.getProgramacoesStore().findRecord('id',record.get('id'));
-            var instrumento_filho = this.getInstrumentosStore().findRecord('instrumento_id',programacaoRecord.get('instrumento_id'));
-            
+            var instrumento_filho = me.getInstrumentosStore().findRecord('instrumento_id',record.get('instrumento_id'));
             items.push({text: 'Editar',
                         handler : function(){
-                            programacoesController.editarProgramacao(programacaoRecord);
+                            programacoesController.editarProgramacao(record);
                         }
                     });
-                items.push('-');
             if(instrumento_filho){
+                items.push('-');
                 items.push({
                     text:"Adicionar "+instrumento_filho.get('singular'),
                     handler: function(){
-                        programacoesController.novaProgramacao(programacaoRecord);
+                        programacoesController.novaProgramacao(record);
                     } 
                 });
             }                    

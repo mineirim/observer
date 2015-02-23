@@ -3,7 +3,7 @@ Ext.define('ExtZF.store.programacoes.TreeStore', {
     alias   : 'ExtZF.store.programacoes.TreeStore',
     storeId : 'programacoesTreeStore',
     model   : 'ExtZF.model.programacoes.Model4tree',
-    autoLoad    : true,
+    autoLoad    : false,
     
     // bug in extjs4.1 autoLoad is ignored
     // specifying "loaded: true" resolves the problem

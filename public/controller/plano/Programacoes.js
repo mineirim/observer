@@ -134,7 +134,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             return;
         instrumento_filho = me.getStore('Instrumentos').findRecord('instrumento_id',record.get('instrumento_id'));
         items = [];
-        mycontroller = this.getController('ExtZF.controller.plano.Programacoes');
+        mycontroller = me.getController('ExtZF.controller.plano.Programacoes');
         myStore = Ext.StoreManager.get('programacoes.TreeStore');
         rootRecord = me.getStore('Programacoes').findRecord('id',myStore.getRootNode().get('id') );
         if(record.get('situacao_id')===3 && me.isInSupervisores(record)){
@@ -151,14 +151,18 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 });
         
         if(mycontroller.rootNodeSelected){
-            rootInstrumento = me.getStore('Instrumentos').findRecord('instrumento_id',rootRecord.get('instrumento_id'));
-            items.push({
-                text: 'Adicionar '+ rootInstrumento.get('singular'),
-                handler:  function(){
-                    me.novaProgramacao(rootRecord);
-                } 
-            });
-            items.push('-');
+            try{
+                rootInstrumento = me.getStore('Instrumentos').findRecord('instrumento_id',rootRecord.get('instrumento_id'));
+                items.push({
+                    text: 'Adicionar '+ rootInstrumento.get('singular'),
+                    handler:  function(){
+                        me.novaProgramacao(rootRecord);
+                    } 
+                });
+                items.push('-');
+            }catch(err){
+                
+            }
         }
         
         if(instrumento_filho){
@@ -204,29 +208,37 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     },
     novaProgramacao: function(parent){
         var me=this;
+        var record;
         var options ={instrumento_id: ''};
         if( typeof(parent)!=='undefined'){
             parent_id  = parent.get('id');
             if(parent_id.toString().split('-').length > 1){                
                 instrumento = me.getStore('Instrumentos').findRecord('instrumento_id', parent_id.split('-')[1]);
-                
+                options.instrumento_id =instrumento.get('id');
+                var view = Ext.widget('planoProgramacoesEdit');
+                view.setTitle('Inserir');
+                me.configuraForm(view,false,instrumento);
+                record = Ext.ModelMgr.create(options,'ExtZF.model.Programacoes');
+                view.down('form').loadRecord(record);                
             }else{
-                parent = me.getStore('Programacoes').findRecord('id',parent.get('id'));
-                if(parent !== null && parent.get('locked')){
-                    Ext.Msg.alert('Atenção', 'Você não tem permissão para criar novo registro!');
-                    return;
-                }                
-                options.programacao_id = parent_id;
-                instrumento = me.getStore('Instrumentos').findRecord('instrumento_id',parent.get('instrumento_id'));                
+                var store = me.filterProgramacoes('id',parent.get('id'));
+                store.load( function(){
+                    var programacao = me.getStore('Programacoes').findRecord('id',parent.get('id'));
+                    if(programacao !== null && programacao.get('locked')){
+                        Ext.Msg.alert('Atenção', 'Você não tem permissão para criar novo registro!');
+                        return;
+                    }                
+                    options.programacao_id = parent_id;
+                    instrumento = me.getStore('Instrumentos').findRecord('instrumento_id',parent.get('instrumento_id'));                
+                    options.instrumento_id =instrumento.get('id');
+                    var view = Ext.widget('planoProgramacoesEdit');
+                    view.setTitle('Novo ' + instrumento.get('singular'));
+                    me.configuraForm(view,false,instrumento);
+                    record = Ext.ModelMgr.create(options,'ExtZF.model.Programacoes');
+                    view.down('form').loadRecord(record);
+                });
             }
-            options.instrumento_id =instrumento.get('id');
         }
-        var view = Ext.widget('planoProgramacoesEdit');
-        view.setTitle('Inserir');
-        me.configuraForm(view,false,instrumento);
-        record = Ext.ModelMgr.create(options,'ExtZF.model.Programacoes');
-      	view.down('form').loadRecord(record);
-        
     },
     configuraForm : function(view, record, instrumento){
         var me=this;
@@ -768,20 +780,19 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         alert("not defined");
       }
     },
-    selectRecord : function(me)
+    selectRecord : function(treeview)
     {        
-        Etc.log('entrou no refresh. this.selectNewRecord='+this.selectNewRecord);
-        if ( this.selectNewRecord===false || typeof(this.selectNewRecord)==='undefined');
-            return;
-        
-
-        me.getSelectionModel().select(this.selectNewRecord);
         //Ext.defer(this.setScrollTop, 30, this, [this.getView().scrollState.top]);
+        if ( this.selectNewRecord===false || typeof(this.selectNewRecord)==='undefined');
+            return;       
+        treeview.getSelectionModel().select(this.selectNewRecord);
+
     }   , 
-    callRender : function(me)
+    callRender : function(gridPanel)
     {
-        Etc.log('entrou no render');
-        me.getView().on('refresh', this.selectRecord);
+        var me=this;
+        gridPanel.getView().on('refresh', me.selectRecord);
+
     }
     
 });

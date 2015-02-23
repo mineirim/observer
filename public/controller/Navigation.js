@@ -195,8 +195,7 @@ Ext.define('ExtZF.controller.Navigation', {
     itemContextMenu :  function( view, record, item, index, event, options){
         event.stopEvent();        
         var me= this;
-        screen = Ext.getCmp('criaLayout');
-        var programacoesController = this.getController('ExtZF.controller.plano.Programacoes');
+        var programacoesController = me.getController('ExtZF.controller.plano.Programacoes');
         programacoesController.init.apply(programacoesController);
         var items = [];
         if(record.get('parentId')==="root"){
@@ -213,20 +212,18 @@ Ext.define('ExtZF.controller.Navigation', {
                 });
                 items.push('-');
         }else{
-            var programacaoRecord = me.getProgramacoesStore().findRecord('id',record.get('id'));
-            var instrumento_filho = this.getInstrumentosStore().findRecord('instrumento_id',programacaoRecord.get('instrumento_id'));
-            
+            var instrumento_filho = me.getInstrumentosStore().findRecord('instrumento_id',record.get('instrumento_id'));
             items.push({text: 'Editar',
                         handler : function(){
-                            programacoesController.editarProgramacao(programacaoRecord);
+                            programacoesController.editarProgramacao(record);
                         }
                     });
-                items.push('-');
             if(instrumento_filho){
+                items.push('-');
                 items.push({
                     text:"Adicionar "+instrumento_filho.get('singular'),
                     handler: function(){
-                        programacoesController.novaProgramacao(programacaoRecord);
+                        programacoesController.novaProgramacao(record);
                     } 
                 });
             }                    

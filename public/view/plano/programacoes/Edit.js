@@ -55,20 +55,15 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
         this.down('#btnDespesas').show(); 
     },
     criaDetail : function(){
-        var andamento =  Ext.create('Ext.data.Store', {
-            fields: ['id', 'descricao'],
-            data : [
-                {"id":"1", "descricao":"Iniciado"},
-                {"id":"2", "descricao":"Parado"},
-                {"id":"3", "descricao":"Concluído"}
-            ]
-        });
-
-
+        var me=this;
+        var progPanel =Ext.getCmp('progPanel');
+        progPanel.add(me.getFormDetail());
+    },
+    getFormDetail : function(){
+        var me =this;
         var formDetail =  Ext.create('Ext.form.Panel', {
             id: 'frmDetail',
             padding:8,
-            title:  'Prazo/peso',
             items: [
             {
                 width: 400,
@@ -78,7 +73,6 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                 xtype: 'sliderfield',
                 tipText: function(thumb){
                     return String(thumb.value) + '%';
-
                 }, 
                 name : 'peso',
                 ref: 'peso',
@@ -114,25 +108,23 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
             ]            
             
         });
-        this.progTab.add(formDetail);
+        return formDetail;
     },
     initComponent: function() {
+        var me=this;
         
         var formDefault = Ext.create('Ext.form.Panel', {
             id: 'frmDefault',
-            title : 'Programação',
             bodyPadding: 12,
             padding:8,
             items: [
-            {
-                
+            {                
                 xtype: 'textfield',
                 name : 'menu',
                 ref: 'menu',
                 fieldLabel: 'Menu',
                 anchor:'95%'
             },
-
             {
                 xtype: 'htmleditor',
                 enableFont : false,
@@ -186,29 +178,29 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                 hidden      : true,
                 typeAhead   : true
             },
-
             {
                 xtype: 'hiddenfield',
                 name:'programacao_id',
                 ref:'programacao_id'
             },
-
             {
                 xtype: 'hiddenfield',
                 name:'instrumento_id',
                 ref:'instrumento_id'
-            }
+            },
+            
             ]            
         });
+        var mainPanel= Ext.create('Ext.panel.Panel', {id:'progPanel', title: 'Programação',items:[formDefault]});
         
-        this.progTab = Ext.create('Ext.tab.Panel',
+        me.progTab = Ext.create('Ext.tab.Panel',
                 {
                     id  : 'progTab',
                     height:300, 
-                    items:[formDefault]});
-        this.items = [this.progTab];
+                    items:[mainPanel]});
+        me.items = [me.progTab];
         // botões da janela
-        this.buttons = [{
+        me.buttons = [{
             text    : 'Orçamento',
             action  : 'addVlrProgramado',
             iconCls : 'icon-save',
@@ -234,15 +226,16 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
         },
         {
             text: 'Cancelar',
-            scope: this,
-            handler: this.close,
+            scope: me,
+            handler: me.close,
             iconCls : 'icon-cancel'
         }];
 
-        this.callParent(arguments);
+        me.callParent(arguments);
     },
     showGridProgramacao   : function(progId){
-        this.down('#btnDespesas').show(); 
+        var me = this;
+        me.down('#btnDespesas').show(); 
         //this.down('#btnVlrProgramado').show(); 
         var gridProgramacao =  Ext.create('ExtZF.view.plano.financeiro.List',
                                     {dockedItems:[],
@@ -278,6 +271,6 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                     autoWidth:true,
                     height:500, 
                     items:[gridProgramacao, gridDespesas]});
-         this.progTab.add(orcamentoPanel);
+         me.progTab.add(orcamentoPanel);
     }
 });

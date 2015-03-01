@@ -468,11 +468,11 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         if(win!==false)
             win.close();
     },
-    saveObject: function(button) 
+    saveObject: function(button, closes) 
     {
         var me=this;
         var recordSelected;
-        var win    = button.up('window'); // recupera um item acima(pai) do button do tipo window
+        var win    = button.up('window'); 
         var formDefault   = win.down('#frmDefault').getForm();
         var formDetail   = win.down('#frmDetail');
         if (formDetail !== null)
@@ -537,8 +537,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                         var inst_id = parseInt(recordSelected.get('instrumento_id',10)) - 1;
                         var node = treePanelStore.getNodeById('instrumentoId-' + inst_id);
                         treePanelStore.load({node:node});
-                    }                
-                    Etc.info("Salvo com sucesso!");                    
+                    }                                   
                     Ext.MessageBox.show({
 			title: 'Salvar'
 			,buttons: Ext.MessageBox.OK

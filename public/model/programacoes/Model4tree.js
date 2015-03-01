@@ -2,7 +2,7 @@ Ext.define('ExtZF.model.programacoes.Model4tree', {
         extend         : 'Ext.data.Model',
         idProperty     : 'id',
         fields         :   ['id',
-                            'menu',
+                            {name:'menu', type:'string'},
                             'descricao',
                             'ordem',
                             {name:'instrumento_id', type: 'int'},

@@ -16,7 +16,7 @@ Ext.define('ExtZF.store.programacoes.TreeStore', {
     
     listeners: {
         load: function(sender, node, records) {
-           node.data.menu = node.raw.text;
+//           node.data.menu = node.raw.text;
            node.expand();
         }
     }

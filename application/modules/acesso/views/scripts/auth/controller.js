@@ -18,8 +18,8 @@ Ext.define('ExtZF.controller.acesso.Auth', {
             }
         ],
     init: function() {
-        me=this;
-        this.control(
+        var me=this;
+        me.control(
         {
            'acessoAuthForm button[action=entrar]': {
                 click: this.login
@@ -46,14 +46,14 @@ Ext.define('ExtZF.controller.acesso.Auth', {
         }
     },
     changeClick: function() {
-        cont = Ext.widget('acessoAuthChangepassword');
+        var cont = Ext.widget('acessoAuthChangepassword');
     },
     change: function(button){
-        me=this;
+        var me=this;
         var win = button.up('window');
-        senha_atual = win.down('#senha_atual');
-        senha_nova  = win.down('#senha_nova');
-        senha_confirma = win.down('#senha_confirma');
+        var senha_atual = win.down('#senha_atual');
+        var senha_nova  = win.down('#senha_nova');
+        var senha_confirma = win.down('#senha_confirma');
         if(senha_nova.value != senha_confirma.value){
             Ext.Msg.alert('Alteração de senha', 'Senha não confere. Tente novamente!');
             return;
@@ -102,13 +102,13 @@ Ext.define('ExtZF.controller.acesso.Auth', {
                 
     },
     createChangeWindow: function(){
-        me = this;
+        var me = this;
         var store =  me.getUsuariosStore4passStore();
         store.remoteFilter = false;
         store.clearFilter();
         store.remoteFilter = true;
         store.filter('usuario',usuario);        
-        win = Ext.widget('acessoAuthChangepassword');
+        var win = Ext.widget('acessoAuthChangepassword');
     },
     onSpecialkey: function(field,event){
         if(event.getKey()==event.ENTER){
@@ -116,7 +116,7 @@ Ext.define('ExtZF.controller.acesso.Auth', {
         }
     },
     login: function(button) {
-        me=this;
+        var me=this;
           
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
             form   = win.down('form').getForm()

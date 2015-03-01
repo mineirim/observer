@@ -94,11 +94,11 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
                 $this->view->rows = $programacoes_table->getAll($where);
             }
             $this->view->success= true;
-            $this->view->text = $text;
+            $this->view->text = $text . ' | ';
             $this->view->id = 'root';
             $this->view->expanded =  true;
             $this->view->menu = 'root';
-            $this->view->root = array('text'=>$text,'menu'=>$text);
+            $this->view->root = array('text'=>$text,'menu'=>$text. '__');
             $this->view->instrumento = 'root';
             $this->getResponse()->setHttpResponseCode(200);
         }catch(Exception $e){

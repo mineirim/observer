@@ -18,4 +18,12 @@ class Data_Model_DbTable_Row_Programacao  extends Zend_Db_Table_Row_Abstract {
                 'Data_Model_DbTable_ProgramacaoAnexos');  // join table
         return $anexos;
     }
+    
+    /**
+     * 
+     * @return Data_Model_DbTable_Instrumentos
+     */
+    public function getInstrumento(){
+        return $this->findParentRow('Data_Model_DbTable_Instrumentos');
+    }
 }

@@ -436,10 +436,10 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
         	return ;
         }
-        var store = me.filterProgramacoes('id', ids[0].get('id'));        
+        var store = me.filterProgramacoes('id', r.get('id'));        
         store.load(function(){
-            var record = store.findRecord('id', ids[0].get('id'));
-            if(typeof(record==='undefined')){
+            var record = store.findRecord('id', r.get('id'));
+            if(typeof(record)==='undefined'){
                 Ext.Msg.alert('Atenção', 'Erro ao excluir o registro!');
                 return;
             }
@@ -452,11 +452,16 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                             if(opt === 'no')
                                     return;
                             grid.el.mask('Excluindo registro(s)');
-                            store = me.getStore('Programacoes');
-                            record = store.getById(ids[0].get('id'));
+                            var prog_id = record.get('programacao_id');
                             store.remove(record);
                             store.sync();
-                            me.getProgramacoesTreeStoreStore().load();
+                 
+                            if(prog_id!==null){
+                                var currnode = me.getProgramacoesTreeStoreStore().getNodeById(prog_id);
+                                if(typeof(currnode)!=='undefined'){
+                                    me.getProgramacoesTreeStoreStore().load({node:currnode});
+                                }
+                            }
                             grid.el.unmask();
                     }, me);
                 });

@@ -1,6 +1,5 @@
 <?php
 /**
- * Definição da Classe Pentagrama
  *
  * @version $Revision$
  * @author $Author$

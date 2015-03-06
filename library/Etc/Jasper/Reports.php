@@ -63,7 +63,6 @@ class Reports {
         return;
     }
 
-
     public function _makeJasperConnection()
     {
 

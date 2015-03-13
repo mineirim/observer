@@ -19,93 +19,15 @@ class Relatorio_IndexController extends Zend_Controller_Action
         
     }
     public function indexAction(){
-        $reportFileName = 'geral';
         $this->_helper->viewRenderer->setNoRender(true);
+        $basicReport = new \Etc\Reports\Basic();
+        $script_paths =$this->view->getScriptPaths(); 
         
-        $jasper_reports = new \Etc\Jasper\Reports();
-        
-        $programacao_id = $this->_getParam('id');
-        $programacoes_table = new Data_Model_DbTable_Programacoes();
-        $instrumentos_table = new Data_Model_Instrumentos();
-        $programacao_row = $programacoes_table->fetchRow('id='.$programacao_id);
-        
-        $estrutura = $instrumentos_table->getRecursiveStructure($programacao_row->instrumento_id);
-        /**
-         * @var $numHeaders Número de cabeçalhos que serão apresentados */
-        $numHeaders = $estrutura->rowCount();
-        
-        $script_paths =$this->view->getScriptPaths();
-        $jasper_reports->setReportsPath($script_paths[0]."index/");
-        
-        
-        $xml_report = $jasper_reports->getReportXml($reportFileName, '/n:jasperReport');
-        
-        $xml_report_group = $jasper_reports->getReportXml($reportFileName, '/n:jasperReport/n:group[@name="nivel"]');
-        $xml_group_base = $xml_report_group[0]->asXML();
-        $dom_group_base = \dom_import_simplexml($xml_report_group[0]);
-        $dom_report = \dom_import_simplexml($xml_report[0]);
-        $dom_report->removeChild($dom_report->getElementsByTagName('group')->item(0));
-        
-        
-        $estrutura_arr  = $estrutura ->fetchAll();
-        
-        $sql =false;
-        
-        $order = array();
-        for ( $ix =1 ; $ix< $numHeaders; $ix ++  )
-        {            
-            $value = $estrutura_arr[$ix];
-        
-            if($programacao_row->instrumento_id == $value->id){
-                $filter_id = $programacao_row->id;
-            }else{
-                $filter_id=false;
-            }
-            $sql  .= $sql ? ", " : ""; 
-            $sql  .= $this->getQuery($ix, $value, $filter_id);
-            $px ="p".$ix."_";
-            $order[]= 'p'.$ix.'_id';
-            if($ix > 0 && $ix< $numHeaders-1){
-                
-                $xml_text = str_replace('p1_', $px, $xml_group_base);
-                $xml_text = str_replace('nivel', $px.'nivel', $xml_text);
-
-                $node_new = new SimpleXMLElement($xml_text);
-
-                $dom_group_xml  = dom_import_simplexml($node_new);
-                $dom_group  = $dom_report->ownerDocument->importNode($dom_group_xml , TRUE);
-                unset($dom_group_xml);
-                $node = $dom_report->getElementsByTagName("background")->item(0);
-                $dom_report->insertBefore($dom_group,$node);
-            }                    
-        }       
-        $ix--;
-        $sql .= " SELECT * FROM n{$ix} order by " . implode(',', $order);
-        
-        
-        //$xml_report_text = str_replace('__detail_', $px, $xml_report[0]->asXML());
-        
-        
-        $xml_report_text = str_replace('__detail_', $px, $xml_report[0]->asXML());
-        $is = $this->getInputStream($xml_report_text);
-        /* @var $jasperDesign \EtcReport\Jasper\Manager\JasperDesign */
-        $jasperDesign = $jasper_reports->load($is);  
-        
-        for ( $ix =2 ; $ix< $numHeaders; $ix ++  )
-        {            
-            $value = $estrutura_arr[$ix];
-       
-            if($ix > 0 && $ix< $numHeaders-1){
-                $this->addFields($jasperDesign, $ix);
-            }                    
-        }              
-        
-        $jasper_reports->setQuery($sql);
-        $jasper_reports->compileLoadedReport($jasperDesign);
-      
+        $basicReport->setReportsPath($script_paths[0]."index/");
+        $basicReport->init($this->getAllParams());
         
         $this->getResponse()->setHttpResponseCode(200);
-        $jasper_reports->compileReport('geral');
+        $basicReport->display();
     }
     /**
      * 

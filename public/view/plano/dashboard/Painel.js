@@ -22,6 +22,6 @@ Ext.define('ExtZF.view.plano.dashboard.Painel' ,{
     items: [
         {xtype:'planoDashboardChecklist', flex:1, id:'my_responsability'},
         {xtype:'planoDashboardChecklist', flex:1, id:'my_supervision'},
-        {xtype:'planoDashboardChecklist', flex:1, id:'not_approved'},
+        {xtype:'planoDashboardPendentes', flex:1, id:'not_approved'},
     ]
 });

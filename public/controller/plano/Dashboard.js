@@ -1,10 +1,11 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Dashboard', {
     extend: 'Ext.app.Controller',
-    stores: ['Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Planejamento'], 
-    models: ['Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Planejamento'], 
+    stores: ['Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Tarefas', 'Planejamento'], 
+    models: ['Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Tarefas', 'Planejamento'], 
      views: [
     'plano.dashboard.Painel',
+    'plano.dashboard.Pendentes',
     'plano.dashboard.Checklist'
     ],
     refs: [{
@@ -74,7 +75,7 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
     
     checkMyItems : function(){  
         
-        var myStore = Ext.create('ExtZF.store.Planejamento',{id:'myItemsStore'});
+        var myStore = Ext.create('ExtZF.store.Tarefas',{id:'myItemsStore'});
         myStore.getProxy().extraParams = {get_my:true, 'owntype': 'responsavel'}
 //        myStore.proxy.url=myStore.proxy.url ;
         var mycheck = Ext.getCmp('my_responsability');
@@ -84,7 +85,7 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
     },
     checkSupervisor : function(){
        
-        var myStore = Ext.create('ExtZF.store.Planejamento',{id:'supItemsStore'});
+        var myStore = Ext.create('ExtZF.store.Tarefas',{id:'supItemsStore'});
         myStore.getProxy().extraParams = {get_my:true, 'owntype': 'supervisor'}
         var mycheck = Ext.getCmp('my_supervision');
         mycheck.getView().bindStore(myStore);

@@ -33,14 +33,38 @@ Ext.define('ExtZF.view.plano.dashboard.Checklist' ,{
         var me=this;
         Ext.apply(me, {
             viewConfig: {
-//               plugins: [{
-//                   pluginId: 'preview',
-//                   ptype: 'preview',
-//                   bodyField: 'menu',
-//                   expanded: false
-//               }],
-                getRowClass: function(record, index) {                    
-                    return (record.get('id') % 2)?'atrasada':'emtempo';
+                getRowClass: function(record, index) {      
+                    if(record.get('peso')===null){
+                        return 'alert-no-weight'
+                    }
+                    var data_inicio = new Date(Date.parse(record.get('data_inicio') + ' 00:00'));
+                    var data_prazo = new Date(Date.parse(record.get('data_prazo') + ' 23:59:59'));
+                    var agora =  new Date();
+                    if(record.get('andamento_id') <  6){
+                        if(data_inicio< agora && data_prazo > agora){
+                            var percentual = (agora.getTime()-data_inicio.getTime())/(data_prazo.getTime()-data_inicio.getTime());
+                            if(percentual>=0.8){
+                                return 'alert-yellow';  
+                            }else{
+                                return 'alert-green';
+                            }
+                        } else if(data_prazo < agora){
+                            return 'alert-red';
+                        }else if(data_inicio>agora){
+                            return 'alert-blank';
+                        }
+                    }else if(record.get('andamento_id')===6){
+                        if(record.get('data_encerramento')){
+                            return 'alert-no-date';
+                        }
+                        var data_encerramento =  new Date(Date.parse(record.get('data_encerramento') + '00:00')) ;
+                        if(data_encerramento>data_prazo){
+                            return 'alert-dark-blue';
+                        }else{
+                            return 'alert-blue';
+                        }
+                    }
+                    return '';
                 }
            }
         });

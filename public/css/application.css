@@ -133,10 +133,25 @@ td.tplDetail{
     height: auto;
     max-width: 100%;
 }
-.atrasada .x-grid-cell {
-        background-color: #5491BD !important;
-    }
-.emtempo .x-grid-cell {
-        background-color: #2233ff !important;
-    }
+.alert-green .x-grid-cell {
+        background-color: #2ecc71 !important;
+}
+.alert-yellow .x-grid-cell {
+        background-color: #f1c40f !important;
+}
+.alert-red .x-grid-cell {
+        background-color: #e74c3c !important;
+}
+.alert-blue .x-grid-cell {
+        background-color: #3498db !important;
+}
+.alert-dark-blue .x-grid-cell {
+        background-color: #2980b9 !important;
+}
+.alert-blank .x-grid-cell {
+        background-color: #ecf0f1 !important;
+}
+.alert-no-weight .x-grid-cell {
+        background-color: #c9cbbf !important;
+}
     

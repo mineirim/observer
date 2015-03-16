@@ -391,7 +391,11 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         }
     },    
     sendMail : function(record){
-        Ext.Msg.alert('Atenção', 'Em desenvolvimento');
+        var me=this;
+        var args ={};
+        args.parent_record = record;
+        args.controller = 'Email';
+        me.application.fireEvent('openEditForm', args);
     },
     editDblClick :function(view, record) {
         var me= this;

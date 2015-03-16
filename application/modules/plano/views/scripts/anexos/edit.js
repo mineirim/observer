@@ -11,7 +11,7 @@ Ext.define('ExtZF.view.plano.anexos.Edit', {
     	// Itens da janela
         me.items = [{
             xtype: 'form',
-             fileUpload: false ,
+            fileUpload: false ,
             items: [
                     {
                         xtype: 'fileuploadfield',

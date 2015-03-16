@@ -11,7 +11,8 @@ Ext.define('ExtZF.controller.Navigation', {
                     ],
     constructor : function() 
     {
-            this.ref({
+        var me= this;
+            me.ref({
                     ref: 'viewport',
                     selector: 'viewport'
                 },{
@@ -19,13 +20,13 @@ Ext.define('ExtZF.controller.Navigation', {
                     selector: 'principal'
                 });
 
-            this.callParent(arguments);
+            me.callParent(arguments);
     },
     init        : function() 
     {
         var me=this;
         //st = this.getStore('programacoes.TreeStore');
-        this.control(
+        me.control(
         {
             'menuitem[action=loadController]': {click: me.loadControllerFromMenu},
             'navigationTreePanel':{

@@ -71,31 +71,31 @@ class Data_EmailController extends Zend_Rest_Controller
 
     public function postAction()
     {
-        /**código gerado automaticamente pelo template post.tpl*/
-        
+
         if($this->getRequest()->isPost()){
             try{
-        
-                $emailTable = new Data_Model_DbTable_Email();
-                $formData = $this->getRequest()->getPost('rows');
-                $formData = json_decode($formData,true);
+                $formData = json_decode($this->getRequest()->getPost('rows'),true);
+                $modelEmail = new Data_Model_Email();               
                 unset($formData['id']);
                 foreach ($formData as $key => $value) {
                     if($value=='')
                        unset($formData[$key]);
                 }
-                $id = $emailTable->insert($formData);
-                $this->view->msg="Dados inseridos com sucesso!";
+                $row = $modelEmail->sendToOwner($formData);
         
-                $row = $emailTable->fetchRow("id=$id");
-                $this->view->rows = $row->toArray();
-                $this->view->success=true;
+                $this->view->rows = $row;
+                $this->view->success= $row['success'];
+                if($row['success']){
+                    $this->view->message="E-mail enviado com sucesso!";
+                }else{
+                    $this->view->message = 'Falha ao enviar o email'.PHP_EOL . $row['msg'];
+                }
                 $this->view->metodo = $this->getRequest()->getMethod();
         
             }  catch (Exception $e){
                 $this->view->success = false;
                 $this->view->method  = $this->getRequest()->getMethod();
-                $this->view->msg     = "Erro ao atualizar/inserir registro<br>" .$e->getMessage();
+                $this->view->message     = "Erro ao atualizar/inserir registro<br>" .$e->getMessage();
             }
         }else{
             $this->view->msg="Método ".$this->getRequest()->getMethod()."<br>Esperado POST";
@@ -122,6 +122,9 @@ class Data_EmailController extends Zend_Rest_Controller
         }
     }
 
+    public function headAction() {
+        
+    }
 
 }
 

@@ -5,14 +5,34 @@
  */
 class Data_Model_Email
 {
+    
+    public function getMailBody() {
+        return $this->_mailBody;
+    }
+
+    public function setMailBody($mailBody) {
+        $this->_mailBody = $mailBody;
+        return $this;
+    }
+
+        
     private $_db_table;
-    private $_programacaoId, $_toUsers, $_fromUser, $_subject, $_message;
+    private $_programacaoId,  $_fromUser, $_subject, $_message, $_mailBody;
+    private $_toUsers = [];
     public function getProgramacaoId() {
         return $this->_programacaoId;
     }
-
-    public function getToUsers() {
-        return $this->_toUsers;
+    /**
+     * 
+     * @param type $returnType ('string','array')
+     * @return type
+     */
+    public function getToUsers($returnType='string') {
+        if($returnType==='string'){
+            return implode(',', $this->_toUsers);
+        }else{
+            return $this->_toUsers;
+        }
     }
 
     public function getFromUser() {
@@ -33,10 +53,17 @@ class Data_Model_Email
     }
 
     public function setToUsers($toUsers) {
-        $this->_toUsers = $toUsers;
+        $this->_toUsers[]=  $toUsers;
         return $this;
     }
-
+    public function addToUser($user){
+        if(is_array($user)){
+            $this->_toUsers=array_merge($this->_toUsers,$user);
+        }else{
+            $this->_toUsers[]= $user;
+        }
+        return $this;
+    }
     public function setFromUser($fromUser) {
         $this->_fromUser = $fromUser;
         return $this;
@@ -53,14 +80,21 @@ class Data_Model_Email
     }
 
     public function __construct() {
+        
     }
-    public function sendToOwner($id,$message){
-        $this->setMessage($message);
+    public function sendToOwner($postParams){
         $programacaoDbTable = new Data_Model_DbTable_Programacoes;
-        $programacao = $programacaoDbTable->fetchRow('id='.$id);
+        $this->setProgramacaoId($postParams['reference_id']);
+        $programacao = $programacaoDbTable->fetchRow('id='.$this->getProgramacaoId());
         $responsavel =$programacao->findParentRow('Data_Model_DbTable_Usuarios');
-        $this->setToUsers($responsavel->email);
-
+        if($responsavel){
+            $this->setToUsers($responsavel->email);
+        }
+        if($postParams['to_users']){
+            $this->addToUser(explode(',', $postParams['to_users']));
+        }
+        $this->setSubject($postParams['subject'])
+            ->setMessage($postParams['message']);
         if (Zend_Auth::getInstance()->hasIdentity()){
             $this->_idUsuario = Zend_Auth::getInstance()->getStorage()->read()->id;
         }
@@ -68,15 +102,36 @@ class Data_Model_Email
         /* @var $fromUser Data_Model_DbTable_Row_Usuario*/
         $fromUser = $usuariosDbTable->fetchRow('id='.$this->_idUsuario);
         $this->setFromUser($fromUser->email);
-        $mailBody = $this->createMessage($programacao, $message);
+        
+        $this->createBodyMessage($programacao);
+        $data = $this->getArray();
+        $msg = [];
+        if($this->sendMail()){
+            $data['send_date'] = date('Y-m-d H:i:s');
+            $msg['success']=true;
+        }else{
+            $msg['success']=false;
+            $msg['msg'] = $this->_errorMsg;
+        }
+        $id = $this->getEmailDBTable()->insert($data);
+        $row = $this->getEmailDBTable()->fetchRow("id=$id");
+        return array_merge($msg,$row->toArray());
+    }
+    private function getArray(){
+        return ['from_user'=>  $this->getFromUser(),
+                'to_users' => $this->getToUsers('string'),
+                'subject'=> $this->getSubject(),
+                'message'=> $this->getMailBody(),
+                'reference_id' => $this->getProgramacaoId()
+                ];
+    }
+    private function sendMail(){
         $mail = new \Zend_Mail('UTF-8');
         $mail->setFrom('sisplan@unasus.gov.br', 'Sistema de Planejamento');
-//        $mail->setBodyText(strip_tags($mailBody));
-        $mail->setBodyHtml($mailBody);
+        $mail->setBodyText(strip_tags($this->getMailBody()));
+        $mail->setBodyHtml($this->getMailBody());
         $mail->addTo('conca@marconecosta.com.br', 'Marcone Costa');
-        $mail->addTo('ingridnascimento@unasus.gov.br', 'Ingrid');
-        $mail->setSubject('SISPLAN UNA-SUS');
-        
+        $mail->setSubject('SISPLAN UNA-SUS -' .  $this->getSubject());        
         $config = array(
             'auth' => 'login',
                 'username' => 'sisplan@unasus.gov.br',
@@ -84,16 +139,16 @@ class Data_Model_Email
                 'ssl' => 'tls',
                 'port' => '587'
             );
-
         $transport = new Zend_Mail_Transport_Smtp('outlook.unasus.gov.br', $config);
         
         try {
                 $mail->send($transport);
+                
         } catch (\Exception $e) {
-                var_dump($e->getMessage());
-                $retorno = false;
+            $this->_errorMsg = $e->getMessage();
+            return false;
         }
-        
+        return true;
     }
     public function getEmailDBTable(){
         if(!$this->_db_table)
@@ -105,7 +160,7 @@ class Data_Model_Email
      * @param Data_Model_DbTable_Row_Programacao $programacao
      * @param string $message
      */
-    private function createMessage($programacao,$message){
+    private function createBodyMessage($programacao){
         $instrumento = $programacao->getInstrumento();
         $details = '<p><span>'.$instrumento->singular.'</span>' . $programacao->menu . '</ṕ>';
         $details .= '<p>' . $programacao->descricao;
@@ -129,12 +184,12 @@ class Data_Model_Email
                     <p>Esta é uma msg enviada autmoaticamente pelo sistema SISPLAN</p>
                     
                   <p>
-                    '. $message .'.
+                    '. $this->getMessage() .'.
                   </p>
-                  ' . $details . 
+                  ' . $this->getToUsers() . 
                 '</body>
               </html>';
-        return $msg;
+        $this->setMailBody($msg);
         
     }
     

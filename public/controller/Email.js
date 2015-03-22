@@ -27,6 +27,7 @@ Ext.define('ExtZF.controller.Email', {
         ],
     init: function() {
         var me=this;
+        console.log('zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz');
         me.control(
         {
             'EmailList': {
@@ -41,7 +42,7 @@ Ext.define('ExtZF.controller.Email', {
             'EmailEdit button[action=salvar]': {
                 click: me.saveObject
             },
-            'emailSend button[action=send]': {
+            'EmailEdit button[action=send]': {
                 click: me.sendMail
             },
         });
@@ -91,21 +92,33 @@ Ext.define('ExtZF.controller.Email', {
                         grid.el.unmask();
 		}, this);
     },
-    saveObject: function(button) {
+    sendMail: function(button) {
         var me=this;
-        var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
-            form   = win.down('form').getForm() // recupera item abaixo(filho) da window do tipo form
+        var win    = button.up('window'); 
+        var form   = win.down('form').getForm(); 
         if (form.isValid()) {
             r = form.getRecord();
             form.updateRecord(r);
             r.save({
-                success: function(a,b){
-                    Ext.log({msg:"Salvo com sucesso!",level:"info"});
+                success: function(_rec,_op){
                     win.close();
                     me.getEmailStore().load();
+                    Ext.MessageBox.show({
+                        title: 'E-mail'
+                        ,buttons: Ext.MessageBox.OK
+                        ,icon: Ext.MessageBox.INFO
+                        ,msg: 'E-mail enviado com sucesso!'
+                    });
                 },
-                failure:function(a,b){
-                    Ext.log({msg:"Erro ao salvar!",level:"error"});
+                failure:function(_records,_op){
+                    var readerData = _op.request.scope.reader.jsonData;
+                    Ext.MessageBox.show({
+                        title: 'E-mail'
+                        ,buttons: Ext.MessageBox.OK
+                        ,icon: Ext.MessageBox.ERROR
+                        ,msg: 'Erro ao enviar e-mail!<br> Entre em contato com o suporte e informe o seguinte erro:<br>' + readerData.message
+                                + '<br>ref:' + readerData.rows.id
+                    });
                 }
             });
         }

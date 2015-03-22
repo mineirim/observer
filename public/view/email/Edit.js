@@ -23,7 +23,7 @@ Ext.define('ExtZF.view..email.Edit', {
                 items: [
                     {xtype: 'hidden', name: 'reference_id', ref: 'reference_id'}, 
                     {xtype: 'displayfield', name: 'responsavel', ref: 'responsavel', fieldLabel: 'Para:', labelStyle: 'white-space: nowrap;'}, 
-                    {xtype: 'textfield', name : 'mail_cc', ref: 'mail_cc', fieldLabel: 'CC:',labelStyle: 'white-space: nowrap;',anchor: '94%'},
+                    {xtype: 'textfield', name : 'to_users', ref: 'to_users', fieldLabel: 'CC:',labelStyle: 'white-space: nowrap;',anchor: '94%'},
                     {xtype: 'displayfield', name: 'subject', ref: 'subject', fieldLabel: 'Assunto',labelStyle: 'white-space: nowrap;'},
                     {xtype: 'htmleditor', name: 'message', ref: 'message',
                         fieldLabel: 'Mensagem',

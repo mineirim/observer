@@ -11,39 +11,56 @@ class Connection {
 
     private $_conn;
     private $_driver;
-    private $_jDriverName = array(
-                            'mysql' =>'com.mysql.jdbc.Driver',
-                            'pgsql' => 'org.postgresql.Driver'
-                        );
+    private $_dbconfigs;
+    private $_jDriverName = [
+                            'mysql' =>['driver'=>'com.mysql.jdbc.Driver', 'connection' =>'mysql'],
+                            'pgsql' =>['driver'=>'org.postgresql.Driver', 'connection' =>'postgresql']
+                        ];
 
     public function __construct() 
     {
-        \Java( 'java.lang.Class' )->forName( $this->_jDriverName[$this->getDriver()] );
+        \Java( 'java.lang.Class' )->forName( $this->getDriverClass());
     }
     public function getJConnection()
     {
-        $this->_conn = \Java( 'java.sql.DriverManager' )->getConnection($this->getUrl(),$this->getUsername(),  $this->getPassword());
+        $objClass = new \Java("java.lang.Class");
+        $objClass->forName("org.postgresql.Driver");
+        $objDbm =  \Java("java.sql.DriverManager");
+//        die($this->getUrl());
+        $this->_conn =  \Java( 'java.sql.DriverManager' )->getConnection($this->getUrl(),$this->getUsername(),  $this->getPassword());
         return $this->_conn ;        
     }
 
     public function getUrl() {
-        $dbUrl = "jdbc:{$this->getDriver()}://{$this->getDbConfigs->getHost()}:{$this->getDbConfigs->getPort()}/{$this->getDbConfigs->getDatabase()}?zeroDateTimeBehavior=convertToNull";
+        $dbUrl = "jdbc:{$this->getDriver()}://{$this->getDbConfigs()->getHost()}/{$this->getDbConfigs()->getDatabase()}?zeroDateTimeBehavior=convertToNull";
+// comp porta        $dbUrl = "jdbc:{$this->getDriver()}://{$this->getDbConfigs()->getHost()}:{$this->getDbConfigs()->getPort()}/{$this->getDbConfigs()->getDatabase()}?zeroDateTimeBehavior=convertToNull";
         return $dbUrl;
     }
     public function getUsername(){
-        return $this->getDbConfigs->getUsername();
+        return $this->getDbConfigs()->getUsername();
     }
     public function getPassword(){
-        return $this->getDbConfigs->getPassword();
+        return $this->getDbConfigs()->getPassword();
     }
     
     public function getDriver() {
-        $pdo_driver = $this->getDbConfigs->getDriver();
+        $pdo_driver = $this->getDbConfigs()->getDriver();
         
         if(\substr($pdo_driver, 0, 4)==='pdo_'){
-            $this->_driver = \substr($pdo_driver, 4);
+            $this->_driver = $this->_jDriverName[\substr($pdo_driver, 4)]['connection'];
         }else{
-            $this->_driver = $pdo_driver;
+            $this->_driver = $this->_jDriverName[$pdo_driver]['connection'];
+        }
+        return $this->_driver;
+    }
+    
+    public function getDriverClass() {
+        $pdo_driver = $this->getDbConfigs()->getDriver();
+        
+        if(\substr($pdo_driver, 0, 4)==='pdo_'){
+            $this->_driver = $this->_jDriverName[\substr($pdo_driver, 4)]['driver'];
+        }else{
+            $this->_driver = $this->_jDriverName[$pdo_driver]['driver'];
         }
         return $this->_driver;
     }

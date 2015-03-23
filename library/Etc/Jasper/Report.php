@@ -152,7 +152,7 @@ class Report {
     public function setDefaultParams(){
             $this->_jHashMap->put("REPORT_LOCALE", new \Java('java.util.Locale', "pt", "BR"));
             $this->_jHashMap->put('APPLICATION_PATH', APPLICATION_PATH);
-            $this->_jHashMap->put('SUBREPORT_DIR', dirname($this->_reportName) .'/');
+            $this->_jHashMap->put('SUBREPORT_DIR', APPLICATION_PATH . '/modules/relatorio/views/scripts/index/');
     }
     
     /**

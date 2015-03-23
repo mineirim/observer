@@ -119,6 +119,18 @@ class Manager {
         $exporter = new \Etc\Jasper\Exporter\Pdf( $this->_jasperPrint, $outputName);
         return $exporter->toFile();
     }
+    public function saveAsHTML($filename=null){
+        $outputName = $filename ? $filename:  \tempnam(APPLICATION_PATH . '/../tmp/', 'jrhtml' ) ;
+        \chmod($outputName, 0777);
+        $this->_report->setDefaultParams();
+        $this->_jasperPrint = $this->getJasperFillManager()->fillReport(
+                    $this->_report->getJasperReport(), $this->_report->getMapParams(), $this->getConnection()
+            );
+        $exporter = new \Etc\Jasper\HtmlExporter();
+        $exporter->exportToHtmlFile($this->_jasperPrint, $outputName);
+        return $outputName;        
+    }
+
     public function setXmlDatasource($filename, $xpath=false){
         $context = java('net.sf.jasperreports.engine.DefaultJasperReportsContext')->getInstance();
         java('net.sf.jasperreports.engine.JRPropertiesUtil')->getInstance($context)->setProperty('net.sf.jasperreports.xpath.executer.factory','net.sf.jasperreports.engine.util.xml.JaxenXPathExecuterFactory');        
@@ -153,6 +165,9 @@ class Manager {
             $this->_report = new \Etc\Jasper\Report();
         }
         return $this->_report;
+    }
+    public function setReport($report){
+        $this->_report = $report;
     }
 
 }

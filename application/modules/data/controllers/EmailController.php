@@ -95,7 +95,9 @@ class Data_EmailController extends Zend_Rest_Controller
             }  catch (Exception $e){
                 $this->view->success = false;
                 $this->view->method  = $this->getRequest()->getMethod();
-                $this->view->message     = "Erro ao atualizar/inserir registro<br>" .$e->getMessage();
+                $this->view->message     = $e->getTraceAsString();
+//                echo ($e->getTraceAsString());
+//                die;
             }
         }else{
             $this->view->msg="Método ".$this->getRequest()->getMethod()."<br>Esperado POST";

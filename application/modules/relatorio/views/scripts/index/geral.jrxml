@@ -68,7 +68,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 			<band height="48">
 				<printWhenExpression><![CDATA[$F{p1_id}!=null]]></printWhenExpression>
 				<frame>
-					<reportElement key="frame_grupo" style="grupo" mode="Opaque" x="0" y="0" width="555" height="46" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
+					<reportElement key="frame_grupo" style="grupo" mode="Opaque" x="0" y="0" width="555" height="46" backcolor="#F0F0F0" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
 					<textField isStretchWithOverflow="true">
 						<reportElement style="Detail" positionType="Float" x="1" y="0" width="551" height="15" uuid="ab7f1c6c-f283-43d2-ae49-e7cb58d2ab06"/>
 						<textElement>
@@ -197,7 +197,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 	<pageFooter>
 		<band height="25" splitType="Stretch">
 			<frame>
-				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="113d0c6a-9365-49bb-8b43-8fd8fd9fd51c"/>
+				<reportElement mode="Transparent" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="113d0c6a-9365-49bb-8b43-8fd8fd9fd51c"/>
 				<textField evaluationTime="Report">
 					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="d4eb09fc-5d9d-4727-b7ca-dcbd93fb0ede"/>
 					<textElement verticalAlignment="Middle">

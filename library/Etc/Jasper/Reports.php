@@ -225,6 +225,7 @@ class Reports {
             $map->put('APPLICATION_PATH', APPLICATION_PATH);
             $map->put('pcs_param.IMAGES_PATH',
                     APPLICATION_PATH . '/../public/img/');
+            $map->put("REPORT_LOCALE", new \Java('java.util.Locale', "pt", "BR"));
             $print = $sJfm->fillReport(
                     $report, $map, $this->_conn
             );
@@ -298,6 +299,7 @@ class Reports {
 
     public function getReportsPath()
     {
+        
         if (!$this->_reportsPath)
             $this->setReportsPath(\Etc\Tools::getBasePath() . '/library/Reports/');
         return $this->_reportsPath;

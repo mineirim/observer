@@ -11,7 +11,7 @@ namespace Etc\Reports;
 class Basic {
     private $_reportFileName;
     public function __construct() {
-        ;
+        $this->_reportsPath = APPLICATION_PATH . '/modules/relatorio/views/scripts/index/';
     }
     public function getReportsPath(){
         return $this->_reportsPath;
@@ -21,7 +21,8 @@ class Basic {
     }
     public function init($params) {
         $this->_reportFileName = 'geral';       
-        $this->jasper_reports = new \Etc\Jasper\Reports();        
+        $this->jasper_reports = new \Etc\Jasper\Reports();   
+        $this->jasper_reports->setReportsPath($this->_reportsPath);
         $programacao_id = $params['id'];
         $programacoes_table = new \Data_Model_DbTable_Programacoes();
         $instrumentos_table = new \Data_Model_Instrumentos();
@@ -85,6 +86,14 @@ class Basic {
     public function display() {
         $this->jasper_reports->compileReport('geral');        
     }
+    public function saveHTML() {
+        $manager = new \Etc\Jasper\Manager();
+        $report = new \Etc\Jasper\Report();
+        $report->setReport($this->jasper_reports->getReport());
+        $manager->setReport($report);
+        return $manager->saveAsHTML();
+                
+    }
     /**
      * @param \EtcReport\Jasper\Manager\JasperDesign $jasperDesign
      * @param int $seq
@@ -107,7 +116,7 @@ class Basic {
         );
         foreach ($fields as $value) {
             /* @var $jField \EtcReport\Jasper\Java\JRDesignField  */
-             $jField = new \java('net.sf.jasperreports.engine.design.JRDesignField');
+             $jField = new \Java('net.sf.jasperreports.engine.design.JRDesignField');
              $jField->setName('p'.$seq.'_'. $value['name']);
              $jField->setValueClassName($value['class']);
              $jasperDesign->addField($jField);

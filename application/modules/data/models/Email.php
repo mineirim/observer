@@ -88,7 +88,7 @@ class Data_Model_Email
         $programacao = $programacaoDbTable->fetchRow('id='.$this->getProgramacaoId());
         $responsavel =$programacao->findParentRow('Data_Model_DbTable_Usuarios');
         if($responsavel){
-            $this->setToUsers($responsavel->email);
+//            $this->setToUsers($responsavel->email);
         }
         if($postParams['to_users']){
             $this->addToUser(explode(',', $postParams['to_users']));
@@ -130,7 +130,9 @@ class Data_Model_Email
         $mail->setFrom('sisplan@unasus.gov.br', 'Sistema de Planejamento');
         $mail->setBodyText(strip_tags($this->getMailBody()));
         $mail->setBodyHtml($this->getMailBody());
-        $mail->addTo('conca@marconecosta.com.br', 'Marcone Costa');
+        foreach ($this->getToUsers('array') as $usermail){
+            $mail->addTo($usermail);
+        }
         $mail->setSubject('SISPLAN UNA-SUS -' .  $this->getSubject());        
         $config = array(
             'auth' => 'login',
@@ -181,16 +183,25 @@ class Data_Model_Email
                 </head>
                 <body>
                     <h4>SISPLAN / UNA-SUS</h4>
-                    <p>Esta é uma msg enviada autmoaticamente pelo sistema SISPLAN</p>
                     
                   <p>
                     '. $this->getMessage() .'.
                   </p>
-                  ' . $this->getToUsers() . 
+                    <p>Esta é uma msg enviada autmoaticamente pelo sistema SISPLAN. Utilize "Responder a todos" para dar continuidade.</p>
+                    <h3> RESUMO DO ÍTEM </h3>
+                  ' . file_get_contents($this->attachReport()) . 
                 '</body>
               </html>';
         $this->setMailBody($msg);
         
+    }
+    private function attachReport(){
+        $basicReport = new \Etc\Reports\Basic();  
+        $params = ['id' => $this->getProgramacaoId()];
+        $basicReport->init($params);
+        
+//        $this->getResponse()->setHttpResponseCode(200);
+        return $basicReport->saveHTML();
     }
     
 }

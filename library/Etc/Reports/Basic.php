@@ -50,7 +50,11 @@ class Basic {
             if($programacao_row->instrumento_id == $value->id){
                 $filter_id = $programacao_row->id;
             }else{
-                $filter_id=false;
+                if($estrutura_arr[0]->id ===$programacao_row->instrumento_id){
+                    $filter_id = $programacao_row->id;
+                }else{
+                    $filter_id=false;
+                }
             }
             $sql  .= $sql ? ", " : ""; 
             $sql  .= $this->getQuery($ix, $value, $filter_id);
@@ -126,8 +130,9 @@ class Basic {
     private function getQuery($ix, $estrutura, $filter_id=false){
         
         if($ix==1){
-        $template = "with 	n1 as ( SELECT  p1.id AS p1_id, p1.singular as p1_singular, p1.has_responsavel as p1_has_responsavel, p1.has_supervisor as p1_has_supervisor, p1.has_equipe as p1_has_equipe, p1.menu as p1_menu, p1.descricao as p1_descricao, p1.ordem as p1_ordem, p1.programacao_id as p1_programacao_id, p1.equipe as p1_equipe, p1.responsavel as p1_responsavel, p1.supervisor as p1_supervisor, p1.instrumento_id as p1_instrumento_id
-                            FROM  vw_report_base p1 where p1.programacao_id is null and p1.instrumento_id={$estrutura->id})";
+            $where = $filter_id ? " AND p{$ix}.id=".$filter_id:" ";
+            $template = "WITH 	n1 as ( SELECT  p1.id AS p1_id, p1.singular as p1_singular, p1.has_responsavel as p1_has_responsavel, p1.has_supervisor as p1_has_supervisor, p1.has_equipe as p1_has_equipe, p1.menu as p1_menu, p1.descricao as p1_descricao, p1.ordem as p1_ordem, p1.programacao_id as p1_programacao_id, p1.equipe as p1_equipe, p1.responsavel as p1_responsavel, p1.supervisor as p1_supervisor, p1.instrumento_id as p1_instrumento_id
+                            FROM  vw_report_base p1 WHERE p1.programacao_id is null and p1.instrumento_id={$estrutura->id} {$where})";
         }else{
             $join = $filter_id ? " INNER " : " RIGHT ";
             $where = $filter_id ? " WHERE p{$ix}.id=".$filter_id:" ";

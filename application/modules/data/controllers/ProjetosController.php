@@ -122,6 +122,10 @@ class Data_ProjetosController extends Zend_Rest_Controller
         }
     }
 
+    public function headAction()
+    {
+        $this->getResponse()->setHttpResponseCode(200);
+    }
 
 }
 

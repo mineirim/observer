@@ -53,6 +53,13 @@ class IndexController extends Zend_Controller_Action
                         createView  : 'planoAnexosList'
                     },
                     {
+                        text        : 'Projetos',
+                        iconCls     : 'icon-projetos',
+                        data        : 'plano.Projetos',
+                        action      : 'loadController',
+                        createView  : 'planoProjetosList'
+                    },
+                    {
                         text        : 'Estrutura',
                         iconCls     : 'icon-instrumentos',
                         data        : 'admin.Instrumentos',

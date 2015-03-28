@@ -22,10 +22,12 @@ Ext.define('ExtZF.view.plano.projetos.List' ,{
     }],
 	columns: [
                   {header: 'Id.',  dataIndex: 'id',  flex: 0, width: '20'},
-		  {header: 'Id',  dataIndex: 'id',  flex: 1},
 		  {header: 'Nome',  dataIndex: 'nome',  flex: 1},
-		  {header: 'Coordenador_usuario_id',  dataIndex: 'coordenador_usuario_id',  flex: 1},
-		  {header: 'Situacao_id',  dataIndex: 'situacao_id',  flex: 1}
+		  {header: 'Coordenador',  dataIndex: 'coordenador_usuario_id',  flex: 1,
+                      renderer: function(value, metaData, record){
+                                return Ext.getStore('Usuarios').findRecord('id',value).get('nome');
+                            }
+                  },
                  ],
     dockedItems: [{
         xtype: 'pagingtoolbar',

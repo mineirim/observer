@@ -10,16 +10,31 @@ Ext.define('ExtZF.view.plano.projetos.Edit', {
     title : 'Edição',
     layout: 'fit',
     autoShow: true, 
+    width:800,
+    height :150,
     initComponent: function() {
         var me=this;
     	// Itens da janela
         me.items = [{
             xtype: 'form',
+            paddin :5,
             items: [
-			{xtype: 'textfield',name : 'id',ref: 'id',fieldLabel: 'Id'},
-			{xtype: 'textfield',name : 'nome',ref: 'nome',fieldLabel: 'Nome'},
-			{xtype: 'textfield',name : 'coordenador_usuario_id',ref: 'coordenador_usuario_id',fieldLabel: 'Coordenador_usuario_id'},
-			{xtype: 'textfield',name : 'situacao_id',ref: 'situacao_id',fieldLabel: 'Situacao_id'},
+			{xtype: 'hidden',name : 'id',ref: 'id',fieldLabel: 'Id'},
+			{xtype: 'textfield',name : 'nome',ref: 'nome',fieldLabel: 'Nome',anchor      : '98%',},
+                        {
+                            xtype: 'combo',
+                            id          : 'coordenador_usuario_id',
+                            name        : 'coordenador_usuario_id',
+                            ref         : 'coordenador_usuario_id',
+                            fieldLabel  : 'Coordenador', 
+                            store       : 'Usuarios',
+                            displayField: 'nome',
+                            valueField  : 'id',
+                            queryMode   : 'local',
+                            anchor      : '95%',
+                            allowBlank  : true,
+                            typeAhead   : true
+                        },
             ]}
         ];
 
@@ -31,8 +46,8 @@ Ext.define('ExtZF.view.plano.projetos.Edit', {
         {
             text: 'Cancelar',
             iconCls: 'icon-cancel',
-            scope: this,
-            handler: this.close
+            scope: me,
+            handler: me.close
         }];
 
         me.callParent(arguments);

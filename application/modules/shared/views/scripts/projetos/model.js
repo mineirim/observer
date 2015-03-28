@@ -6,7 +6,7 @@
 
 Ext.define('ExtZF.model.Projetos', {
             extend         : 'Ext.data.Model',
-            fields         : ['id','id','nome','coordenador_usuario_id','situacao_id'],
+            fields         : ['id','nome','coordenador_usuario_id','situacao_id'],
             proxy          : {
     	    simpleSortMode : true, 
             type           : 'rest',

@@ -14,6 +14,7 @@ Ext.define('ExtZF.model.Instrumentos', {
                             {name: 'has_equipe', type: 'string'},
                             {name: 'has_vlr_programado', type: 'string'},
                             {name: 'has_vlr_executado', type: 'string'},
+                            {name: 'has_projetos', type: 'string'},
                             'instrumento_id'],
         proxy          : {
         simpleSortMode : true, 

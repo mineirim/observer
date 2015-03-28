@@ -19,6 +19,7 @@ Ext.define('ExtZF.view.admin.instrumentos.List' ,{
 		{header: 'Descricao'    , dataIndex: 'descricao',  flex: 3},
 //		{header: 'Indicadores'  , xtype: 'booleancolumn', trueText: 'S',falseText: 'N',dataIndex: 'has_indicador',  flex: 1},
 //		{header: 'Parcerias'    , xtype: 'booleancolumn', trueText: 'S',falseText: 'N',dataIndex: 'has_parceria',  flex: 1},
+		{header: 'Projetos'     , xtype: 'booleancolumn', trueText: 'S',falseText: 'N', dataIndex: 'has_projetos',  flex: 1},
 		{header: 'Planilha operativa', xtype: 'booleancolumn', trueText: 'S',falseText: 'N', dataIndex: 'has_operativo',  flex: 1},
                 {header: 'Responsável'  , xtype: 'booleancolumn', trueText: 'S',falseText: 'N', dataIndex: 'has_responsavel',  flex: 1},
                 {header: 'Supervisor'   , xtype: 'booleancolumn', trueText: 'S',falseText: 'N', dataIndex: 'has_supervisor',  flex: 1},

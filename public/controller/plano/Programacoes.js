@@ -560,13 +560,17 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                         }                        
                         var node = treePanelStore.getNodeById(prog_id);
                         if(typeof(node)!== 'undefined'){
-                            treePanelStore.load({node:node});
+                            treePanelStore.load({'node':node});
                         }
                     }else{
+                        var rootn =me.getProgramacoesTreeStoreStore().getRootNode();
+                        if(typeof(rootn)!=='undefined'){
+                            me.getProgramacoesTreeStoreStore().load({node:rootn});
+                        }
                         var inst_id = parseInt(recordSelected.get('instrumento_id',10)) - 1;
                         var node = treePanelStore.getNodeById('instrumentoId-' + inst_id);
                         if(typeof(node)!== 'undefined'){
-                            treePanelStore.load({node:node});
+                            treePanelStore.load({'node':node});
                         }
                     }                                   
                     checkSave();

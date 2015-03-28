@@ -10,7 +10,8 @@ Ext.define('ExtZF.view.plano.financeiro.Edit', {
     autoShow    : true, 
    
     initComponent: function() {
-         var frmFinanceiro =  Ext.create('Ext.form.Panel', {
+        var me=this;
+        var frmFinanceiro =  Ext.create('Ext.form.Panel', {
             id          : 'frmFinanceiro',
             padding     :8,
             bodyPadding : 12,
@@ -98,9 +99,9 @@ Ext.define('ExtZF.view.plano.financeiro.Edit', {
             
         });                     
 
-        this.items = [frmFinanceiro];
+        me.items = [frmFinanceiro];
         // botões da janela
-        this.buttons = [
+        me.buttons = [
                         {
                             text: 'Salvar',
                             action: 'salvar',
@@ -113,7 +114,7 @@ Ext.define('ExtZF.view.plano.financeiro.Edit', {
                             iconCls : 'icon-cancel'
                         }];
 
-        this.callParent(arguments);
+        me.callParent(arguments);
     }
 });
  

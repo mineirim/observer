@@ -18,7 +18,7 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
         ],
     init: function() {
         var me=this;
-        this.control(
+        me.control(
         {
             'planoFinanceiroList': {
                 itemdblclick: this.editObject
@@ -65,7 +65,10 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
         grupo_despesas.getStore().filter('programacao_id',record.get('id'));
         var item_despesa =  Ext.getCmp('origem_recurso_id');
         item_despesa.clearValue();
-        item_despesa.filter('1','2');
+        item_despesa.getStore().remoteFilter=false;
+        item_despesa.getStore().clearFilter();
+        item_despesa.getStore().filter('1','2'); // limpa o combo origem do recurso (mesmo que 1=2)
+        item_despesa.getStore().remoteFilter=false;
     },
     filterByGrupoDespesas : function(cmb,records){
         var record  =records[0];
@@ -99,7 +102,7 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
         var view = Ext.widget('planoFinanceiroEdit');
         view.setTitle('Edição de orçamento');
         if(!record.data){
-            financeiro = {programacao_id : grid.programacao_id };
+            var financeiro = {programacao_id : grid.programacao_id };
             record =Ext.ModelMgr.create(financeiro,'ExtZF.model.Financeiro');
             view.setTitle('Cadastro');
         }
@@ -127,7 +130,8 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
         
     },
     deleteObject: function() {
-        var grid = this.getGrid(); // recupera lista de usuários
+        var me = this;
+        var grid = me.getGrid(); // recupera lista de usuários
         var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
         	Ext.Msg.error('Atenção', 'Nenhum registro selecionado');
@@ -138,7 +142,7 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
 			if(opt === 'no')
 				return;
 			grid.el.mask('Excluindo registro(s)');
-                        store = this.getFinanceiroStore();
+                        var store = me.getFinanceiroStore();
                         store.remove(ids);
                         store.sync();
                         grid.el.unmask();
@@ -149,7 +153,7 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
         var me = this;
         record.save({
                 success: function(a,b){
-                    Pcs.info("Salvo com sucesso!");                   
+                    Etc.info("Salvo com sucesso!");                   
                     me.getFinanceiroStore().load();
                 },
                 failure:function(a,b){
@@ -168,7 +172,7 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
             form   = win.down('form').getForm(); // recupera item abaixo(filho) da window do tipo form
         if (form.isValid()) {
-            r = form.getRecord();
+            var r = form.getRecord();
             form.updateRecord(r);
             try{
                 me.save(r);

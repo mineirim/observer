@@ -263,7 +263,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                     idrecord =record.get('id');
                     me.application.fireEvent('planoProgramacaoFinanceiro.filterByProgramacao', idrecord);
                 }
-                if(idrecord !==null && typeof(idrecord)!=='undefined'){
+                if(idrecord !==false && typeof(idrecord)!=='undefined'){
                     view.showGridProgramacao(idrecord);
                 }
                 me.application.fireEvent('filterDespesasByProgramacao', idrecord);    
@@ -514,7 +514,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                      */
                     if (formDetail){
                         numSubforms=numSubforms+1;
-                        rd = formDetail.getRecord();
+                        var rd = formDetail.getRecord();
                         formDetail.updateRecord(rd);
                         rd.set('programacao_id',a.get('id'));
                         rd.save({

@@ -128,13 +128,29 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
             {
                 xtype: 'htmleditor',
                 enableFont : false,
-                enableFontSize: false,  
+                enableFontSize: false, 
+                height:130,
                 name : 'descricao',
                 ref: 'descricao',
                 fieldLabel: 'Descrição',
                 anchor:'95%'
 
-            }, //só exibir se has_responsavel= true
+            }, 
+            {
+                xtype       : 'combo',
+                id          : 'projeto_id',
+                name        : 'projeto_id',
+                ref         : 'projeto_id',
+                fieldLabel  : 'Projeto', 
+                store       : 'Projetos',
+                displayField: 'nome',
+                valueField  : 'id',
+                queryMode   : 'local',
+                anchor      : '95%',
+                hidden      : true,
+                allowBlank  : true,
+                typeAhead   : true
+            },
             {
                 xtype: 'combo',
                 id          : 'responsavel_usuario_id',
@@ -149,7 +165,7 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                 hidden      : true,
                 allowBlank  : true,
                 typeAhead   : true
-            },//só exibir se has_supervisor=true
+            },
             {
                 xtype: 'combo',
                 id          : 'supervisor_usuario_id',

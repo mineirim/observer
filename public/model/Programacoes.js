@@ -11,6 +11,8 @@ Ext.define('ExtZF.model.Programacoes', {
                             'responsavel_usuario_id',
                             'supervisor_usuario_id',
                             'situacao_id',
+                            'projeto_id',
+                            {name:'projeto', persist:false},
                             {name:'responsavel', persist:false},
                             {name:'setor', persist:false},
                             {name:'instrumento', persist:false},

@@ -680,7 +680,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 }
            }
 
-           var tpl_anexos =  new Ext.XTemplate(['Anexos:<tpl for=".">', '<div>', '<a target="_blank" href="/downloads/{data.nome}"><span>{data.nome}</span></a>',' - <span>Por: {data.usuario}</span>', '</div>', '</tpl>'])
+           var tpl_anexos =  new Ext.XTemplate(['Anexos:<tpl for=".">', '<div>', '<a target="_blank" href="/downloads/{data.nome}"><span>{data.nome}</span> </a>',' <span> - Tags: {data.tags}</span> - <span>Por: {data.usuario}</span>', '</div>', '</tpl>'])
            var anexosStore = me.getStore('anexos.ProgramacaoAnexosStore');
            anexosStore.getProxy().setExtraParam('programacao_id',record.get('id'));
            anexosStore.load({

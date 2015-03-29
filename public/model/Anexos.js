@@ -1,6 +1,8 @@
 Ext.define('ExtZF.model.Anexos', {
         extend         : 'Ext.data.Model',
-        fields         : ['id','nome','caminho','mimetype','hash_sum','inclusao_usuario_id','inclusao_data'],
+        fields         : ['id','nome','caminho','mimetype','hash_sum','inclusao_usuario_id','inclusao_data',
+                            {name:'tags', persist:false},
+                         ],
         proxy          : {
         simpleSortMode : true, 
         type           : 'rest',

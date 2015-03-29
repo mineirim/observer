@@ -2,8 +2,8 @@ Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Programacoes', {
     extend: 'Ext.app.Controller',
     //id      : 'controllerPlanoProgramacoes',
-    stores: ['programacoes.TreeStore',  'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico', 'anexos.ProgramacaoAnexosStore'], // Store utilizado no gerenciamento do usuário
-    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico','anexos.ProgramacaoAnexosModel'], // Modelo do usuário
+    stores: ['programacoes.TreeStore',  'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico', 'anexos.ProgramacaoAnexosStore', 'Projetos'], 
+    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico', 'anexos.ProgramacaoAnexosModel', 'Projetos'], 
     views: [
         'plano.programacoes.List',
         'plano.programacoes.Treegrid',
@@ -288,6 +288,10 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         if (instrumento.get('has_vlr_executado')==="true") {
             view.showBtnDespesas();
         }
+        var projeto = instrumento.get('has_projetos');
+        if (projeto==="true") {
+            view.down('#projeto_id').show();
+        }        
         var responsavel = instrumento.get('has_responsavel');
         if (responsavel==="true") {
             view.down('#responsavel_usuario_id').show();

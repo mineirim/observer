@@ -58,6 +58,7 @@ class Data_Model_Programacoes {
     }
     
     public function getRecursiveArray($arr_tree,$nivel=1, $parent=null) {     
+        $projetosTable = new Data_Model_DbTable_Projetos;
         $root = array();
         if(!$parent){
             $parent= null;
@@ -74,6 +75,9 @@ class Data_Model_Programacoes {
                 if($value->supervisor_usuario_id)
                     $supervisor = $this->usuarios->fetchRow('id='.$value->supervisor_usuario_id);
                 $supervisor = isset($supervisor) && is_object($supervisor) ? $supervisor->toArray() : array();
+                if($value->projeto_id)
+                    $projetoRow = $projetosTable->fetchRow('id='.$value->projeto_id);
+                $projeto = isset($projetoRow) && is_object($projetoRow) ? $projetoRow->toArray() : [];
                 
                 $setorObj = $value->setor_id ? $this->setores->fetchRow('id='.$value->setor_id):array();
                 $setor = is_object($setorObj) ? $setorObj->toArray() : array();
@@ -94,6 +98,8 @@ class Data_Model_Programacoes {
                     'setor_id' => $value->setor_id,
                     'responsavel_usuario_id' => $value->responsavel_usuario_id,
                     'supervisor_usuario_id' => $value->supervisor_usuario_id,
+                    'projeto_id' => $value->projeto_id,
+                    'projeto' => $projeto,
                     'responsavel' => $usuario,
                     'supervisor' => $supervisor,
                     'setor' => $setor,
@@ -133,6 +139,8 @@ class Data_Model_Programacoes {
         foreach ($programacoes as $value) {
             $usuarioObj = $value->findParentRow('Data_Model_DbTable_Usuarios');
             $usuario = $usuarioObj ? $usuarioObj->toArray() : array();
+            $projetoRow = $value->findParentRow('Data_Model_DbTable_Projetos');
+            $projeto = $projetoRow ? $projetoRow->toArray() : [];
             $setorObj = $value->findParentRow('Data_Model_DbTable_Setores');
             $setor = $setorObj ? $setorObj->toArray() : array();
             $instrumento = $value->findParentRow('Data_Model_DbTable_Instrumentos')->toArray();
@@ -152,6 +160,8 @@ class Data_Model_Programacoes {
                 'setor_id'      => $value->setor_id,
                 'responsavel_usuario_id' => $value->responsavel_usuario_id,
                 'supervisor_usuario_id' => $value->supervisor_usuario_id,
+                'projeto_id' => $value->projeto_id,
+                'projeto'       => $projeto,
                 'responsavel'   => $usuario,
                 'setor'         => $setor,
                 'instrumento'   => $instrumento,
@@ -180,6 +190,7 @@ class Data_Model_Programacoes {
                 'ordem' => $value->ordem,
                 'instrumento_id' => $value->instrumento_id,
                 'programacao_id' => $value->programacao_id,
+                'projeto_id' => $value->projeto_id,
                 'setor_id' => $value->setor_id,
                 'responsavel_usuario_id' => $value->responsavel_usuario_id,
                 'supervisor_usuario_id' => $value->supervisor_usuario_id
@@ -205,12 +216,15 @@ class Data_Model_Programacoes {
         }
 
         if ($withAssociations) {
-            $usuario = $programacao->findParentRow('Data_Model_DbTable_Usuarios');
-            $usuario = $usuario ? $usuario->toArray() : array();
-            $setor = $programacao->findParentRow('Data_Model_DbTable_Setores');
-            $setor = $setor ? $setor->toArray() : array();
+            $usuarioRow = $programacao->findParentRow('Data_Model_DbTable_Usuarios');
+            $usuario = $usuarioRow ? $usuarioRow->toArray() : [];
+            $setorRow = $programacao->findParentRow('Data_Model_DbTable_Setores');
+            $setor = $setorRow ? $setorRow->toArray() : [];
+            $projetoTable = $programacao->findParentRow('Data_Model_DbTable_Projetos');
+            $projeto = $projetoTable ? $projetoTable->toArray() : [];
             $row['responsavel'] = $usuario;
             $row['setor'] = $setor;
+            $row['projeto'] = $projeto;
             $row['instrumento'] = $programacao->findParentRow('Data_Model_DbTable_Instrumentos')->toArray();
             $parent = $programacao->findParentRow('Data_Model_DbTable_Programacoes');
             $row['parent'] = $parent ? $parent->toArray() : '';

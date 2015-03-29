@@ -27,7 +27,6 @@ Ext.define('ExtZF.controller.Email', {
         ],
     init: function() {
         var me=this;
-        console.log('zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz');
         me.control(
         {
             'EmailList': {
@@ -99,8 +98,16 @@ Ext.define('ExtZF.controller.Email', {
         if (form.isValid()) {
             r = form.getRecord();
             form.updateRecord(r);
+            var wcomp =Ext.MessageBox.show({
+               msg: 'Enviando e-mail, aguarde...',
+               progressText: 'Enviando...',
+               width:500,
+               wait:true,
+               animateTarget: 'waitButton'
+            });
             r.save({
                 success: function(_rec,_op){
+                    wcomp.close()
                     win.close();
                     me.getEmailStore().load();
                     Ext.MessageBox.show({
@@ -111,6 +118,7 @@ Ext.define('ExtZF.controller.Email', {
                     });
                 },
                 failure:function(_records,_op){
+                    wcomp.close()
                     var readerData = _op.request.scope.reader.jsonData;
                     Ext.MessageBox.show({
                         title: 'E-mail'

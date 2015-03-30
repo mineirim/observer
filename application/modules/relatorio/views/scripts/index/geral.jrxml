@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geral" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e69bc383-12d4-4901-8503-507569fba44c">
 	<property name="ireport.zoom" value="2.143588810000002"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="397"/>
 	<property name="ireport.y" value="266"/>
 	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
 	<style name="Title" fontName="PT Sans" fontSize="50" isBold="true"/>
@@ -209,21 +209,21 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 			<frame>
 				<reportElement mode="Transparent" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="113d0c6a-9365-49bb-8b43-8fd8fd9fd51c"/>
 				<textField evaluationTime="Report">
-					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="d4eb09fc-5d9d-4727-b7ca-dcbd93fb0ede"/>
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#000000" uuid="d4eb09fc-5d9d-4727-b7ca-dcbd93fb0ede"/>
 					<textElement verticalAlignment="Middle">
 						<font size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" uuid="52330dd2-21e1-451b-9d3b-e36126d48203"/>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#000000" uuid="52330dd2-21e1-451b-9d3b-e36126d48203"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de "]]></textFieldExpression>
 				</textField>
 				<textField pattern="EEEEE dd MMMMM yyyy">
-					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="78e96ecb-4eda-459b-ae1a-1518d4cb767b"/>
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#000000" uuid="78e96ecb-4eda-459b-ae1a-1518d4cb767b"/>
 					<textElement verticalAlignment="Middle">
 						<font size="10" isBold="false"/>
 					</textElement>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geral" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e69bc383-12d4-4901-8503-507569fba44c">
 	<property name="ireport.zoom" value="2.143588810000002"/>
-	<property name="ireport.x" value="397"/>
-	<property name="ireport.y" value="266"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
 	<style name="Title" fontName="PT Sans" fontSize="50" isBold="true"/>
 	<style name="SubTitle" forecolor="#736343" fontName="PT Sans" fontSize="18"/>
@@ -21,7 +21,7 @@
 	</parameter>
 	<parameter name="APPLICATION_PATH" class="java.lang.String"/>
 	<parameter name="BASE_URL" class="java.lang.String">
-		<defaultValueExpression><![CDATA["http://sisplan.unasus.gov.br"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["http://planejamento.unasus.gov.br"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[with 	n1 as ( SELECT  p1.id AS p1_id, p1.singular as p1_singular, p1.has_responsavel as p1_has_responsavel, p1.has_supervisor as p1_has_supervisor, p1.has_equipe as p1_has_equipe, p1.menu as p1_menu, p1.descricao as p1_descricao, p1.ordem as p1_ordem, p1.programacao_id as p1_programacao_id, p1.equipe as p1_equipe, p1.responsavel as p1_responsavel, p1.supervisor as p1_supervisor, p1.instrumento_id as p1_instrumento_id

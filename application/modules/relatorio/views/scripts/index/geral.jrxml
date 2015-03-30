@@ -195,7 +195,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 			<line>
 				<reportElement positionType="Float" x="-21" y="87" width="595" height="1" uuid="881430a3-df0d-4320-83bd-a8c3e5d12eae"/>
 				<graphicElement>
-					<pen lineWidth="1.5" lineStyle="Double"/>
+					<pen lineWidth="1.5" lineStyle="Dashed"/>
 				</graphicElement>
 			</line>
 		</band>

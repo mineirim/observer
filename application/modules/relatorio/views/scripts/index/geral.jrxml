@@ -126,12 +126,12 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="91" splitType="Stretch">
+		<band height="94" splitType="Stretch">
 			<printWhenExpression><![CDATA[$F{__detail_id} != null]]></printWhenExpression>
 			<frame>
 				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="0" width="555" height="86" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
 				<box>
-					<bottomPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.0"/>
 				</box>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement style="Detail" positionType="Float" x="0" y="0" width="555" height="15" uuid="ab7f1c6c-f283-43d2-ae49-e7cb58d2ab06"/>
@@ -192,6 +192,12 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 					<text><![CDATA[PROGRAMAÇÃO /  EXECUÇÃO]]></text>
 				</staticText>
 			</frame>
+			<line>
+				<reportElement x="-17" y="87" width="595" height="1" uuid="881430a3-df0d-4320-83bd-a8c3e5d12eae"/>
+				<graphicElement>
+					<pen lineWidth="1.5" lineStyle="Double"/>
+				</graphicElement>
+			</line>
 		</band>
 	</detail>
 	<pageFooter>

@@ -177,7 +177,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "geral_financeiro.jasper"]]></subreportExpression>
 				</subreport>
 				<subreport>
-					<reportElement x="0" y="62" width="555" height="7" uuid="87150993-1cca-4ce0-934c-a91f2fbe35a8"/>
+					<reportElement positionType="Float" x="0" y="62" width="555" height="7" uuid="87150993-1cca-4ce0-934c-a91f2fbe35a8"/>
 					<subreportParameter name="programacao_id">
 						<subreportParameterExpression><![CDATA[$F{__detail_id}]]></subreportParameterExpression>
 					</subreportParameter>

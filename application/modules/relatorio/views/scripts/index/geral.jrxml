@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geral" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e69bc383-12d4-4901-8503-507569fba44c">
 	<property name="ireport.zoom" value="2.143588810000002"/>
-	<property name="ireport.x" value="21"/>
-	<property name="ireport.y" value="24"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="266"/>
 	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
-	<style name="Title" fontName="Arial" fontSize="50" isBold="true"/>
-	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
-	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
-	<style name="Detail" fontName="Arial" fontSize="9"/>
+	<style name="Title" fontName="PT Sans" fontSize="50" isBold="true"/>
+	<style name="SubTitle" forecolor="#736343" fontName="PT Sans" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="PT Sans" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="PT Sans" fontSize="9"/>
+	<style name="padrao" isDefault="true" fontName="PT Sans" fontSize="9"/>
 	<style name="Row" mode="Transparent">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
-			<style backcolor="#00FFFF"/>
+			<style backcolor="#99FF99"/>
 		</conditionalStyle>
 	</style>
 	<style name="grupo" mode="Opaque" backcolor="#CCCCCC"/>
@@ -19,6 +20,9 @@
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
 	<parameter name="APPLICATION_PATH" class="java.lang.String"/>
+	<parameter name="BASE_URL" class="java.lang.String">
+		<defaultValueExpression><![CDATA["http://sisplan.unasus.gov.br"]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[with 	n1 as ( SELECT  p1.id AS p1_id, p1.singular as p1_singular, p1.has_responsavel as p1_has_responsavel, p1.has_supervisor as p1_has_supervisor, p1.has_equipe as p1_has_equipe, p1.menu as p1_menu, p1.descricao as p1_descricao, p1.ordem as p1_ordem, p1.programacao_id as p1_programacao_id, p1.equipe as p1_equipe, p1.responsavel as p1_responsavel, p1.supervisor as p1_supervisor, p1.instrumento_id as p1_instrumento_id
 	        FROM  vw_report_base p1 where p1.programacao_id is null and p1.instrumento_id=2),
@@ -112,24 +116,24 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="30" splitType="Stretch">
-			<image onErrorType="Blank">
-				<reportElement x="0" y="3" width="100" height="27" uuid="813c3241-f995-4c65-a596-0456db78a260"/>
-				<imageExpression><![CDATA[$P{APPLICATION_PATH} + "/../public/images/logo-mini.jpg"]]></imageExpression>
-			</image>
-		</band>
+		<band splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band splitType="Stretch"/>
+		<band height="30" splitType="Stretch">
+			<image onErrorType="Blank">
+				<reportElement x="0" y="0" width="100" height="27" uuid="813c3241-f995-4c65-a596-0456db78a260"/>
+				<imageExpression><![CDATA[$P{BASE_URL} + "/images/logo_sisplan.png"]]></imageExpression>
+			</image>
+		</band>
 	</pageHeader>
 	<columnHeader>
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="97" splitType="Stretch">
+		<band height="101" splitType="Stretch">
 			<printWhenExpression><![CDATA[$F{__detail_id} != null]]></printWhenExpression>
 			<frame>
-				<reportElement style="Row" stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="0" width="555" height="86" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="4" width="555" height="86" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
 				<box>
 					<bottomPen lineWidth="0.0"/>
 				</box>
@@ -192,6 +196,12 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 					<text><![CDATA[PROGRAMAÇÃO /  EXECUÇÃO]]></text>
 				</staticText>
 			</frame>
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="79b568b1-1cd1-477d-9b56-839de809f013"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
 		</band>
 	</detail>
 	<pageFooter>
@@ -223,6 +233,40 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 		</band>
 	</pageFooter>
 	<summary>
-		<band splitType="Stretch"/>
+		<band height="100" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="1" width="555" height="15" uuid="13e55049-1f5a-4543-9224-c3237f7dcb77"/>
+				<ellipse>
+					<reportElement mode="Opaque" x="0" y="1" width="13" height="13" backcolor="#2ECC71" uuid="4acad833-e7f0-4c4a-a7e0-0a8e2a98c13a"/>
+				</ellipse>
+				<staticText>
+					<reportElement style="padrao" x="19" y="0" width="306" height="13" uuid="1c5f2a11-df73-485b-aea1-9fb37a99dc0b"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Em tempo]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement x="0" y="16" width="555" height="15" uuid="b386e222-f21c-4256-9d73-20fd7ac45d05"/>
+				<ellipse>
+					<reportElement mode="Opaque" x="0" y="1" width="13" height="13" backcolor="#F1C40F" uuid="13119bc3-0759-42d8-aa2c-b04eed3695e0"/>
+				</ellipse>
+				<staticText>
+					<reportElement style="padrao" x="19" y="0" width="306" height="13" uuid="1d6ca51e-9bac-4820-bd44-9f6a8515b4d5"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Alerta]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement x="0" y="31" width="555" height="15" uuid="81672bf2-11df-456f-a291-88dbbba163cb"/>
+				<ellipse>
+					<reportElement mode="Opaque" x="0" y="1" width="13" height="13" backcolor="#E74C3C" uuid="ac6800d1-59ae-41a9-9daa-9cbc6fba97ac"/>
+				</ellipse>
+				<staticText>
+					<reportElement style="padrao" x="19" y="0" width="306" height="13" uuid="2735c954-dc17-40f0-91cc-3e13c9c1e745"/>
+					<textElement verticalAlignment="Middle"/>
+					<text><![CDATA[Alerta]]></text>
+				</staticText>
+			</frame>
+		</band>
 	</summary>
 </jasperReport>

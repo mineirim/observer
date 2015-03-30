@@ -3,10 +3,10 @@
 	<property name="ireport.zoom" value="1.6105100000000008"/>
 	<property name="ireport.x" value="9"/>
 	<property name="ireport.y" value="0"/>
-	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
-	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
-	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
-	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Title" fontName="PT Sans" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="PT Sans" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="PT Sans" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="PT Sans" fontSize="12"/>
 	<parameter name="programacao_id" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>

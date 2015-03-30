@@ -3,10 +3,10 @@
 	<property name="ireport.zoom" value="1.6105100000000008"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<style name="Title" fontName="Arial" fontSize="50" isBold="true"/>
-	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
-	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
-	<style name="Detail" fontName="Arial" fontSize="9"/>
+	<style name="Title" fontName="PT Sans" fontSize="50" isBold="true"/>
+	<style name="SubTitle" forecolor="#736343" fontName="PT Sans" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="PT Sans" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="PT Sans" fontSize="9"/>
 	<style name="Row" mode="Transparent">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
@@ -110,35 +110,35 @@ SELECT * FROM n5]]>
 					<textField isStretchWithOverflow="true">
 						<reportElement style="Detail" x="1" y="0" width="551" height="15" uuid="ab7f1c6c-f283-43d2-ae49-e7cb58d2ab06"/>
 						<textElement>
-							<font fontName="Arial Black" size="10" isBold="true" isUnderline="false"/>
+							<font  size="10" isBold="true" isUnderline="false"/>
 						</textElement>
 						<textFieldExpression><![CDATA[$F{p1_singular} + " - " + $F{p1_menu}]]></textFieldExpression>
 					</textField>
 					<textField isStretchWithOverflow="true">
 						<reportElement style="Detail" x="0" y="27" width="550" height="12" uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7"/>
 						<textElement markup="html">
-							<font fontName="Arial Black" size="8" isBold="false"/>
+							<font  size="8" isBold="false"/>
 						</textElement>
 						<textFieldExpression><![CDATA[$F{p1_descricao} != null ? "Descrição: " + $F{p1_descricao} :""]]></textFieldExpression>
 					</textField>
 					<textField isStretchWithOverflow="true">
 						<reportElement style="Detail" x="373" y="14" width="166" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
 						<textElement>
-							<font fontName="Arial Black" size="8"/>
+							<font  size="8"/>
 						</textElement>
 						<textFieldExpression><![CDATA[$F{p1_equipe} != null ? "Equipe: " + $F{p1_equipe} : ""]]></textFieldExpression>
 					</textField>
 					<textField>
 						<reportElement style="Detail" x="0" y="14" width="188" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
 						<textElement>
-							<font fontName="Arial Black" size="8"/>
+							<font  size="8"/>
 						</textElement>
 						<textFieldExpression><![CDATA[$F{p1_responsavel} != null ? "Responsavel: " + $F{p1_responsavel} : ""]]></textFieldExpression>
 					</textField>
 					<textField>
 						<reportElement style="Detail" x="188" y="14" width="185" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
 						<textElement>
-							<font fontName="Arial Black" size="8"/>
+							<font  size="8"/>
 						</textElement>
 						<textFieldExpression><![CDATA[$F{p1_supervisor} != null ? "Supervisor: " + $F{p1_supervisor} : ""]]></textFieldExpression>
 					</textField>

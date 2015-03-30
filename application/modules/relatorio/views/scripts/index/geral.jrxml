@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geral" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e69bc383-12d4-4901-8503-507569fba44c">
-	<property name="ireport.zoom" value="1.2100000000000006"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.zoom" value="2.143588810000002"/>
+	<property name="ireport.x" value="39"/>
+	<property name="ireport.y" value="24"/>
 	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
 	<style name="Title" fontName="Arial" fontSize="50" isBold="true"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
@@ -126,7 +126,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="94" splitType="Stretch">
+		<band height="97" splitType="Stretch">
 			<printWhenExpression><![CDATA[$F{__detail_id} != null]]></printWhenExpression>
 			<frame>
 				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="0" width="555" height="86" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
@@ -193,7 +193,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 				</staticText>
 			</frame>
 			<line>
-				<reportElement x="-17" y="87" width="595" height="1" uuid="881430a3-df0d-4320-83bd-a8c3e5d12eae"/>
+				<reportElement positionType="Float" x="-21" y="87" width="595" height="1" uuid="881430a3-df0d-4320-83bd-a8c3e5d12eae"/>
 				<graphicElement>
 					<pen lineWidth="1.5" lineStyle="Double"/>
 				</graphicElement>

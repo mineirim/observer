@@ -35,8 +35,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     init: function() {
         var me = this;
         if(typeof(ExtZF.app.controllers.map['ExtZF.controller.plano.Programacoes'])==='object')
-            return;        
-        Etc.log("init no controller Programações");
+            return;    
         
         me.control(
         {
@@ -100,7 +99,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         args.parent_record = rec;
         args.controller = 'plano.Despesas';
         me.application.fireEvent('openEditForm', args);
-        view.doLayout();
+//        view.doLayout();
     }
     ,
     showFinanceiro : function(button){
@@ -114,8 +113,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var args ={};
         args.parent_record = rec;
         args.controller = 'plano.Financeiro';
-        this.application.fireEvent('openEditForm', args);
-        view.doLayout();
+        me.application.fireEvent('openEditForm', args);
+//        view.doLayout();
     },
     aprovarProgramacao : function(r4tree){
         var me=this;
@@ -132,11 +131,11 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var me= this;
         if(record.get('parentId')===null)
             return;
-        instrumento_filho = me.getStore('Instrumentos').findRecord('instrumento_id',record.get('instrumento_id'));
-        items = [];
-        mycontroller = me.getController('ExtZF.controller.plano.Programacoes');
-        myStore = Ext.StoreManager.get('programacoes.TreeStore');
-        rootRecord = me.getStore('Programacoes').findRecord('id',myStore.getRootNode().get('id') );
+        var instrumento_filho = me.getStore('Instrumentos').findRecord('instrumento_id',record.get('instrumento_id'));
+        var items = [];
+        var mycontroller = me.getController('ExtZF.controller.plano.Programacoes');
+        var myStore = Ext.StoreManager.get('programacoes.TreeStore');
+        var rootRecord = me.getStore('Programacoes').findRecord('id',myStore.getRootNode().get('id') );
         if(record.get('situacao_id')===3 && me.isInSupervisores(record)){
             items.push({text: 'Aprovar programação',
                         handler : function(){
@@ -213,7 +212,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         if( typeof(parent)!=='undefined'){
             parent_id  = parent.get('id');
             if(parent_id.toString().split('-').length > 1){                
-                instrumento = me.getStore('Instrumentos').findRecord('instrumento_id', parent_id.split('-')[1]);
+                var instrumento = me.getStore('Instrumentos').findRecord('instrumento_id', parent_id.split('-')[1]);
                 options.instrumento_id =instrumento.get('id');
                 var view = Ext.widget('planoProgramacoesEdit');
                 view.setTitle('Inserir');
@@ -229,7 +228,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                         return;
                     }                
                     options.programacao_id = parent_id;
-                    instrumento = me.getStore('Instrumentos').findRecord('instrumento_id',parent.get('instrumento_id'));                
+                    var instrumento = me.getStore('Instrumentos').findRecord('instrumento_id',parent.get('instrumento_id'));                
                     options.instrumento_id =instrumento.get('id');
                     var view = Ext.widget('planoProgramacoesEdit');
                     view.setTitle('Novo ' + instrumento.get('singular'));
@@ -336,12 +335,14 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         me.application.fireEvent('openEditForm', args);
     },
     
-    linkInstrumento  : function(){
+    linkInstrumento  : function(record){
         var me = this;
         var selected;
         if(me.id ==="plano.Programacoes"){
             var grid = me.getTreegrid(); 
             selected = grid.getSelectionModel().getSelection()[0]; 
+        }else if(typeof(record)!='undefined'){
+            selected=record;
         }else{
             selected = me.data.record;
         }

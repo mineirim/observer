@@ -702,6 +702,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
            if(record.get('instrumento').has_operativo){
                var operativoStore = me.getStore('Operativos');
                operativoStore.remoteFilter=false;
+               operativoStore.clearFilter();
                operativoStore.filter('programacao_id',parseInt(record.get('id'),10));
                operativoStore.remoteFilter=true;
                operativoStore.load(function(){

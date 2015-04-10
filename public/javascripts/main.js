@@ -22,11 +22,14 @@ Ext.application({
     controllers: [
             'Navigation',
             'acesso.Auth',
+            'plano.Programacoes',
             'plano.Dashboard',
             'plano.Financeiro',
             'plano.Despesas'
     ],
-    
+    init : function(){
+        _myAppGlobal = this;
+    },
     launch: function() {
          Ext.create('Js.Viewport');
          _myAppGlobal = this;

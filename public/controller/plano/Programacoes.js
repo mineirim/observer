@@ -151,7 +151,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         
         if(mycontroller.rootNodeSelected){
             try{
-                rootInstrumento = me.getStore('Instrumentos').findRecord('instrumento_id',rootRecord.get('instrumento_id'));
+                var rootInstrumento = me.getStore('Instrumentos').findRecord('instrumento_id',rootRecord.get('instrumento_id'));
                 items.push({
                     text: 'Adicionar '+ rootInstrumento.get('singular'),
                     handler:  function(){
@@ -160,7 +160,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 });
                 items.push('-');
             }catch(err){
-                
+                console.log(err);
             }
         }
         
@@ -812,7 +812,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
       //var gr = new Graphics();
 
       if( g ) {
-          params = typeof(id) !== 'undefined' ?'&node_id='+id:'';
+          var params = typeof(id) !== 'undefined' ?'&node_id='+id:'';
           JSGantt.parseXML(baseUrl+'/data/gantt?format=xml'+params,g);
           g.Draw();
           g.DrawDependencies();

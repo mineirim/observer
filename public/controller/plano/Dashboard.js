@@ -65,6 +65,13 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
                     }
                 });
         
+        items.push({text: 'Execuçao',
+                    handler : function(){
+                        var obj={'action':'execucao', 'programacao':record};
+                        mycontroller.clickOnDetailsButton(obj,event);
+                    }
+                });
+        
        
 
             items.push('-');

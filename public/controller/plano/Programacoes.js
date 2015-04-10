@@ -772,8 +772,13 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         {
             var controller = _myAppGlobal.getController('ExtZF.controller.plano.Operativos');
             controller.init();
-            var record = controller.getStore('Operativos').findRecord('id',button.value);
-            var programacao  = me.getStore('Programacoes').findRecord('id',record.get('programacao_id'))
+            var programacao;
+            if(typeof(button.programacao) ==='undefined'){
+                var record = controller.getStore('Operativos').findRecord('id',button.value);
+                programacao  = me.getStore('Programacoes').findRecord('id',record.get('programacao_id'));
+            }else{
+                programacao  = button.programacao;                
+            }
             if(!me.checkPermission(programacao)){
                     Ext.Msg.alert('Atenção', 'Você não é o responsável pela execução da etapa!');
                     return;                

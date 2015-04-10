@@ -22,9 +22,17 @@ class Data_OperativosController extends Zend_Rest_Controller
     }
     public function indexAction()
     {
+        $where=null;
+        if($this->_hasParam('filter'))
+        {
+            $filtro  = json_decode($this->_getParam('filter'),true);
+            if($filtro[0]['property']=='programacao_id'){
+                $where =  "programacao_id=". $filtro[0]['value'];
+            }
+        }
         $operativos_table = new Data_Model_DbTable_Operativos();
         $this->_helper->viewRenderer->setNoRender(true);
-        $page = $operativos_table->getOnePageOfOrderEntries($this->getAllParams());
+        $page = $operativos_table->getOnePageOfOrderEntries($this->getAllParams(),$where);
         $this->view->rows =$page['rows'];
         $this->view->total = $page['total'];
         $this->getResponse()->setHttpResponseCode(200);

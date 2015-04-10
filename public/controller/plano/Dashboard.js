@@ -68,13 +68,13 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
        
 
             items.push('-');
-            items.push({
-                text:"Adicionar Vínculo",
-                data: {record: record},
-                handler: function(){
-                    _myAppGlobal.fireEvent('planoProgramacaoVinculo.add', record);
-                } 
-            });
+//            items.push({
+//                text:"Adicionar Vínculo",
+//                data: {record: record},
+//                handler: function(){
+//                    _myAppGlobal.fireEvent('planoProgramacaoVinculo.add', record);
+//                } 
+//            });
            
         items.push({
             text:"Anexo",
@@ -83,7 +83,7 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
             handler: function(){
                     mycontroller.attachFile(record);
                 }
-        })
+        });
         items.push('-');
         items.push({
             text:"Relatório",
@@ -92,17 +92,16 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
                     mycontroller.showReport(record);
                 }
         });
-        items.push({
-           text: 'Enviar e-mail' ,
-           data : {record: record},
-           handler : function(record){
-                    var me=this;
-                    var args ={};
-                    args.parent_record = record;
-                    args.controller = 'Email';
-                    _myAppGlobal.fireEvent('openEditForm', args);
-                }
-        });
+//        items.push({
+//           text: 'Enviar e-mail' ,
+//           data : {record: record},
+//           handler : function(){
+//                    var args ={};
+//                    args.parent_record = record;
+//                    args.controller = 'Email';
+//                    _myAppGlobal.fireEvent('openEditForm', args);
+//                }
+//        });
         var menu = Ext.create('Ext.menu.Menu',{
         items: items
         });

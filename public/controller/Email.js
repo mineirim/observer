@@ -48,6 +48,7 @@ Ext.define('ExtZF.controller.Email', {
         me.initiated=true;
     },
     showEdit : function(parentRecord,rec){
+        var me = this;
         var view = Ext.widget('EmailEdit');
         var record = rec;
         if(!record){

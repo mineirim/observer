@@ -127,13 +127,16 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
                 mysup.getView().refresh();
             }
         });
-        var pendentes = Ext.getCmp('not_approved');
-        pendentes.getView().getStore().load({
-            callback: function(r,option,success){
-                pendentes.getView().refresh();
-                pendentes.ownerCt.doLayout();
-            }
-        });
+        if(Etc.getLoggedUser().get('is_su')==="true"){            
+            var pendentes = Ext.getCmp('not_approved');
+            pendentes.show();
+            pendentes.getView().getStore().load({
+                callback: function(r,option,success){
+                    pendentes.getView().refresh();
+                    pendentes.ownerCt.doLayout();
+                }
+            });
+        }
         
     }
     ,checkList : function(){

@@ -1,3 +1,5 @@
+/* global Ext */
+
 Ext.define('ExtZF.view.plano.operativos.Edit', {
     extend: 'Ext.window.Window',
     alias: 'widget.planoOperativosEdit', // nome definido a janela
@@ -49,9 +51,9 @@ Ext.define('ExtZF.view.plano.operativos.Edit', {
                         listConfig: {
                                 itemTpl: Ext.create('Ext.XTemplate',
                                 '<tpl for=".">',
-                                '<div style="clear: both; border: 1px solid white; width: 98%;">',
-                                        '<div style="text-align: left; clear: both;"><b>{descricao}</b></div>',
-                                        '<div style="text-align: left; clear: both;font-size:0.9em;font-style: italic;">{conceito}</div>',
+                                '<div style="clear: both; border: 1px solid white; width: 98%;" class="andamento-{id}">',
+                                        '<div style="text-align: left; clear: both;" class="andamento-{id}"><b>{descricao}</b></div>',
+                                        '<div style="text-align: left; clear: both;font-size:0.9em;font-style: italic;" class="andamento-{id}">{conceito}</div>',
                                 '</div>',
                                 '</tpl>'
                                 )

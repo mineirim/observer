@@ -64,6 +64,8 @@ Ext.define('ExtZF.controller.plano.Operativos', {
             percentual.setDisabled(true); 
             var dataEncerramento = Ext.getCmp('data_encerramento');
             dataEncerramento.onTriggerClick();
+        }else if(newValue===1){
+            combo.setValue(oldValue);
         }else{
             if(typeof(me.percentualOldValue)!=='undefined'){
                 percentual.setValue(me.percentualOldValue);

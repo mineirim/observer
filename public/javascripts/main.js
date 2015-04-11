@@ -1,3 +1,4 @@
+/* global Ext, env */
 Ext.override(Ext.window.Window, { 
     modal: true
 });

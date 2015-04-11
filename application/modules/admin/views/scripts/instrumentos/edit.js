@@ -22,7 +22,7 @@ Ext.define('ExtZF.view.admin.instrumentos.Edit', {
                 {xtype: 'checkbox',fieldLabel: 'Supervisor',name: 'has_supervisor',id: 'has_supervisor'},
                 {xtype: 'checkbox',fieldLabel: 'Equipe',name: 'has_equipe',id: 'has_equipe'},
                 {xtype: 'checkbox',fieldLabel: 'Valor Programado',name: 'has_vlr_programado',id: 'has_vlr_programado'},
-                {xtype: 'checkbox',fieldLabel: 'Valor Programado',name: 'has_vlr_programado',id: 'has_vlr_programado'},
+                {xtype: 'checkbox',fieldLabel: 'Valor Executado',name: 'has_vlr_executado',id: 'has_vlr_executado'},
                 {
                     xtype: 'combo',
                     name        : 'instrumento_id',

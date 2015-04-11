@@ -281,12 +281,12 @@ class Data_Model_Programacoes {
         $select = "WITH RECURSIVE 
                     prog AS 
                     ( 
-                    SELECT  1 as nivel, *
+                    SELECT  1 as nivel, coalesce(cast(programacoes.supervisor_usuario_id as varchar),'0')  as supervisores,*
                     FROM    programacoes 
                     WHERE   $where
 
                     UNION ALL 
-                    SELECT  prog.nivel+1,p.*
+                    SELECT  prog.nivel+1, prog.supervisores  || ',' || coalesce(cast(p.supervisor_usuario_id as varchar),'0'), p.*
                     FROM    programacoes p 
                     JOIN    prog  
                     ON      p.programacao_id = prog.id 

@@ -1,3 +1,5 @@
+/* global Ext, Etc */
+
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Dashboard', {
     extend: 'Ext.app.Controller',
@@ -37,6 +39,9 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
             },
             '#my_responsability':{
                itemcontextmenu : me.itemContextMenu 
+            },
+            '#not_approved':{
+               itemcontextmenu : me.aprovarContextMenu 
             }
         });
         var programacoesController = me.getController('ExtZF.controller.plano.Programacoes');
@@ -47,18 +52,28 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
         var vinculos_controller = me.getController('ExtZF.controller.plano.Vinculos');
             vinculos_controller.init();
     }
+    ,aprovarContextMenu : function( view, record, item, index, event, options){
+        event.stopEvent();
+        var me= this;
+        var items = [];
+        var mycontroller = me.getController('ExtZF.controller.plano.Programacoes');
+        if(record.get('situacao_id')===3 && mycontroller.isInSupervisores(record)){
+            items.push({text: 'Aprovar programação',
+                        handler : function(){
+                            mycontroller.aprovarProgramacao(record);
+                        }
+                    });
+            var menu = Ext.create('Ext.menu.Menu',{
+            items: items
+            });
+            menu.showAt(event.xy);
+        }        
+    }
     ,itemContextMenu : function( view, record, item, index, event, options){
         event.stopEvent();
         var me= this;
         var items = [];
         var mycontroller = me.getController('ExtZF.controller.plano.Programacoes');
-        if(record.get('situacao_id')===3 && me.isInSupervisores(record)){
-            items.push({text: 'Aprovar programação',
-                        handler : function(){
-                            me.aprovarProgramacao(record);
-                        }
-                    });
-        }
         items.push({text: 'Editar',
                     handler : function(){
                         mycontroller.editarProgramacao(record);
@@ -155,7 +170,7 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
     checkMyItems : function(){  
         
         var myStore = Ext.create('ExtZF.store.Tarefas',{id:'myItemsStore'});
-        myStore.getProxy().extraParams = {get_my:true, 'owntype': 'responsavel'}
+        myStore.getProxy().extraParams = {get_my:true, 'owntype': 'responsavel'};
 //        myStore.proxy.url=myStore.proxy.url ;
         var mycheck = Ext.getCmp('my_responsability');
         mycheck.getView().bindStore(myStore);
@@ -165,7 +180,7 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
     checkSupervisor : function(){
        
         var myStore = Ext.create('ExtZF.store.Tarefas',{id:'supItemsStore'});
-        myStore.getProxy().extraParams = {get_my:true, 'owntype': 'supervisor'}
+        myStore.getProxy().extraParams = {get_my:true, 'owntype': 'supervisor'};
         var mycheck = Ext.getCmp('my_supervision');
         mycheck.getView().bindStore(myStore);
         mycheck.setTitle("Sob minha supervisão");

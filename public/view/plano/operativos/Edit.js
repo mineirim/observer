@@ -39,7 +39,7 @@ Ext.define('ExtZF.view.plano.operativos.Edit', {
                                 }]
                     },                     
                     
-                    {xtype: 'combo', name: 'andamento_id', ref: 'andamento_id', fieldLabel: 'Andamento',
+                    {xtype: 'combo', name: 'andamento_id', ref: 'andamento_id', id:'andamento_id', fieldLabel: 'Andamento',
                         store: 'Andamentos',
                         displayField: 'descricao',
                         valueField: 'id',
@@ -84,6 +84,7 @@ Ext.define('ExtZF.view.plano.operativos.Edit', {
                     items:[
                         {xtype: 'sliderfield', name: 'percentual_execucao', 
                             ref: 'percentual_execucao', 
+                            id: 'percentual_execucao', 
                             fieldLabel: 'Percentual de execucao', labelWidth: 150,
                             increment: 1,
                             minValue: 0,
@@ -95,7 +96,7 @@ Ext.define('ExtZF.view.plano.operativos.Edit', {
                             flex:3,
 //                            anchor: '80%',
                         },
-                        {xtype: 'datefield', name: 'data_encerramento', ref: 'data_encerramento',
+                        {xtype: 'datefield', name: 'data_encerramento', ref: 'data_encerramento', id :'data_encerramento',
                             fieldLabel: 'Data de encerramento', labelWidth: 145,
                             format: 'd/m/Y',
                             flex:2,

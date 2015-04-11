@@ -1,3 +1,5 @@
+/* global Ext, Etc, _myAppGlobal */
+
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Programacoes', {
     extend: 'Ext.app.Controller',
@@ -706,7 +708,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                operativoStore.filter('programacao_id',parseInt(record.get('id'),10));
                operativoStore.remoteFilter=true;
                operativoStore.load(function(){
-                    var operativo = me.getStore('Operativos').findRecord('programacao_id',parseInt(record.get('id'),10))
+                    var operativo = me.getStore('Operativos').findRecord('programacao_id',parseInt(record.get('id'),10));
                      if(operativo){
                          btnExecucao.show();
                          btnExecucao.value = operativo.get('id');                 
@@ -772,12 +774,13 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         {
             var controller = _myAppGlobal.getController('ExtZF.controller.plano.Operativos');
             controller.init();
-            var programacao;
+            var programacao, record;
             if(typeof(button.programacao) ==='undefined'){
                 var record = controller.getStore('Operativos').findRecord('id',button.value);
                 programacao  = me.getStore('Programacoes').findRecord('id',record.get('programacao_id'));
             }else{
                 programacao  = button.programacao;                
+                var record = controller.getStore('Operativos').findRecord('programacao_id',programacao.get('id'));
             }
             if(!me.checkPermission(programacao)){
                     Ext.Msg.alert('Atenção', 'Você não é o responsável pela execução da etapa!');

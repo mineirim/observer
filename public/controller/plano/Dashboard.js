@@ -82,8 +82,19 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
         
         items.push({text: 'Execuçao',
                     handler : function(){
-                        var obj={'action':'execucao', 'programacao':record};
-                        mycontroller.clickOnDetailsButton(obj,event);
+                        var operativosStore = me.getOperativosStore();
+                        operativosStore.remoteFilter = false;
+                        operativosStore.suspendEvents();
+                        operativosStore.clearFilter();
+                        operativosStore.resumeEvents();
+                        operativosStore.filter('programacao_id',record.get('id'))
+                        operativosStore.remoteFilter = true;
+                        operativosStore.load({
+                            callback : function(records, operation, success) {
+                                var operativoRecord = operativosStore.findRecord('programacao_id',parseInt(record.get('id'),10));
+                                me.application.fireEvent('openExecution',operativoRecord);
+                            }
+                        });
                     }
                 });
         

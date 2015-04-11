@@ -1,3 +1,5 @@
+/* global Ext,Etc */
+
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Operativos', {
     extend: 'Ext.app.Controller',
@@ -34,13 +36,41 @@ Ext.define('ExtZF.controller.plano.Operativos', {
             },
             'planoOperativosEdit button[action=salvar]': {
                 click: me.saveObject
+            },
+            'planoOperativosEdit [name=andamento_id]': {
+                change: me.checkFinished
             }
         });
         me.application.on({
             filtrarHistoricoPorOperativo: me.filtrarHistoricoPorOperativo, 
             scope: me
         });
+        me.application.on({
+            openExecution: me.openExecution, 
+            scope: me
+        });
         me.initiated=true;
+    },
+    openExecution : function(record){
+        var me = this;
+        me.editObject(null,record);
+    },
+    checkFinished : function(combo,newValue,oldValue){
+        me=this;
+        var percentual = Ext.getCmp('percentual_execucao');
+        if(newValue===6){
+            me.percentualOldValue = percentual.getValue();
+            percentual.setValue(100);
+            percentual.setDisabled(true); 
+            var dataEncerramento = Ext.getCmp('data_encerramento');
+            dataEncerramento.onTriggerClick();
+        }else{
+            if(typeof(me.percentualOldValue)!=='undefined'){
+                percentual.setValue(me.percentualOldValue);
+                delete me.percentualOldValue;
+            }
+            percentual.setDisabled(false);
+        }
     },
     filtrarHistoricoPorOperativo: function(operativo_id){
         var me = this;   

@@ -109,8 +109,8 @@ Ext.define('ExtZF.view.plano.financeiro.Edit', {
                         },
                         {
                             text: 'Cancelar',
-                            scope: this,
-                            handler: this.close,
+                            scope: me,
+                            handler: me.close,
                             iconCls : 'icon-cancel'
                         }];
 

@@ -7,14 +7,18 @@ Ext.define('ExtZF.controller.plano.Operativos', {
     models: ['Programacoes','Operativos','OperativosHistorico','Situacoes','Andamentos'], // Modelo do usuário
      views: [
     'plano.operativos.List',
-    'plano.operativos.Edit'
+    'plano.operativos.Edit',
+    'plano.operativos.Form'
     ],
     refs: [{
                 ref:'grid',
                 selector:'planoOperativosList'
             },{
-                ref:'formPanel',
+                ref:'editPanel',
                 selector:'planoOperativosEdit'
+            },{
+                ref:'formPanel',
+                selector:'planoOperativosForm'
             }
         ],
     init: function() {
@@ -34,10 +38,10 @@ Ext.define('ExtZF.controller.plano.Operativos', {
             'planoOperativosList button[action=excluir]': {
                 click: me.deleteObject
             },
-            'planoOperativosEdit button[action=salvar]': {
+            'planoOperativosForm button[action=salvar]': {
                 click: me.saveObject
             },
-            'planoOperativosEdit [name=andamento_id]': {
+            'planoOperativosForm [name=andamento_id]': {
                 change: me.checkFinished
             }
         });

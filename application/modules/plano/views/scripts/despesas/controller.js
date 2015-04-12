@@ -1,3 +1,5 @@
+/* global Ext */
+
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Despesas', {
     initiated:false,
@@ -38,7 +40,7 @@ Ext.define('ExtZF.controller.plano.Despesas', {
         
         me.application.on({
             filterDespesasByProgramacao: me.filterStore, 
-            scope: this
+            scope: me
         });
     },
     itemContextMenu :  function( view, record, item, index, event, options){

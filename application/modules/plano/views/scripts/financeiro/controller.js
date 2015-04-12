@@ -1,3 +1,5 @@
+/* global Ext, Etc */
+
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Financeiro', {
     extend: 'Ext.app.Controller',
@@ -45,11 +47,11 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
         
         me.application.on({
             planoFinanceiroSave: me.save, 
-            scope: this
+            scope: me
         });
         me.application.on({
             'planoProgramacaoFinanceiro.filterByProgramacao': me.reloadStoreByProgramacao, 
-            scope: this
+            scope: me
         });
          
         

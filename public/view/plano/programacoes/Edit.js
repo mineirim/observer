@@ -1,3 +1,5 @@
+/* global Ext */
+
 Ext.define('ExtZF.view.plano.programacoes.Edit', {
     extend      : 'Ext.window.Window',
     alias       : 'widget.planoProgramacoesEdit', // nome definido a janela
@@ -216,7 +218,8 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                     items:[mainPanel]});
         me.items = [me.progTab];
         // botões da janela
-        me.buttons = [{
+        me.buttons = [
+            {
             text    : 'Orçamento',
             action  : 'addVlrProgramado',
             iconCls : 'icon-save',
@@ -279,7 +282,7 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                                 );
          
          
-         orcamentoPanel = Ext.create('Ext.panel.Panel',
+         var orcamentoPanel = Ext.create('Ext.panel.Panel',
                 {
                     id  : 'panel_orcamento',
                     title : 'Planilha Orçamentária',

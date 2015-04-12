@@ -107,10 +107,19 @@ Ext.define('ExtZF.view.plano.operativos.Edit', {
                     ]
                 }
                 ],
-                buttons : [{
+                buttons : [
+                    {
                         text: 'Salvar',
                         iconCls: 'icon-save',
                         action: 'salvar'
+                    },  
+                    {
+                        text: 'Salvar e enviar e-mail',
+                        action: 'salvar',
+//                        xtype : 'checkbox',
+//                        boxLabel : 'Salvar e enviar e-mail',
+                        iconCls: 'icon-email',
+                        itemId : 'sendmail'
                     },
                     {
                         text: 'Cancelar',

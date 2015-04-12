@@ -4,11 +4,13 @@
  * @author Marcone Costa <blog@barraetc.com.br>
 */
 
+/* global Ext, _myAppGlobal */
+
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.Email', {
     extend: 'Ext.app.Controller',
-    stores: ['Email'], // Store utilizado no gerenciamento do usuário
-    models: ['Email'], // Modelo do usuário
+    stores: ['Email','Usuarios'], // Store utilizado no gerenciamento do usuário
+    models: ['Email','Usuarios'], // Modelo do usuário
      views: [
     '.email.List',
     '.email.Edit'
@@ -45,7 +47,42 @@ Ext.define('ExtZF.controller.Email', {
                 click: me.sendMail
             },
         });
+//        _myAppGlobal.on({
+//            'sendMailToOwner': me.sendMailToOwner, 
+//            scope: me
+//        });
+        _myAppGlobal.on({
+            'sendMailToSupervisor': me.sendMailToSupervisor, 
+            scope: me
+        });
         me.initiated=true;
+    },
+    sendMailToSupervisor : function(programacao){
+        var me = this;
+        if(programacao){
+            var supervisores = Ext.create('ExtZF.store.Usuarios',{id:'user_supervisores'});
+    //            supervisores.getProxy().extraParams = {'owntype': 'responsavel'};
+            supervisores.filter('id',programacao.get('supervisor_usuario_id'));
+            supervisores.remoteFilter = true;
+            supervisores.load({callback:function(records){
+                    
+                    var view = Ext.widget('EmailEdit');
+
+                    var subject = programacao.get('instrumento')['singular'] + ' - ' + programacao.get('menu');
+                    var opts = {'reference_id':programacao.get('id'),
+                                'responsavel' : records[0].get('nome'),
+                                'to_users'  : records[0].get('email'),
+                                'subject': subject
+                    };  
+                    var record = Ext.ModelMgr.create(opts,'ExtZF.model.Email');            
+
+                    view.down('form').loadRecord(record);
+                    view.setTitle('Enviar e-mail');
+                    view.show();        
+
+                }
+            });
+        }
     },
     showEdit : function(parentRecord,rec){
         var me = this;

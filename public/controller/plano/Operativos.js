@@ -3,8 +3,8 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Operativos', {
     extend: 'Ext.app.Controller',
-    stores: ['Operativos','OperativosHistorico','Situacoes','Andamentos'], // Store utilizado no gerenciamento do usuário
-    models: ['Operativos','OperativosHistorico','Situacoes','Andamentos'], // Modelo do usuário
+    stores: ['Programacoes','Operativos','OperativosHistorico','Situacoes','Andamentos'], // Store utilizado no gerenciamento do usuário
+    models: ['Programacoes','Operativos','OperativosHistorico','Situacoes','Andamentos'], // Modelo do usuário
      views: [
     'plano.operativos.List',
     'plano.operativos.Edit'
@@ -123,12 +123,27 @@ Ext.define('ExtZF.controller.plano.Operativos', {
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
             form   = win.down('form').getForm(); // recupera item abaixo(filho) da window do tipo form
         if (form.isValid()) {
-            r = form.getRecord();
+            var r = form.getRecord();
             form.updateRecord(r);
             me.getOperativosStore().sync();
             win.close();
             Ext.Msg.alert('Salvo', 'Registro salvo com sucesso',{duration:500});
             me.getOperativosStore().load();
+            if(button.itemId==='sendmail'){
+                var programacoesStore = me.getProgramacoesStore();
+                programacoesStore.remoteFilter = false;
+                programacoesStore.suspendEvents();
+                programacoesStore.clearFilter();
+                programacoesStore.resumeEvents();
+                programacoesStore.filter('id',r.get('programacao_id'));
+                programacoesStore.remoteFilter = true;
+                programacoesStore.load({
+                    callback : function(records, operation, success) {
+//                        var programacaoRecord = programacoesStore.findRecord('id',parseInt(r.get('id'),10));
+                        me.application.fireEvent('sendMailToSupervisor', records[0]);
+                    }
+                });
+            }
         }else{
             Etc.alert('formulário inválido');
         }

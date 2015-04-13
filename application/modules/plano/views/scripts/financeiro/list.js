@@ -28,7 +28,7 @@ Ext.define('ExtZF.view.plano.financeiro.List' ,{
                             return origem;
                         }
                     },
-		   {header: 'Ítem',  dataIndex: 'descricao',  flex: 4},
+		   {header: 'Item',  dataIndex: 'descricao',  flex: 4},
 		   {header: 'Valor Programado',  dataIndex: 'valor',  flex: 1, align : 'right', xtype: 'numbercolumn'},
 		   {header: 'Valor Executado',  dataIndex: 'valor_executado', align : 'right',  flex: 1, xtype: 'numbercolumn'}],
     // Paginação

@@ -7,12 +7,12 @@ Ext.define('ExtZF.view.plano.despesas.Edit', {
     width       : 720,
     minHeight   : 390,
     height      : 400,
-    autoShow    : false, // exibir a janela automaticamente ao chamá-la
-    programacao_id : null, //código da programação utilizado para filtrar o combo
+    autoShow    : false, 
+    programacao_id : null, 
     initComponent: function() {
         var me=this;
     	// Itens da janela
-        this.items = [{
+        me.items = [{
             xtype: 'form',
             items: [
 	{xtype: 'textareafield',
@@ -55,7 +55,7 @@ Ext.define('ExtZF.view.plano.despesas.Edit', {
         ];
 
         // botões da janela
-        this.buttons = [{
+        me.buttons = [{
             text: 'Salvar',
             iconCls: 'icon-save',
             action: 'salvar'
@@ -63,10 +63,10 @@ Ext.define('ExtZF.view.plano.despesas.Edit', {
         {
             text: 'Cancelar',
             iconCls: 'icon-cancel',
-            scope: this,
-            handler: this.close
+            scope: me,
+            handler: me.close
         }];
 
-        this.callParent(arguments);
+        me.callParent(arguments);
     }
 });

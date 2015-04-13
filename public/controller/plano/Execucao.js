@@ -27,6 +27,10 @@ Ext.define('ExtZF.controller.plano.Execucao', {
         var me=this;
         var view = Ext.widget('planoExecucaoWindow');
         view.setTitle('Execução Físico Financeira');
+        var planoFinanceiroList = Ext.getCmp('planoFinanceiroList');
+        planoFinanceiroList.programacao_id = programacao.get('id');
+        var planoDespesasList = Ext.getCmp('planoDespesasList');
+        planoDespesasList.programacao_id = programacao.get('id');
         me.showOperativos(programacao);
 //      	view.down('form').loadRecord(record);
         view.show();

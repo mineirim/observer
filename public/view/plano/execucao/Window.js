@@ -6,9 +6,9 @@ Ext.define('ExtZF.view.plano.execucao.Window', {
     id          : 'planoExecucaoWindow',
     title       : 'Execução',
     width       : 1000,
-    minHeight   : 390,
-    height      : 530,
-    maxHeight   : 590,
+    minHeight   : 500,
+    height      : 600,
+    maxHeight   : 620,
     autoShow    : true, 
     layout      : 'fit',
     items       : [{ xtype  : 'tabpanel',
@@ -33,21 +33,26 @@ Ext.define('ExtZF.view.plano.execucao.Window', {
                                     title : 'Financeiro',
                                     items : [
                                             {
-                                                xtype: 'planoFinanceiroList', 
-                                                title :'Programado',
+                                                xtype       : 'planoFinanceiroList', 
+                                                title       :'Programado',
+                                                id          : 'planoFinanceiroList',
+                                                programacao_id : null,
                                                 dockedItems:[],
                                                 forceFit    : true,
                                                 autoShow    :false,
-                                                flex        : 5,
-                                                minHeight   : 220                 
+                                                flex        : 5,                 
+                                                minHeight   : 200
                                             },
                                             {
-                                                dockedItems:[],
-                                                flex      : 7, 
+                                                xtype       : 'planoDespesasList', 
+                                                id          : 'planoDespesasList',
+                                                dockedItems :[],
+                                                programacao_id : null,
+                                                flex        : 7, 
                                                 title       :'Execução',
                                                 forceFit    : true,
                                                 autoShow    :false,
-                                                minHeight   : 280
+                                                minHeight   : 290
                                             }
                                     ]
                                 }

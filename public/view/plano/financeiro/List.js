@@ -9,7 +9,7 @@ Ext.define('ExtZF.view.plano.financeiro.List' ,{
     programacao_id:0,
     autoScroll :true,
     tbar        :[{
-                    text: 'Alocação',
+                    text: 'Alocar Recursos',
                     iconCls: 'icon-new',
                     action: 'incluir',
                     id: 'btnIncluir'
@@ -30,7 +30,12 @@ Ext.define('ExtZF.view.plano.financeiro.List' ,{
                     },
 		   {header: 'Item',  dataIndex: 'descricao',  flex: 4},
 		   {header: 'Valor Programado',  dataIndex: 'valor',  flex: 1, align : 'right', xtype: 'numbercolumn'},
-		   {header: 'Valor Executado',  dataIndex: 'valor_executado', align : 'right',  flex: 1, xtype: 'numbercolumn'}],
+		   {header: 'Valor Executado',  dataIndex: 'valor_executado', align : 'right',  flex: 1, xtype: 'numbercolumn'},
+		   {header: 'Saldo',  dataIndex: 'valor',
+                       renderer:function(value,metadata,record){
+                                return parseFloat(record.get('valor'))-parseFloat(record.get('valor_executado'));
+                        },
+                       align : 'right',  flex: 1, xtype: 'numbercolumn'}],
     // Paginação
     dockedItems : [{
                     xtype: 'pagingtoolbar',

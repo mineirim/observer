@@ -8,7 +8,8 @@ Ext.define('ExtZF.controller.plano.Despesas', {
     models: ['Despesas'], // Modelo do usuário
      views: [
     'plano.despesas.List',
-    'plano.despesas.Edit'
+    'plano.despesas.Edit',
+    'plano.despesas.Form'
     ],
     refs: [{
                 ref:'grid',

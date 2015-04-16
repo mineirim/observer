@@ -6,8 +6,8 @@ Ext.define('ExtZF.view.plano.despesas.List' ,{
     title : 'Lista',
     selModel: {mode: 'MULTI'}, // Permite selecionar mais de uma linha da grid
     // botões do cabeçalho
-        bbar    :[{
-                    text: 'Despesa',
+        tbar    :[{
+                    text: 'Registrar Despesa',
                     iconCls: 'icon-new',
                     action: 'despesa',
                     id: 'btnDespesa'

@@ -7,7 +7,8 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
     models: ['Financeiro','programacoes.OrcamentoModel'], // Modelo do usuário
      views: [
     'plano.financeiro.List',
-    'plano.financeiro.Edit'
+    'plano.financeiro.Edit',
+    'plano.financeiro.Form',
     ],
     initiated:false,
     refs: [{

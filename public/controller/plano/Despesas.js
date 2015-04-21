@@ -100,9 +100,10 @@ Ext.define('ExtZF.controller.plano.Despesas', {
     deleteObject: function() {
         var me = this;
         var grid = me.getGrid(); // recupera lista de usuários
+        var programacaoId=grid.programacao_id;
         var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
-        	Etc.alert('Atenção', 'Nenhum registro selecionado');
+        	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
         	return ;
         }
         Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir o(s) registro(s) selecionado(s)?',
@@ -112,8 +113,14 @@ Ext.define('ExtZF.controller.plano.Despesas', {
 			grid.el.mask('Excluindo registro(s)');
                         var store = me.getDespesasStore();
                         store.remove(ids);
-                        store.sync();
+                        store.sync({success : function(){
+                                if(typeof(programacaoId) !== 'undefined'){
+                                    me.application.fireEvent('planoProgramacaoFinanceiro.filterByProgramacao', programacaoId);
+                                }
+                            }
+                        });
                         grid.el.unmask();
+                        
 		}, me);
     },
     saveObject: function(button) {

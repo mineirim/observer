@@ -1,3 +1,5 @@
+/* global Ext */
+
 Ext.define('ExtZF.view.plano.financeiro.List' ,{
     extend      : 'Ext.grid.Panel',
     alias       : 'widget.planoFinanceiroList', // nome definido para acessar a grid
@@ -19,7 +21,7 @@ Ext.define('ExtZF.view.plano.financeiro.List' ,{
                     action: 'excluir'
                 }],
     columns     : [{header: 'Id.',  dataIndex: 'id',  flex: 0, hidden:true},
-                   {header: 'Origem Recurso',  dataIndex: 'parent_rows',  flex: 6,
+                   {header: 'Origem Recurso',  dataIndex: 'parent_rows',  flex: 5,
                         renderer: function(value, metaData, record){
                             var origem = '';
                             for(var p in value){
@@ -28,12 +30,16 @@ Ext.define('ExtZF.view.plano.financeiro.List' ,{
                             return origem;
                         }
                     },
-		   {header: 'Item',  dataIndex: 'descricao',  flex: 4},
+		   {header: 'Item',  dataIndex: 'descricao',  flex: 3},
 		   {header: 'Valor Programado',  dataIndex: 'valor',  flex: 1, align : 'right', xtype: 'numbercolumn'},
 		   {header: 'Valor Executado',  dataIndex: 'valor_executado', align : 'right',  flex: 1, xtype: 'numbercolumn'},
 		   {header: 'Saldo',  dataIndex: 'valor',
                        renderer:function(value,metadata,record){
-                                return parseFloat(record.get('valor'))-parseFloat(record.get('valor_executado'));
+                            var saldo =(Ext.isNumeric(record.get('valor_executado'))) ?
+                                parseFloat(record.get('valor'))-parseFloat(record.get('valor_executado')) :
+                                record.get('valor');
+                            
+                            return Ext.util.Format.number(saldo, '0,000.00');
                         },
                        align : 'right',  flex: 1, xtype: 'numbercolumn'}],
     // Paginação

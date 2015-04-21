@@ -306,4 +306,30 @@ class Data_Model_Programacoes {
         $table_programacoes = new \Data_Model_DbTable_Programacoes();
         $table_programacoes->update(array('situacao_id'=>2), "id=$id");
     }
+    /**
+     * TODO implementar deleção lógica em cascata
+     * @param type $where
+     * @return type
+     */
+    private function cascadeDelete($where)
+    {
+        $depTables = $this->getDependentTables();
+        if (!empty($depTables)) {
+            $resultSet = $this->fetchAll($where);
+            if (count($resultSet) > 0 ) {
+                foreach ($resultSet as $row) {
+                    /**
+                     * Execute cascading deletes against dependent tables
+                     */
+                    foreach ($depTables as $tableClass) {
+                        $t = self::getTableFromString($tableClass, $this);
+                        $t->_cascadeDelete($tableClass, $row->getPrimaryKey());
+                    }
+                }
+            }
+        }
+
+        $tableSpec = ($this->_schema ? $this->_schema . '.' : '') . $this->_name;
+        return $this->_db->delete($tableSpec, $where);
+    }
 }

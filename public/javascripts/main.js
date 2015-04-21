@@ -45,14 +45,14 @@ Ext.application({
 var Etc = function(){
     Etc = {
         log : function(obj){
-            window.console.log(obj);
+            console.log(obj);
         },
         info : function(obj){
-            window.console.info(obj);
+            console.info(obj);
         },
         error : function(obj)
         {
-            window.console.error(obj);
+            console.log(obj);
         },
         getLoggedUser : function(){
             var _user, _store;
@@ -75,8 +75,62 @@ var Etc = function(){
             });
 
             return target;
+        },
+        Msg : {
+            show : function(title,msg,fn,options){
+                options=typeof(options)==='undefined' ?{} : options;
+                var op=
+                        Ext.merge({},options);
+                Ext.Msg.show(options);
+            },
+            error : function(title,msg,fn, options){
+                options=typeof(options)==='undefined' ?{} : options;
+                var obj = Ext.merge({
+                    title: title,
+                    msg : msg,
+                    fn  : fn,
+                    buttons: Ext.MessageBox.OK,
+                    icon : Ext.MessageBox.ERROR
+                    },options)
+                Ext.Msg.show(obj);
+            },
+            confirm : function(title,msg,fn, options){
+                options=typeof(options)==='undefined' ?{} : options;
+                var obj = Ext.merge({
+                    title: title,
+                    msg : msg,
+                    fn  : fn,
+                    buttons: Ext.Msg.YESNO,
+                    icon : Ext.MessageBox.QUESTION
+                    },options)
+                Ext.Msg.show(obj);
+            },
+            info : function(title,msg,fn, options){
+                options=typeof(options)==='undefined' ?{} : options;
+                var obj = Ext.merge({
+                    title: title,
+                    msg : msg,
+                    fn  : fn,
+                    buttons: Ext.Msg.OK,
+                    icon : Ext.MessageBox.INFO
+                    },options)
+                Ext.Msg.show(obj);
+            },
+            warning : function(title,msg,fn, options){
+                options=typeof(options)==='undefined' ?{} : options;
+                var obj = Ext.merge({
+                    title: title,
+                    msg : msg,
+                    fn  : fn,
+                    buttons: Ext.Msg.OK,
+                    icon : Ext.MessageBox.WARNING
+                    },options)
+                Ext.Msg.show(obj);
+            },
+            
         }
     };
+    Etc.Msg.alert = Etc.Msg.warning;
     return Etc;
 };
 Etc = new Etc();

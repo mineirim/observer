@@ -103,11 +103,11 @@ Ext.define('ExtZF.controller.plano.Despesas', {
         var programacaoId=grid.programacao_id;
         var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
-        	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
+        	Etc.Msg.alert('Atenção', 'Nenhum registro selecionado');
         	return ;
         }
-        Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir o(s) registro(s) selecionado(s)?',
-		function(opt){
+        Etc.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir o(s) registro(s) selecionado(s)?',
+            function(opt){
 			if(opt === 'no')
 				return;
 			grid.el.mask('Excluindo registro(s)');
@@ -119,9 +119,9 @@ Ext.define('ExtZF.controller.plano.Despesas', {
                                 }
                             }
                         });
-                        grid.el.unmask();
-                        
-		}, me);
+                        grid.el.unmask();                        
+		}
+            );
     },
     saveObject: function(button) {
         var me=this;

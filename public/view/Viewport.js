@@ -1,3 +1,5 @@
+/* global Ext */
+
 Ext.define('Js.Viewport', {
 
     extend: 'Ext.container.Viewport',

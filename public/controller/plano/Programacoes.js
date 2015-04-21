@@ -786,8 +786,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                     Ext.Msg.alert('Atenção', 'Você não é o responsável pela execução da etapa!');
                     return;                
             }
-                
-            controller.editObject(null, record);
+            me.application.fireEvent('showExecutionWindow',programacao);    
+//            controller.editObject(null, record);
             
         }
     },

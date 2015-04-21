@@ -38,8 +38,7 @@ class Data_DespesasController extends Zend_Rest_Controller
                 $arr_financeiros = $financeiro_table->getArray($where);
                 $ids = array();
                 foreach ($arr_financeiros as $key => $value)
-                {
-                    
+                {                    
                     $ids[]= $value['id'];
                 }
                 $where  = count($ids)>0 ? ' financeiro_id in(' . implode(',', $ids) . ') ': ' false ';

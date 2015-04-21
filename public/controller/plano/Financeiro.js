@@ -135,7 +135,7 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
         var grid = me.getGrid(); // recupera lista de usuários
         var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
-        	Ext.Msg.error('Atenção', 'Nenhum registro selecionado');
+        	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
         	return ;
         }
         Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir o(s) registro(s) selecionado(s)?',

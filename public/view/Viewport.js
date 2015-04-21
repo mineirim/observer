@@ -55,11 +55,16 @@ Ext.define('Js.Viewport', {
         region      : 'west',
         collapsed   : false,
         width       : 200,
-        layout      : 'fit',
+        layout      :  {
+                        // layout-specific configs go here
+                        type: 'accordion',
+                        animate: true,
+//                        activeOnTop: true
+                    },
         activeItem  : 0,
         id          : 'ctnLeft',
         collapsible     :true,
-        split           :true,
+        split           :false,
         collapseMode    : 'header',
         hideCollapseTool: true,
         padding         :'0 4 0 0',
@@ -73,6 +78,11 @@ Ext.define('Js.Viewport', {
                             items   : [{
                                 xtype:'navigationTreePanel'
                             }]
+                        },{
+                            xtype: 'navigationProjetosTreePanel',
+                            title: 'Projetos',
+                            layout  : 'fit',
+                            id: 'pnlProjetos'
                         }
                         ]
     },

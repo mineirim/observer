@@ -1,3 +1,5 @@
+/* global Etc, Ext */
+
 Ext.define('ExtZF.view.navigation.TreePanel' ,{
     extend      : 'Ext.tree.Panel',
     alias       : 'widget.navigationTreePanel', 
@@ -9,11 +11,11 @@ Ext.define('ExtZF.view.navigation.TreePanel' ,{
     singleExpand: false,
     hideHeaders : true,
     id          : 'treeNavPanel',
-//    frame   : false,
-    
+    frame   : false,
+    frameHeader : false,
     selModel: {
         mode: 'SINGLE'
-    }, // Permite selecionar mais de uma linha da grid
+    }, 
     columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0,  hidden:true},
             {
                 header: 'Menu',  
@@ -24,12 +26,8 @@ Ext.define('ExtZF.view.navigation.TreePanel' ,{
             }
             ],
     initComponent: function() {
-        Etc.log({
-            msg:'Inicia o treegrid',
-            level:'info',
-            dump:arguments
-        });
-        this.callParent(arguments);
+        var me = this;
+        me.callParent(arguments);
     }
 });
 

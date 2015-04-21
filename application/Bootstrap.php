@@ -25,14 +25,41 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
               'cache' => $this->cache
           ));
     }
-
-    protected function _initConfigs()
+    protected function _initViewHelpers()
     {
+        $this->bootstrap('layout');
+        $options = $this->getOptions();
+        $layout = $this->getResource('layout');
+        $view = $layout->getView();
+
+        $view->doctype('XHTML1_STRICT');
+        $view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+        $view->headTitle()->setSeparator(' - ');
+        $view->headTitle($options['appConfig']['head']['title']);
+
+        if (isset($options['appConfig']['head']['author'])) {
+                $view->headMeta($options['appConfig']['head']['author'], 'Author');
+        }
+
+        if (isset($options['appConfig']['head']['description'])) {
+                $view->headMeta($options['appConfig']['head']['description'], 'Description');
+        }
+
+        if (isset($options['appConfig']['head']['keywords'])) {
+                $view->headMeta($options['appConfig']['head']['keywords'], 'Keywords');
+        }
+
         $tag = `git describe --tags`;
         $version = substr($tag,0,strrpos($tag,'-'));
         $gitdate = `git log --pretty=format:'%ad' --abbrev-commit --date=short -1`;
         $date = new Zend_Date($gitdate,"yyyy-mm-dd");
         Zend_Registry::set('tag_version',"Rev.: " . $version . " de ". $date->toString("dd/mm/yyyy"));
+       
+        $view->headMeta($version, 'Version');
+    }
+    protected function _initConfigs()
+    {
+
         $this->config = new Zend_Config_Ini(APPLICATION_PATH . '/configs/application.ini', APPLICATION_ENV);
         Zend_Registry::set('config', $this->config);
     }

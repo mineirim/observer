@@ -6,15 +6,16 @@ Ext.define('ExtZF.view.plano.despesas.List' ,{
     title : 'Lista',
     selModel: {mode: 'MULTI'}, // Permite selecionar mais de uma linha da grid
     // botões do cabeçalho
-//    tbar :[{
-//    	text: 'Incluir',
-//        iconCls: 'icon-new',
-//    	action: 'incluir' // action identificada para executar na camada controller
-//    },'->',{
-//    	text: 'Excluir',
-//        iconCls: 'icon-delete',
-//    	action: 'excluir'
-//    }],
+        tbar    :[{
+                    text: 'Registrar Despesa',
+                    iconCls: 'icon-new',
+                    action: 'despesa',
+                    id: 'btnDespesa'
+                },'->',{
+                    text: 'Excluir',
+                    iconCls: 'icon-delete',
+                    action: 'excluir'
+                }],
 	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, hidden:true},
 		{header: 'Descricao',  dataIndex: 'descricao',  flex: 4, width: 150},
 		{header: 'Origem Recurso',   dataIndes : 'financeiro', width: 150 ,

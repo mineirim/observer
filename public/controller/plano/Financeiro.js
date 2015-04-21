@@ -1,3 +1,5 @@
+/* global Ext, Etc */
+
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Financeiro', {
     extend: 'Ext.app.Controller',
@@ -5,7 +7,8 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
     models: ['Financeiro','programacoes.OrcamentoModel'], // Modelo do usuário
      views: [
     'plano.financeiro.List',
-    'plano.financeiro.Edit'
+    'plano.financeiro.Edit',
+    'plano.financeiro.Form',
     ],
     initiated:false,
     refs: [{
@@ -21,35 +24,35 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
         me.control(
         {
             'planoFinanceiroList': {
-                itemdblclick: this.editObject
+                itemdblclick: me.editObject
             },
             'planoFinanceiroList button[action=incluir]': {
-                click: this.editObject
+                click: me.editObject
             },
             'planoFinanceiroList button[action=excluir]': {
-                click: this.deleteObject
+                click: me.deleteObject
             },
             'planoFinanceiroEdit': {
-                afterrender: this.editRender
+                afterrender: me.editRender
             },
             'planoFinanceiroEdit combo[ref=cmb_fonte]': {
-                select: this.filterByFonte
+                select: me.filterByFonte
             },
             'planoFinanceiroEdit combo[ref=cmb_grupo_despesas]': {
-                select: this.filterByGrupoDespesas
+                select: me.filterByGrupoDespesas
             },
             'planoFinanceiroEdit button[action=salvar]': {
-                click: this.saveObject
+                click: me.saveObject
             }
         });
         
         me.application.on({
             planoFinanceiroSave: me.save, 
-            scope: this
+            scope: me
         });
         me.application.on({
             'planoProgramacaoFinanceiro.filterByProgramacao': me.reloadStoreByProgramacao, 
-            scope: this
+            scope: me
         });
          
         
@@ -90,19 +93,20 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
     },
     editObject: function(grid, record,obj,x) 
     {
-        if(grid.programacao_id===null){
+        var programacao_id=grid.up('panel').programacao_id;
+        if(programacao_id===null){
             Ext.MessageBox.show({
 			title: 'Salvar'
 			,buttons: Ext.MessageBox.OK
 			,icon: Ext.MessageBox.ERROR
-			,msg: 'Salve a programação antes de incluir ítem de orçamento!'
+			,msg: 'Salve a programação antes de incluir item de orçamento!'
 		});
             return;
         }
         var view = Ext.widget('planoFinanceiroEdit');
         view.setTitle('Edição de orçamento');
         if(!record.data){
-            var financeiro = {programacao_id : grid.programacao_id };
+            var financeiro = {programacao_id : programacao_id };
             record =Ext.ModelMgr.create(financeiro,'ExtZF.model.Financeiro');
             view.setTitle('Cadastro');
         }
@@ -112,10 +116,7 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
     {
         console.log("show edit");
         var view = Ext.widget('planoFinanceiroEdit');
-        var options = {single: true};
-        // Call the controller init method when the view is rendered
-        
-                
+        var options = {single: true};                
         view.setTitle('Edição ');
         if(!record){
             var opts = {programacao_id : programacao.get('programacao_id'),
@@ -169,8 +170,8 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
     saveObject: function(button) {
         
         var me=this;
-        var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
-            form   = win.down('form').getForm(); // recupera item abaixo(filho) da window do tipo form
+        var win    = button.up('window'), 
+            form   = win.down('form').getForm(); 
         if (form.isValid()) {
             var r = form.getRecord();
             form.updateRecord(r);
@@ -183,7 +184,7 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
 			title: 'Salvar'
 			,buttons: Ext.MessageBox.OK
 			,icon: Ext.MessageBox.ERROR
-			,msg: 'Erro ao salvar o ítem de orçamento!'
+			,msg: 'Erro ao salvar o item de orçamento!'
                     });
             }
         }

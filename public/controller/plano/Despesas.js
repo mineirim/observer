@@ -1,3 +1,5 @@
+/* global Ext, Etc */
+
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Despesas', {
     initiated:false,
@@ -6,7 +8,8 @@ Ext.define('ExtZF.controller.plano.Despesas', {
     models: ['Despesas'], // Modelo do usuário
      views: [
     'plano.despesas.List',
-    'plano.despesas.Edit'
+    'plano.despesas.Edit',
+    'plano.despesas.Form'
     ],
     refs: [{
                 ref:'grid',
@@ -18,33 +21,33 @@ Ext.define('ExtZF.controller.plano.Despesas', {
         ],
     init: function() {
         var me = this;
-        this.control(
+        me.control(
         {
             'planoDespesasList': {
-                itemdblclick: this.editObject,
+                itemdblclick: me.editObject,
                 itemcontextmenu : me.itemContextMenu
             },
-            'planoDespesasList button[action=incluir]': {
-                click: this.editObject
+            'planoDespesasList button[action=despesa]': {
+                click: me.editObject
             },
             'planoDespesasList button[action=excluir]': {
-                click: this.deleteObject
+                click: me.deleteObject
             },
             'planoDespesasEdit button[action=salvar]': {
-                click: this.saveObject
+                click: me.saveObject
             }
         });
         me.initiated=true;
         
         me.application.on({
             filterDespesasByProgramacao: me.filterStore, 
-            scope: this
+            scope: me
         });
     },
     itemContextMenu :  function( view, record, item, index, event, options){
         event.stopEvent();
         var me= this;
-        items = [];
+        var items = [];
         items.push({text: 'Editar',
                     handler : function(){
                         me.editObject(view,record);
@@ -70,7 +73,7 @@ Ext.define('ExtZF.controller.plano.Despesas', {
         if(!record){
 //            opts = {programacao_id : parent_record.get('programacao_id'),
 //                    tipo_registro_id : 1}
-            opts = {}    
+            var opts = {}    
             record = Ext.ModelMgr.create(opts,'ExtZF.model.Despesas');
             
         }
@@ -81,19 +84,23 @@ Ext.define('ExtZF.controller.plano.Despesas', {
         
     },
     editObject: function(grid, record) {
+        var me = this;
+        var programacao_id=grid.up('panel').programacao_id;
         var view = Ext.widget('planoDespesasEdit');
         view.setTitle('Edição ');
         if(!record.data){
             record = new ExtZF.model.Despesas();
-            this.getDespesasStore().add(record);
+            me.getDespesasStore().add(record);
             view.setTitle('Cadastro');
         }
       	view.down('form').loadRecord(record);
+        view.programacao_id=programacao_id;
         view.show();
     },
     deleteObject: function() {
-        var grid = this.getGrid(); // recupera lista de usuários
-        ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
+        var me = this;
+        var grid = me.getGrid(); // recupera lista de usuários
+        var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
         	Etc.alert('Atenção', 'Nenhum registro selecionado');
         	return ;
@@ -103,24 +110,24 @@ Ext.define('ExtZF.controller.plano.Despesas', {
 			if(opt === 'no')
 				return;
 			grid.el.mask('Excluindo registro(s)');
-                        store = this.getDespesasStore();
+                        var store = me.getDespesasStore();
                         store.remove(ids);
                         store.sync();
                         grid.el.unmask();
-		}, this);
+		}, me);
     },
     saveObject: function(button) {
         var me=this;
-        var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
-            form   = win.down('form').getForm() // recupera item abaixo(filho) da window do tipo form
-        if (form.isValid()) {
-            r = form.getRecord();
+        var win    = button.up('window'),
+            form   = win.down('form').getForm();
+        if(form.isValid()){
+            var r = form.getRecord();
             form.updateRecord(r);
             r.save({
                 success: function(a,b){
-                    Ext.log({msg:"Salvo com sucesso!",level:"info"});
                     win.close();
                     me.getDespesasStore().load();
+                    me.application.fireEvent('planoProgramacaoFinanceiro.filterByProgramacao', win.programacao_id);
                 },
                 failure:function(a,b){
                     Ext.log({msg:"Erro ao salvar!",level:"error"});

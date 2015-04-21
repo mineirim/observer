@@ -27,6 +27,7 @@ Ext.application({
             'plano.Dashboard',
             'plano.Financeiro',
             'plano.Despesas',
+            'plano.Execucao',
             'Email'
     ],
     init : function(){

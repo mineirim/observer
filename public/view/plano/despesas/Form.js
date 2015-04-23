@@ -30,11 +30,6 @@ Ext.define('ExtZF.view.plano.despesas.Form', {
             mode: 'remote',
             queryParam: 'getOrcamento',
             allQuery: ' ',
-            listeners: {
-                render: function (obj, eopts) {
-                    obj.store.filter('programacao_id', me.programacao_id)
-                }
-            }
         },
         {xtype: 'textfield',
             name: 'valor',

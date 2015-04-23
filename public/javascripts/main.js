@@ -1,4 +1,4 @@
-/* global Ext, env */
+/* global Ext, env, baseUrl */
 Ext.override(Ext.window.Window, { 
     modal: true
 });
@@ -91,7 +91,11 @@ var Etc = function(){
                     fn  : fn,
                     buttons: Ext.MessageBox.OK,
                     icon : Ext.MessageBox.ERROR
+<<<<<<< HEAD
                     },options)
+=======
+                    },options);
+>>>>>>> #138
                 Ext.Msg.show(obj);
             },
             confirm : function(title,msg,fn, options){
@@ -102,7 +106,11 @@ var Etc = function(){
                     fn  : fn,
                     buttons: Ext.Msg.YESNO,
                     icon : Ext.MessageBox.QUESTION
+<<<<<<< HEAD
                     },options)
+=======
+                    },options);
+>>>>>>> #138
                 Ext.Msg.show(obj);
             },
             info : function(title,msg,fn, options){
@@ -113,7 +121,11 @@ var Etc = function(){
                     fn  : fn,
                     buttons: Ext.Msg.OK,
                     icon : Ext.MessageBox.INFO
+<<<<<<< HEAD
                     },options)
+=======
+                    },options);
+>>>>>>> #138
                 Ext.Msg.show(obj);
             },
             warning : function(title,msg,fn, options){
@@ -124,7 +136,11 @@ var Etc = function(){
                     fn  : fn,
                     buttons: Ext.Msg.OK,
                     icon : Ext.MessageBox.WARNING
+<<<<<<< HEAD
                     },options)
+=======
+                    },options);
+>>>>>>> #138
                 Ext.Msg.show(obj);
             },
             

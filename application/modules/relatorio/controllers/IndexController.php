@@ -35,7 +35,7 @@ class Relatorio_IndexController extends Zend_Controller_Action
      * @param int $seq
      */
     private function addFields( $jasperDesign, $seq){
-        $fields =array(
+        $fields =[
             	array('name'=>'id' ,'class'=>'java.lang.Integer'),
                 array('name'=>'singular' ,'class'=>'java.lang.String'),
                 array('name'=>'has_responsavel' ,'class'=>'java.lang.Boolean'),
@@ -49,7 +49,7 @@ class Relatorio_IndexController extends Zend_Controller_Action
                 array('name'=>'responsavel' ,'class'=>'java.lang.String'),
                 array('name'=>'supervisor' ,'class'=>'java.lang.String'),
                 array('name'=>'instrumento_id' ,'class'=>'java.lang.Integer'),
-        );
+        ];
         foreach ($fields as $value) {
             /* @var $jField \EtcReport\Jasper\Java\JRDesignField  */
              $jField = new \java('net.sf.jasperreports.engine.design.JRDesignField');

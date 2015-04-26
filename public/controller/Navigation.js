@@ -2,11 +2,12 @@ Ext.require('Ext.window.MessageBox');
 xx='';
 Ext.define('ExtZF.controller.Navigation', {
     extend      : 'Ext.app.Controller',
-    stores      : ['Treenav','Programacoes','Instrumentos','Operativos','Vinculos', 'Usuarios' ],
+    stores      : ['Treenav','Programacoes','Instrumentos','Operativos','Vinculos', 'Usuarios','Projetosnav' ],
     models      : ['Treenav','Programacoes','Instrumentos','Operativos','Vinculos', 'Usuarios' ],
     views       :   [
                     'navigation.MyToolbar',
                     'navigation.TreePanel',
+                    'navigation.ProjetosTreePanel',
                     'plano.programacoes.Edit'
                     ],
     constructor : function() 

@@ -35,6 +35,9 @@ Ext.define('ExtZF.controller.plano.Despesas', {
             },
             'planoDespesasEdit button[action=salvar]': {
                 click: me.saveObject
+            },
+            'planoDespesasForm #financeiro_id': {
+                render: me.filterComboStore
             }
         });
         me.initiated=true;
@@ -43,6 +46,11 @@ Ext.define('ExtZF.controller.plano.Despesas', {
             filterDespesasByProgramacao: me.filterStore, 
             scope: me
         });
+    },
+    filterComboStore : function(a,b,c){
+        console.log(a);
+        console.log(b);
+        console.log(c);
     },
     itemContextMenu :  function( view, record, item, index, event, options){
         event.stopEvent();

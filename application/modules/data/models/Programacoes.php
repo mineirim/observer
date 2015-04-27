@@ -20,23 +20,27 @@ class Data_Model_Programacoes {
         if($instrumento_id){
             $where .= " and instrumento_id=$instrumento_id ";
         }
-        $project_where = ' ';
+        $projectWhere = ' ';
+        $filterProjetoId = "''";
+        $projectSubWhere = ' ';
         if($projeto_id){
-            $project_where .= ' AND '. $projeto_id.' = ANY(projetos) ';
+            $projectWhere .= ' AND '. $projeto_id.' = ANY(projetos) ';
+            $projectSubWhere .= ' AND '. $projeto_id.' = ANY(p.projetos) ';
+            $filterProjetoId =$projeto_id;
         }
         $where .= $id ? ' and programacao_id=' . $id : " and programacao_id is null";
         $select = "WITH RECURSIVE 
                     prog AS 
                     ( 
-                    SELECT  1 as nivel, coalesce(cast(programacoes.supervisor_usuario_id as varchar),'0')  as supervisores,* 
+                    SELECT  1 as nivel, coalesce(cast(programacoes.supervisor_usuario_id as varchar),'0')  as supervisores,*, $filterProjetoId as filter_projeto_id
                     FROM    programacoes 
-                    WHERE   $where    $project_where          
+                    WHERE   $where    $projectWhere          
                     UNION ALL 
-                    SELECT  prog.nivel+1,prog.supervisores  || ',' || coalesce(cast(p.supervisor_usuario_id as varchar),'0'),p.*
+                    SELECT  prog.nivel+1,prog.supervisores  || ',' || coalesce(cast(p.supervisor_usuario_id as varchar),'0'),p.*, $filterProjetoId as filter_projeto_id
                     FROM    programacoes p 
                     JOIN    prog  
                     ON      p.programacao_id = prog.id 
-                    WHERE p.situacao_id <>2 $project_where
+                    WHERE p.situacao_id <>2 $projectSubWhere
                     
                     ) 
             SELECT * FROM prog ORDER BY nivel,programacao_id,ordem
@@ -113,7 +117,8 @@ class Data_Model_Programacoes {
                     'financeiro' => $financeiro,
                     'iconCls' => 'x-tree-noicon',
                     'supervisores' => $value->supervisores,
-                    'situacao_id' => $value->situacao_id
+                    'situacao_id' => $value->situacao_id,
+                    'filter_projeto_id' => $value->filter_projeto_id
                 );
                 $children=array();
                 if(isset($arr_tree[$nivel+1][$value->id]))

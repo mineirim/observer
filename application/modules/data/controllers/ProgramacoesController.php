@@ -65,7 +65,8 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
                     $node_id=null;
                     $text = $instrumento->singular;
                 }
-                $this->view->rows= $programacoes_table->getRecursive($node_id, $instrumento_id);
+                $projetoId = $projetoId = $this->getParam('projeto_id');
+                $this->view->rows= $programacoes_table->getRecursive($node_id, $instrumento_id, $projetoId);
             }elseif($this->_hasParam('get_my')) // filtro por supervisor e responsável
             {
                 $where =" situacao_id <>2 and instrumento_id=6 ";  

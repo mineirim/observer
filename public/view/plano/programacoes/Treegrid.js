@@ -1,7 +1,10 @@
+/* global Ext */
+
 Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
     extend      : 'Ext.tree.Panel',
     alias       : 'widget.planoProgramacoesTreegrid', // nome definido para acessar a grid
     rootVisible : true,
+    id          : 'planoProgramacoesTreegrid',
     store       : 'programacoes.TreeStore', 
     //storeId     : 'programacoesStoreId',
     singleExpand: false,

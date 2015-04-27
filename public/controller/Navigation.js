@@ -1,5 +1,6 @@
+/* global Ext, _myAppGlobal, _myAppGlobal */
+
 Ext.require('Ext.window.MessageBox');
-xx='';
 Ext.define('ExtZF.controller.Navigation', {
     extend      : 'Ext.app.Controller',
     stores      : ['Treenav','Programacoes','Instrumentos','Operativos','Vinculos', 'Usuarios','Projetosnav' ],
@@ -34,6 +35,10 @@ Ext.define('ExtZF.controller.Navigation', {
                         itemclick       : me.loadTreeController,
                         itemcontextmenu : me.itemContextMenu
                     },
+            'navigationProjetosTreePanel':{
+                        itemclick       : me.loadTreeController,
+                        itemcontextmenu : me.itemContextMenu
+                    },
             '[action=logout]': {click: me.logout},
             'ctnTop' : {afterrender: me.recalcula}
             
@@ -65,6 +70,7 @@ Ext.define('ExtZF.controller.Navigation', {
                 // TODO criar abertura condicional
             }
         }
+        
         var obj = { text: 'Programa&ccedil;&atilde;o',
                     id: 'testeId',
                     data        : 'plano.Programacoes',
@@ -72,6 +78,15 @@ Ext.define('ExtZF.controller.Navigation', {
                     iconCls     : "icon-programacao",
                     createView  : "planoProgramacoesContainer"
                   };
+        var programacoesController =  me.getController('ExtZF.controller.plano.Programacoes');
+        var tstore = _myAppGlobal.getStore('programacoes.TreeStore');
+        if(view.up('panel').id ==='pnlProjetos'){
+            var treegrid =programacoesController.getTreegrid();
+               treegrid.getView().getStore().getProxy().extraParams = {toTree:true, projeto_id: record.get('projeto_id')};
+            tstore.getProxy().extraParams = {toTree:true, projeto_id: record.get('projeto_id')};
+        }else{
+            tstore.getProxy().extraParams = {toTree:true};
+        }
         me.loadController(obj,record);
         me.getController('ExtZF.controller.plano.Programacoes').changeButtonAction();
         

@@ -1,4 +1,4 @@
-/* global Ext, _myAppGlobal, _myAppGlobal */
+/* global Ext, _myAppGlobal, _myAppGlobal, baseUrl */
 
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.Navigation', {
@@ -69,6 +69,7 @@ Ext.define('ExtZF.controller.Navigation', {
             if(arr_params[0]==='financeiro'){
                 // TODO criar abertura condicional
             }
+            
         }
         
         var obj = { text: 'Programa&ccedil;&atilde;o',

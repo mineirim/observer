@@ -82,9 +82,7 @@ Ext.define('ExtZF.controller.Navigation', {
         var programacoesController =  me.getController('ExtZF.controller.plano.Programacoes');
         var tstore = _myAppGlobal.getStore('programacoes.TreeStore');
         if(view.up('panel').id ==='pnlProjetos'){
-            var treegrid =programacoesController.getTreegrid();
-               treegrid.getView().getStore().getProxy().extraParams = {toTree:true, projeto_id: record.get('projeto_id')};
-            tstore.getProxy().extraParams = {toTree:true, projeto_id: record.get('projeto_id')};
+            tstore.getProxy().extraParams ={toTree:true, projeto_id: record.get('projeto_id')};
         }else{
             tstore.getProxy().extraParams = {toTree:true};
         }

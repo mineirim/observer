@@ -8,3 +8,6 @@ public/cache/*
 files/*
 tmp
 tmp/*
+.buildpath
+.project
+.settings

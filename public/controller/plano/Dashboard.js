@@ -28,6 +28,9 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
             'planoDashboardPainel button[action=reload]': {
                click : me.reloadDashboard
             },
+            'planoDashboardPainel  combo[ref=cmbProjetos]': {
+               select : me.selectComboProjetos
+            },
             'planoAnexosList button[action=incluir]': {
                 click: me.editObject
             },
@@ -51,6 +54,46 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
         
         var vinculos_controller = me.getController('ExtZF.controller.plano.Vinculos');
             vinculos_controller.init();
+    },
+    
+    selectComboProjetos    : function(cmb,records){
+        var me = this;
+        var record  =records[0];
+        me.filterByProjetoId(record.get('id'));
+    },
+    filterByProjetoId    : function(projetoId){
+        var mycheck = Ext.getCmp('my_responsability');
+        var mycheckStore = mycheck.getView().getStore();
+        var mycheckParams = Ext.merge(mycheckStore.getProxy().extraParams,{projeto_id: projetoId});
+        mycheckStore.getProxy().extraParams =mycheckParams;
+        mycheckStore.load({
+            callback: function(r,option,success){
+                mycheck.getView().refresh();
+            }
+        });
+        var mysup = Ext.getCmp('my_supervision');
+        var mysupStore = mysup.getView().getStore();
+        var mysupParams =  Ext.merge(mysupStore.getProxy().extraParams,{projeto_id: projetoId});
+        mysupStore.getProxy().extraParams =mysupParams;
+        mysupStore.load({
+            callback: function(r,option,success){
+                mysup.getView().refresh();
+            }
+        });
+        if(Etc.getLoggedUser().get('is_su')==="true"){            
+            var pendentes = Ext.getCmp('not_approved');
+            pendentes.show();
+            var pendentesStore = pendentes.getView().getStore();
+            var pendentesParams = Ext.merge(pendentesStore.getProxy().extraParams,{projeto_id: projetoId})
+            pendentesStore.getProxy().extraParams =pendentesParams;
+            pendentesStore.load({
+                callback: function(r,option,success){
+                    pendentes.getView().refresh();
+                    pendentes.ownerCt.doLayout();
+                }
+            });
+        }
+        
     }
     ,aprovarContextMenu : function( view, record, item, index, event, options){
         event.stopEvent();

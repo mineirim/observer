@@ -14,11 +14,27 @@ Ext.define('ExtZF.view.plano.dashboard.Painel' ,{
         me.callParent(arguments);
     },
     tbar        :[{
-                    text: 'Clique para carregar o Dashboard',
+                     xtype: 'combo',
+                    id: 'cmbProjetos',
+                    ref: 'cmbProjetos',
+                    store : 'Projetos',
+                    fieldLabel: 'Filtrar por projeto',
+                    displayField: 'nome',
+                    valueField: 'id',
+//                    anchor: '35%',
+                    labelWidth: 145,
+                    hidden: false,
+                    allowBlank: false,
+                    typeAhead: true,
+                    width: 650,
+                    mode: 'remote',
+                },{
+                    text: 'Recarregar Dashboard',
                     iconCls: 'icon-new',
                     action: 'reload',
                     id: 'btnReload'
-                }],
+                }
+            ],
     items: [
         {xtype:'planoDashboardChecklist', flex:1, id:'my_responsability'},
         {xtype:'planoDashboardChecklist', flex:1, id:'my_supervision'},

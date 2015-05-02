@@ -5,6 +5,7 @@ Ext.define('ExtZF.model.Tarefas', {
             'menu',
             'peso',
             'ordem',
+            'projeto_id',
             'data_inicio',
             'data_prazo',
             'data_encerramento',

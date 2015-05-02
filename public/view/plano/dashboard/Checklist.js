@@ -1,4 +1,6 @@
 
+/* global Ext */
+
 Ext.define('ExtZF.view.plano.dashboard.Checklist' ,{
     extend      : 'Ext.grid.Panel',
     alias       : 'widget.planoDashboardChecklist',    
@@ -35,7 +37,7 @@ Ext.define('ExtZF.view.plano.dashboard.Checklist' ,{
             viewConfig: {
                 getRowClass: function(record, index) {      
                     if(record.get('peso')===null){
-                        return 'alert-no-weight'
+                        return 'alert-no-weight';
                     }
                     var data_inicio = new Date(Date.parse(record.get('data_inicio') + ' 00:00'));
                     var data_prazo = new Date(Date.parse(record.get('data_prazo') + ' 23:59:59'));

@@ -1,6 +1,6 @@
 <?php
 
-class Data_Model_Programacoes {
+class Data_Model_ProjetosNavigation {
     private $_model ='';
     public function __construct(){
         $this->_model = new Data_Model_DbTable_Programacoes();
@@ -15,32 +15,24 @@ class Data_Model_Programacoes {
     public function getRow($where=null, $order=null, $offset=null){
         return $this->_model->fetchRow($where, $order, $offset);
     }
-    public function getRecursive($id=null, $instrumento_id=null, $projeto_id=null) {
-        $where = " situacao_id <>2 ";
+    public function getRecursive($id=null, $instrumento_id=null) {
+        $where = "1 = 1 and situacao_id <>2 ";
         if($instrumento_id){
             $where .= " and instrumento_id=$instrumento_id ";
-        }
-        $projectWhere = ' ';
-        $filterProjetoId = "''";
-        $projectSubWhere = ' ';
-        if($projeto_id){
-            $projectWhere .= ' AND '. $projeto_id.' = ANY(projetos) ';
-            $projectSubWhere .= ' AND '. $projeto_id.' = ANY(p.projetos) ';
-            $filterProjetoId =$projeto_id;
         }
         $where .= $id ? ' and programacao_id=' . $id : " and programacao_id is null";
         $select = "WITH RECURSIVE 
                     prog AS 
                     ( 
-                    SELECT  1 as nivel, coalesce(cast(programacoes.supervisor_usuario_id as varchar),'0')  as supervisores,*, $filterProjetoId as filter_projeto_id
+                    SELECT  1 as nivel, coalesce(cast(programacoes.supervisor_usuario_id as varchar),'0')  as supervisores,* 
                     FROM    programacoes 
-                    WHERE   $where    $projectWhere          
+                    WHERE   $where              
                     UNION ALL 
-                    SELECT  prog.nivel+1,prog.supervisores  || ',' || coalesce(cast(p.supervisor_usuario_id as varchar),'0'),p.*, $filterProjetoId as filter_projeto_id
+                    SELECT  prog.nivel+1,prog.supervisores  || ',' || coalesce(cast(p.supervisor_usuario_id as varchar),'0'),p.*
                     FROM    programacoes p 
                     JOIN    prog  
                     ON      p.programacao_id = prog.id 
-                    WHERE p.situacao_id <>2 $projectSubWhere
+                    WHERE p.situacao_id <>2 
                     
                     ) 
             SELECT * FROM prog ORDER BY nivel,programacao_id,ordem
@@ -77,14 +69,17 @@ class Data_Model_Programacoes {
         if(isset($arr_tree[$nivel][$ix])){
             foreach ($arr_tree[$nivel][$ix] as $v) {
                 $value = $v['dados'];
-                if($value->responsavel_usuario_id)
-                    $usuario = $this->usuarios->fetchRow('id='.$value->responsavel_usuario_id);
+                if ($value->responsavel_usuario_id) {
+                    $usuario = $this->usuarios->fetchRow('id=' . $value->responsavel_usuario_id);
+                }
                 $usuario = isset($usuario) && is_object($usuario) ? $usuario->toArray() : array();
-                if($value->supervisor_usuario_id)
-                    $supervisor = $this->usuarios->fetchRow('id='.$value->supervisor_usuario_id);
+                if ($value->supervisor_usuario_id) {
+                    $supervisor = $this->usuarios->fetchRow('id=' . $value->supervisor_usuario_id);
+                }
                 $supervisor = isset($supervisor) && is_object($supervisor) ? $supervisor->toArray() : array();
-                if($value->projeto_id)
-                    $projetoRow = $projetosTable->fetchRow('id='.$value->projeto_id);
+                if ($value->projeto_id) {
+                    $projetoRow = $projetosTable->fetchRow('id=' . $value->projeto_id);
+                }
                 $projeto = isset($projetoRow) && is_object($projetoRow) ? $projetoRow->toArray() : [];
                 
                 $setorObj = $value->setor_id ? $this->setores->fetchRow('id='.$value->setor_id):array();
@@ -117,8 +112,7 @@ class Data_Model_Programacoes {
                     'financeiro' => $financeiro,
                     'iconCls' => 'x-tree-noicon',
                     'supervisores' => $value->supervisores,
-                    'situacao_id' => $value->situacao_id,
-                    'filter_projeto_id' => $value->filter_projeto_id
+                    'situacao_id' => $value->situacao_id
                 );
                 $children=array();
                 if(isset($arr_tree[$nivel+1][$value->id]))
@@ -264,80 +258,80 @@ class Data_Model_Programacoes {
 
     /**
      *
-     * @param type $programacaoId
+     * @param type $programacao_id
      * @return type array
      */
-    public function getNode($programacaoId=null, $instrumentoId=null, $projetoId=null) {
+    public function getNode($programacao_id=null, $instrumento_id=null) {
         
         $rows = array();
-        $where = $programacaoId ? "programacao_id=$programacaoId" : "instrumento_id=$instrumentoId";
-        $project_where = $projetoId!==null ? ' AND '. $projetoId.' = ANY(projetos) ' : ' ';
-        $select = " SELECT *, (select count(*) from programacoes pr where programacao_id=p.id and pr.situacao_id <>2) as leaf,programacao_id as parent FROM programacoes p WHERE $where $project_where AND p.situacao_id <>2 ORDER BY ordem";
+        $where = $programacao_id ? "programacao_id=$programacao_id" : "instrumento_id=$instrumento_id";
+        $select = " SELECT *, (select count(*) from programacoes pr where programacao_id=p.id and pr.situacao_id <>2) as leaf,programacao_id as parent FROM programacoes p WHERE $where and p.situacao_id <>2 ORDER BY ordem";
         $stmt = Zend_Registry::get('db')->query($select);
         $stmt->setFetchMode(Zend_Db::FETCH_OBJ);
+        $arr_tree = array();
         while ($r = $stmt->fetch() ) {
             $row = (array) $r;
             $row['leaf']= !$row['leaf']>0;
-            $row['projeto_id'] =$projetoId;
             $rows[] = $row;
         }   
         return $rows;
     }
-    public function getPendentes($projetoId=null) {
+    public function getPendentes() {
         $this->_auth = Zend_Auth::getInstance ();
         $identity = $this->_auth->getIdentity();
-        $project_where = $projetoId!==null ? ' AND '. $projetoId.' = ANY(projetos) ' : ' ';
+        
         $where = ' supervisor_usuario_id='.$identity->id;
         $select = "WITH RECURSIVE 
                     prog AS 
                     ( 
-                    SELECT  1 as nivel,array[programacoes.id] AS path, coalesce(cast(programacoes.supervisor_usuario_id as varchar),'0')  as supervisores,*
+                    SELECT  1 as nivel, coalesce(cast(programacoes.supervisor_usuario_id as varchar),'0')  as supervisores,*
                     FROM    programacoes 
-                    WHERE   $where $project_where
+                    WHERE   $where
+
                     UNION ALL 
-                    SELECT  prog.nivel+1,prog.path || p.id AS path, prog.supervisores  || ',' || coalesce(cast(p.supervisor_usuario_id as varchar),'0'), p.*
+                    SELECT  prog.nivel+1, prog.supervisores  || ',' || coalesce(cast(p.supervisor_usuario_id as varchar),'0'), p.*
                     FROM    programacoes p 
                     JOIN    prog  
                     ON      p.programacao_id = prog.id 
                     ) 
             SELECT prog.*, i.singular as instrumento FROM prog 
             INNER JOIN instrumentos i on prog.instrumento_id=i.id
-            WHERE prog.situacao_id=3 $project_where
-            ORDER BY path
+            WHERE prog.situacao_id=3
+            ORDER BY prog.nivel,prog.programacao_id,prog.ordem
             ";
         $stmt = Zend_Registry::get('db')->query($select);
         $stmt->setFetchMode(Zend_Db::FETCH_OBJ);
         
         return $stmt->fetchAll();
     }
-    public function delete($id){                
+    public function delete($id){
+                
         $table_programacoes = new \Data_Model_DbTable_Programacoes();
         $table_programacoes->update(array('situacao_id'=>2), "id=$id");
     }
-    /**
-     * TODO implementar deleção lógica em cascata
-     * @param type $where
-     * @return type
-     */
-    private function cascadeDelete($where)
-    {
-        $depTables = $this->getDependentTables();
-        if (!empty($depTables)) {
-            $resultSet = $this->fetchAll($where);
-            if (count($resultSet) > 0 ) {
-                foreach ($resultSet as $row) {
-                    /**
-                     * Execute cascading deletes against dependent tables
-                     */
-                    foreach ($depTables as $tableClass) {
-                        $t = self::getTableFromString($tableClass, $this);
-                        $t->_cascadeDelete($tableClass, $row->getPrimaryKey());
-                    }
-                }
-            }
+    public function updateAllProjects(){
+        $projetosDbTable = new Data_Model_DbTable_Projetos();
+        $projetos = $projetosDbTable->fetchAll();
+        /* @var $db \Zend_Db */
+        $db= Zend_Registry::get('db');
+        foreach ($projetos as $projeto) {
+            $sql = 'WITH RECURSIVE 
+                        prog AS 
+                        ( 
+                        SELECT  1 as nivel,array[programacoes.id] AS path,  programacoes.id, programacao_id
+                        FROM    programacoes 
+                        WHERE   projeto_id=' . $projeto->id . '
+                        UNION ALL
+                        SELECT  prog.nivel+1,  prog.path || p.id,  p.id, p.programacao_id
+                        FROM    programacoes p 
+                        JOIN    prog  
+                        ON      p.id = prog.programacao_id
+                        ) 
+                update programacoes set projetos=array_append_distinct(projetos,' . $projeto->id . ') where programacoes.id in (select id from prog)';
+            $query = $db->query($sql);
+            $query->execute();
+            echo $sql;
         }
-
-        $tableSpec = ($this->_schema ? $this->_schema . '.' : '') . $this->_name;
-        return $this->_db->delete($tableSpec, $where);
+        die;
     }
 }

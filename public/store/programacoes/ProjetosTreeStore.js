@@ -1,7 +1,9 @@
-Ext.define('ExtZF.store.programacoes.TreeStore', {
+/* global Ext */
+
+Ext.define('ExtZF.store.programacoes.ProjetosTreeStore', {
     extend: 'Ext.data.TreeStore',
-    alias: 'ExtZF.store.programacoes.TreeStore',
-    storeId: 'programacoesTreeStore',
+    alias: 'ExtZF.store.programacoes.ProjetosTreeStore',
+    storeId: 'programacoesProjetosTreeStore',
     model: 'ExtZF.model.programacoes.Model4tree',
     autoLoad: false,
     // bug in extjs4.1 autoLoad is ignored
@@ -27,18 +29,18 @@ Ext.define('ExtZF.store.programacoes.TreeStore', {
             root: 'rows',
             //type     : 'json',
             encode: true
-  }
+        }
     },
     listeners: {
         beforeload: function (store, operation, eOpts) {
             var node = operation.node;
-            if (node.get('filter_projeto_id')!== '') {
-                var projetoId = node.get("filter_projeto_id");
+            if (node.get('projeto_id')!== '') {
+                var projetoId = node.get("projeto_id");
                 operation.params.projetoId = projetoId;
             }
         },
         load: function (sender, node, records) {
-            node.data.menu = node.raw.text;
+//           node.data.menu = node.raw.text;
             node.expand();
         }
     }

@@ -3,7 +3,7 @@ Ext.define('ExtZF.store.Tarefas', {
     alias   : 'ExtZF.store.Tarefas',
     storeId : 'tarefasStore',
     model   : 'ExtZF.model.Tarefas',
-    autoLoad    : false,
+    autoLoad    : true,
     proxy          : {
                     type           : 'rest',
                     url            :   'data/tarefas',

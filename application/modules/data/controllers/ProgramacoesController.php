@@ -59,13 +59,22 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
                 }
                 elseif(!is_numeric($node_id)){
                     $arr_node = explode('-', $node_id);
-                    $model_instrumentos = new Data_Model_DbTable_Instrumentos();
-                    $instrumento = $model_instrumentos->fetchRow('instrumento_id='.$arr_node[1]);
-                    $instrumento_id = $instrumento->id;
-                    $node_id=null;
-                    $text = $instrumento->singular;
+                    if($arr_node[0]==='projetoId'){
+                        $projetoId = $arr_node[1];
+                        $node_id=null;
+                        $text = 'Projeto selecionado';
+                    }else{
+                        $model_instrumentos = new Data_Model_DbTable_Instrumentos();
+                        $instrumento = $model_instrumentos->fetchRow('instrumento_id='.$arr_node[1]);
+                        $instrumento_id = $instrumento->id;
+                        $node_id=null;
+                        $text = $instrumento->singular;
+                    }
                 }
-                $this->view->rows= $programacoes_table->getRecursive($node_id, $instrumento_id);
+                if(!isset($projetoId)){
+                    $projetoId = $projetoId = $this->getParam('projeto_id');
+                }
+                $this->view->rows= $programacoes_table->getRecursive($node_id, $instrumento_id, $projetoId);
             }elseif($this->_hasParam('get_my')) // filtro por supervisor e responsável
             {
                 $where =" situacao_id <>2 and instrumento_id=6 ";  
@@ -79,8 +88,8 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
                 $this->view->total = $page['total'];
             }elseif($this->_hasParam('pendentes'))
             {
-                
-                $this->view->rows = $programacoes_table->getPendentes();
+                $projetoId = $this->getParam('projeto_id',null);
+                $this->view->rows = $programacoes_table->getPendentes($projetoId);
             }else 
             {
                 $where = ' 1=1 ';

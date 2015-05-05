@@ -1,7 +1,10 @@
+/* global Ext */
+
 Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
     extend      : 'Ext.tree.Panel',
     alias       : 'widget.planoProgramacoesTreegrid', // nome definido para acessar a grid
     rootVisible : true,
+    id          : 'planoProgramacoesTreegrid',
     store       : 'programacoes.TreeStore', 
     //storeId     : 'programacoesStoreId',
     singleExpand: false,
@@ -51,10 +54,14 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
             {header: 'Menu',  dataIndex: 'menu',  flex: 3,xtype: 'treecolumn', 
                 renderer: function(value, metaData, record){
                     var me=this;
-                    var singular = '.';
-                    if(record.get('instrumento'))
-                        singular = record.get('instrumento').singular;
-                    return '<b>' + singular + '-</b>' + value;
+                    var cellContent = ' ';
+                    if(record.get('instrumento')){
+                        var singular = record.get('instrumento').singular;
+                        cellContent ='<b>' + singular + '-</b>' + value;
+                    }else{
+                        cellContent = '<span style="font-size:1.1em"><b>' + value + '</b></span>';
+                    }
+                    return cellContent;
                 }
             },
             {header: 'Responsável',     dataIndex: 'responsavel_usuario_id',  flex: 1, 

@@ -1,12 +1,14 @@
+/* global Ext, _myAppGlobal, _myAppGlobal, baseUrl */
+
 Ext.require('Ext.window.MessageBox');
-xx='';
 Ext.define('ExtZF.controller.Navigation', {
     extend      : 'Ext.app.Controller',
-    stores      : ['Treenav','Programacoes','Instrumentos','Operativos','Vinculos', 'Usuarios' ],
+    stores      : ['Treenav','Programacoes','Instrumentos','Operativos','Vinculos', 'Usuarios','Projetosnav' ],
     models      : ['Treenav','Programacoes','Instrumentos','Operativos','Vinculos', 'Usuarios' ],
     views       :   [
                     'navigation.MyToolbar',
                     'navigation.TreePanel',
+                    'navigation.ProjetosTreePanel',
                     'plano.programacoes.Edit'
                     ],
     constructor : function() 
@@ -30,6 +32,10 @@ Ext.define('ExtZF.controller.Navigation', {
         {
             'menuitem[action=loadController]': {click: me.loadControllerFromMenu},
             'navigationTreePanel':{
+                        itemclick       : me.loadTreeController,
+                        itemcontextmenu : me.itemContextMenu
+                    },
+            'navigationProjetosTreePanel':{
                         itemclick       : me.loadTreeController,
                         itemcontextmenu : me.itemContextMenu
                     },
@@ -63,7 +69,9 @@ Ext.define('ExtZF.controller.Navigation', {
             if(arr_params[0]==='financeiro'){
                 // TODO criar abertura condicional
             }
+            
         }
+        
         var obj = { text: 'Programa&ccedil;&atilde;o',
                     id: 'testeId',
                     data        : 'plano.Programacoes',
@@ -71,6 +79,13 @@ Ext.define('ExtZF.controller.Navigation', {
                     iconCls     : "icon-programacao",
                     createView  : "planoProgramacoesContainer"
                   };
+        var programacoesController =  me.getController('ExtZF.controller.plano.Programacoes');
+        var tstore = _myAppGlobal.getStore('programacoes.TreeStore');
+        if(view.up('panel').id ==='pnlProjetos'){
+            tstore.getProxy().extraParams ={toTree:true, projeto_id: record.get('projeto_id')};
+        }else{
+            tstore.getProxy().extraParams = {toTree:true};
+        }
         me.loadController(obj,record);
         me.getController('ExtZF.controller.plano.Programacoes').changeButtonAction();
         

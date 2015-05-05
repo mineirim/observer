@@ -29,7 +29,11 @@ class Data_TarefasController extends Zend_Rest_Controller
             if($this->_hasParam('get_my')) // filtro por supervisor e responsável
             {
                 $column = $this->getParam('owntype').'_usuario_id';
-                $this->view->rows = $tarefasModel->getBy($column);
+                $where=false;
+                if($this->getParam('projeto_id')){
+                    $where = ' AND projeto_id=' .$this->getParam('projeto_id');
+                }
+                $this->view->rows = $tarefasModel->getBy($column, $where);
             }
             $this->view->success= true;
             $this->getResponse()->setHttpResponseCode(200);

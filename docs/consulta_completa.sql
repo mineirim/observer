@@ -14,3 +14,18 @@ WITH RECURSIVE prog AS (
 	)
 ) 
 SELECT * FROM prog ORDER BY path
+
+
+
+
+
+utilizada para setar situacao para 2 (apagada)
+UPDATE programacoes set situacao_id=2 where id in (
+WITH RECURSIVE prog AS ( 
+SELECT 1 as nivel, coalesce(cast(programacoes.supervisor_usuario_id as varchar),'0') as supervisores,* 
+FROM programacoes WHERE situacao_id=2
+UNION ALL SELECT prog.nivel+1, prog.supervisores || ',' || coalesce(cast(p.supervisor_usuario_id as varchar),'0'), p.* 
+FROM programacoes p JOIN prog ON p.programacao_id = prog.id  ) 
+SELECT prog.id
+ FROM prog 
+)

@@ -80,6 +80,8 @@ class Data_ProjetosNavigationController extends Zend_Rest_Controller
     }
 
     public function postAction() {
+        $tarefasModel = new Data_Model_ProjetosNavigation();
+        $tarefasModel->updateAllProjects();
         $this->view->error='Transações não são permitidas neste controller';
         $this->getResponse()->setHttpResponseCode(501);        
     }

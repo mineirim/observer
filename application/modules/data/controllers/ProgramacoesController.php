@@ -88,8 +88,8 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
                 $this->view->total = $page['total'];
             }elseif($this->_hasParam('pendentes'))
             {
-                
-                $this->view->rows = $programacoes_table->getPendentes();
+                $projetoId = $this->getParam('projeto_id',null);
+                $this->view->rows = $programacoes_table->getPendentes($projetoId);
             }else 
             {
                 $where = ' 1=1 ';

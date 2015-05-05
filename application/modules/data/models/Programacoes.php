@@ -291,11 +291,11 @@ class Data_Model_Programacoes {
         $select = "WITH RECURSIVE 
                     prog AS 
                     ( 
-                    SELECT  1 as nivel, coalesce(cast(programacoes.supervisor_usuario_id as varchar),'0')  as supervisores,*
+                    SELECT  1 as nivel,array[programacoes.id] AS path, coalesce(cast(programacoes.supervisor_usuario_id as varchar),'0')  as supervisores,*
                     FROM    programacoes 
-                    WHERE   $where 
+                    WHERE   $where $project_where
                     UNION ALL 
-                    SELECT  prog.nivel+1, prog.supervisores  || ',' || coalesce(cast(p.supervisor_usuario_id as varchar),'0'), p.*
+                    SELECT  prog.nivel+1,prog.path || p.id AS path, prog.supervisores  || ',' || coalesce(cast(p.supervisor_usuario_id as varchar),'0'), p.*
                     FROM    programacoes p 
                     JOIN    prog  
                     ON      p.programacao_id = prog.id 
@@ -303,7 +303,7 @@ class Data_Model_Programacoes {
             SELECT prog.*, i.singular as instrumento FROM prog 
             INNER JOIN instrumentos i on prog.instrumento_id=i.id
             WHERE prog.situacao_id=3 $project_where
-            ORDER BY prog.nivel,prog.programacao_id,prog.ordem
+            ORDER BY path
             ";
         $stmt = Zend_Registry::get('db')->query($select);
         $stmt->setFetchMode(Zend_Db::FETCH_OBJ);

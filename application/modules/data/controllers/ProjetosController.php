@@ -49,12 +49,14 @@ class Data_ProjetosController extends Zend_Rest_Controller
         if(($this->getRequest()->isPut())){
             try{
                 $projetosTable = new Data_Model_DbTable_Projetos();
-                $formData = $this->getRequest()->getParam('rows');
-                $formData = json_decode($formData,true);
+                $formDataJson = $this->getRequest()->getParam('rows');
+                $formData = json_decode($formDataJson,true);
                 $id=$formData['id'];
                 unset($formData['id']);
                 $projetosTable->update($formData, "id=$id");
-                $this->view->msg = "Dados atualizados com sucesso!";
+                if ($formData) {
+                    $this->view->msg = "Dados atualizados com sucesso!";
+                }
                 $row = $projetosTable->fetchRow("id=$id");
                 $this->view->rows = $row->toArray();
                 $this->view->success=true;
@@ -70,19 +72,18 @@ class Data_ProjetosController extends Zend_Rest_Controller
     }
 
     public function postAction()
-    {
-        /**código gerado automaticamente pelo template post.tpl*/
-        
+    {        
         if($this->getRequest()->isPost()){
             try{
         
                 $projetosTable = new Data_Model_DbTable_Projetos();
-                $formData = $this->getRequest()->getPost('rows');
-                $formData = json_decode($formData,true);
+                $formDataJson = $this->getRequest()->getPost('rows');
+                $formData = json_decode($formDataJson,true);
                 unset($formData['id']);
                 foreach ($formData as $key => $value) {
-                    if($value=='')
-                       unset($formData[$key]);
+                    if ($value == '') {
+                        unset($formData[$key]);
+                    }
                 }
                 $id = $projetosTable->insert($formData);
                 $this->view->msg="Dados inseridos com sucesso!";

@@ -8,7 +8,7 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
     layout      : 'fit',
     width       : 1020,
     minHeight   : 390,
-    height      : 600,
+    height      : 550,
     maxHeight   : 590,
     
     
@@ -17,7 +17,6 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
         var me = this;
               //####### FORM DE VALORES 
        
-       //this.down('#btnVlrProgramado').show(); 
         var fromProgramado =  Ext.create('Ext.form.Panel', {
             id: 'frmVlrProgramado',
             title:  'Orçamento',

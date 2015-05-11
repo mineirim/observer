@@ -137,12 +137,13 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
         if(($this->getRequest()->isPut())){
             try{
                 $programacoes_table = new Data_Model_DbTable_Programacoes();
-                $formData = $this->getRequest()->getParam('rows');
-                $formData = json_decode($formData,true);
+                $formDataJson = $this->getRequest()->getParam('rows');
+                $formData = json_decode($formDataJson,true);
                 $id=$formData['id'];
                 unset($formData['id']);
-                if($formData['programacao_id']=="")
+                if ($formData['programacao_id'] == "") {
                     unset($formData['programacao_id']);
+                }
                 $programacoes_table->update($formData, "id=$id");
                 
                 $this->view->msg = "Dados atualizados com sucesso!";

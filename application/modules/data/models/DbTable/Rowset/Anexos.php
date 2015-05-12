@@ -12,7 +12,7 @@ class Data_Model_DbTable_Rowset_Anexos extends Zend_Db_Table_Rowset_Abstract
      */
     public function getAsArray()
     {
-        $anexos = array();
+        $anexos = [];
         $i=0;
         while ($this->valid()) {
             $anexo = $this->current();

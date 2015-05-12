@@ -1,14 +1,14 @@
 <?php
 
-class Data_Model_DbTable_Anexos extends Etc_Model_BaseModel
+class Data_Model_DbTable_Anexos extends Etc_Model_AssignModel
 {
-    protected $_dependentTables = array('Data_Model_DbTable_AnexoTags');
+    protected $_dependentTables = ['Data_Model_DbTable_AnexoTags'];
     
-    protected $_referenceMap = array (
-                'Usuarios' => array ( 'columns' => 'inclusao_usuario_id', 
+    protected $_referenceMap =  [
+                'Usuarios' =>  [ 'columns' => 'inclusao_usuario_id', 
                                 'refTableClass' => 'Data_Model_DbTable_Usuarios', 
-                                'refColumns' => 'id' )         
-                );
+                                'refColumns' => 'id' ]         
+                ];
     
     protected $_name = 'anexos';
     protected $_rowClass = 'Data_Model_DbTable_Row_Anexo';

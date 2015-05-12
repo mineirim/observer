@@ -1,6 +1,6 @@
 <?php
 
-class Data_Model_DbTable_Projetos extends Zend_Db_Table_Abstract {
+class Data_Model_DbTable_Projetos extends Etc_Model_AssignModel {
 
     protected $_name = 'projetos';
     protected $_dependentTables = ['Data_Model_DbTable_Programacoes'];

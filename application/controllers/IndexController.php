@@ -65,6 +65,13 @@ class IndexController extends Zend_Controller_Action
                         data        : 'admin.Instrumentos',
                         action      : 'loadController',
                         createView  : 'adminInstrumentosList'
+                    },
+                    {
+                        text        : 'Tags',
+                        iconCls     : 'icon-tag',
+                        data        : 'plano.Tags',
+                        action      : 'loadController',
+                        createView  : 'planoTagsList'
                     }
 
                     ]

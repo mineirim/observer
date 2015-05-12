@@ -72,7 +72,12 @@ class Basic {
             }                    
         }       
         $ix--;
-        $sql .= " SELECT * FROM n{$ix} order by " . implode(',', $order);     
+        $params['project_id'] =1;
+        if(isset($params['project_id']) && $params['project_id'] !==""){
+            $projetoWhere = "\n WHERE n{$ix}.p{$ix}_projeto_id=".$params['project_id'] ;
+        }
+            
+        $sql .= " SELECT * FROM n{$ix} {$projetoWhere} order by " . implode(',', $order);     
         $xml_report_text = str_replace('__detail_', $px, $xml_report[0]->asXML());
         $is = $this->getInputStream($xml_report_text);
         /* @var $jasperDesign \EtcReport\Jasper\Manager\JasperDesign */
@@ -83,7 +88,7 @@ class Basic {
             if($ix > 0 && $ix< $numHeaders-1){
                 $this->addFields($jasperDesign, $ix);
             }                    
-        }      
+        }        
         $this->jasper_reports->setQuery($sql);
         $this->jasper_reports->compileLoadedReport($jasperDesign);
     }
@@ -131,13 +136,13 @@ class Basic {
         
         if($ix==1){
             $where = $filter_id ? " AND p{$ix}.id=".$filter_id:" ";
-            $template = "WITH 	n1 as ( SELECT  p1.id AS p1_id, p1.singular as p1_singular, p1.has_responsavel as p1_has_responsavel, p1.has_supervisor as p1_has_supervisor, p1.has_equipe as p1_has_equipe, p1.menu as p1_menu, p1.descricao as p1_descricao, p1.ordem as p1_ordem, p1.programacao_id as p1_programacao_id, p1.equipe as p1_equipe, p1.responsavel as p1_responsavel, p1.supervisor as p1_supervisor, p1.instrumento_id as p1_instrumento_id
+            $template = "WITH 	n1 as ( SELECT  p1.id AS p1_id, p1.singular as p1_singular, p1.has_responsavel as p1_has_responsavel, p1.has_supervisor as p1_has_supervisor, p1.has_equipe as p1_has_equipe, p1.menu as p1_menu, p1.descricao as p1_descricao, p1.ordem as p1_ordem, p1.programacao_id as p1_programacao_id, p1.equipe as p1_equipe, p1.responsavel as p1_responsavel, p1.supervisor as p1_supervisor, p1.instrumento_id as p1_instrumento_id, p1.projeto_id as p1_projeto_id
                             FROM  vw_report_base p1 WHERE p1.programacao_id is null and p1.instrumento_id={$estrutura->id} {$where})";
         }else{
             $join = $filter_id ? " INNER " : " RIGHT ";
             $where = $filter_id ? " WHERE p{$ix}.id=".$filter_id:" ";
             $template = "n__ix__ as (
-                                SELECT n__iy__.*, p__ix__.id AS p__ix___id, p__ix__.singular as p__ix___singular, p__ix__.has_responsavel as p__ix___has_responsavel, p__ix__.has_supervisor as p__ix___has_supervisor, p__ix__.has_equipe as p__ix___has_equipe, p__ix__.menu as p__ix___menu, p__ix__.descricao as p__ix___descricao, p__ix__.ordem as p__ix___ordem, p__ix__.programacao_id as p__ix___programacao_id, p__ix__.equipe as p__ix___equipe, p__ix__.responsavel as p__ix___responsavel, p__ix__.supervisor as p__ix___supervisor, p__ix__.instrumento_id as p__ix___instrumento_id
+                                SELECT n__iy__.*, p__ix__.id AS p__ix___id, p__ix__.singular as p__ix___singular, p__ix__.has_responsavel as p__ix___has_responsavel, p__ix__.has_supervisor as p__ix___has_supervisor, p__ix__.has_equipe as p__ix___has_equipe, p__ix__.menu as p__ix___menu, p__ix__.descricao as p__ix___descricao, p__ix__.ordem as p__ix___ordem, p__ix__.programacao_id as p__ix___programacao_id, p__ix__.equipe as p__ix___equipe, p__ix__.responsavel as p__ix___responsavel, p__ix__.supervisor as p__ix___supervisor, p__ix__.instrumento_id as p__ix___instrumento_id, p__ix__.projeto_id as p__ix___projeto_id 
                                 FROM    vw_report_base p__ix__ {$join} JOIN n__iy__ on p__ix__.programacao_id=n__iy__.p__iy___id $where
                          )";
         }

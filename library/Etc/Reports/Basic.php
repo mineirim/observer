@@ -23,12 +23,25 @@ class Basic {
         $this->_reportFileName = 'geral';       
         $this->jasper_reports = new \Etc\Jasper\Reports();   
         $this->jasper_reports->setReportsPath($this->_reportsPath);
-        $programacao_id = $params['id'];
         $programacoes_table = new \Data_Model_DbTable_Programacoes();
         $instrumentos_table = new \Data_Model_Instrumentos();
-        $programacao_row = $programacoes_table->fetchRow('id='.$programacao_id);
-        
-        $estrutura = $instrumentos_table->getRecursiveStructure($programacao_row->instrumento_id);
+        $compositeId = split('-', $params['id']);
+        if(count($compositeId)>1){
+            switch ($compositeId[0]){
+                case 'instrumentoId':
+                    $instrumento_id = $compositeId[1];
+                    $estrutura = $instrumentos_table->getRecursiveStructure($instrumento_id);
+                    break;
+                case 'projetoId':
+                    $estrutura = $instrumentos_table->getRecursiveStructure(1);
+                    $params['projeto_id'] = $compositeId[1];
+                    break;
+            }
+        }else{
+            $programacao_id = $params['id'];
+            $programacao_row = $programacoes_table->fetchRow('id='.$programacao_id);
+            $estrutura = $instrumentos_table->getRecursiveStructure($programacao_row->instrumento_id);
+        }
         /**
          * @var $numHeaders Número de cabeçalhos que serão apresentados */
         $numHeaders = $estrutura->rowCount();        
@@ -47,7 +60,7 @@ class Basic {
         for ( $ix =1 ; $ix< $numHeaders; $ix ++  )
         {            
             $value = $estrutura_arr[$ix];        
-            if($programacao_row->instrumento_id == $value->id){
+            if(isset($programacao_row) && $programacao_row->instrumento_id == $value->id){
                 $filter_id = $programacao_row->id;
             }else{
                 if($estrutura_arr[0]->id ===$programacao_row->instrumento_id){

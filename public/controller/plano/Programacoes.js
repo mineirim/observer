@@ -207,7 +207,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     showReport : function(record){
         
         var filterProjeto = record.get("filter_projeto_id") !==""
-            && (typeof(record.get("filter_projeto_id")) != 'undefined' )
+            && (typeof(record.get("filter_projeto_id")) !== 'undefined' )
             ? "/projeto_id/"+record.get("filter_projeto_id") : "";
         window.open("relatorio/index/index/id/"+record.get('id') + filterProjeto, "relatório"); 
     },
@@ -376,7 +376,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var me = this;
         var grid = me.getTreegrid(); 
         var selected = grid.getSelectionModel().getSelection();
-        if(selected.length === 0 || selected[0].isRoot()){
+        if(selected.length === 0 || (selected[0].isRoot() && btn.name !=='report')){
         	Ext.Msg.alert('Atenção', 'Necessário selecionar um registro');
         	return ;
         }

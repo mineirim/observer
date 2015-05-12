@@ -39,8 +39,8 @@ Ext.define('ExtZF.view.plano.dashboard.Checklist' ,{
                     if(record.get('peso')===null){
                         return 'alert-no-weight';
                     }
-                    var data_inicio = new Date(Date.parse(record.get('data_inicio') + ' 00:00'));
-                    var data_prazo = new Date(Date.parse(record.get('data_prazo') + ' 23:59:59'));
+                    var data_inicio = new Date(Date.parse(record.get('data_inicio') + 'T00:00'));
+                    var data_prazo = new Date(Date.parse(record.get('data_prazo') + 'T23:59:59'));
                     var agora =  new Date();
                     if(record.get('andamento_id') <  6){
                         if(data_inicio< agora && data_prazo > agora){
@@ -59,7 +59,7 @@ Ext.define('ExtZF.view.plano.dashboard.Checklist' ,{
                         if(record.get('data_encerramento')){
                             return 'alert-no-date';
                         }
-                        var data_encerramento =  new Date(Date.parse(record.get('data_encerramento') + '00:00')) ;
+                        var data_encerramento =  new Date(Date.parse(record.get('data_encerramento') + 'T00:00')) ;
                         if(data_encerramento>data_prazo){
                             return 'alert-dark-blue';
                         }else{

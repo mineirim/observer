@@ -4,11 +4,11 @@ class Data_Model_DbTable_Operativos extends Etc_Model_AssignModel
 {
 
     protected $_name = 'operativos';
-    protected $_dependentTables = array('Data_Model_DbTable_OperativosHistorico');
-    protected $_referenceMap = array (
-                'Programacoes' => array ( 'columns' => 'programacao_id', 
+    protected $_dependentTables = ['Data_Model_DbTable_OperativosHistorico'];
+    protected $_referenceMap =  [
+                'Programacoes' =>  [ 'columns' => 'programacao_id', 
                                                           'refTableClass' => 'Data_Model_DbTable_Programacoes', 
-                                                          'refColumns' => 'id' ) );
+                                                          'refColumns' => 'id' ] ];
 
     public function update(array $data, $where) {
         $historico_table = new Data_Model_DbTable_OperativosHistorico();

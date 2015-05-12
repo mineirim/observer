@@ -12,7 +12,7 @@ class Data_Model_DbTable_Rowset_Tags extends Zend_Db_Table_Rowset_Abstract
      */
     public function getAsArray()
     {
-        $tags = array();
+        $tags = [];
  
         while ($this->valid()) {
             $tag = $this->current();

@@ -5,19 +5,19 @@ class Data_Model_DbTable_Financeiro extends Etc_Model_AssignModel
 
     protected $_name = 'financeiro';
     
-    protected $_dependentTables = array('Data_Model_DbTable_Despesas');
+    protected $_dependentTables = ['Data_Model_DbTable_Despesas'];
     
-    protected $_referenceMap = array (
-                'Programacoes' => array ( 'columns' => 'programacao_id', 
+    protected $_referenceMap =  [
+                'Programacoes' =>  [ 'columns' => 'programacao_id', 
                                           'refTableClass' => 'Data_Model_DbTable_Programacoes', 
-                                          'refColumns' => 'id' ),
+                                          'refColumns' => 'id' ],
         
-                'Orcamento' => array ( 'columns' => 'origem_recurso_id', 
+                'Orcamento' =>  [ 'columns' => 'origem_recurso_id', 
                                           'refTableClass' => 'Data_Model_DbTable_Programacoes', 
-                                          'refColumns' => 'id' ),
-                'GrupoDespesas' => array ( 'columns' => 'grupo_despesa_id', 
+                                          'refColumns' => 'id' ],
+                'GrupoDespesas' =>  [ 'columns' => 'grupo_despesa_id', 
                                           'refTableClass' => 'Data_Model_DbTable_GrupoDespesas', 
-                                          'refColumns' => 'id' )
-        );
+                                          'refColumns' => 'id' ]
+        ];
 }
 

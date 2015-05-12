@@ -1,16 +1,21 @@
 <?php
+
 /**
- * Este modelo assina com o id do usuário e a data da alteração/inclusão do registro
+ * Description of DefaultModel
  *
  * @author Marcone Costa
  */
 class Etc_Model_AssignModel extends Etc_Model_BaseModel {
 
-
+    //put your code here
+    protected $_idUsuario;
+    protected $_data;
+    
     public function init() {
         parent::init();
-        if (Zend_Auth::getInstance()->hasIdentity())
+        if (Zend_Auth::getInstance()->hasIdentity()) {
             $this->_idUsuario = Zend_Auth::getInstance()->getStorage()->read()->id;
+        }
     }
 
     public function insert(array $data) {

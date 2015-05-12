@@ -1,3 +1,5 @@
+/* global Etc, Ext */
+
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Tags', {
     extend: 'Ext.app.Controller',
@@ -43,8 +45,9 @@ Ext.define('ExtZF.controller.plano.Tags', {
       	view.down('form').loadRecord(record);
     },
     deleteObject: function() {
-        var grid = this.getGrid(); // recupera lista de usuários
-        ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
+        var me = this;
+        var grid = me.getGrid(); // recupera lista de usuários
+        var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
         	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
         	return ;
@@ -54,27 +57,27 @@ Ext.define('ExtZF.controller.plano.Tags', {
 			if(opt === 'no')
 				return;
 			grid.el.mask('Excluindo registro(s)');
-                        store = this.getTagsStore();
+                        var store = this.getTagsStore();
                         store.remove(ids);
                         store.sync();
                         grid.el.unmask();
-		}, this);
+		}, me);
     },
     saveObject: function(button) {
         var me=this;
-        var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
-            form   = win.down('form').getForm() // recupera item abaixo(filho) da window do tipo form
-        if (form.isValid()) {
-            r = form.getRecord();
+        var win    = button.up('window'); // recupera um item acima(pai) do button do tipo window
+        var form   = win.down('form').getForm(); // recupera item abaixo(filho) da window do tipo form
+        if(form.isValid()) {
+            var r = form.getRecord();
             form.updateRecord(r);            
             r.save({
                 success: function(a,b){
-                    Ext.log({msg:"Salvo com sucesso!",level:"info"});
                     win.close();
                     me.getTagsStore().load();
+                    Etc.log({msg:"Salvo com sucesso!",level:"info"});
                 },
                 failure:function(a,b){
-                    Ext.log({msg:"Erro ao salvar!",level:"error"});
+                    Etc.log({msg:"Erro ao salvar!",level:"error"});
                 }
             });
         }

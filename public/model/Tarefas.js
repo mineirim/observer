@@ -15,7 +15,8 @@ Ext.define('ExtZF.model.Tarefas', {
             'andamento_id',
             'andamento',
             'responsavel_usuario_id',
-            'supervisor_usuario_id'
+            'supervisor_usuario_id',
+            'filter_projeto_id'
         ],     
         proxy : {
             simpleSortMode : true, 

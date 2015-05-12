@@ -30,10 +30,17 @@ class Data_TarefasController extends Zend_Rest_Controller
             {
                 $column = $this->getParam('owntype').'_usuario_id';
                 $where=false;
+                $filter_projeto_id = "";
                 if($this->getParam('projeto_id')){
                     $where = ' AND projeto_id=' .$this->getParam('projeto_id');
+                    $filter_projeto_id = $this->getParam('projeto_id');
                 }
                 $this->view->rows = $tarefasModel->getBy($column, $where);
+                if($filter_projeto_id){
+                    foreach ($this->view->rows as $k=>&$v){
+                        $v['filter_projeto_id'] = $filter_projeto_id;
+                    }
+                }
             }
             $this->view->success= true;
             $this->getResponse()->setHttpResponseCode(200);

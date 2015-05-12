@@ -72,9 +72,8 @@ class Basic {
             }                    
         }       
         $ix--;
-        $params['project_id'] =1;
-        if(isset($params['project_id']) && $params['project_id'] !==""){
-            $projetoWhere = "\n WHERE n{$ix}.p{$ix}_projeto_id=".$params['project_id'] ;
+        if(isset($params['projeto_id']) && $params['projeto_id'] !==""){
+            $projetoWhere = "\n WHERE n{$ix}.p{$ix}_projeto_id=".$params['projeto_id'] ;
         }
             
         $sql .= " SELECT * FROM n{$ix} {$projetoWhere} order by " . implode(',', $order);     

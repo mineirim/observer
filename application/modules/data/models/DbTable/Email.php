@@ -7,11 +7,11 @@
 
 class Data_Model_DbTable_Email extends Zend_Db_Table_Abstract
 {    
-    protected $_referenceMap = array (
-                'Usuarios' => array ( 'columns' => 'inclusao_usuario_id', 
+    protected $_referenceMap =  [
+                'Usuarios' =>  [ 'columns' => 'inclusao_usuario_id', 
                                 'refTableClass' => 'Data_Model_DbTable_Usuarios', 
-                                'refColumns' => 'id' )         
-                );
+                                'refColumns' => 'id' ]         
+                ];
     
     protected $_name = 'email';
 

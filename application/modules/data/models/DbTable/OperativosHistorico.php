@@ -5,13 +5,13 @@ class Data_Model_DbTable_OperativosHistorico extends Zend_Db_Table_Abstract
 
     protected $_name = 'operativos_historico';
 
-    protected $_referenceMap = array (
-                'Programacoes' => array ( 'columns' => 'programacao_id', 
+    protected $_referenceMap =  [
+                'Programacoes' =>  [ 'columns' => 'programacao_id', 
                                                           'refTableClass' => 'Data_Model_DbTable_Programacoes', 
-                                                          'refColumns' => 'id' ),            
-                'Operativos' => array ( 'columns' => 'operativo_id', 
+                                                          'refColumns' => 'id' ],            
+                'Operativos' =>  [ 'columns' => 'operativo_id', 
                                                           'refTableClass' => 'Data_Model_DbTable_Operativos', 
-                                                          'refColumns' => 'id' ) );
+                                                          'refColumns' => 'id' ] ];
    
     /**
      * Return one page of order entries
@@ -44,12 +44,12 @@ class Data_Model_DbTable_OperativosHistorico extends Zend_Db_Table_Abstract
         $paginator->setItemCountPerPage($limit);
         $paginator->setCurrentPageNumber($pageNumber);
         
-        $rows = array();
+        $rows = [];
         foreach ($paginator as $record){
             $rows[]= $record->toArray();
         }
-        $page = array('rows' => $rows, 
-                      'total'=> $paginator->getTotalItemCount());
+        $page = ['rows' => $rows, 
+                      'total'=> $paginator->getTotalItemCount()];
         return $page;
     }
 

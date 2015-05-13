@@ -4,6 +4,8 @@
  * @author Marcone Costa <blog@barraetc.com.br>
 */
 
+/* global Etc, Ext */
+
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Projetos', {
     extend: 'Ext.app.Controller',
@@ -51,7 +53,7 @@ Ext.define('ExtZF.controller.plano.Projetos', {
     },
     deleteObject: function() {
         var me=this;
-        var grid = this.getGrid(); // recupera lista de usuários
+        var grid = me.getGrid(); // recupera lista de usuários
         var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
         	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
@@ -77,9 +79,9 @@ Ext.define('ExtZF.controller.plano.Projetos', {
             form.updateRecord(r);
             r.save({
                 success: function(a,b){
-                    Etc.log({msg:"Salvo com sucesso!",level:"info"});
                     win.close();
                     me.getProjetosStore().load();
+                    Etc.log({msg:"Salvo com sucesso!",level:"info"});
                 },
                 failure:function(a,b){
                     Etc.log({msg:"Erro ao salvar!",level:"error"});

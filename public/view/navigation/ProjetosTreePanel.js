@@ -7,7 +7,8 @@ Ext.define('ExtZF.view.navigation.ProjetosTreePanel' ,{
     rootVisible : false,
     lines       : true,
     store       : 'Projetosnav', 
-    singleExpand: false,
+    singleExpand: true,
+     singleClickExpand  : true,
     hideHeaders : true,
     id          : 'projetosTreePanel',
     frame   : false,
@@ -15,6 +16,7 @@ Ext.define('ExtZF.view.navigation.ProjetosTreePanel' ,{
     selModel: {
         mode: 'SINGLE'
     }, 
+    //@todo adicionar id combinado com o código do projeto para evitar problema na expansão da tree
     columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0,  hidden:true},
             {
                 header: 'Menu',  

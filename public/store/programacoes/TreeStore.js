@@ -38,7 +38,9 @@ Ext.define('ExtZF.store.programacoes.TreeStore', {
             }
         },
         load: function (sender, node, records) {
-            node.data.menu = node.raw.text;
+            if(typeof(node.raw.text) !== 'undefined'){
+                node.data.menu = node.raw.text;
+            }
             node.expand();
         }
     }

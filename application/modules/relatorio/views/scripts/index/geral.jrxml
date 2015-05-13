@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geral" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e69bc383-12d4-4901-8503-507569fba44c">
-	<property name="ireport.zoom" value="2.143588810000002"/>
+	<property name="ireport.zoom" value="1.6105100000000014"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
@@ -16,12 +16,24 @@
 		</conditionalStyle>
 	</style>
 	<style name="grupo" mode="Opaque" backcolor="#CCCCCC"/>
+	<subDataset name="projeto_ds" uuid="66b1cd7e-86ae-4a35-b715-b65227f8d001">
+		<parameter name="projeto_id" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT nome FROM projetos p WHERE p.id=$P{projeto_id}]]>
+		</queryString>
+		<field name="nome" class="java.lang.String"/>
+	</subDataset>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
 	<parameter name="APPLICATION_PATH" class="java.lang.String"/>
 	<parameter name="BASE_URL" class="java.lang.String">
 		<defaultValueExpression><![CDATA["http://planejamento.unasus.gov.br"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="projeto_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[with 	n1 as ( SELECT  p1.id AS p1_id, p1.singular as p1_singular, p1.has_responsavel as p1_has_responsavel, p1.has_supervisor as p1_has_supervisor, p1.has_equipe as p1_has_equipe, p1.menu as p1_menu, p1.descricao as p1_descricao, p1.ordem as p1_ordem, p1.programacao_id as p1_programacao_id, p1.equipe as p1_equipe, p1.responsavel as p1_responsavel, p1.supervisor as p1_supervisor, p1.instrumento_id as p1_instrumento_id
@@ -124,6 +136,29 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 				<reportElement x="0" y="0" width="100" height="27" uuid="813c3241-f995-4c65-a596-0456db78a260"/>
 				<imageExpression><![CDATA[$P{BASE_URL} + "/images/logo_sisplan.png"]]></imageExpression>
 			</image>
+			<componentElement>
+				<reportElement x="100" y="0" width="455" height="27" uuid="759bc9ec-e08c-434b-88b2-399a5549724f">
+					<printWhenExpression><![CDATA[$P{projeto_id}>0]]></printWhenExpression>
+				</reportElement>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="projeto_ds" uuid="d126ff2e-b16d-4abd-abc4-076d59cef5cc">
+						<datasetParameter name="projeto_id">
+							<datasetParameterExpression><![CDATA[$P{projeto_id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="27" width="455">
+						<textField isStretchWithOverflow="true">
+							<reportElement style="Detail" positionType="Float" x="0" y="0" width="455" height="27" uuid="0647fcaa-d46f-486c-9fc0-d72b45bd26c2"/>
+							<textElement verticalAlignment="Middle">
+								<font size="14" isBold="true" isUnderline="false"/>
+								<paragraph leftIndent="5"/>
+							</textElement>
+							<textFieldExpression><![CDATA["PROJETO: " +$F{nome}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
 		</band>
 	</pageHeader>
 	<columnHeader>

@@ -10,6 +10,7 @@ namespace Etc\Reports;
  */
 class Basic {
     private $_reportFileName;
+    private $_reportParams=[];
     public function __construct() {
         $this->_reportsPath = APPLICATION_PATH . '/modules/relatorio/views/scripts/index/';
     }
@@ -86,6 +87,7 @@ class Basic {
         }       
         $ix--;
         if(isset($params['projeto_id']) && $params['projeto_id'] !==""){
+            $this->_reportParams['projeto_id'] =(int)$params['projeto_id'];
             $projetoWhere = "\n WHERE n{$ix}.p{$ix}_projeto_id=".$params['projeto_id'] ;
         }
             
@@ -105,7 +107,7 @@ class Basic {
         $this->jasper_reports->compileLoadedReport($jasperDesign);
     }
     public function display() {
-        $this->jasper_reports->compileReport('geral');        
+        $this->jasper_reports->compileReport('geral','pdf',$this->_reportParams);        
     }
     public function saveHTML() {
         $manager = new \Etc\Jasper\Manager();

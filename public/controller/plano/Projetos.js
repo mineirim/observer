@@ -13,7 +13,8 @@ Ext.define('ExtZF.controller.plano.Projetos', {
     models: ['Projetos'], // Modelo do usuário
      views: [
     'plano.projetos.List',
-    'plano.projetos.Edit'
+    'plano.projetos.Edit',
+    'plano.projetos.Form'
     ],
     refs: [{
                 ref:'grid',

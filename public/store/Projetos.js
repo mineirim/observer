@@ -4,6 +4,8 @@
  * @author Marcone Costa <blog@barraetc.com.br>
 */
 
+/* global Ext */
+
 Ext.define('ExtZF.store.Projetos', {
     extend: 'Ext.data.Store',
     alias : 'ExtZF.store.Projetos',

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geral" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e69bc383-12d4-4901-8503-507569fba44c">
-	<property name="ireport.zoom" value="1.6105100000000014"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geral" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" uuid="e69bc383-12d4-4901-8503-507569fba44c">
+	<property name="ireport.zoom" value="1.331000000000001"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
@@ -128,7 +128,12 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band splitType="Stretch"/>
+		<band height="534" splitType="Stretch">
+			<image onErrorType="Blank">
+				<reportElement x="341" y="13" width="211" height="77" uuid="0a472d41-1c64-4c01-a285-602b90e588eb"/>
+				<imageExpression><![CDATA[$P{BASE_URL} + "/images/logo_sisplan.png"]]></imageExpression>
+			</image>
+		</band>
 	</title>
 	<pageHeader>
 		<band height="30" splitType="Stretch">
@@ -140,7 +145,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 				<reportElement x="100" y="0" width="455" height="27" uuid="759bc9ec-e08c-434b-88b2-399a5549724f">
 					<printWhenExpression><![CDATA[$P{projeto_id}>0]]></printWhenExpression>
 				</reportElement>
-				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
 					<datasetRun subDataset="projeto_ds" uuid="d126ff2e-b16d-4abd-abc4-076d59cef5cc">
 						<datasetParameter name="projeto_id">
 							<datasetParameterExpression><![CDATA[$P{projeto_id}]]></datasetParameterExpression>

@@ -136,26 +136,31 @@ td.tplDetail{
     height: auto;
     max-width: 100%;
 }
+.alert-border .x-grid-cell {
+        background-color: #fff!important;
+        color:#333;
+        padding: 5px;
+}
 .alert-green .x-grid-cell {
-        background-color: #2ecc71 !important;
+        border-left: 8px solid #2ecc71 !important;
 }
 .alert-yellow .x-grid-cell {
-        background-color: #f1c40f !important;
+        border-left: 8px solid  #f1c40f !important;
 }
 .alert-red .x-grid-cell {
-        background-color: #ff6347 !important;
+        border-left: 8px solid  #ff6347 !important;
 }
 .alert-blue .x-grid-cell {
-        background-color: #3498db !important;
+        border-left: 8px solid #3498db !important;
 }
 .alert-dark-blue .x-grid-cell {
-        background-color: #2980b9 !important;
+        border-left: 8px solid  #2980b9 !important;
 }
 .alert-blank .x-grid-cell {
-        background-color: #ecf0f1 !important;
+        border-left: 8px solid  #ecf0f1 !important;
 }
 .alert-no-weight .x-grid-cell {
-        background-color: #c9cbbf !important;
+        border-left: 8px solid  #c9cbbf !important;
 }
 .andamento-1{
     color: lightgray !important;

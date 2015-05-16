@@ -61,7 +61,11 @@ Ext.define('ExtZF.view.plano.projetos.Form', {
         },
         {xtype: 'htmleditor', name: 'apresentacao', ref: 'apresentacao',
             fieldLabel: 'Apresentação',
-            enableFont: false,
+            enableFont: true,
+//            defaultFont : 'PT Sans',
+            fontFamilies : [
+                'PT Sans',
+            ],
             frame: false,
             height: 250,
             resizable: true,

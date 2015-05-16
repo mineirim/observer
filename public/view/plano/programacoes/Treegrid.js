@@ -24,10 +24,30 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
                 action: 'grid',
                 name: 'attach'
             },{
-                text: 'Relatório',
+                text: 'Relatórios',
                 iconCls: 'icon-report',
-                action: 'grid',
-                name: 'report',
+                menu : {
+                    items: [{
+                            text : 'Consolidado',
+                            action: 'grid',
+                            name: 'report',
+                            reportType : 1,
+                            },
+                            {
+                            text : 'Execução Física',
+                            action: 'grid',
+                            name: 'report',
+                            reportType : 2,
+                            },
+                            {
+                            text : 'Físico/Financeiro',
+                            action: 'grid',
+                            name: 'report',
+                            reportType : 3,
+                            }
+                        
+                    ]
+                }
             },{
                 text: 'E-mail',
                 iconCls: 'icon-email',

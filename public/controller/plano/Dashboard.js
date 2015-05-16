@@ -132,13 +132,7 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
        
 
             items.push('-');
-//            items.push({
-//                text:"Adicionar Vínculo",
-//                data: {record: record},
-//                handler: function(){
-//                    _myAppGlobal.fireEvent('planoProgramacaoVinculo.add', record);
-//                } 
-//            });
+
            
         items.push({
             text:"Anexo",
@@ -149,13 +143,38 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
                 }
         });
         items.push('-');
+
+
         items.push({
-            text:"Relatório",
-            data: {record: record},
-            handler: function(){
-                    mycontroller.showReport(record);
+                text: 'Relatórios',
+                iconCls: 'icon-report',
+                menu : {
+                    items:
+                    [
+                    {
+                        text:"Relatório Consolidado",
+                        data: {record: record},
+                        handler: function(){
+                                mycontroller.showReport(record,1);
+                            }
+                    },
+                    {
+                        text:"Relatório Execução Física",
+                        data: {record: record},
+                        handler: function(){
+                                mycontroller.showReport(record,2);
+                            }
+                    },
+                    {
+                        text:"Relatório Físico/Financeiro",
+                        data: {record: record},
+                        handler: function(){
+                                mycontroller.showReport(record,3);
+                            }
+                    },
+                    ]
                 }
-        });
+            });
 //        items.push({
 //           text: 'Enviar e-mail' ,
 //           data : {record: record},

@@ -77,6 +77,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             'planoProgramacoesTreegrid button[action=grid]': {
                 'click' : me.buttonActions
             },
+            'planoProgramacoesTreegrid menuitem[action=grid]': {
+                'click' : me.buttonActions
+            },
             
             'planoProgramacoesDetalhes button[action=execucao]' : {
                  click : me.clickOnDetailsButton
@@ -192,24 +195,48 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         })
         items.push('-');
         items.push({
-            text:"Relatório",
-            data: {record: record},
-            handler: function(){
-                    me.showReport(record);
+                text: 'Relatórios',
+                iconCls: 'icon-report',
+                menu : {
+                    items:
+                    [
+                    {
+                        text:"Relatório Consolidado",
+                        data: {record: record},
+                        handler: function(){
+                                me.showReport(record,1);
+                            }
+                    },
+                    {
+                        text:"Relatório Execução Física",
+                        data: {record: record},
+                        handler: function(){
+                                me.showReport(record,2);
+                            }
+                    },
+                    {
+                        text:"Relatório Físico/Financeiro",
+                        data: {record: record},
+                        handler: function(){
+                                me.showReport(record,3);
+                            }
+                    },
+                    ]
                 }
-        });
+            });
 
         var menu = Ext.create('Ext.menu.Menu',{
         items: items
         });
         menu.showAt(event.xy);
     },
-    showReport : function(record){
+    showReport : function(record, reportType){
         
         var filterProjeto = record.get("filter_projeto_id") !==""
             && (typeof(record.get("filter_projeto_id")) !== 'undefined' )
             ? "/projeto_id/"+record.get("filter_projeto_id") : "";
-        window.open("relatorio/index/index/id/"+record.get('id') + filterProjeto, "relatório"); 
+        var reportType = typeof(reportType)!=='undefinded' ? '/report_type/' + reportType :'';
+        window.open("relatorio/index/index/id/"+record.get('id') + filterProjeto + reportType, "relatório"); 
     },
     novaProgramacao: function(parent){
         var me=this;
@@ -394,7 +421,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 me.attachFile(selected[0])
                 break;
             case "report" :
-                me.showReport(selected[0]);
+                me.showReport(selected[0], btn.reportType);
                 break;
             case "sendmail" :
                 me.sendMail(selected[0]);

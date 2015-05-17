@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.4.final using JasperReports Library version 6.0.4  -->
-<!-- 2015-05-16T21:30:22 -->
+<!-- 2015-05-16T22:00:42 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geral" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" uuid="e69bc383-12d4-4901-8503-507569fba44c">
 	<property name="ireport.zoom" value="0.7513148009015782"/>
 	<property name="ireport.x" value="0"/>
@@ -105,6 +105,78 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 	<field name="__detail_responsavel_id" class="java.lang.Integer"/>
 	<field name="__detail_supervisor_id" class="java.lang.Integer"/>
 	<field name="__detail_instrumento_id" class="java.lang.Integer"/>
+	<group name="Legenda" isStartNewPage="true">
+		<groupExpression><![CDATA[$P{report_type}]]></groupExpression>
+		<groupHeader>
+			<band height="747">
+				<property name="local_mesure_unitheight" value="pixel"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<frame>
+					<reportElement x="360" y="540" width="192" height="104" uuid="f8c78faf-792d-401b-8999-7b8a399c1125"/>
+					<staticText>
+						<reportElement style="padrao" x="0" y="0" width="180" height="13" uuid="2f1299cf-7b4a-4a4a-b822-4d0f09c3209e"/>
+						<textElement verticalAlignment="Middle"/>
+						<text><![CDATA[Legenda:]]></text>
+					</staticText>
+					<frame>
+						<reportElement x="0" y="15" width="192" height="15" uuid="13e55049-1f5a-4543-9224-c3237f7dcb77"/>
+						<ellipse>
+							<reportElement mode="Opaque" x="0" y="1" width="13" height="13" backcolor="#2ECC71" uuid="4acad833-e7f0-4c4a-a7e0-0a8e2a98c13a"/>
+						</ellipse>
+						<staticText>
+							<reportElement style="padrao" x="19" y="0" width="161" height="13" uuid="1c5f2a11-df73-485b-aea1-9fb37a99dc0b"/>
+							<textElement verticalAlignment="Middle"/>
+							<text><![CDATA[Dentro do prazo]]></text>
+						</staticText>
+					</frame>
+					<frame>
+						<reportElement x="0" y="30" width="192" height="15" uuid="b386e222-f21c-4256-9d73-20fd7ac45d05"/>
+						<ellipse>
+							<reportElement mode="Opaque" x="0" y="1" width="13" height="13" backcolor="#F1C40F" uuid="13119bc3-0759-42d8-aa2c-b04eed3695e0"/>
+						</ellipse>
+						<staticText>
+							<reportElement style="padrao" x="19" y="0" width="161" height="13" uuid="1d6ca51e-9bac-4820-bd44-9f6a8515b4d5"/>
+							<textElement verticalAlignment="Middle"/>
+							<text><![CDATA[Próximo do encerramento]]></text>
+						</staticText>
+					</frame>
+					<frame>
+						<reportElement x="0" y="45" width="192" height="15" uuid="81672bf2-11df-456f-a291-88dbbba163cb"/>
+						<ellipse>
+							<reportElement mode="Opaque" x="0" y="1" width="13" height="13" backcolor="#FF6347" uuid="ac6800d1-59ae-41a9-9daa-9cbc6fba97ac"/>
+						</ellipse>
+						<staticText>
+							<reportElement style="padrao" x="19" y="0" width="161" height="13" uuid="2735c954-dc17-40f0-91cc-3e13c9c1e745"/>
+							<textElement verticalAlignment="Middle"/>
+							<text><![CDATA[Atrasada]]></text>
+						</staticText>
+					</frame>
+					<frame>
+						<reportElement x="0" y="60" width="192" height="15" uuid="8b0ecb3c-1db1-4e35-80b9-a4b05ec10768"/>
+						<ellipse>
+							<reportElement mode="Opaque" x="0" y="1" width="13" height="13" backcolor="#3498DB" uuid="4dfbbf4d-c998-42ec-8a3f-461a669f94c7"/>
+						</ellipse>
+						<staticText>
+							<reportElement style="padrao" x="19" y="0" width="161" height="13" uuid="c1e62686-14c1-4c5e-98ec-89465a854d8a"/>
+							<textElement verticalAlignment="Middle"/>
+							<text><![CDATA[Encerrada no prazo]]></text>
+						</staticText>
+					</frame>
+					<frame>
+						<reportElement x="0" y="75" width="192" height="15" uuid="a83c7e89-ef31-4934-a185-a9ea4a550878"/>
+						<ellipse>
+							<reportElement mode="Opaque" x="0" y="1" width="13" height="13" backcolor="#2980B9" uuid="7bc2df82-3ab5-4ce1-842d-35d20679799f"/>
+						</ellipse>
+						<staticText>
+							<reportElement style="padrao" x="19" y="0" width="161" height="13" uuid="26330d15-b15e-4af2-8938-e9687bbc97b4"/>
+							<textElement verticalAlignment="Middle"/>
+							<text><![CDATA[Encerrada fora do prazo]]></text>
+						</staticText>
+					</frame>
+				</frame>
+			</band>
+		</groupHeader>
+	</group>
 	<group name="nivel">
 		<groupExpression><![CDATA[$F{p1_id}]]></groupExpression>
 		<groupHeader>
@@ -155,7 +227,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="802" splitType="Stretch">
+		<band height="617" splitType="Stretch">
 			<frame>
 				<reportElement x="325" y="3" width="230" height="107" uuid="825596c2-88c4-4c6c-ac71-18f0525ac184"/>
 				<image onErrorType="Blank">
@@ -261,42 +333,6 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{report_title}]]></textFieldExpression>
 				</textField>
-			</frame>
-			<frame>
-				<reportElement x="0" y="751" width="555" height="50" uuid="f8c78faf-792d-401b-8999-7b8a399c1125"/>
-				<frame>
-					<reportElement x="0" y="0" width="555" height="15" uuid="13e55049-1f5a-4543-9224-c3237f7dcb77"/>
-					<ellipse>
-						<reportElement mode="Opaque" x="0" y="1" width="13" height="13" backcolor="#2ECC71" uuid="4acad833-e7f0-4c4a-a7e0-0a8e2a98c13a"/>
-					</ellipse>
-					<staticText>
-						<reportElement style="padrao" x="19" y="0" width="306" height="13" uuid="1c5f2a11-df73-485b-aea1-9fb37a99dc0b"/>
-						<textElement verticalAlignment="Middle"/>
-						<text><![CDATA[Dentro do prazo]]></text>
-					</staticText>
-				</frame>
-				<frame>
-					<reportElement x="0" y="15" width="555" height="15" uuid="b386e222-f21c-4256-9d73-20fd7ac45d05"/>
-					<ellipse>
-						<reportElement mode="Opaque" x="0" y="1" width="13" height="13" backcolor="#F1C40F" uuid="13119bc3-0759-42d8-aa2c-b04eed3695e0"/>
-					</ellipse>
-					<staticText>
-						<reportElement style="padrao" x="19" y="0" width="306" height="13" uuid="1d6ca51e-9bac-4820-bd44-9f6a8515b4d5"/>
-						<textElement verticalAlignment="Middle"/>
-						<text><![CDATA[Próximo do encerramento]]></text>
-					</staticText>
-				</frame>
-				<frame>
-					<reportElement x="0" y="30" width="555" height="15" uuid="81672bf2-11df-456f-a291-88dbbba163cb"/>
-					<ellipse>
-						<reportElement mode="Opaque" x="0" y="1" width="13" height="13" backcolor="#FF6347" uuid="ac6800d1-59ae-41a9-9daa-9cbc6fba97ac"/>
-					</ellipse>
-					<staticText>
-						<reportElement style="padrao" x="19" y="0" width="306" height="13" uuid="2735c954-dc17-40f0-91cc-3e13c9c1e745"/>
-						<textElement verticalAlignment="Middle"/>
-						<text><![CDATA[Atrasada]]></text>
-					</staticText>
-				</frame>
 			</frame>
 		</band>
 	</title>

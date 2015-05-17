@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.0.4.final using JasperReports Library version 6.0.4  -->
-<!-- 2015-05-16T11:39:18 -->
+<!-- 2015-05-16T21:30:22 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geral" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" uuid="e69bc383-12d4-4901-8503-507569fba44c">
 	<property name="ireport.zoom" value="0.7513148009015782"/>
 	<property name="ireport.x" value="0"/>
@@ -55,6 +55,11 @@ WHERE
 		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
 	</parameter>
 	<parameter name="report_title" class="java.lang.String"/>
+	<parameter name="user_type" class="java.lang.Integer">
+		<parameterDescription><![CDATA[1: Super, 2 usuário comum]]></parameterDescription>
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="user_id" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[with 	n1 as ( SELECT  p1.id AS p1_id, p1.singular as p1_singular, p1.has_responsavel as p1_has_responsavel, p1.has_supervisor as p1_has_supervisor, p1.has_equipe as p1_has_equipe, p1.menu as p1_menu, p1.descricao as p1_descricao, p1.ordem as p1_ordem, p1.programacao_id as p1_programacao_id, p1.equipe as p1_equipe, p1.responsavel as p1_responsavel, p1.supervisor as p1_supervisor, p1.instrumento_id as p1_instrumento_id
 	        FROM  vw_report_base p1 where p1.programacao_id is null and p1.instrumento_id=2),
@@ -97,6 +102,8 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 	<field name="__detail_equipe" class="java.lang.String"/>
 	<field name="__detail_responsavel" class="java.lang.String"/>
 	<field name="__detail_supervisor" class="java.lang.String"/>
+	<field name="__detail_responsavel_id" class="java.lang.Integer"/>
+	<field name="__detail_supervisor_id" class="java.lang.Integer"/>
 	<field name="__detail_instrumento_id" class="java.lang.Integer"/>
 	<group name="nivel">
 		<groupExpression><![CDATA[$F{p1_id}]]></groupExpression>
@@ -194,7 +201,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 									</textElement>
 									<text><![CDATA[APRESENTAÇÃO]]></text>
 								</staticText>
-								<textField>
+								<textField isBlankWhenNull="true">
 									<reportElement x="100" y="0" width="455" height="194" uuid="2f617a56-0334-4a8f-b9f4-7aa07c16f929"/>
 									<box>
 										<pen lineWidth="0.5"/>
@@ -209,7 +216,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 									<textFieldExpression><![CDATA[$F{p_apresentacao}]]></textFieldExpression>
 								</textField>
 							</frame>
-							<textField>
+							<textField isBlankWhenNull="true">
 								<reportElement x="0" y="0" width="555" height="37" uuid="0f427302-4b3b-49a6-b23f-0fee89b212e3"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font size="14" isBold="true"/>
@@ -371,7 +378,13 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 					<textFieldExpression><![CDATA[$F{__detail_supervisor} != null ? "Supervisor: " + $F{__detail_supervisor} : ""]]></textFieldExpression>
 				</textField>
 				<subreport runToBottom="false">
-					<reportElement positionType="Float" x="0" y="72" width="555" height="8" uuid="0d2cbe1d-4c7a-4a49-b692-57c543f601f8"/>
+					<reportElement style="SubTitle" positionType="Float" x="0" y="72" width="555" height="8" uuid="0d2cbe1d-4c7a-4a49-b692-57c543f601f8">
+						<printWhenExpression><![CDATA[$P{report_type}.equals( new Integer(3) ) &&
+($P{user_type}.equals( new Integer(1)) || 
+	($P{user_id}.equals( $F{__detail_responsavel_id} ) || $P{user_id}.equals($F{__detail_supervisor_id} )		
+	)	
+)]]></printWhenExpression>
+					</reportElement>
 					<subreportParameter name="programacao_id">
 						<subreportParameterExpression><![CDATA[$F{__detail_id}]]></subreportParameterExpression>
 					</subreportParameter>
@@ -379,7 +392,9 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 					<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "geral_financeiro.jasper"]]></subreportExpression>
 				</subreport>
 				<subreport>
-					<reportElement positionType="Float" x="0" y="62" width="555" height="7" uuid="87150993-1cca-4ce0-934c-a91f2fbe35a8"/>
+					<reportElement positionType="Float" x="0" y="62" width="555" height="7" uuid="87150993-1cca-4ce0-934c-a91f2fbe35a8">
+						<printWhenExpression><![CDATA[$P{report_type}.intValue() >1]]></printWhenExpression>
+					</reportElement>
 					<subreportParameter name="programacao_id">
 						<subreportParameterExpression><![CDATA[$F{__detail_id}]]></subreportParameterExpression>
 					</subreportParameter>

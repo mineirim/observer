@@ -5,7 +5,7 @@
  * @author Marcone Costa
  */
 class Data_Model_DbTable_ProjetosFinanciadores extends Zend_Db_Table_Abstract{
-	protected $_name = 'anexo_tags';
+	protected $_name = 'projetos_financiadores';
 	protected $_dependentTables = ['Data_Model_DbTable_Projetos','Data_Model_DbTable_Organizacoes'];
 
 	protected $_referenceMap =  [

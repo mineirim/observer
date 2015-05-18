@@ -48,16 +48,14 @@ class Data_ProjetosController extends Zend_Rest_Controller
         
         if(($this->getRequest()->isPut())){
             try{
-                $projetosTable = new Data_Model_DbTable_Projetos();
-                $formDataJson = $this->getRequest()->getParam('rows');
-                $formData = json_decode($formDataJson,true);
-                $id=$formData['id'];
-                unset($formData['id']);
-                $projetosTable->update($formData, "id=$id");
+                $projetosTable = new Data_Model_Projetos();                
+                
+                $formData = $this->getRequest()->getParams();
+                
+                $row = $projetosTable->update($formData);
                 if ($formData) {
                     $this->view->msg = "Dados atualizados com sucesso!";
                 }
-                $row = $projetosTable->fetchRow("id=$id");
                 $this->view->rows = $row->toArray();
                 $this->view->success=true;
         
@@ -75,20 +73,10 @@ class Data_ProjetosController extends Zend_Rest_Controller
     {        
         if($this->getRequest()->isPost()){
             try{
-        
-                $projetosTable = new Data_Model_DbTable_Projetos();
-                $formDataJson = $this->getRequest()->getPost('rows');
-                $formData = json_decode($formDataJson,true);
-                unset($formData['id']);
-                foreach ($formData as $key => $value) {
-                    if ($value == '') {
-                        unset($formData[$key]);
-                    }
-                }
-                $id = $projetosTable->insert($formData);
+                $projetosTable = new Data_Model_Projetos();
+                $formData = $this->getRequest()->getPost();
+                $row = $projetosTable->insert($formData);
                 $this->view->msg="Dados inseridos com sucesso!";
-        
-                $row = $projetosTable->fetchRow("id=$id");
                 $this->view->rows = $row->toArray();
                 $this->view->success=true;
                 $this->view->metodo = $this->getRequest()->getMethod();

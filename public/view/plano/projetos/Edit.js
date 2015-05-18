@@ -13,7 +13,7 @@ Ext.define('ExtZF.view.plano.projetos.Edit', {
     layout  : 'fit',
     autoShow: true, 
     width   : 1000,
-    height  : 468,
+    height  : 600,
     initComponent: function() {
         var me=this;
     	// Itens da janela

@@ -45,12 +45,25 @@ Ext.define('ExtZF.controller.plano.Projetos', {
     editObject: function(grid, record) {
         var me = this;
         var view = Ext.widget('planoProjetosEdit');
-        view.setTitle('Edição ');
         if(!record.data){
             record = new ExtZF.model.Projetos();
             me.getProjetosStore().add(record);
             view.setTitle('Cadastro');
         }
+        
+        me.getStore('Financiadores').load({
+            scope: me,
+            params : {projeto_id:record.data.id},
+            callback: function(r,option,success){
+                var values = [];
+                me.getStore('Financiadores').each(function(financiador){
+                    values.push(financiador.get('id'));
+                });
+                var financiadoresField=Ext.getCmp('financiadores-field');
+                financiadoresField.setValue(values);
+            }
+        });
+        view.setTitle('Edição ');
       	view.down('form').loadRecord(record);
     },
     deleteObject: function() {

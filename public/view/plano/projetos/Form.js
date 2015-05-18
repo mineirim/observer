@@ -86,7 +86,6 @@ Ext.define('ExtZF.view.plano.projetos.Form', {
             frame:false,
             buttons : [  'add', 'remove',  ],
             minHeight : 70,
-            toStore: 'Financiadores',     
 //            fromTitle : 'Instituições',
 //            toTitle : 'Financiadoras'
         }

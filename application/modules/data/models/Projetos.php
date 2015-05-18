@@ -5,6 +5,17 @@ class Data_Model_Projetos
     private $_db_table;
     /**
      * 
+     * @param int $projeto_id
+     * @return Data_Model_DbTable_Rowset_Organizacoes
+     */
+    public function getFinanciadores($projeto_id){
+        $projetosTable = new Data_Model_DbTable_Projetos();
+        /* @var $projeto Data_Model_DbTable_Row_Projeto */
+        $projeto = $projetosTable->fetchRow('id='.$projeto_id);        
+        return $projeto->getFinanciadores();       
+    }
+    /**
+     * 
      * @return Data_Model_DbTable_Projetos 
      */
     public function getProjetosDBTable(){

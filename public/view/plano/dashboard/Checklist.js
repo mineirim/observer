@@ -37,7 +37,7 @@ Ext.define('ExtZF.view.plano.dashboard.Checklist' ,{
             viewConfig: {
                 getRowClass: function(record, index) {      
                     if(record.get('peso')===null){
-                        return 'alert-no-weight';
+                        return 'alert-border alert-no-weight';
                     }
                     var data_inicio = new Date(Date.parse(record.get('data_inicio') + 'T00:00'));
                     var data_prazo = new Date(Date.parse(record.get('data_prazo') + 'T23:59:59'));
@@ -46,24 +46,24 @@ Ext.define('ExtZF.view.plano.dashboard.Checklist' ,{
                         if(data_inicio< agora && data_prazo > agora){
                             var percentual = (agora.getTime()-data_inicio.getTime())/(data_prazo.getTime()-data_inicio.getTime());
                             if(percentual>=0.8){
-                                return 'alert-yellow';  
+                                return 'alert-border alert-yellow';  
                             }else{
-                                return 'alert-green';
+                                return 'alert-border alert-green';
                             }
                         } else if(data_prazo < agora){
-                            return 'alert-red';
+                            return 'alert-border alert-red';
                         }else if(data_inicio>agora){
-                            return 'alert-blank';
+                            return 'alert-border alert-blank';
                         }
                     }else if(record.get('andamento_id')===6){
                         if(record.get('data_encerramento')){
-                            return 'alert-no-date';
+                            return 'alert-border alert-no-date';
                         }
                         var data_encerramento =  new Date(Date.parse(record.get('data_encerramento') + 'T00:00')) ;
                         if(data_encerramento>data_prazo){
-                            return 'alert-dark-blue';
+                            return 'alert-border alert-dark-blue';
                         }else{
-                            return 'alert-blue';
+                            return 'alert-border alert-blue';
                         }
                     }
                     return '';

@@ -43,6 +43,9 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
             '#my_responsability':{
                itemcontextmenu : me.itemContextMenu 
             },
+            '#my_supervision':{
+               itemcontextmenu : me.supContextMenu 
+            },
             '#not_approved':{
                itemcontextmenu : me.aprovarContextMenu 
             }
@@ -106,11 +109,13 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
                             mycontroller.aprovarProgramacao(record);
                         }
                     });
-            var menu = Ext.create('Ext.menu.Menu',{
-            items: items
-            });
-            menu.showAt(event.xy);
-        }        
+        }       
+        var itensDefault = me.defaultContextMenu(record);
+        var newMenu = items.concat(itensDefault);
+        var menu = Ext.create('Ext.menu.Menu',{
+        items: newMenu
+        });
+        menu.showAt(event.xy);
     }
     ,itemContextMenu : function( view, record, item, index, event, options){
         event.stopEvent();
@@ -132,13 +137,7 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
        
 
             items.push('-');
-//            items.push({
-//                text:"Adicionar Vínculo",
-//                data: {record: record},
-//                handler: function(){
-//                    _myAppGlobal.fireEvent('planoProgramacaoVinculo.add', record);
-//                } 
-//            });
+
            
         items.push({
             text:"Anexo",
@@ -149,13 +148,38 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
                 }
         });
         items.push('-');
+
+
         items.push({
-            text:"Relatório",
-            data: {record: record},
-            handler: function(){
-                    mycontroller.showReport(record);
+                text: 'Relatórios',
+                iconCls: 'icon-report',
+                menu : {
+                    items:
+                    [
+                    {
+                        text:"Relatório Consolidado",
+                        data: {record: record},
+                        handler: function(){
+                                mycontroller.showReport(record,1);
+                            }
+                    },
+                    {
+                        text:"Relatório Execução Física",
+                        data: {record: record},
+                        handler: function(){
+                                mycontroller.showReport(record,2);
+                            }
+                    },
+                    {
+                        text:"Relatório Físico/Financeiro",
+                        data: {record: record},
+                        handler: function(){
+                                mycontroller.showReport(record,3);
+                            }
+                    },
+                    ]
                 }
-        });
+            });
 //        items.push({
 //           text: 'Enviar e-mail' ,
 //           data : {record: record},
@@ -171,6 +195,78 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
         });
         menu.showAt(event.xy);
     }
+    ,defaultContextMenu : function(record){
+        var me =this;
+        var items = [];
+        var mycontroller = me.getController('ExtZF.controller.plano.Programacoes');
+        items.push({text: 'Editar',
+                    handler : function(){
+                        mycontroller.editarProgramacao(record);
+                    }
+                });
+        items.push('-');
+        items.push({
+            text:"Anexo",
+            data: {record: record},
+            iconCls : 'icon-attach-file',
+            handler: function(){
+                    mycontroller.attachFile(record);
+                }
+        });
+        items.push('-');
+        items.push({
+                text: 'Relatórios',
+                iconCls: 'icon-report',
+                menu : {
+                    items:
+                    [
+                    {
+                        text:"Relatório Consolidado",
+                        data: {record: record},
+                        handler: function(){
+                                mycontroller.showReport(record,1);
+                            }
+                    },
+                    {
+                        text:"Relatório Execução Física",
+                        data: {record: record},
+                        handler: function(){
+                                mycontroller.showReport(record,2);
+                            }
+                    },
+                    {
+                        text:"Relatório Físico/Financeiro",
+                        data: {record: record},
+                        handler: function(){
+                                mycontroller.showReport(record,3);
+                            }
+                    },
+                    ]
+                }
+            });
+//        items.push({
+//           text: 'Enviar e-mail' ,
+//           data : {record: record},
+//           handler : function(){
+//                    var args ={};
+//                    args.parent_record = record;
+//                    args.controller = 'Email';
+//                    _myAppGlobal.fireEvent('openEditForm', args);
+//                }
+//        });
+
+        return items;   
+    }
+    ,supContextMenu : function( view, record, item, index, event, options){
+        event.stopEvent();
+        var me= this;
+        var items = me.defaultContextMenu(record);
+        var menu = Ext.create('Ext.menu.Menu',{
+        items: items
+        });
+        menu.showAt(event.xy);
+    }
+    
     ,reloadDashboard : function(){
         var mycheck = Ext.getCmp('my_responsability');
         mycheck.getView().getStore().load({

@@ -10,6 +10,11 @@ namespace Etc\Reports;
  */
 class Basic {
     private $_reportFileName;
+    private $_reportParams=[];
+    private $_reportTitle = [1=>'RELATÓRIO CONSOLIDADO',
+    		2=> 'RELATÓRIO FÍSICO',
+    		3=> 'RELATÓRIO FÍSICO/FINANCEIRO',
+    ];
     public function __construct() {
         $this->_reportsPath = APPLICATION_PATH . '/modules/relatorio/views/scripts/index/';
     }
@@ -20,11 +25,18 @@ class Basic {
         $this->_reportsPath = $paht;
     }
     public function init($params) {
+    	$this->_auth = \Zend_Auth::getInstance ();
+    	$identity = $this->_auth->getIdentity();
         $this->_reportFileName = 'geral';       
         $this->jasper_reports = new \Etc\Jasper\Reports();   
         $this->jasper_reports->setReportsPath($this->_reportsPath);
         $programacoes_table = new \Data_Model_DbTable_Programacoes();
         $instrumentos_table = new \Data_Model_Instrumentos();
+        
+        $this->_reportParams['report_type'] =(int) (isset($params['report_type'])? $params['report_type'] : 1);
+        $this->_reportParams['user_id'] =(int) $identity->id;
+        $this->_reportParams['user_type'] = (int)$identity->is_su ? 2 : 1;
+        $this->_reportParams['report_title'] = $this->_reportTitle[$this->_reportParams['report_type']]; 
         $compositeId = split('-', $params['id']);
         if(count($compositeId)>1){
             switch ($compositeId[0]){
@@ -53,7 +65,7 @@ class Basic {
         $xml_group_base = $xml_report_group[0]->asXML();
         $dom_group_base = \dom_import_simplexml($xml_report_group[0]);
         $dom_report = \dom_import_simplexml($xml_report[0]);
-        $dom_report->removeChild($dom_report->getElementsByTagName('group')->item(0));       
+        $dom_report->removeChild($dom_report->getElementsByTagName('group')->item(1));       
         $estrutura_arr  = $estrutura ->fetchAll();        
         $sql =false;        
         $order = array();
@@ -86,6 +98,7 @@ class Basic {
         }       
         $ix--;
         if(isset($params['projeto_id']) && $params['projeto_id'] !==""){
+            $this->_reportParams['projeto_id'] =(int)$params['projeto_id'];
             $projetoWhere = "\n WHERE n{$ix}.p{$ix}_projeto_id=".$params['projeto_id'] ;
         }
             
@@ -105,7 +118,7 @@ class Basic {
         $this->jasper_reports->compileLoadedReport($jasperDesign);
     }
     public function display() {
-        $this->jasper_reports->compileReport('geral');        
+        $this->jasper_reports->compileReport('geral','pdf',$this->_reportParams);        
     }
     public function saveHTML() {
         $manager = new \Etc\Jasper\Manager();
@@ -148,13 +161,13 @@ class Basic {
         
         if($ix==1){
             $where = $filter_id ? " AND p{$ix}.id=".$filter_id:" ";
-            $template = "WITH 	n1 as ( SELECT  p1.id AS p1_id, p1.singular as p1_singular, p1.has_responsavel as p1_has_responsavel, p1.has_supervisor as p1_has_supervisor, p1.has_equipe as p1_has_equipe, p1.menu as p1_menu, p1.descricao as p1_descricao, p1.ordem as p1_ordem, p1.programacao_id as p1_programacao_id, p1.equipe as p1_equipe, p1.responsavel as p1_responsavel, p1.supervisor as p1_supervisor, p1.instrumento_id as p1_instrumento_id, p1.projeto_id as p1_projeto_id
+            $template = "WITH 	n1 as ( SELECT  p1.id AS p1_id, p1.singular as p1_singular, p1.has_responsavel as p1_has_responsavel, p1.has_supervisor as p1_has_supervisor, p1.has_equipe as p1_has_equipe, p1.menu as p1_menu, p1.descricao as p1_descricao, p1.ordem as p1_ordem, p1.programacao_id as p1_programacao_id, p1.equipe as p1_equipe, p1.responsavel as p1_responsavel, p1.supervisor as p1_supervisor, p1.instrumento_id as p1_instrumento_id, p1.projeto_id as p1_projeto_id, p1.responsavel_id as p1_responsavel_id, p1.supervisor_id as p1_supervisor_id
                             FROM  vw_report_base p1 WHERE p1.programacao_id is null and p1.instrumento_id={$estrutura->id} {$where})";
         }else{
             $join = $filter_id ? " INNER " : " RIGHT ";
             $where = $filter_id ? " WHERE p{$ix}.id=".$filter_id:" ";
             $template = "n__ix__ as (
-                                SELECT n__iy__.*, p__ix__.id AS p__ix___id, p__ix__.singular as p__ix___singular, p__ix__.has_responsavel as p__ix___has_responsavel, p__ix__.has_supervisor as p__ix___has_supervisor, p__ix__.has_equipe as p__ix___has_equipe, p__ix__.menu as p__ix___menu, p__ix__.descricao as p__ix___descricao, p__ix__.ordem as p__ix___ordem, p__ix__.programacao_id as p__ix___programacao_id, p__ix__.equipe as p__ix___equipe, p__ix__.responsavel as p__ix___responsavel, p__ix__.supervisor as p__ix___supervisor, p__ix__.instrumento_id as p__ix___instrumento_id, p__ix__.projeto_id as p__ix___projeto_id 
+                                SELECT n__iy__.*, p__ix__.id AS p__ix___id, p__ix__.singular as p__ix___singular, p__ix__.has_responsavel as p__ix___has_responsavel, p__ix__.has_supervisor as p__ix___has_supervisor, p__ix__.has_equipe as p__ix___has_equipe, p__ix__.menu as p__ix___menu, p__ix__.descricao as p__ix___descricao, p__ix__.ordem as p__ix___ordem, p__ix__.programacao_id as p__ix___programacao_id, p__ix__.equipe as p__ix___equipe, p__ix__.responsavel as p__ix___responsavel, p__ix__.supervisor as p__ix___supervisor, p__ix__.instrumento_id as p__ix___instrumento_id, p__ix__.projeto_id as p__ix___projeto_id,  p__ix__.responsavel_id as p__ix___responsavel_id, p__ix__.supervisor_id as p__ix___supervisor_id 
                                 FROM    vw_report_base p__ix__ {$join} JOIN n__iy__ on p__ix__.programacao_id=n__iy__.p__iy___id $where
                          )";
         }

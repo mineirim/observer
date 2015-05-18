@@ -4,6 +4,8 @@
  * @author Marcone Costa <blog@barraetc.com.br>
 */
 
+/* global Ext */
+
 Ext.define('ExtZF.view.plano.projetos.List' ,{
     extend: 'Ext.grid.Panel',
     alias : 'widget.planoProjetosList', 
@@ -23,6 +25,8 @@ Ext.define('ExtZF.view.plano.projetos.List' ,{
 	columns: [
                   {header: 'Id.',  dataIndex: 'id',  flex: 0, width: '20'},
 		  {header: 'Nome',  dataIndex: 'nome',  flex: 1},
+		  {header: 'Início',  dataIndex: 'data_inicio',  flex: 1,renderer: Ext.util.Format.dateRenderer('d/m/y')},
+		  {header: 'Encerramento',  dataIndex: 'data_fim',  flex: 1,renderer: Ext.util.Format.dateRenderer('d/m/y')},
 		  {header: 'Coordenador',  dataIndex: 'coordenador_usuario_id',  flex: 1,
                       renderer: function(value, metaData, record){
                                 return Ext.getStore('Usuarios').findRecord('id',value).get('nome');

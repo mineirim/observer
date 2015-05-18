@@ -9,11 +9,12 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Projetos', {
     extend: 'Ext.app.Controller',
-    stores: ['Projetos'], // Store utilizado no gerenciamento do usuário
-    models: ['Projetos'], // Modelo do usuário
+    stores: ['Projetos', 'Organizacoes', 'Financiadores', ], 
+    models: ['Projetos', 'Organizacoes'], 
      views: [
     'plano.projetos.List',
-    'plano.projetos.Edit'
+    'plano.projetos.Edit',
+    'plano.projetos.Form'
     ],
     refs: [{
                 ref:'grid',
@@ -42,13 +43,27 @@ Ext.define('ExtZF.controller.plano.Projetos', {
         });
     },
     editObject: function(grid, record) {
+        var me = this;
         var view = Ext.widget('planoProjetosEdit');
-        view.setTitle('Edição ');
         if(!record.data){
             record = new ExtZF.model.Projetos();
-            this.getProjetosStore().add(record);
+            me.getProjetosStore().add(record);
             view.setTitle('Cadastro');
         }
+        
+        me.getStore('Financiadores').load({
+            scope: me,
+            params : {projeto_id:record.data.id},
+            callback: function(r,option,success){
+                var values = [];
+                me.getStore('Financiadores').each(function(financiador){
+                    values.push(financiador.get('id'));
+                });
+                var financiadoresField=Ext.getCmp('financiadores-field');
+                financiadoresField.setValue(values);
+            }
+        });
+        view.setTitle('Edição ');
       	view.down('form').loadRecord(record);
     },
     deleteObject: function() {
@@ -75,16 +90,26 @@ Ext.define('ExtZF.controller.plano.Projetos', {
         var win    = button.up('window');
         var form   = win.down('form').getForm();
         if (form.isValid()) {
-            var r = form.getRecord();
-            form.updateRecord(r);
-            r.save({
-                success: function(a,b){
+            var method = 'POST';
+            var param_id = '';
+            if(form.getFieldValues().id !==""){
+                method = 'PUT';
+                param_id='/' +form.getFieldValues().id;
+            }
+            form.submit({                
+                method: method,
+                url: '/data/projetos' +param_id,
+                waitMsg: 'Salvando projeto...',
+                success: function(fp, o) {
+                    Ext.Msg.alert('Success', 'Projeto salvo ' );
                     win.close();
                     me.getProjetosStore().load();
-                    Etc.log({msg:"Salvo com sucesso!",level:"info"});
                 },
-                failure:function(a,b){
-                    Etc.log({msg:"Erro ao salvar!",level:"error"});
+                error: function(a,b){
+                    Ext.Msg.alert('Falha', 'erro');
+                },
+                callback: function(a,b){
+                    Ext.Msg.alert('Callback', 'passou no callback');
                 }
             });
         }

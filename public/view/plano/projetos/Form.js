@@ -1,5 +1,4 @@
 /* global Ext */
-
 Ext.define('ExtZF.view.plano.projetos.Form', {
     extend: 'Ext.form.Panel',
     alias: 'widget.planoProjetosForm',
@@ -7,6 +6,9 @@ Ext.define('ExtZF.view.plano.projetos.Form', {
     padding: 8,
     bodyPadding: 12,
     defaults    : {labelWidth  : 150}, 
+    requires: [
+        'Ext.ux.form.ItemSelector',
+    ],
     items: [
         {xtype: 'hidden',name : 'id',ref: 'id',fieldLabel: 'Id', anchor: '95%'},
         {xtype: 'textfield',name : 'nome',ref: 'nome',fieldLabel: 'Nome',anchor      : '95%',},
@@ -61,7 +63,7 @@ Ext.define('ExtZF.view.plano.projetos.Form', {
         },
         {xtype: 'htmleditor', name: 'apresentacao', ref: 'apresentacao',
             fieldLabel: 'Apresentação',
-            enableFont: true,
+            enableFont: false,
 //            defaultFont : 'PT Sans',
             fontFamilies : [
                 'PT Sans',
@@ -71,6 +73,24 @@ Ext.define('ExtZF.view.plano.projetos.Form', {
             resizable: true,
             anchor: '95%'
         },        
+        {
+            xtype: 'itemselector',
+            id: 'financiadores-field',
+            name: 'financiadores_ids',
+            fieldLabel: 'Financiadores',
+            store: 'Organizacoes',
+            displayField: 'nome',
+            valueField: 'id',
+            allowBlank: false,
+            msgTarget: 'side',
+            frame:false,
+            buttons : [  'add', 'remove',  ],
+            minHeight : 70,
+//            fromTitle : 'Instituições',
+//            toTitle : 'Financiadoras'
+        }
+                
+        
     ],
 });
 

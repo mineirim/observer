@@ -1,3 +1,5 @@
+/* global Ext, Etc */
+
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Anexos', {
     extend: 'Ext.app.Controller',
@@ -6,11 +8,12 @@ Ext.define('ExtZF.controller.plano.Anexos', {
     models: ['Anexos','Tags'], // Modelo do usuário
      views: [
     'plano.anexos.List',
+    'plano.anexos.Grid',
     'plano.anexos.Edit'
     ],
     refs: [{
                 ref:'grid',
-                selector:'planoAnexosList'
+                selector:'planoAnexosGrid'
             },{
                 ref:'formPanel',
                 selector:'planoAnexosEdit'
@@ -29,6 +32,9 @@ Ext.define('ExtZF.controller.plano.Anexos', {
             'planoAnexosList button[action=excluir]': {
                 click: me.deleteObject
             },
+            'planoAnexosGrid button[action=excluir]': {
+                click: me.deleteObject
+            },
             'planoAnexosEdit button[action=sendFile]': {
                 click: me.sendFile
             },
@@ -36,13 +42,24 @@ Ext.define('ExtZF.controller.plano.Anexos', {
                 beforerender          : me.callRender
             },
         });
-        
+        me.application.on({
+            filterProgramacaoAnexos: me.filterProgramacaoAnexos, 
+            scope: me
+        });
         me.initiated=true;
+    },
+    filterProgramacaoAnexos : function(programacao_id){
+        var me = this;   
+        me.getAnexosStore().remoteFilter = false;
+        me.getAnexosStore().suspendEvents();
+        me.getAnexosStore().clearFilter();
+        me.getAnexosStore().resumeEvents();
+        me.getAnexosStore().remoteFilter = true;
+        me.getAnexosStore().filter('operativo_id',programacao_id);        
     },
     callRender : function()
     {
-        me=this;
-        Etc.log('Renderiza form send file');
+        var me=this;
         var checkboxconfigs = [];
         var tagRecords = me.getTagsStore();
         tagRecords.load({
@@ -80,8 +97,8 @@ Ext.define('ExtZF.controller.plano.Anexos', {
     },
     deleteObject: function() {
         var me=this;
-        var grid = this.getGrid(); // recupera lista de usuários
-        ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
+        var grid = me.getGrid(); // recupera lista de usuários
+        var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
         	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
         	return ;
@@ -91,7 +108,7 @@ Ext.define('ExtZF.controller.plano.Anexos', {
 			if(opt === 'no')
 				return;
 			grid.el.mask('Excluindo registro(s)');
-                        store = me.getAnexosStore();
+                        var store = me.getAnexosStore();
                         store.remove(ids);
                         store.sync();
                         grid.el.unmask();
@@ -111,10 +128,10 @@ Ext.define('ExtZF.controller.plano.Anexos', {
                             win.close();
                         },
                         error: function(a,b){
-                            Ext.Msg.alert('Falha', 'erro')
+                            Ext.Msg.alert('Falha', 'erro');
                         },
                         callback: function(a,b){
-                            Ext.Msg.alert('Callback', 'passou no callback')
+                            Ext.Msg.alert('Callback', 'passou no callback');
                         }
                     });
         }

@@ -28,7 +28,8 @@ Ext.application({
             'plano.Financeiro',
             'plano.Despesas',
             'plano.Execucao',
-            'Email'
+            'plano.Anexos',
+            'Email',
     ],
     init : function(){
         _myAppGlobal = this;

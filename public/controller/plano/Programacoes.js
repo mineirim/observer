@@ -201,7 +201,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                     items:
                     [
                     {
-                        text:"Relatório Consolidado",
+                        text:"Resultados",
                         data: {record: record},
                         handler: function(){
                                 me.showReport(record,1);

@@ -116,11 +116,19 @@ Ext.define('ExtZF.controller.plano.Anexos', {
         console.log(rec);
       alert('dx');  
     },
-    deleteLine : function(grid,btn,rec){
-        console.log(grid);
-        console.log(btn);
-        console.log(rec);
-      alert('chamou o delete');  
+    deleteLine : function(grid,rec,rowId){
+        var me=this;
+
+        Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir este aquivo?<br><i>' + rec.get('nome') + '</i>' ,
+		function(opt){
+			if(opt === 'no')
+				return;
+			grid.el.mask('Excluindo registro(s)');
+                        var store = grid.getStore();
+                        store.removeAt(rowId);
+                        store.sync();
+                        grid.el.unmask();
+		}, this);
     },
     deleteObject: function() {
         var me=this;

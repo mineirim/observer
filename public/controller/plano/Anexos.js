@@ -32,8 +32,15 @@ Ext.define('ExtZF.controller.plano.Anexos', {
             'planoAnexosList button[action=excluir]': {
                 click: me.deleteObject
             },
-            'planoAnexosGrid button[action=excluir]': {
+            'planoAnexosGrid actioncolumn[action=excluir]': {
                 click: me.deleteObject
+            },
+            'planoAnexosGrid': {
+                click: me.downloadLine,
+                downloadFile : me.downloadLine,
+            },
+            'button[action=delete]': {
+                click: me.downloadLine
             },
             'planoAnexosEdit button[action=sendFile]': {
                 click: me.sendFile
@@ -44,6 +51,14 @@ Ext.define('ExtZF.controller.plano.Anexos', {
         });
         me.application.on({
             filterProgramacaoAnexos: me.filterProgramacaoAnexos, 
+            scope: me
+        });
+        me.application.on({
+            deleteFileLine: me.deleteLine, 
+            scope: me
+        });
+        me.application.on({
+            downloadFileLine: me.downloadLine, 
             scope: me
         });
         me.initiated=true;
@@ -95,9 +110,21 @@ Ext.define('ExtZF.controller.plano.Anexos', {
         view.setTitle('Edição ');
         view.setTitle('Anexo');
     },
+    downloadLine : function(grid,btn,rec){
+        console.log(grid);
+        console.log(btn);
+        console.log(rec);
+      alert('dx');  
+    },
+    deleteLine : function(grid,btn,rec){
+        console.log(grid);
+        console.log(btn);
+        console.log(rec);
+      alert('chamou o delete');  
+    },
     deleteObject: function() {
         var me=this;
-        var grid = me.getGrid(); // recupera lista de usuários
+        var grid = me.getGrid(); 
         var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
         	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');

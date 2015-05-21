@@ -44,6 +44,9 @@
 .icon-delete{
         background-image: url(../images/icons/delete.png)  !important;
 }
+.icon-download{
+        background-image: url(../images/icons/page_save.png)  !important;
+}
 
 .icon-edit{
     background-image: url(../images/icons/pencil.png)  !important;

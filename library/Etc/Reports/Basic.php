@@ -11,7 +11,7 @@ namespace Etc\Reports;
 class Basic {
     private $_reportFileName;
     private $_reportParams=[];
-    private $_reportTitle = [1=>'RELATÓRIO CONSOLIDADO',
+    private $_reportTitle = [1=>'RESULTADOS',
     		2=> 'RELATÓRIO FÍSICO',
     		3=> 'RELATÓRIO FÍSICO/FINANCEIRO',
     ];

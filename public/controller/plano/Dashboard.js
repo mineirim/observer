@@ -157,7 +157,7 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
                     items:
                     [
                     {
-                        text:"Relatório Consolidado",
+                        text:"Resultados",
                         data: {record: record},
                         handler: function(){
                                 mycontroller.showReport(record,1);

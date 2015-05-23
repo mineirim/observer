@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.0.4.final using JasperReports Library version 6.0.4  -->
-<!-- 2015-05-16T22:00:42 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geral" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" uuid="e69bc383-12d4-4901-8503-507569fba44c">
 	<property name="ireport.zoom" value="0.7513148009015782"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="774"/>
 	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
 	<style name="Title" fontName="PT Sans" fontSize="50" isBold="true"/>
 	<style name="SubTitle" forecolor="#736343" fontName="PT Sans" fontSize="18"/>
@@ -111,6 +109,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 			<band height="747">
 				<property name="local_mesure_unitheight" value="pixel"/>
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<printWhenExpression><![CDATA[$P{report_type}.intValue()>1]]></printWhenExpression>
 				<frame>
 					<reportElement x="360" y="540" width="192" height="104" uuid="f8c78faf-792d-401b-8999-7b8a399c1125"/>
 					<staticText>
@@ -460,21 +459,21 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 				<textField evaluationTime="Report">
 					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#000000" uuid="d4eb09fc-5d9d-4727-b7ca-dcbd93fb0ede"/>
 					<textElement verticalAlignment="Middle">
-						<font size="10" isBold="false"/>
+						<font size="8" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#000000" uuid="52330dd2-21e1-451b-9d3b-e36126d48203"/>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font size="10" isBold="false"/>
+						<font size="8" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de "]]></textFieldExpression>
 				</textField>
-				<textField pattern="EEEEE dd MMMMM yyyy">
+				<textField pattern="EEEEE dd &apos; de &apos; MMMMM &apos; de &apos; yyyy">
 					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#000000" uuid="78e96ecb-4eda-459b-ae1a-1518d4cb767b"/>
 					<textElement verticalAlignment="Middle">
-						<font size="10" isBold="false"/>
+						<font size="8" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 				</textField>

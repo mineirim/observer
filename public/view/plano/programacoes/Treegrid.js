@@ -28,7 +28,7 @@ Ext.define('ExtZF.view.plano.programacoes.Treegrid' ,{
                 iconCls: 'icon-report',
                 menu : {
                     items: [{
-                            text : 'Consolidado',
+                            text : 'Resultados',
                             action: 'grid',
                             name: 'report',
                             reportType : 1,

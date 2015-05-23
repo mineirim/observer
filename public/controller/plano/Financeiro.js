@@ -158,11 +158,12 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
                     me.getFinanceiroStore().load();
                 },
                 failure:function(a,b){
-                    throw{ 
+                    throw { 
                             name:        "Save error", 
                             level:       "problema ao salvar", 
                             message:     "Erro ao salvar o registro.", 
-                            htmlMessage: "Erro ao salvar o registo." 
+                            htmlMessage: "Erro ao salvar o registo." ,
+                            toString: function(){return this.name + ": " + this.message;}                            
                         };
                 }
             });

@@ -81,7 +81,7 @@ Ext.define('ExtZF.controller.plano.Despesas', {
         if(!record){
 //            opts = {programacao_id : parent_record.get('programacao_id'),
 //                    tipo_registro_id : 1}
-            var opts = {}    
+            var opts = {};
             record = Ext.ModelMgr.create(opts,'ExtZF.model.Despesas');
             
         }

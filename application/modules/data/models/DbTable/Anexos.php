@@ -2,7 +2,7 @@
 
 class Data_Model_DbTable_Anexos extends Etc_Model_AssignModel
 {
-    protected $_dependentTables = ['Data_Model_DbTable_AnexoTags'];
+    protected $_dependentTables = ['Data_Model_DbTable_AnexoTags', 'Data_Model_DbTable_ProgramacaoAnexos' ];
     
     protected $_referenceMap =  [
                 'Usuarios' =>  [ 'columns' => 'inclusao_usuario_id', 

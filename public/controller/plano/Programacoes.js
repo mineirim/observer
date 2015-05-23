@@ -1,4 +1,4 @@
-/* global Ext, Etc, _myAppGlobal */
+/* global Ext, Etc, _myAppGlobal, gantt, gantt */
 
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Programacoes', {
@@ -344,7 +344,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
       return Etc.getLoggedUser().get('id')===record.get(field);
     },
     isInSupervisores : function(record){
-        return (!!~record.get('supervisores').split(',').map(Number).indexOf(Etc.getLoggedUser().get('id')))
+        return (!!~record.get('supervisores').split(',').map(Number).indexOf(Etc.getLoggedUser().get('id')));
     },
     handlerEdit: function(grid, rowIndex, colIndex) {
         var rec = grid.getStore().getAt(rowIndex);
@@ -374,7 +374,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         if(me.id ==="plano.Programacoes"){
             var grid = me.getTreegrid(); 
             selected = grid.getSelectionModel().getSelection()[0]; 
-        }else if(typeof(record)!='undefined'){
+        }else if(typeof(record)!=='undefined'){
             selected=record;
         }else{
             selected = me.data.record;
@@ -651,7 +651,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
              clearTpl.overwrite(showDetail.body, []);               
              showDetail.doLayout();
              button.hide();
-             planilhaOrcamentaria = detailPanel.child('#planilhaOrcamentaria');
+             var planilhaOrcamentaria = detailPanel.child('#planilhaOrcamentaria');
              if(typeof(planilhaOrcamentaria)!=='undefined' || planilhaOrcamentaria !== null)
                 planilhaOrcamentaria.hide();
              return;
@@ -661,7 +661,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             detailPanel.show();
             var instrumento =undefined;
             if(record.isRoot()){
-                rootId = record.get('id');
+                var rootId = record.get('id');
                 if(record.get('id')>0){
                     var rootRecord = me.getStore('Programacoes').findRecord('id',record.get('id'));
                     instrumento= me.getStore('Instrumentos').findRecord('instrumento_id',rootRecord.get('instrumento_id'));
@@ -714,23 +714,10 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 }
            }
 
-           var tpl_anexos =  new Ext.XTemplate(['Anexos:<tpl for=".">', '<div>', '<a target="_blank" href="/downloads/{data.nome}"><span>{data.nome}</span> </a>',' <span> - Tags: {data.tags}</span> - <span>Por: {data.usuario}</span>', '</div>', '</tpl>'])
-           var anexosStore = me.getStore('anexos.ProgramacaoAnexosStore');
+          var anexosStore = me.getStore('anexos.ProgramacaoAnexosStore');
            anexosStore.getProxy().setExtraParam('programacao_id',record.get('id'));
-           anexosStore.load({
-                   callback : function(records, operation, success) {
-                       tpl_anexos.append(showDetail.body,records);
-                   }
-               });
+           anexosStore.load();
 
-   //{
-   //        xtype: 'component',
-   //        autoEl: {
-   //            tag: 'a',
-   //            href: 'http://www.example.com/',
-   //            html: 'Example.com'
-   //        }
-   //    }        
            var planilhaOperativa = detailPanel.child("#planilhaOperativa");
            if(record.get('instrumento').has_operativo){
                var operativoStore = me.getStore('Operativos');
@@ -826,11 +813,11 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         if(document.getElementById('GanttChartDIV')===null)
             return;
         gantt.config.xml_date = "%Y-%m-%d";
-                gantt.config.scale_unit = "month";
+        gantt.config.scale_unit = "month";
         gantt.config.step = 1;
 //        gantt.config.date_scale = "%m";
         gantt.init('GanttChartDIV');
-        params = typeof(id) !== 'undefined' ?'&node_id='+id:'';
+        var params = typeof(id) !== 'undefined' ?'&node_id='+id:'';
         gantt.load('/data/gantt?format=xml'+params,'xml');
     },
     getGantt : function(id){

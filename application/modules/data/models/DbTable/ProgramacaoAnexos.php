@@ -12,9 +12,11 @@ class Data_Model_DbTable_ProgramacaoAnexos  extends Zend_Db_Table_Abstract{
     protected $_referenceMap =  [
                 'Anexo' =>  [ 'columns' => 'anexo_id', 
                                     'refTableClass' => 'Data_Model_DbTable_Anexos', 
+                                    'onDelete'          => self::CASCADE,
                                     'refColumns' => 'id' ] ,
                 'Programacao' =>  [ 'columns' => 'programacao_id', 
                                   'refTableClass' => 'Data_Model_DbTable_Programacoes', 
+                                  'onDelete'          => self::CASCADE,
                                   'refColumns' => 'id' ]         
                 ];
 

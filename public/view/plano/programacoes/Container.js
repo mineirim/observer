@@ -48,6 +48,13 @@ Ext.define('ExtZF.view.plano.programacoes.Container' ,{
                                         autoScroll: true                                          
                                     },
                                     {
+                                        id      : 'attachmentPanel',
+                                        xtype   : 'planoAnexosGrid',
+                                        title   : 'Anexos',
+                                        frame: false,
+                                        autoScroll: true                                          
+                                    },
+                                    {
                                         id      : 'ganttPanel',
                                         html    : '<div id="GanttChartDIV"></div>',
                                         title   : 'Gantt',

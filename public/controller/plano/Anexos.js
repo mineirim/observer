@@ -1,3 +1,5 @@
+/* global Ext, Etc */
+
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Anexos', {
     extend: 'Ext.app.Controller',
@@ -6,11 +8,12 @@ Ext.define('ExtZF.controller.plano.Anexos', {
     models: ['Anexos','Tags'], // Modelo do usuário
      views: [
     'plano.anexos.List',
+    'plano.anexos.Grid',
     'plano.anexos.Edit'
     ],
     refs: [{
                 ref:'grid',
-                selector:'planoAnexosList'
+                selector:'planoAnexosGrid'
             },{
                 ref:'formPanel',
                 selector:'planoAnexosEdit'
@@ -29,6 +32,16 @@ Ext.define('ExtZF.controller.plano.Anexos', {
             'planoAnexosList button[action=excluir]': {
                 click: me.deleteObject
             },
+            'planoAnexosGrid actioncolumn[action=excluir]': {
+                click: me.deleteObject
+            },
+            'planoAnexosGrid': {
+                click: me.downloadLine,
+                downloadFile : me.downloadLine,
+            },
+            'button[action=delete]': {
+                click: me.downloadLine
+            },
             'planoAnexosEdit button[action=sendFile]': {
                 click: me.sendFile
             },
@@ -36,13 +49,32 @@ Ext.define('ExtZF.controller.plano.Anexos', {
                 beforerender          : me.callRender
             },
         });
-        
+        me.application.on({
+            filterProgramacaoAnexos: me.filterProgramacaoAnexos, 
+            scope: me
+        });
+        me.application.on({
+            deleteFileLine: me.deleteLine, 
+            scope: me
+        });
+        me.application.on({
+            downloadFileLine: me.downloadLine, 
+            scope: me
+        });
         me.initiated=true;
+    },
+    filterProgramacaoAnexos : function(programacao_id){
+        var me = this;   
+        me.getAnexosStore().remoteFilter = false;
+        me.getAnexosStore().suspendEvents();
+        me.getAnexosStore().clearFilter();
+        me.getAnexosStore().resumeEvents();
+        me.getAnexosStore().remoteFilter = true;
+        me.getAnexosStore().filter('operativo_id',programacao_id);        
     },
     callRender : function()
     {
-        me=this;
-        Etc.log('Renderiza form send file');
+        var me=this;
         var checkboxconfigs = [];
         var tagRecords = me.getTagsStore();
         tagRecords.load({
@@ -78,10 +110,49 @@ Ext.define('ExtZF.controller.plano.Anexos', {
         view.setTitle('Edição ');
         view.setTitle('Anexo');
     },
+    downloadLine : function(grid,rec,rowId){
+        var config = {};
+        var url = '/downloads/' + rec.get('nome');
+
+        // Create form panel. It contains a basic form that we need for the file download.
+        var form = Ext.create('Ext.form.Panel', {
+            standardSubmit: true,
+            url: url,
+            method: 'GET'
+        });
+
+        // Call the submit to begin the file download.
+        form.submit({
+            target: '_blank', // Avoids leaving the page. 
+            params: {}
+        });
+
+        // Clean-up the form after 100 milliseconds.
+        // Once the submit is called, the browser does not care anymore with the form object.
+        Ext.defer(function(){
+            form.close();
+        }, 100);
+        
+
+    },
+    deleteLine : function(grid,rec,rowId){
+        var me=this;
+
+        Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir este aquivo?<br><i>' + rec.get('nome') + '</i>' ,
+		function(opt){
+			if(opt === 'no')
+				return;
+			grid.el.mask('Excluindo registro(s)');
+                        var store = grid.getStore();
+                        store.removeAt(rowId);
+                        store.sync();
+                        grid.el.unmask();
+		}, this);
+    },
     deleteObject: function() {
         var me=this;
-        var grid = this.getGrid(); // recupera lista de usuários
-        ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
+        var grid = me.getGrid(); 
+        var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
         	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
         	return ;
@@ -91,7 +162,7 @@ Ext.define('ExtZF.controller.plano.Anexos', {
 			if(opt === 'no')
 				return;
 			grid.el.mask('Excluindo registro(s)');
-                        store = me.getAnexosStore();
+                        var store = me.getAnexosStore();
                         store.remove(ids);
                         store.sync();
                         grid.el.unmask();
@@ -111,10 +182,10 @@ Ext.define('ExtZF.controller.plano.Anexos', {
                             win.close();
                         },
                         error: function(a,b){
-                            Ext.Msg.alert('Falha', 'erro')
+                            Ext.Msg.alert('Falha', 'erro');
                         },
                         callback: function(a,b){
-                            Ext.Msg.alert('Callback', 'passou no callback')
+                            Ext.Msg.alert('Callback', 'passou no callback');
                         }
                     });
         }

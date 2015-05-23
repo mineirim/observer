@@ -32,8 +32,15 @@ Ext.define('ExtZF.controller.plano.Anexos', {
             'planoAnexosList button[action=excluir]': {
                 click: me.deleteObject
             },
-            'planoAnexosGrid button[action=excluir]': {
+            'planoAnexosGrid actioncolumn[action=excluir]': {
                 click: me.deleteObject
+            },
+            'planoAnexosGrid': {
+                click: me.downloadLine,
+                downloadFile : me.downloadLine,
+            },
+            'button[action=delete]': {
+                click: me.downloadLine
             },
             'planoAnexosEdit button[action=sendFile]': {
                 click: me.sendFile
@@ -44,6 +51,14 @@ Ext.define('ExtZF.controller.plano.Anexos', {
         });
         me.application.on({
             filterProgramacaoAnexos: me.filterProgramacaoAnexos, 
+            scope: me
+        });
+        me.application.on({
+            deleteFileLine: me.deleteLine, 
+            scope: me
+        });
+        me.application.on({
+            downloadFileLine: me.downloadLine, 
             scope: me
         });
         me.initiated=true;
@@ -95,9 +110,48 @@ Ext.define('ExtZF.controller.plano.Anexos', {
         view.setTitle('Edição ');
         view.setTitle('Anexo');
     },
+    downloadLine : function(grid,rec,rowId){
+        var config = {};
+        var url = '/downloads/' + rec.get('nome');
+
+        // Create form panel. It contains a basic form that we need for the file download.
+        var form = Ext.create('Ext.form.Panel', {
+            standardSubmit: true,
+            url: url,
+            method: 'GET'
+        });
+
+        // Call the submit to begin the file download.
+        form.submit({
+            target: '_blank', // Avoids leaving the page. 
+            params: {}
+        });
+
+        // Clean-up the form after 100 milliseconds.
+        // Once the submit is called, the browser does not care anymore with the form object.
+        Ext.defer(function(){
+            form.close();
+        }, 100);
+        
+
+    },
+    deleteLine : function(grid,rec,rowId){
+        var me=this;
+
+        Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir este aquivo?<br><i>' + rec.get('nome') + '</i>' ,
+		function(opt){
+			if(opt === 'no')
+				return;
+			grid.el.mask('Excluindo registro(s)');
+                        var store = grid.getStore();
+                        store.removeAt(rowId);
+                        store.sync();
+                        grid.el.unmask();
+		}, this);
+    },
     deleteObject: function() {
         var me=this;
-        var grid = me.getGrid(); // recupera lista de usuários
+        var grid = me.getGrid(); 
         var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
         	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');

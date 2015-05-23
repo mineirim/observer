@@ -4,8 +4,8 @@ Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Despesas', {
     initiated:false,
     extend: 'Ext.app.Controller',
-    stores: ['Despesas'], // Store utilizado no gerenciamento do usuário
-    models: ['Despesas'], // Modelo do usuário
+    stores: ['Despesas', 'Financeiro'], // Store utilizado no gerenciamento do usuário
+    models: ['Despesas', 'Financeiro'], // Modelo do usuário
      views: [
     'plano.despesas.List',
     'plano.despesas.Edit',
@@ -139,10 +139,11 @@ Ext.define('ExtZF.controller.plano.Despesas', {
             var r = form.getRecord();
             form.updateRecord(r);
             r.save({
-                success: function(a,b){
+                success: function(despesaRecord,b){
                     win.close();
                     me.getDespesasStore().load();
-                    me.application.fireEvent('planoProgramacaoFinanceiro.filterByProgramacao', win.programacao_id);
+                    var financeiroRecord =  me.getFinanceiroStore().findRecord('id', despesaRecord.get('financeiro_id'));
+                    me.application.fireEvent('planoProgramacaoFinanceiro.filterByProgramacao', financeiroRecord.get('programacao_id'));
                 },
                 failure:function(a,b){
                     Ext.log({msg:"Erro ao salvar!",level:"error"});

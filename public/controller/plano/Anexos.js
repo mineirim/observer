@@ -110,11 +110,30 @@ Ext.define('ExtZF.controller.plano.Anexos', {
         view.setTitle('Edição ');
         view.setTitle('Anexo');
     },
-    downloadLine : function(grid,btn,rec){
-        console.log(grid);
-        console.log(btn);
-        console.log(rec);
-      alert('dx');  
+    downloadLine : function(grid,rec,rowId){
+        var config = {};
+        var url = '/downloads/' + rec.get('nome');
+
+        // Create form panel. It contains a basic form that we need for the file download.
+        var form = Ext.create('Ext.form.Panel', {
+            standardSubmit: true,
+            url: url,
+            method: 'GET'
+        });
+
+        // Call the submit to begin the file download.
+        form.submit({
+            target: '_blank', // Avoids leaving the page. 
+            params: {}
+        });
+
+        // Clean-up the form after 100 milliseconds.
+        // Once the submit is called, the browser does not care anymore with the form object.
+        Ext.defer(function(){
+            form.close();
+        }, 100);
+        
+
     },
     deleteLine : function(grid,rec,rowId){
         var me=this;

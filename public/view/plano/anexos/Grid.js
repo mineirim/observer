@@ -37,7 +37,7 @@ Ext.define('ExtZF.view.plano.anexos.Grid' ,{
                            action: 'download',
                            handler: function(grid, rowIndex, colIndex) {
                                 var rec = grid.getStore().getAt(rowIndex);
-                                _myAppGlobal.fireEvent('downloadFileLine',this,rec);
+                                _myAppGlobal.fireEvent('downloadFileLine',grid,rec, rowIndex);
                            }
                         },'-',
                         {

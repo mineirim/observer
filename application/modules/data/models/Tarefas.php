@@ -60,10 +60,52 @@ class Data_Model_Tarefas {
                 'andamento_id' => $value->andamento_id,
                 'andamento' => $value->andamento,
                 'responsavel_usuario_id' => $value->responsavel_usuario_id,
-                'supervisor_usuario_id' => $value->supervisor_usuario_id
+                'supervisor_usuario_id' => $value->supervisor_usuario_id,
+                'ordem_alerta' => $this->getClassAndOrder($value)
             ];
             $tarefas[] = $tarefa;
         }
+        foreach ($tarefas as $key => $row) {
+            $alerta[$key]  = $row['ordem_alerta'];
+            $menu[$key]  = $row['menu'];
+        }
+
+        array_multisort($alerta, SORT_ASC, $menu, SORT_ASC, $tarefas);
         return $tarefas;
+    }
+    private function getClassAndOrder($value){
+       
+        if(!$value->peso){
+            return 'alert-0 alert-border alert-no-weight';
+        }
+        $data_inicio = (new DateTime($value->data_inicio . ' 00:00'))->getTimestamp();
+        $data_prazo = (new DateTime($value->data_prazo . '23:59'))->getTimestamp();
+        $agora = (new DateTime())->getTimestamp() ;
+        if((int)$value->andamento_id <  6){
+            if($data_inicio< $agora && $data_prazo > $agora){
+                $percentual = ($agora - $data_inicio)/($data_prazo-$data_inicio);
+                if($percentual>=0.8){
+                    return 'alert-2 alert-border alert-yellow';  
+                }else{
+                    return 'alert-3 alert-border alert-green';
+                }
+            } else if($data_prazo < $agora){
+                return 'alert-1 alert-border alert-red';
+            }else if($data_inicio>$agora){
+                return 'alert-8 alert-border alert-blank';
+            }
+        }else if((int)$value->andamento_id === (int)6){
+            if($value->data_encerramento){
+                return 'alert-4 alert-border alert-no-date';
+            }
+            $data_encerramento =  ( new DateTime($value->data_encerramento))->getTimestamp();
+            if($data_encerramento > $data_prazo){
+                return 'alert-5 alert-border alert-dark-blue';
+            }else{
+                return 'alert-6 alert-border alert-blue';
+            }
+        }
+        return '-';
+                
     }
 }

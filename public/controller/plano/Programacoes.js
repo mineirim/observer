@@ -243,7 +243,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var record;
         var options ={instrumento_id: ''};
         if( typeof(parent)!=='undefined'){
-            parent_id  = parent.get('id');
+            var parent_id  = parent.get('id');
             if(parent_id.toString().split('-').length > 1){                
                 var instrumento = me.getStore('Instrumentos').findRecord('instrumento_id', parent_id.split('-')[1]);
                 options.instrumento_id =instrumento.get('id');
@@ -739,7 +739,10 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
            }else{
                planilhaOperativa.hide();
            }
-           if(record.get('instrumento').has_vlr_programado===true){ 
+           if(record.get('instrumento').has_vlr_programado===true &&
+                   (
+                   !record.get('locked') || me.isInSupervisores(record) || me.checkPermission(record)
+                   )){ 
                if(record.get('instrumento').has_vlr_executado===true){ 
                    planilhaOrcamentaria = detailPanel.child("#planilhaOrcamentaria");
                    planilhaOrcamentaria.show();

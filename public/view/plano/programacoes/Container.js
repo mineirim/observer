@@ -1,4 +1,6 @@
 
+/* global Ext */
+
 Ext.define('ExtZF.view.plano.programacoes.Container' ,{
     extend      : 'Ext.Container', 
     alias       : 'widget.planoProgramacoesContainer',
@@ -56,8 +58,14 @@ Ext.define('ExtZF.view.plano.programacoes.Container' ,{
                                     },
                                     {
                                         id      : 'ganttPanel',
-                                        html    : '<div id="GanttChartDIV"></div>',
+//                                        tbar :[{
+//                                            text: 'Exportar',
+//                                            iconCls: 'icon-delete',
+//                                            action: 'excluir'
+//                                        }],
+                                        html    : '<div id="GanttChartDIV" style="min-height:150px;height:100%">.</div>',
                                         title   : 'Gantt',
+                                        autoScroll: true,
                                         frame: false
                                     }
                                     ]

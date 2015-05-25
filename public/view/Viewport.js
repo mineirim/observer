@@ -56,15 +56,14 @@ Ext.define('Js.Viewport', {
         collapsed   : false,
         width       : 200,
         layout      :  {
-                        // layout-specific configs go here
                         type: 'accordion',
                         animate: true,
-//                        activeOnTop: true
+                        activeOnTop: true
                     },
         activeItem  : 0,
         id          : 'ctnLeft',
         collapsible     :true,
-        split           :false,
+        split           :true,
         collapseMode    : 'header',
         hideCollapseTool: true,
         padding         :'0 4 0 0',

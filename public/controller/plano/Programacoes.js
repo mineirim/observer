@@ -813,42 +813,36 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         }
     },
     showGantt : function(id){
-        if(document.getElementById('GanttChartDIV')===null)
-            return;
+        if(document.getElementById('ganttPanel-innerCt')===null){
+            var tabDetail = Ext.getCmp('tabDetailPanel');
+            var activeTab= tabDetail.getActiveTab();
+            tabDetail.setActiveTab(2);
+            tabDetail.setActiveTab(activeTab);
+            if(document.getElementById('ganttPanel-innerCt')===null)
+                return;
+        }
+        
         gantt.config.xml_date = "%Y-%m-%d";
+        gantt.config.date_grid = "%d/%m/%Y";
         gantt.config.scale_unit = "month";
         gantt.config.step = 1;
-//        gantt.config.date_scale = "%m";
-        gantt.init('GanttChartDIV');
+        gantt.config.open_tree_initially = false;
+        gantt.config.drag_links = false;
+        gantt.config.drag_resize = false;
+        gantt.config.drag_move = false;
+        gantt.config.drag_progress = false;
+        gantt.config.grid_width = 400;
+        gantt.config.readonly = true;
+        gantt.config.date_scale = "%m/%Y";
+        gantt.config.columns =  [
+                                    {name:"text",      tree:true, width:'*' },
+                                    {name:"start_date", align: "center"},
+                                    {name:"duration", align: "center"},
+                                ];
+                                        gantt.init('ganttPanel-innerCt');
+        gantt.clearAll(); 
         var params = typeof(id) !== 'undefined' ?'&node_id='+id:'';
         gantt.load('/data/gantt?format=xml'+params,'xml');
-    },
-    getGantt : function(id){
-        var g = new JSGantt.GanttChart('g',document.getElementById('GanttChartDIV'), 'month');
-        g.setShowRes(0); // Show/Hide Responsible (0/1)
-        // define a quantidade de caracteres que aparecerão na descrição
-        g.setMaxLengthDescription(50);
-        g.setShowDur(1); // Show/Hide Duration (0/1)
-        g.setShowComp(1); // Show/Hide % Complete(0/1)
-
-        g.setDateInputFormat("yyyy-mm-dd");
-        g.setFormatArr("day","week","month");
-        g.setCaptionType('None');  // Set to Show Caption (None,Caption,Resource,Duration,Complete)
-
-        g.setShowStartDate(0); // Show/Hide Start Date(0/1)
-        g.setShowEndDate(0); // Show/Hide End Date(0/1)
-        g.setDateDisplayFormat('dd/mm/yyyy'); // Set format to display dates ('mm/dd/yyyy', 'dd/mm/yyyy', 'yyyy-mm-dd')
-
-      //var gr = new Graphics();
-
-      if( g ) {
-          var params = typeof(id) !== 'undefined' ?'&node_id='+id:'';
-          JSGantt.parseXML(baseUrl+'/data/gantt?format=xml'+params,g);
-          g.Draw();
-          g.DrawDependencies();
-      }else{
-        alert("not defined");
-      }
     },
     selectRecord : function(treeview)
     {        

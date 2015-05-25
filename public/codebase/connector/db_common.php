@@ -523,7 +523,7 @@ abstract class DataWrapper{
 		@param config 
 			DataConfig instance
 	*/
-	public function __construct($connection,$config){
+	public function __construct($connection = false,$config = false){
 		$this->config=$config;
 		$this->connection=$connection;
 	}
@@ -793,15 +793,28 @@ abstract class DBDataWrapper extends DataWrapper{
 		for ($i=0; $i < sizeof($rules); $i++)
 			if (is_string($rules[$i]))
 				array_push($sql,"(".$rules[$i].")");
-			else
-				if ($rules[$i]["value"]!=""){
-					if (!$rules[$i]["operation"])
-						array_push($sql,$this->escape_name($rules[$i]["name"])." LIKE '%".$this->escape($rules[$i]["value"])."%'");
-					else
-						array_push($sql,$this->escape_name($rules[$i]["name"])." ".$rules[$i]["operation"]." '".$this->escape($rules[$i]["value"])."'");
+			else {
+				$filtervalue = $rules[$i]["value"];
+				$filteroperation = $rules[$i]["operation"];
+				if ($filtervalue!=""){
+					if (!$filteroperation)
+						array_push($sql,$this->escape_name($rules[$i]["name"])." LIKE '%".$this->escape($filtervalue)."%'");
+					else {
+						if ($filteroperation != "IN") 
+							$filtervalue = "'".$this->escape($filtervalue)."'";
+
+						array_push($sql,$this->escape_name($rules[$i]["name"])." ".$filteroperation." ".$filtervalue);
+					}
 				}
-		if ($relation !== false && $relation !== "")
-			array_push($sql,$this->escape_name($this->config->relation_id["db_name"])." = '".$this->escape($relation)."'");
+			}
+
+		if ($relation !== false && $relation !== ""){
+			$relsql = $this->escape_name($this->config->relation_id["db_name"])." = '".$this->escape($relation)."'";
+			if ($relation == "0")
+				$relsql = "( ".$relsql." OR ".$this->escape_name($this->config->relation_id["db_name"])." IS NULL )";
+
+			array_push($sql,$relsql);
+		}
 		return implode(" AND ",$sql);
 	}	
 	/*! convert sorting rules to sql string
@@ -1047,6 +1060,7 @@ class ArrayDBDataWrapper extends DBDataWrapper{
         }
 
 		$relation_id = $this->config->relation_id["db_name"];
+		$result = array();
 
         for ($i = 0; $i < count($this->connection); $i++) {
             $item = $this->connection[$i];

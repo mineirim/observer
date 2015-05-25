@@ -5,6 +5,7 @@ dummy.php
 nb*
 public/extjs*
 public/cache/*
+public/codebase/
 files/*
 tmp
 tmp/*

@@ -114,14 +114,12 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
     },
     showEdit : function(programacao,record)
     {
-        console.log("show edit");
         var view = Ext.widget('planoFinanceiroEdit');
         var options = {single: true};                
         view.setTitle('Edição ');
         if(!record){
             var opts = {programacao_id : programacao.get('programacao_id'),
-                    tipo_registro_id : 1};
-                
+                    tipo_registro_id : 1};                
             record = Ext.ModelMgr.create(opts,'ExtZF.model.Financeiro');
             
         }
@@ -140,7 +138,7 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
         }
         Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir o(s) registro(s) selecionado(s)?',
 		function(opt){
-			if(opt === 'no')
+			if(opt !== 'yes')
 				return;
 			grid.el.mask('Excluindo registro(s)');
                         var store = me.getFinanceiroStore();
@@ -150,7 +148,6 @@ Ext.define('ExtZF.controller.plano.Financeiro', {
 		}, this);
     },
     save: function(record){
-        console.log("salvando orçamento");
         var me = this;
         record.save({
                 success: function(a,b){

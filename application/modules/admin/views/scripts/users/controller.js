@@ -1,7 +1,5 @@
-// Inclusão da classe para exibição de mensagens de alerta
+/* global Ext, Etc */
 Ext.require('Ext.window.MessageBox');
-
-// Arquivo que executa as ações do usuário
 Ext.define('ExtZF.controller.admin.Users', {
     extend: 'Ext.app.Controller',
     stores: ['Usuarios', 'Setores', 'Cargos','usuarios.Store4pass'], // Store utilizado no gerenciamento do usuário
@@ -17,10 +15,7 @@ Ext.define('ExtZF.controller.admin.Users', {
             ref:'grid',
             selector:'adminUsersList'
     }],
-
-
     init: function() {
-        console.log('init do user');
         this.control(
         {
             // evento duplo click na tela principal(viewport) --> usuariolista(grid)
@@ -58,29 +53,27 @@ Ext.define('ExtZF.controller.admin.Users', {
             this.getUsuariosStore().add(record);
             view.setTitle('Cadastro');
         }
-      	view.down('form').loadRecord(record);
-            
+      	view.down('form').loadRecord(record);            
     },
 
     // Função para popular o formulario
     excluirUsuario: function() {
-        var grid = this.getGrid(); // recupera lista de usuários
-        ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
+        var me = this;
+        var grid = this.getGrid(); 
+        var ids = grid.getSelectionModel().getSelection(); 
 
         if(ids.length === 0){
         	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
         	return ;
         }
-
         Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir o(s) registro(s) selecionado(s)?',
 		function(opt){
-			if(opt === 'no')
+			if(opt !== 'yes')
 				return;
 			// exibe uma mascará na grid com a mensagem abaixo
 			grid.el.mask('Excluindo registro(s)');
-                        store = this.getUsuariosStore();
+                        var store = me.getUsuariosStore();
                         store.remove(ids);
-
                         store.sync();
                         //this.getUsuariosStore().load();
                         grid.el.unmask();
@@ -93,7 +86,7 @@ Ext.define('ExtZF.controller.admin.Users', {
     resetPassword: function() {
         var me = this;
         var grid = me.getGrid(); // recupera lista de usuários
-        ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
+        var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
 
         if(ids.length === 0){
         	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
@@ -102,7 +95,7 @@ Ext.define('ExtZF.controller.admin.Users', {
 
         Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja resetar a senha do(s) registro(s) selecionado(s)?',
 		function(opt){
-			if(opt === 'no')
+			if(opt !== 'yes')
 				return;
 			// exibe uma mascará na grid com a mensagem abaixo
 			grid.el.mask('Resetando senha(s)');
@@ -130,19 +123,14 @@ Ext.define('ExtZF.controller.admin.Users', {
 			
 		}, this);
     },
-
-    // Função para salvar os registros do usuário
     salvarUsuario: function(button) {
         var me=this;
-        var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
-            form   = win.down('form').getForm(); // recupera item abaixo(filho) da window do tipo form
+        var win    = button.up('window'), 
+            form   = win.down('form').getForm();
            
         if (form.isValid()) {
-
-            r = form.getRecord();
+            var r = form.getRecord();
             form.updateRecord(r);
-
-
             r.save({
                 success: function(a,b){
                     Etc.log({msg:"Salvo com sucesso!",level:"info",dump:a});
@@ -150,7 +138,7 @@ Ext.define('ExtZF.controller.admin.Users', {
                     me.getUsuariosStore().load();
                 },
                 failure:function(record,b,dados){
-                    obj =  eval('(' + b.request.callback.arguments[2].responseText + ')');
+                    var obj =  eval('(' + b.request.callback.arguments[2].responseText + ')');
                     Ext.Msg.alert('Erro', obj.msg);
                     Etc.error({msg:"Erro ao salvar!",level:"error"});
                 }

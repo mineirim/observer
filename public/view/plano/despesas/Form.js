@@ -9,7 +9,7 @@ Ext.define('ExtZF.view.plano.despesas.Form', {
         {xtype: 'textareafield',
             name: 'descricao',
             ref: 'descricao',
-            fieldLabel: 'Descricao',
+            fieldLabel: 'Descrição',
             labelWidth: 150,
             width: 650,
             anchor: '95%'},

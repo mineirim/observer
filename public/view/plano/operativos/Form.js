@@ -25,7 +25,7 @@ Ext.define('ExtZF.view.plano.operativos.Form', {
                 {xtype: 'displayfield', name: 'data_inicio', ref: 'data_inicio', fieldLabel: 'Inicio', labelStyle: 'white-space: nowrap;', labelWidth: 60, flex: 1,
                     renderer: Ext.util.Format.dateRenderer('d/m/y')
                 },
-                {xtype: 'displayfield', name: 'data_prazo', ref: 'data_prazo', fieldLabel: 'Prazo', flex: 1, labelStyle: 'white-space: nowrap;', labelWidth: 60,
+                {xtype: 'displayfield', name: 'data_prazo', ref: 'data_prazo', fieldLabel: 'Término', flex: 1, labelStyle: 'white-space: nowrap;', labelWidth: 60,
                     renderer: Ext.util.Format.dateRenderer('d/m/y')
                 }]
         },
@@ -48,7 +48,7 @@ Ext.define('ExtZF.view.plano.operativos.Form', {
             }
         },
         {xtype: 'htmleditor', name: 'avaliacao_andamento', ref: 'avaliacao_andamento',
-            fieldLabel: 'Avaliacao do andamento',
+            fieldLabel: 'Avaliação do andamento',
             enableFont: false,
             frame: false,
             height: 100,
@@ -75,7 +75,7 @@ Ext.define('ExtZF.view.plano.operativos.Form', {
                 {xtype: 'sliderfield', name: 'percentual_execucao',
                     ref: 'percentual_execucao',
                     id: 'percentual_execucao',
-                    fieldLabel: 'Percentual de execucao', labelWidth: 150,
+                    fieldLabel: 'Percentual de execução', labelWidth: 150,
                     increment: 1,
                     minValue: 0,
                     maxValue: 100,

@@ -84,14 +84,14 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                 xtype: 'datefield',
                 name : 'data_inicio',
                 ref: 'data_inicio',
-                fieldLabel: 'Data Início',
+                fieldLabel: 'Início',
                 format: 'd/m/Y'
             },
             {
                 xtype: 'datefield',
                 name : 'data_prazo',
                 ref: 'data_prazo',
-                fieldLabel: 'Data Prazo',
+                fieldLabel: 'Término',
                 format: 'd/m/Y'
             },
             {

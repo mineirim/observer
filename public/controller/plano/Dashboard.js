@@ -128,7 +128,7 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
                     }
                 });
         
-        items.push({text: 'Execuçao',
+        items.push({text: 'Execução',
                     handler : function(){
                         me.application.fireEvent('showExecutionWindow',record);
                     }

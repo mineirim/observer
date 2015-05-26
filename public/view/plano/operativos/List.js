@@ -21,7 +21,7 @@ Ext.define('ExtZF.view.plano.operativos.List' ,{
                                 return andamento.get('descricao');
                             }
                 },
-		{header: 'Avaliacao do andamento',  dataIndex: 'avaliacao_andamento',  flex: 7},
+		{header: 'Avaliação do andamento',  dataIndex: 'avaliacao_andamento',  flex: 7},
 		{header: '% exec.',  dataIndex: 'percentual_execucao',  flex: 1},
 		{header: 'Encerramento',  dataIndex: 'data_encerramento',  flex: 2, renderer: Ext.util.Format.dateRenderer('d/m/y'), margin  : '0 5 0 0'}
                 ]

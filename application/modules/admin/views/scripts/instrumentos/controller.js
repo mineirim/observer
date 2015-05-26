@@ -1,3 +1,5 @@
+/* global Ext, Etc */
+
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.admin.Instrumentos', {
     extend: 'Ext.app.Controller',
@@ -43,18 +45,19 @@ Ext.define('ExtZF.controller.admin.Instrumentos', {
       	view.down('form').loadRecord(record);
     },
     deleteObject: function() {
-        var grid = this.getGrid(); // recupera lista de usuários
-        ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
+        var me =this;
+        var grid = me.getGrid(); // recupera lista de usuários
+        var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
         	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
         	return ;
         }
         Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir o(s) registro(s) selecionado(s)?',
 		function(opt){
-			if(opt === 'no')
+			if(opt !== 'yes')
 				return;
 			grid.el.mask('Excluindo registro(s)');
-                        store = this.getInstrumentosStore();
+                        var store = me.getInstrumentosStore();
                         store.remove(ids);
                         store.sync();
                         grid.el.unmask();
@@ -62,10 +65,10 @@ Ext.define('ExtZF.controller.admin.Instrumentos', {
     },
     saveObject: function(button) {
         var me=this;
-        var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
-            form   = win.down('form').getForm(); // recupera item abaixo(filho) da window do tipo form
+        var win    = button.up('window'), 
+            form   = win.down('form').getForm();
         if (form.isValid()) {
-            r = form.getRecord();
+            var r = form.getRecord();
             form.updateRecord(r);
             r.save({
                 success: function(a,b){
@@ -75,7 +78,7 @@ Ext.define('ExtZF.controller.admin.Instrumentos', {
                     me.getInstrumentosStore().load();
                 },
                 failure:function(a,b){
-                    obj =  eval('(' + b.request.callback.arguments[2].responseText + ')');
+                    var obj =  eval('(' + b.request.callback.arguments[2].responseText + ')');
                     Ext.Msg.alert('Erro', obj.msg);
                     Etc.error({msg:"Erro ao salvar!",level:"error"});
                 }

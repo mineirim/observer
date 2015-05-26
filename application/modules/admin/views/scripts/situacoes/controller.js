@@ -1,3 +1,5 @@
+/* global Ext */
+
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.admin.Situacoes', {
     extend: 'Ext.app.Controller',
@@ -15,8 +17,6 @@ Ext.define('ExtZF.controller.admin.Situacoes', {
             selector:'adminSituacoesList'
     }],
     init: function() {
-
-       
         this.control(
         {
             'adminSituacoesList': {
@@ -44,18 +44,19 @@ Ext.define('ExtZF.controller.admin.Situacoes', {
       	view.down('form').loadRecord(record);
     },
     deleteObject: function() {
-        var grid = this.getGrid(); // recupera lista de usuários
-        ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
+        var me = this;
+        var grid = me.getGrid(); // recupera lista de usuários
+        var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
         	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
         	return ;
         }
         Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir o(s) registro(s) selecionado(s)?',
 		function(opt){
-			if(opt === 'no')
+			if(opt !== 'yes')
 				return;
 			grid.el.mask('Excluindo registro(s)');
-                        store = this.getSituacoesStore();
+                        var store = me.getSituacoesStore();
                         store.remove(ids);
                         store.sync();
                         grid.el.unmask();
@@ -63,14 +64,14 @@ Ext.define('ExtZF.controller.admin.Situacoes', {
     },
     saveObject: function(button) {
         var me=this;
-        var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
-            form   = win.down('form').getForm() // recupera item abaixo(filho) da window do tipo form
+        var win    = button.up('window'), 
+            form   = win.down('form').getForm();
         if (form.isValid()) {
-            r = form.getRecord();
+            var r = form.getRecord();
             form.updateRecord(r);
-            this.getSituacoesStore().sync();
+            me.getSituacoesStore().sync();
             win.close();
-            this.getSituacoesStore().load();
+            me.getSituacoesStore().load();
         }
     }
 });

@@ -120,10 +120,10 @@ Ext.define('ExtZF.controller.Email', {
         }
         Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir o(s) registro(s) selecionado(s)?',
 		function(opt){
-			if(opt === 'no')
+			if(opt !== 'yes')
 				return;
 			grid.el.mask('Excluindo registro(s)');
-                        store = this.getEmailStore();
+                        var store = this.getEmailStore();
                         store.remove(ids);
                         store.sync();
                         grid.el.unmask();
@@ -134,7 +134,7 @@ Ext.define('ExtZF.controller.Email', {
         var win    = button.up('window'); 
         var form   = win.down('form').getForm(); 
         if (form.isValid()) {
-            r = form.getRecord();
+            var r = form.getRecord();
             form.updateRecord(r);
             var wcomp =Ext.MessageBox.show({
                msg: 'Enviando e-mail, aguarde...',
@@ -145,7 +145,7 @@ Ext.define('ExtZF.controller.Email', {
             });
             r.save({
                 success: function(_rec,_op){
-                    wcomp.close()
+                    wcomp.close();
                     win.close();
                     me.getEmailStore().load();
                     Ext.MessageBox.show({
@@ -156,7 +156,7 @@ Ext.define('ExtZF.controller.Email', {
                     });
                 },
                 failure:function(_records,_op){
-                    wcomp.close()
+                    wcomp.close();
                     var readerData = _op.request.scope.reader.jsonData;
                     Ext.MessageBox.show({
                         title: 'E-mail'

@@ -1,3 +1,5 @@
+/* global Ext */
+
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.admin.Setores', {
     extend: 'Ext.app.Controller',
@@ -15,8 +17,6 @@ Ext.define('ExtZF.controller.admin.Setores', {
             selector:'adminSetoresList'
     }],
     init: function() {
-        
-
         this.control(
         {
             'adminSetoresList': {
@@ -46,17 +46,17 @@ Ext.define('ExtZF.controller.admin.Setores', {
     },
     deleteObject: function() {
         var grid = this.getGrid(); // recupera lista de usuários
-        ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
+        var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
         	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
         	return ;
         }
         Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir o(s) registro(s) selecionado(s)?',
 		function(opt){
-			if(opt === 'no')
+			if(opt !== 'yes')
 				return;
 			grid.el.mask('Excluindo registro(s)');
-                        store = this.getSetoresStore();
+                        var  store = this.getSetoresStore();
                         store.remove(ids);
                         store.sync();
                         grid.el.unmask();
@@ -64,14 +64,14 @@ Ext.define('ExtZF.controller.admin.Setores', {
     },
     saveObject: function(button) {
         var me=this;
-        var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
-            form   = win.down('form').getForm() // recupera item abaixo(filho) da window do tipo form
+        var win    = button.up('window'), 
+            form   = win.down('form').getForm();
         if (form.isValid()) {
-            r = form.getRecord();
+            var r = form.getRecord();
             form.updateRecord(r);
-            this.getSetoresStore().sync();
+            me.getSetoresStore().sync();
             win.close();
-            this.getSetoresStore().load();
+            me.getSetoresStore().load();
         }
     }
 });

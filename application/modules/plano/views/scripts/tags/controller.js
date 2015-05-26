@@ -54,7 +54,7 @@ Ext.define('ExtZF.controller.plano.Tags', {
         }
         Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir o(s) registro(s) selecionado(s)?',
 		function(opt){
-			if(opt === 'no')
+			if(opt !== 'yes')
 				return;
 			grid.el.mask('Excluindo registro(s)');
                         var store = this.getTagsStore();
@@ -65,8 +65,8 @@ Ext.define('ExtZF.controller.plano.Tags', {
     },
     saveObject: function(button) {
         var me=this;
-        var win    = button.up('window'); // recupera um item acima(pai) do button do tipo window
-        var form   = win.down('form').getForm(); // recupera item abaixo(filho) da window do tipo form
+        var win    = button.up('window');
+        var form   = win.down('form').getForm();
         if(form.isValid()) {
             var r = form.getRecord();
             form.updateRecord(r);            

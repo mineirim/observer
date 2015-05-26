@@ -116,7 +116,7 @@ Ext.define('ExtZF.controller.plano.Despesas', {
         }
         Etc.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir o(s) registro(s) selecionado(s)?',
             function(opt){
-			if(opt === 'no')
+			if(opt !== 'yes')
 				return;
 			grid.el.mask('Excluindo registro(s)');
                         var store = me.getDespesasStore();

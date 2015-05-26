@@ -140,7 +140,7 @@ Ext.define('ExtZF.controller.plano.Anexos', {
 
         Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir este aquivo?<br><i>' + rec.get('nome') + '</i>' ,
 		function(opt){
-			if(opt === 'no')
+			if(opt !== 'yes')
 				return;
 			grid.el.mask('Excluindo registro(s)');
                         var store = grid.getStore();
@@ -159,7 +159,7 @@ Ext.define('ExtZF.controller.plano.Anexos', {
         }
         Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir o(s) registro(s) selecionado(s)?',
 		function(opt){
-			if(opt === 'no')
+			if(opt !== 'yes')
 				return;
 			grid.el.mask('Excluindo registro(s)');
                         var store = me.getAnexosStore();
@@ -170,8 +170,8 @@ Ext.define('ExtZF.controller.plano.Anexos', {
     },
     sendFile: function(button) {
         var me=this;
-        var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
-            form   = win.down('form').getForm(); // recupera item abaixo(filho) da window do tipo form
+        var win    = button.up('window'), 
+            form   = win.down('form').getForm(); 
         if(form.isValid()){
             form.submit({
                         url: '/data/anexos',

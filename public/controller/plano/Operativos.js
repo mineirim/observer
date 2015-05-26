@@ -60,7 +60,7 @@ Ext.define('ExtZF.controller.plano.Operativos', {
         me.editObject(null,record);
     },
     checkFinished : function(combo,newValue,oldValue){
-        me=this;
+        var me=this;
         var percentual = Ext.getCmp('percentual_execucao');
         if(newValue===6){
             me.percentualOldValue = percentual.getValue();
@@ -105,18 +105,19 @@ Ext.define('ExtZF.controller.plano.Operativos', {
       	view.down('form').loadRecord(record);
     },
     deleteObject: function() {
-        var grid = this.getGrid(); // recupera lista de usuários
-        ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
+        var me = this;
+        var grid = me.getGrid(); // recupera lista de usuários
+        var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
         	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
         	return ;
         }
         Ext.Msg.confirm('Confirmação', 'Tem certeza que deseja excluir o(s) registro(s) selecionado(s)?',
 		function(opt){
-			if(opt === 'no')
+			if(opt !== 'yes')
 				return;
 			grid.el.mask('Excluindo registro(s)');
-                        store = this.getOperativosStore();
+                        var store = me.getOperativosStore();
                         store.remove(ids);
                         store.sync();
                         grid.el.unmask();

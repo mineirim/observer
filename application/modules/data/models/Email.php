@@ -88,7 +88,7 @@ class Data_Model_Email
         $programacao = $programacaoDbTable->fetchRow('id='.$this->getProgramacaoId());
         $responsavel =$programacao->findParentRow('Data_Model_DbTable_Usuarios');
         if($responsavel){
-//            $this->setToUsers($responsavel->email);
+            $this->setToUsers($responsavel->email);
         }
         if($postParams['to_users']){
             $this->addToUser(explode(',', $postParams['to_users']));
@@ -153,8 +153,9 @@ class Data_Model_Email
         return true;
     }
     public function getEmailDBTable(){
-        if(!$this->_db_table)
+        if (!$this->_db_table) {
             $this->_db_table = new Data_Model_DbTable_Email();
+        }
         return $this->_db_table;
     }
     /**
@@ -187,7 +188,7 @@ class Data_Model_Email
                   <p>
                     '. $this->getMessage() .'.
                   </p>
-                    <p>Esta é uma msg enviada autmoaticamente pelo sistema SISPLAN. Utilize "Responder a todos" para dar continuidade.</p>
+                    <p>Você recebeu essa mensagem de um usuário (a) cadastrado (a) no SISPLAN. Para prosseguir, utilize a opção ˜Responder a todos.</p>
                     <h3> RESUMO DO ÍTEM </h3>
                   ' . file_get_contents($this->attachReport()) . 
                 '</body>

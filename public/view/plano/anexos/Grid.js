@@ -10,7 +10,6 @@ Ext.define('ExtZF.view.plano.anexos.Grid' ,{
     layout: 'fit',       
     collapsible:true,
     iconCls :   'icon-attach',
-    // botões do cabeçalho
     tbar :['->',{
     	text: 'Excluir',
         iconCls: 'icon-delete',
@@ -18,7 +17,6 @@ Ext.define('ExtZF.view.plano.anexos.Grid' ,{
     }],
 	columns: [{header: 'Id.',  dataIndex: 'id',  flex: 0, hidden:true},
 		{header: 'Nome',  dataIndex: 'nome',  flex: 6},
-		{header: 'Tipo',  dataIndex: 'mimetype',  flex: 4},
 		{header: 'Inserido por',  dataIndex: 'usuario',  flex: 4},
 		{header: 'Data',  dataIndex: 'inclusao_data',  flex: 2,renderer: Ext.util.Format.dateRenderer('d/m/Y')},
 		{header: 'Tags',  dataIndex: 'tags',  flex: 3},

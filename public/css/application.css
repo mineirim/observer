@@ -47,6 +47,9 @@
 .icon-download{
         background-image: url(../images/icons/page_save.png)  !important;
 }
+.icon-help{
+        background-image: url(../images/icons/help.png)  !important;
+}
 
 .icon-edit{
     background-image: url(../images/icons/pencil.png)  !important;

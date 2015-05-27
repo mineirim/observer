@@ -28,6 +28,9 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
             'planoDashboardPainel button[action=reload]': {
                click : me.reloadDashboard
             },
+            'planoDashboardPainel button[action=download]': {
+               click : me.downloadFile
+            },
             'planoDashboardPainel  combo[ref=cmbProjetos]': {
                select : me.selectComboProjetos
             },
@@ -58,7 +61,31 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
         var vinculos_controller = me.getController('ExtZF.controller.plano.Vinculos');
             vinculos_controller.init();
     },
-    
+    downloadFile : function(btn){
+        var config = {};
+        var url = '/downloads/' + btn.filename ;
+
+        // Create form panel. It contains a basic form that we need for the file download.
+        var form = Ext.create('Ext.form.Panel', {
+            standardSubmit: true,
+            url: url,
+            method: 'GET'
+        });
+
+        // Call the submit to begin the file download.
+        form.submit({
+            target: '_blank', // Avoids leaving the page. 
+            params: {}
+        });
+
+        // Clean-up the form after 100 milliseconds.
+        // Once the submit is called, the browser does not care anymore with the form object.
+        Ext.defer(function(){
+            form.close();
+        }, 100);
+        
+
+    },    
     selectComboProjetos    : function(cmb,records){
         var me = this;
         var record  =records[0];
@@ -87,7 +114,7 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
             var pendentes = Ext.getCmp('not_approved');
             pendentes.show();
             var pendentesStore = pendentes.getView().getStore();
-            var pendentesParams = Ext.merge(pendentesStore.getProxy().extraParams,{projeto_id: projetoId})
+            var pendentesParams = Ext.merge(pendentesStore.getProxy().extraParams,{projeto_id: projetoId});
             pendentesStore.getProxy().extraParams =pendentesParams;
             pendentesStore.load({
                 callback: function(r,option,success){
@@ -122,7 +149,7 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
         var me= this;
         var items = [];
         var mycontroller = me.getController('ExtZF.controller.plano.Programacoes');
-        items.push({text: 'Editar',
+        items.push({text: 'Exibir',
                     handler : function(){
                         mycontroller.editarProgramacao(record);
                     }
@@ -199,7 +226,7 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
         var me =this;
         var items = [];
         var mycontroller = me.getController('ExtZF.controller.plano.Programacoes');
-        items.push({text: 'Editar',
+        items.push({text: 'Exibir',
                     handler : function(){
                         mycontroller.editarProgramacao(record);
                     }

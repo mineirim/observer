@@ -1,3 +1,5 @@
+/* global Ext */
+
 Ext.define('ExtZF.view.plano.dashboard.Painel' ,{
     extend      : 'Ext.panel.Panel',
     alias       : 'widget.planoDashboardPainel', 
@@ -33,7 +35,21 @@ Ext.define('ExtZF.view.plano.dashboard.Painel' ,{
                     iconCls: 'icon-new',
                     action: 'reload',
                     id: 'btnReload'
-                }
+                }, '->',
+                {
+                    text: 'Manual',
+                    iconCls: 'icon-download',
+                    action: 'download',
+                    filename : 'ManualUsuarioSISPLAN.pdf',
+                    id: 'btnManual'
+                },
+                {
+                    text: 'Apresentação',
+                    iconCls: 'icon-help',
+                    action: 'download',
+                    filename : 'ApresentacaoSISPLAN.pdf',
+                    id: 'btnPresentation'
+                },
             ],
     items: [
         {xtype:'planoDashboardChecklist', flex:1, id:'my_responsability'},

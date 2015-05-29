@@ -344,6 +344,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
       return Etc.getLoggedUser().get('id')===record.get(field);
     },
     isInSupervisores : function(record){
+        if(typeof(record.get('supervisores'))==='undefined')
+            return false;
         return (!!~record.get('supervisores').split(',').map(Number).indexOf(Etc.getLoggedUser().get('id')));
     },
     handlerEdit: function(grid, rowIndex, colIndex) {

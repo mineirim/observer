@@ -160,12 +160,7 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
                         me.application.fireEvent('showExecutionWindow',record);
                     }
                 });
-        
-       
-
-            items.push('-');
-
-           
+        items.push('-');
         items.push({
             text:"Anexo",
             data: {record: record},
@@ -175,13 +170,9 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
                 }
         });
         items.push('-');
-
-
-        items.push({
-                text: 'Relatórios',
-                iconCls: 'icon-report',
-                menu : {
-                    items:
+        
+        var submenu  = Ext.create('Ext.menu.Menu', {
+            items:
                     [
                     {
                         text:"Resultados",
@@ -205,7 +196,13 @@ Ext.define('ExtZF.controller.plano.Dashboard', {
                             }
                     },
                     ]
-                }
+        });
+
+        items.push({
+                text: 'Relatórios',
+                iconCls: 'icon-report',
+                hideOnClick: false,
+                menu : submenu
             });
 //        items.push({
 //           text: 'Enviar e-mail' ,

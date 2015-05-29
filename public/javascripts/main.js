@@ -2,6 +2,29 @@
 Ext.override(Ext.window.Window, { 
     modal: true
 });
+Ext.override(Ext.menu.Menu, {
+    onMouseLeave: function(e) {
+    var me = this;
+
+
+    // BEGIN FIX
+    var visibleSubmenu = false;
+    me.items.each(function(item) { 
+        if(item.menu && item.menu.isVisible()) { 
+            visibleSubmenu = true;
+        }
+    });
+    if(visibleSubmenu) {
+        return;
+    }
+    // END FIX
+    me.deactivateActiveItem();
+    if (me.disabled) {
+        return;
+    }
+    me.fireEvent('mouseleave', me, e);
+    }
+});
 Ext.Loader.setConfig({
     enabled: true,
     paths :{

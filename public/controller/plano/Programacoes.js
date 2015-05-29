@@ -256,7 +256,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 var store = me.filterProgramacoes('id',parent.get('id'));
                 store.load( function(){
                     var programacao = me.getStore('Programacoes').findRecord('id',parent.get('id'));
-                    if(programacao !== null && programacao.get('locked')){
+                    if(programacao !== null && programacao.get('locked') && !me.checkPermission(programaca0)){
                         Ext.Msg.alert('Atenção', 'Você não tem permissão para criar novo registro!');
                         return;
                     }                

@@ -48,7 +48,7 @@ class Data_Model_Programacoes {
         
         $stmt = Zend_Registry::get('db')->query($select);
         $stmt->setFetchMode(Zend_Db::FETCH_OBJ);
-        $arr_tree = array();
+        $arr_tree = [];
         while ($r = $stmt->fetch() ) {           
             $arr_tree[$r->nivel][$r->programacao_id][$r->id]['dados'] = $r;
         }
@@ -67,7 +67,7 @@ class Data_Model_Programacoes {
     
     public function getRecursiveArray($arr_tree,$nivel=1, $parent=null) {     
         $projetosTable = new Data_Model_DbTable_Projetos;
-        $root = array();
+        $root = [];
         if(!$parent){
             $parent= null;
             $ix = "";
@@ -79,24 +79,24 @@ class Data_Model_Programacoes {
                 $value = $v['dados'];
                 if($value->responsavel_usuario_id)
                     $usuario = $this->usuarios->fetchRow('id='.$value->responsavel_usuario_id);
-                $usuario = isset($usuario) && is_object($usuario) ? $usuario->toArray() : array();
+                $usuario = isset($usuario) && is_object($usuario) ? $usuario->toArray() : [];
                 if($value->supervisor_usuario_id)
                     $supervisor = $this->usuarios->fetchRow('id='.$value->supervisor_usuario_id);
-                $supervisor = isset($supervisor) && is_object($supervisor) ? $supervisor->toArray() : array();
+                $supervisor = isset($supervisor) && is_object($supervisor) ? $supervisor->toArray() : [];
                 if($value->projeto_id)
                     $projetoRow = $projetosTable->fetchRow('id='.$value->projeto_id);
                 $projeto = isset($projetoRow) && is_object($projetoRow) ? $projetoRow->toArray() : [];
                 
-                $setorObj = $value->setor_id ? $this->setores->fetchRow('id='.$value->setor_id):array();
-                $setor = is_object($setorObj) ? $setorObj->toArray() : array();
+                $setorObj = $value->setor_id ? $this->setores->fetchRow('id='.$value->setor_id):[];
+                $setor = is_object($setorObj) ? $setorObj->toArray() : [];
 
                 $instrumento = $this->instrumentos->fetchRow('id='. $value->instrumento_id)->toArray();
-                $parent = $parent ? (array) $parent : array();
+                $parent = $parent ? (array) $parent : [];
                 $operativos = $this->operativos->fetchAll('programacao_id='.$value->id,'ordem');
-                $operativo = count($operativos) > 0 ? $operativos->toArray() : array();                
+                $operativo = count($operativos) > 0 ? $operativos->toArray() : [];                
                 $financeiros = $this->financeiros->fetchAll('programacao_id='.$value->id,'id');
-                $financeiro = count($financeiros) > 0 ? $financeiros->toArray() : array('teste'=>'xpto');
-                $child = array(
+                $financeiro = count($financeiros) > 0 ? $financeiros->toArray() : ['teste'=>'xpto'];
+                $child = [
                     'id' => $value->id,
                     'menu' => $value->menu,
                     'descricao' => $value->descricao,
@@ -119,8 +119,8 @@ class Data_Model_Programacoes {
                     'supervisores' => $value->supervisores,
                     'situacao_id' => $value->situacao_id,
                     'filter_projeto_id' => $value->filter_projeto_id
-                );
-                $children=array();
+                ];
+                $children=[];
                 if(isset($arr_tree[$nivel+1][$value->id]))
                     $children = $this->getRecursiveArray($arr_tree,$nivel+1,$value);
                 if (count($children) > 0) {
@@ -144,22 +144,22 @@ class Data_Model_Programacoes {
         $programacoes_table = new Data_Model_DbTable_Programacoes();
         $where = $where ? $where.' and situacao_id <>2' : 'situacao_id <>2';
         $programacoes = $programacoes_table->fetchAll($where, $order, $limit,$offset);
-        $objs = array();
+        $objs = [];
         foreach ($programacoes as $value) {
             $usuarioObj = $value->findParentRow('Data_Model_DbTable_Usuarios');
-            $usuario = $usuarioObj ? $usuarioObj->toArray() : array();
+            $usuario = $usuarioObj ? $usuarioObj->toArray() : [];
             $projetoRow = $value->findParentRow('Data_Model_DbTable_Projetos');
             $projeto = $projetoRow ? $projetoRow->toArray() : [];
             $setorObj = $value->findParentRow('Data_Model_DbTable_Setores');
-            $setor = $setorObj ? $setorObj->toArray() : array();
+            $setor = $setorObj ? $setorObj->toArray() : [];
             $instrumento = $value->findParentRow('Data_Model_DbTable_Instrumentos')->toArray();
             $parentObj = $value->findParentRow('Data_Model_DbTable_Programacoes');
-            $parent = $parentObj ? $parentObj->toArray() : array();
+            $parent = $parentObj ? $parentObj->toArray() : [];
             $operativoObj = $value->findDependentRowset('Data_Model_DbTable_Operativos');
-            $operativo = count($operativoObj) > 0 ? $operativoObj->toArray() : array();
+            $operativo = count($operativoObj) > 0 ? $operativoObj->toArray() : [];
             $financeirosObj = $value->findDependentRowset('Data_Model_DbTable_Financeiro');
-            $financeiro = count($financeirosObj) > 0 ? $financeirosObj->toArray(1,2) : array();
-            $child = array(
+            $financeiro = count($financeirosObj) > 0 ? $financeirosObj->toArray(1,2) : [];
+            $child = [
                 'id'            => $value->id,
                 'menu'          => $value->menu,
                 'descricao'     => $value->descricao,
@@ -179,7 +179,7 @@ class Data_Model_Programacoes {
                 'financeiro'    => $financeiro,
                 'locked'        => !$identitity->is_su,
                 'situacao_id'   => $value->situacao_id
-            );
+            ];
             $objs[] = $child;
         }
         return $objs;
@@ -190,9 +190,9 @@ class Data_Model_Programacoes {
         $programacoes_table = new Data_Model_DbTable_Programacoes();
 
         $programacoes = $programacoes_table->fetchAll($where. 'and situacao_id <>2', $order);
-        $objs = array();
+        $objs = [];
         foreach ($programacoes as $value) {
-            $child = array(
+            $child = [
                 'id' => $value->id,
                 'menu' => $value->menu,
                 'descricao' => $value->descricao,
@@ -203,7 +203,7 @@ class Data_Model_Programacoes {
                 'setor_id' => $value->setor_id,
                 'responsavel_usuario_id' => $value->responsavel_usuario_id,
                 'supervisor_usuario_id' => $value->supervisor_usuario_id
-            );
+            ];
             $objs[] = $child;
         }
         return $objs;
@@ -268,8 +268,7 @@ class Data_Model_Programacoes {
      * @return type array
      */
     public function getNode($programacaoId=null, $instrumentoId=null, $projetoId=null) {
-        
-        $rows = array();
+        $rows = [];
         $where = $programacaoId ? "programacao_id=$programacaoId" : "instrumento_id=$instrumentoId";
         $project_where = $projetoId!==null ? ' AND '. $projetoId.' = ANY(projetos) ' : ' ';
         $select = " SELECT *, (select count(*) from programacoes pr where programacao_id=p.id and pr.situacao_id <>2) as leaf,programacao_id as parent FROM programacoes p WHERE $where $project_where AND p.situacao_id <>2 ORDER BY ordem";
@@ -277,6 +276,9 @@ class Data_Model_Programacoes {
         $stmt->setFetchMode(Zend_Db::FETCH_OBJ);
         while ($r = $stmt->fetch() ) {
             $row = (array) $r;
+            if($projetoId !==null){
+                $row['id'] = $projetoId . '-' . $row['id'] ;
+            }
             $row['leaf']= !$row['leaf']>0;
             $row['projeto_id'] =$projetoId;
             $rows[] = $row;
@@ -312,7 +314,7 @@ class Data_Model_Programacoes {
     }
     public function delete($id){                
         $table_programacoes = new \Data_Model_DbTable_Programacoes();
-        $table_programacoes->update(array('situacao_id'=>2), "id=$id");
+        $table_programacoes->update(['situacao_id'=>2], "id=$id");
     }
     /**
      * TODO implementar deleção lógica em cascata

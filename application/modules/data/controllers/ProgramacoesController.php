@@ -63,12 +63,14 @@ class Data_ProgramacoesController extends Zend_Rest_Controller
                         $projetoId = $arr_node[1];
                         $node_id=null;
                         $text = 'Projeto selecionado';
-                    }else{
+                    }elseif($arr_node[0] === 'instrumentoId'){
                         $model_instrumentos = new Data_Model_DbTable_Instrumentos();
-                        $instrumento = $model_instrumentos->fetchRow('instrumento_id='.$arr_node[1]);
+                        $instrumento = $model_instrumentos->fetchRow('instrumento_id='.$arr_node[count($arr_node)-1]);
                         $instrumento_id = $instrumento->id;
                         $node_id=null;
                         $text = $instrumento->singular;
+                    }else{
+                        $node_id = $arr_node[count($arr_node)-1];
                     }
                 }
                 if(!isset($projetoId)){

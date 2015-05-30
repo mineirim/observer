@@ -35,7 +35,7 @@ class Basic {
         
         $this->_reportParams['report_type'] =(int) (isset($params['report_type'])? $params['report_type'] : 1);
         $this->_reportParams['user_id'] =(int) $identity->id;
-        $this->_reportParams['user_type'] = (int)$identity->is_su ? 2 : 1;
+        $this->_reportParams['user_type'] = (int)$identity->is_su ? 1 : 2;
         $this->_reportParams['report_title'] = $this->_reportTitle[$this->_reportParams['report_type']]; 
         $compositeId = split('-', $params['id']);
         if(count($compositeId)>1){

@@ -7,11 +7,11 @@ class Data_ProjetosNavigationController extends Zend_Rest_Controller
     {
         $swContext = $this->_helper->contextSwitch();
         $swContext->setAutoJsonSerialization(true);
-        $swContext->addActionContext('index', array('json', 'xml'))
-                        ->addActionContext('put', array( 'json', 'xml'))
-                        ->addActionContext('post', array('json', 'xml'))
-                        ->addActionContext('get', array('json', 'xml'))
-                        ->addActionContext('delete', array( 'json', 'xml'))
+        $swContext->addActionContext('index', ['json', 'xml'])
+                        ->addActionContext('put', [ 'json', 'xml'])
+                        ->addActionContext('post', ['json', 'xml'])
+                        ->addActionContext('get', ['json', 'xml'])
+                        ->addActionContext('delete', [ 'json', 'xml'])
                         ->initContext('json');
         $this->_helper->layout()->disableLayout();
     }
@@ -22,24 +22,24 @@ class Data_ProjetosNavigationController extends Zend_Rest_Controller
         $programacoes_model = new Data_Model_Programacoes();
         $instrumentos_table = new Data_Model_DbTable_Instrumentos();
         $projetosTable = new \Data_Model_DbTable_Projetos();
-        $arr_node=explode('-', $this->_getParam('node')); 
+        $arrNodeCode=explode('-', $this->_getParam('node')); 
         
-        if(in_array('projetoId', $arr_node) ){
+        if(in_array('projetoId', $arrNodeCode) ){
             $isProjetoRoot=true;
-            $node=$arr_node[1];
+            $node=$arrNodeCode[1];
         }else{
             $isProjetoRoot=false;
-            $node=$arr_node[0];
+            $node=$arrNodeCode[count($arrNodeCode)-1];
         }
         
         if ( $node== 'root') {
             $projetosRoot= $projetosTable->fetchAll();
-            $rows = array();
+            $rows = [];
             foreach ($projetosRoot as $value) {
-                $root = array(
+                $root = [
                     'id'=>  "projetoId-".$value->id,
                     'menu'=>$value->nome
-                );
+                ];
                 $rows[]=$root;
             }
             $this->view->rows= $rows;

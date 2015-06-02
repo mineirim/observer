@@ -16,31 +16,32 @@ Ext.define('ExtZF.controller.admin.Users', {
             selector:'adminUsersList'
     }],
     init: function() {
-        this.control(
+        var me = this;
+        me.control(
         {
             // evento duplo click na tela principal(viewport) --> usuariolista(grid)
             'adminUsersList': {
-                itemdblclick: this.editarUsuario
+                itemdblclick: me.editarUsuario
             },
             // evento click no botao (definido com action: reset) da grid definida como usuariolista
             'adminUsersList button[action=reset]': {
-                click: this.resetPassword
+                click: me.resetPassword
             },
             // evento click no botao (definido com action: incluir) da grid definida como usuariolista
             'adminUsersList button[action=new]': {
-                click: this.editarUsuario
+                click: me.editarUsuario
             },
             // evento click no botao (definido com action: excluir) da grid definida como usuariolista
             'adminUsersList button[action=delete]': {
-                click: this.excluirUsuario
+                click: me.excluirUsuario
             },
             // evento click no botao (definido com action: salvar) do formulario definido como usuarioedicao
             'admiUserEdit button[action=save]': {
-                click: this.salvarUsuario
+                click: me.salvarUsuario
             },
             // evento click no botao (definido com action: salvar) do formulario definido como usuarioedicao
             'admiUserEdit button[action=reset]': {
-                click: this.resetPassword
+                click: me.resetPassword
             }
         });
     },

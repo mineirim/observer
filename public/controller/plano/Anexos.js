@@ -39,9 +39,6 @@ Ext.define('ExtZF.controller.plano.Anexos', {
                 click: me.downloadLine,
                 downloadFile : me.downloadLine,
             },
-            'button[action=delete]': {
-                click: me.downloadLine
-            },
             'planoAnexosEdit button[action=sendFile]': {
                 click: me.sendFile
             },

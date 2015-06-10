@@ -55,7 +55,7 @@ Ext.define('ExtZF.view.plano.vinculos.Edit', {
                 fieldLabel: 'Justificativa',
                 anchor:'95%',
                 enableFont : false,
-                enableFontSize: false
+                enableFontSize: true
             },{
                 xtype: 'radiogroup',
                 fieldLabel: 'Pactuado',
@@ -77,7 +77,7 @@ Ext.define('ExtZF.view.plano.vinculos.Edit', {
                 fieldLabel: 'Observações',
                 anchor:'95%',
                 enableFont : false,
-                enableFontSize: false
+                enableFontSize: true
             }]
             }
         ];

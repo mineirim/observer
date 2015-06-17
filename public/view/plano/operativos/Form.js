@@ -1,5 +1,46 @@
 /* global Ext */
+Ext.define('ExtCustom.form.field.HtmlEditor', {
+     extend: 'Ext.form.field.HtmlEditor'
+    ,alias: 'widget.customhtmleditor'
+    
+    /**
+     * @overriden method
+     * Initialize the events
+     */
+    ,initEvents: function () {
+        var me = this;
 
+        me.callParent(arguments);
+
+        me.on({
+            scope: me,
+            initialize: me.onInitializeHtmlEditor
+        });
+    }
+
+    /**
+     * Attach the custom events
+     */
+    ,onInitializeHtmlEditor: function () {
+        var me = this,
+            frameWin = me.getWin(),
+            fnBlur = Ext.bind(me.onHtmlEditorBlur, me);
+
+        if (frameWin.attachEvent) {
+            frameWin.addEventListener('blur', fnBlur);
+        }
+        else {
+            frameWin.addEventListener('blur', fnBlur, false);
+        }
+    }
+
+    /**
+     * Method which will fire the event "blur"
+     */
+    ,onHtmlEditorBlur: function (event) {
+        this.fireEvent('blur', this);
+    }
+});
 Ext.define('ExtZF.view.plano.operativos.Form', {
     extend  : 'Ext.form.Panel',
     alias   : 'widget.planoOperativosForm',
@@ -47,7 +88,8 @@ Ext.define('ExtZF.view.plano.operativos.Form', {
                         )
             }
         },
-        {xtype: 'htmleditor', name: 'avaliacao_andamento', ref: 'avaliacao_andamento',
+        {xtype: 'customhtmleditor', name: 'avaliacao_andamento', ref: 'avaliacao_andamento',
+            id : 'avaliacao_andamentoHtmlEditor',
             fieldLabel: 'Avaliação do andamento',
             enableFont: false,
             frame: false,

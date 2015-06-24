@@ -5,7 +5,7 @@ class Data_Model_Despesas
 
     public function getArray($params , $where=null,  $relationships=false){
         $despesas_table = new Data_Model_DbTable_Despesas();
-        
+        $params['limit']='';
         $despesas = $despesas_table->getOnePageOfOrderEntries($params , $where);       
         if(!$relationships)
             return $despesas;

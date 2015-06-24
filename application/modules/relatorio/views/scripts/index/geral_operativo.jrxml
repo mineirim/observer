@@ -82,7 +82,7 @@ ORDER BY
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement style="Detail" positionType="Float" x="2" y="28" width="553" height="11" uuid="7026733a-5941-4b8e-9c42-d2623b1d8a71"/>
 					<textElement markup="html"/>
-					<textFieldExpression><![CDATA["<div style=\"line-height: 70%;\"><font size=1>"  + $F{operativos_avaliacao_andamento} + "</font></div>"]]></textFieldExpression>
+					<textFieldExpression><![CDATA["<style>span{baddig:0}</style><div style=\"line-height: 70%;padding:0\"><font size=1>"  + $F{operativos_avaliacao_andamento} + "</font></div>"]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement style="Detail" positionType="Float" x="309" y="0" width="38" height="11" uuid="fbfaa3a5-9137-443f-bed4-c11bf97e752a"/>

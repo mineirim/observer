@@ -128,8 +128,9 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
             },
             {
                 xtype: 'htmleditor',
+                id: 'descricaoHtmlEditor',
                 enableFont : false,
-                enableFontSize: false, 
+                enableFontSize: true, 
                 height:130,
                 name : 'descricao',
                 ref: 'descricao',

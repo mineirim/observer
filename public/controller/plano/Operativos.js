@@ -43,7 +43,7 @@ Ext.define('ExtZF.controller.plano.Operativos', {
             },
             'planoOperativosForm [name=andamento_id]': {
                 change: me.checkFinished
-            }
+            },
         });
         me.application.on({
             filtrarHistoricoPorOperativo: me.filtrarHistoricoPorOperativo, 
@@ -123,8 +123,14 @@ Ext.define('ExtZF.controller.plano.Operativos', {
                         grid.el.unmask();
 		}, this);
     },
+    chengeHtmlFontSize : function(){
+        var avaliacaoEditor =Ext.getCmp('avaliacao_andamentoHtmlEditor');
+        avaliacaoEditor.focus(true);
+        avaliacaoEditor.relayCmd('FontSize',2);
+    },
     saveObject: function(button) {
         var me=this;
+        me.chengeHtmlFontSize();
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
             form   = win.down('form').getForm(); // recupera item abaixo(filho) da window do tipo form
         if (form.isValid()) {

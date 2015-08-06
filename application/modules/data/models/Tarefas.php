@@ -65,6 +65,7 @@ class Data_Model_Tarefas {
             ];
             $tarefas[] = $tarefa;
         }
+        $alerta=$menu=[];
         foreach ($tarefas as $key => $row) {
             $alerta[$key]  = $row['ordem_alerta'];
             $menu[$key]  = $row['menu'];

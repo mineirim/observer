@@ -517,9 +517,15 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var win =me.saveObject(button,true);
 
     },
+    chengeHtmlFontSize : function(){
+        var descricao =Ext.getCmp('descricaoHtmlEditor');
+        descricao.focus(true);
+        descricao.relayCmd('FontSize',2);
+    },
     saveObject: function(button, closes) 
     {
-        var me=this;
+        var me=this;       
+        me.chengeHtmlFontSize();
         var recordSelected;
         var win    = button.up('window'); 
         var formDefault   = win.down('#frmDefault').getForm();

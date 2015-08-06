@@ -5,10 +5,8 @@ Ext.define('ExtZF.view.plano.execucao.Window', {
     alias       : 'widget.planoExecucaoWindow', // nome definido a janela
     id          : 'planoExecucaoWindow',
     title       : 'Execução',
-    width       : 1000,
-    minHeight   : 500,
-    height      : 600,
-    maxHeight   : 620,
+    height      : Ext.getBody().getViewSize().height*0.98,
+    width       : Ext.getBody().getViewSize().width*0.95,
     autoShow    : true, 
     layout      : 'fit',
     forcefit:true,
@@ -17,16 +15,16 @@ Ext.define('ExtZF.view.plano.execucao.Window', {
                     items   : [{ xtype :'panel',
                                 title : 'Físico',
                                 forcefit:true,
-                                layout : {align: 'stretch', type: 'vbox',},
+                                layout :  'anchor',
                                 items : [
-                                        {xtype: 'planoOperativosForm'},
+                                        {xtype: 'planoOperativosForm',anchor: '100% 75%',},
                                         {
                                             id    : 'historicoOperativos',
                                             xtype : 'planoOperativosList',
                                             title : 'Consulta Histórico',
                                             flex  : 1,
                                             autoHeight:true,
-                                            minHeight: 150,
+                                            anchor: '100% 25%',
                                             hidden:false,
                                             autoscroll: true
                                         }

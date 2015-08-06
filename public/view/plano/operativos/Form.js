@@ -44,25 +44,24 @@ Ext.define('ExtCustom.form.field.HtmlEditor', {
 Ext.define('ExtZF.view.plano.operativos.Form', {
     extend  : 'Ext.form.Panel',
     alias   : 'widget.planoOperativosForm',
-    id      : 'planoOperativosForm',
+    id      : 'planoOperativosForm',  
+    layout: {
+        type: 'anchor',
+        align: 'stretch',
+    },
     items: [
         {
             xtype: 'fieldset',
-            columnWidth: .8,
-            title: '',
             defaultType: 'textfield',
-            defaults: {
-                anchor: '94%',
-                //                            width: 210
-                //                              forcefit:true
-            },
+            anchor: '100% 10%',
+            margin: '0 0 0 0',
             layout: {
                 type: 'hbox',
-                pack: 'start',
-                //                            align: 'stretch'
-                align: 'middle'
+                pack: 'center',
+                align: 'start',
             },
-            items: [{xtype: 'displayfield', name: 'peso', ref: 'peso', fieldLabel: 'Peso', flex: 1, labelStyle: 'white-space: nowrap;', labelWidth: 60, flex:1},
+            items: [
+                {xtype: 'displayfield', name: 'peso', ref: 'peso', fieldLabel: 'Peso', flex: 1, labelStyle: 'white-space: nowrap;', labelWidth: 60, flex:1},
                 {xtype: 'displayfield', name: 'data_inicio', ref: 'data_inicio', fieldLabel: 'Inicio', labelStyle: 'white-space: nowrap;', labelWidth: 60, flex: 1,
                     renderer: Ext.util.Format.dateRenderer('d/m/y')
                 },
@@ -70,54 +69,42 @@ Ext.define('ExtZF.view.plano.operativos.Form', {
                     renderer: Ext.util.Format.dateRenderer('d/m/y')
                 }]
         },
-        {xtype: 'combo', name: 'andamento_id', ref: 'andamento_id', id: 'andamento_id', fieldLabel: 'Andamento',
-            store: 'Andamentos',
-            displayField: 'descricao',
-            valueField: 'id',
-            queryMode: 'local',
-            anchor: '94%',
-            typeAhead: true,
-            listConfig: {
-                itemTpl: Ext.create('Ext.XTemplate',
-                        '<tpl for=".">',
-                        '<div style="clear: both; border: 1px solid white; width: 98%;" class="andamento-{id}">',
-                        '<div style="text-align: left; clear: both;" class="andamento-{id}"><b>{descricao}</b></div>',
-                        '<div style="text-align: left; clear: both;font-size:0.9em;font-style: italic;" class="andamento-{id}">{conceito}</div>',
-                        '</div>',
-                        '</tpl>'
-                        )
-            }
-        },
-        {xtype: 'customhtmleditor', name: 'avaliacao_andamento', ref: 'avaliacao_andamento',
-            id : 'avaliacao_andamentoHtmlEditor',
-            fieldLabel: 'Avaliação do andamento',
-            enableFont: false,
-            frame: false,
-            height: 100,
-            resizable: true,
-            anchor: '94%'
-        },
         {
             xtype: 'fieldset',
-            columnWidth: .8,
-            title: '',
             defaultType: 'textfield',
-            defaults: {
-                anchor: '90%',
-                //                            width: 210
-                //                              forcefit:true
-            },
+            anchor: '100% 10%',
+            margin: '0 0 0 0',
+            
             layout: {
                 type: 'hbox',
                 pack: 'start',
-                align: 'stretch'
-                        //                            align: 'middle'
+//                align: 'stretch'
+                align: 'middle'
             },
             items: [
-                {xtype: 'sliderfield', name: 'percentual_execucao',
+                    {xtype: 'combo', name: 'andamento_id', ref: 'andamento_id', id: 'andamento_id', 
+                        fieldLabel: 'Andamento',
+                        store: 'Andamentos',
+                        displayField: 'descricao',
+                        valueField: 'id',
+                        queryMode: 'local',
+                        typeAhead: true,
+                        flex: 4,
+                        listConfig: {
+                            itemTpl: Ext.create('Ext.XTemplate',
+                                    '<tpl for=".">',
+                                    '<div style="clear: both; border: 1px solid white; width: 98%;" class="andamento-{id}">',
+                                    '<div style="text-align: left; clear: both;" class="andamento-{id}"><b>{descricao}</b></div>',
+                                    '<div style="text-align: left; clear: both;font-size:0.9em;font-style: italic;" class="andamento-{id}">{conceito}</div>',
+                                    '</div>',
+                                    '</tpl>'
+                                    )
+                        }
+                    },                
+                    {xtype: 'sliderfield', name: 'percentual_execucao',
                     ref: 'percentual_execucao',
                     id: 'percentual_execucao',
-                    fieldLabel: 'Percentual de execução', labelWidth: 150,
+                    fieldLabel: ' % de execução', 
                     increment: 1,
                     minValue: 0,
                     maxValue: 100,
@@ -126,16 +113,25 @@ Ext.define('ExtZF.view.plano.operativos.Form', {
 
                     },
                     flex: 3,
-                    //                            anchor: '80%',
+                    padding : '0 5 0',
                 },
                 {xtype: 'datefield', name: 'data_encerramento', ref: 'data_encerramento', id: 'data_encerramento',
                     fieldLabel: 'Data de encerramento', labelWidth: 145,
                     format: 'd/m/Y',
                     flex: 2,
-                    labelStyle: 'white-space: nowrap;'
+                    labelStyle: 'white-space: nowrap;',
                 }
+                
             ]
-        }
+        },
+        {xtype: 'customhtmleditor', name: 'avaliacao_andamento', ref: 'avaliacao_andamento',
+            id : 'avaliacao_andamentoHtmlEditor',
+            fieldLabel: 'Avaliação do andamento',
+            enableFont: false,
+            frame: false,
+            resizable: true,
+            anchor: '100% 80%' 
+        },
     ],
     buttons : [
     {

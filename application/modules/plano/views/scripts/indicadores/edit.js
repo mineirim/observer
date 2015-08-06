@@ -4,6 +4,8 @@
  * @author Marcone Costa <blog@barraetc.com.br>
 */
 
+/* global Ext */
+
 Ext.define('ExtZF.view.plano.indicadores.Edit', {
     extend: 'Ext.window.Window',
     alias : 'widget.planoIndicadoresEdit', 
@@ -16,10 +18,25 @@ Ext.define('ExtZF.view.plano.indicadores.Edit', {
         me.items = [{
             xtype: 'form',
             items: [
-			{xtype: 'textfield',name : 'id',ref: 'id',fieldLabel: 'Id'},
+			{xtype: 'hiddenfield',name : 'id',ref: 'id',fieldLabel: 'Id'},
 			{xtype: 'textfield',name : 'descricao',ref: 'descricao',fieldLabel: 'Descrião do indicador'},
-			{xtype: 'textfield',name : 'programacao_id',ref: 'programacao_id',fieldLabel: 'Programacao_id'},
-			{xtype: 'textfield',name : 'tipo_indicador_id',ref: 'tipo_indicador_id',fieldLabel: 'Tipo_indicador_id'},
+			{xtype: 'hiddenfield',name : 'programacao_id',ref: 'programacao_id'},
+			{
+                            xtype: 'combo',
+                            id : 'cmbTipoIndicador',
+                            name : 'tipo_indicador_id',
+                            ref: 'tipo_indicador_id',
+                            fieldLabel: 'Tipo do Indicador',
+                            displayField: 'descricao',
+                            store: 'TipoIndicador',
+                            valueField: 'id',
+                            anchor: '95%',
+                            hidden: false,
+                            allowBlank: false,
+                            typeAhead: true,
+                            width: 650,
+                            mode: 'remote'
+                        },
             ]}
         ];
 
@@ -31,8 +48,8 @@ Ext.define('ExtZF.view.plano.indicadores.Edit', {
         {
             text: 'Cancelar',
             iconCls: 'icon-cancel',
-            scope: this,
-            handler: this.close
+            scope: me,
+            handler: me.close
         }];
 
         me.callParent(arguments);

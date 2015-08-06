@@ -6,11 +6,11 @@
 
 Ext.define('ExtZF.model.IndicadorOpcoes', {
             extend         : 'Ext.data.Model',
-            fields         : ['id','id','indicador_id','descricao','selecionado'],
+            fields         : ['id','id','indicador_id','descritivo','selecionado'],
             proxy          : {
     	    simpleSortMode : true, 
             type           : 'rest',
-            url            :   'data/indicadoropcoes',
+            url            :   'data/indicador-opcoes',
             reader         : {
                               type    : 'json',
                               root    : 'rows',

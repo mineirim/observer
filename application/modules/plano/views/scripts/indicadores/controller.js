@@ -4,11 +4,13 @@
  * @author Marcone Costa <blog@barraetc.com.br>
 */
 
+/* global Ext */
+
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Indicadores', {
     extend: 'Ext.app.Controller',
-    stores: ['Indicadores'], // Store utilizado no gerenciamento do usuário
-    models: ['Indicadores'], // Modelo do usuário
+    stores: ['Indicadores','TipoIndicador'], // Store utilizado no gerenciamento do usuário
+    models: ['Indicadores','TipoIndicador'], // Modelo do usuário
      views: [
     'plano.indicadores.List',
     'plano.indicadores.Edit'
@@ -38,6 +40,17 @@ Ext.define('ExtZF.controller.plano.Indicadores', {
                 click: this.saveObject
             }
         });
+        me.application.on({
+            createIndicador: me.createIndicador, 
+            scope: this
+        });
+        me.application.on({
+            editIndicador: me.editIndicador, 
+            scope: this
+        });
+    },
+    createIndicadorForm : function(programacao){
+        
     },
     editObject: function(grid, record) {
         var view = Ext.widget('planoIndicadoresEdit');

@@ -4,8 +4,8 @@ Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Programacoes', {
     extend: 'Ext.app.Controller',
     //id      : 'controllerPlanoProgramacoes',
-    stores: ['programacoes.TreeStore',  'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico', 'anexos.ProgramacaoAnexosStore', 'Projetos'], 
-    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico', 'anexos.ProgramacaoAnexosModel', 'Projetos'], 
+    stores: ['programacoes.TreeStore',  'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico', 'anexos.ProgramacaoAnexosStore', 'Projetos','Indicadores', 'IndicadorOpcoes'],
+    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico', 'anexos.ProgramacaoAnexosModel', 'Projetos','Indicadores', 'IndicadorOpcoes'],
     views: [
         'plano.programacoes.List',
         'plano.programacoes.Treegrid',
@@ -192,7 +192,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             handler: function(){
                     me.attachFile(record);
                 }
-        })
+        });
         items.push('-');
         items.push({
                 text: 'Relatórios',
@@ -274,6 +274,15 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     },
     configuraForm : function(view, record, instrumento){
         var me=this;
+        if (instrumento.get('has_indicador')==="true" ) {
+            var indicadorStore =me.getIndicadoresStore()
+            indicadorStore.remoteFilter=false;
+            indicadorStore.clearFilter();        
+            indicadorStore.remoteFilter=true;
+            indicadorStore.filter('programacao_id',record.get('id'));
+            console.log(indicadorStore);
+            view.showIndicadorForm(indicadorStore);
+        }
         if (instrumento.get('has_operativo')==="true") {
             var operativo={};
             view.criaDetail();
@@ -420,7 +429,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 _myAppGlobal.fireEvent('planoProgramacaoVinculo.add', selected);
                 break;
             case "attach" :
-                me.attachFile(selected[0])
+                me.attachFile(selected[0]);
                 break;
             case "report" :
                 me.showReport(selected[0], btn.reportType);

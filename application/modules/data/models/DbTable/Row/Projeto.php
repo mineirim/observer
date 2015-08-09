@@ -3,7 +3,7 @@
 require_once ('Zend/Db/Table/Row/Abstract.php');
 
 /**
- * Description of Anexo
+ * Description of Projeto
  *
  * @author marcone
  */

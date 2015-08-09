@@ -29,12 +29,11 @@ class Data_ProjetosController extends Zend_Rest_Controller
 
     public function indexAction()
     {
-        /**código gerado automaticamente */
-                $projetosTable = new Data_Model_DbTable_Projetos();
-                $rows = $projetosTable->fetchAll(null, 'id');
-                $this->_helper->viewRenderer->setNoRender(true);
-                $this->view->rows= $rows->toArray();
-                $this->view->total = count($rows);
+        $projetosTable = new Data_Model_DbTable_Projetos();
+        $rows = $projetosTable->fetchAll(null, 'id');
+        $this->_helper->viewRenderer->setNoRender(true);
+        $this->view->rows= $rows->toArray();
+        $this->view->total = count($rows);
     }
 
     public function getAction()

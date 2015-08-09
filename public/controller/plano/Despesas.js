@@ -33,6 +33,9 @@ Ext.define('ExtZF.controller.plano.Despesas', {
             'planoDespesasList button[action=excluir]': {
                 click: me.deleteObject
             },
+            'planoDespesasList textfield[action=searchText]': {
+                change: me.searchText
+            },
             'planoDespesasEdit button[action=salvar]': {
                 click: me.saveObject
             },
@@ -159,6 +162,16 @@ Ext.define('ExtZF.controller.plano.Despesas', {
         me.getDespesasStore().resumeEvents();
         me.getDespesasStore().remoteFilter = true;
         me.getDespesasStore().filter('programacao_id',record_id);
+    },
+    searchText : function(fieldText,currentValue,oldValue){
+        var me = this;
+        var st = me.getDespesasStore();
+        st.remoteFilter = false;
+        st.clearFilter();
+        
+        var regexp = new RegExp(currentValue,'ig');
+        st.filter("descricao",regexp);
+        if(currentValue==='')
+            st.clearFilter();
     }
-    
 });

@@ -20,6 +20,7 @@ class Data_Model_DbTable_Row_Usuario extends Zend_Db_Table_Row_Abstract implemen
         $data = parent::toArray();
         unset($data['senha']);
         unset($data['salt']);
+        $data['setores'] = $this->getSetores();
         return $data;
     }
 
@@ -32,8 +33,17 @@ class Data_Model_DbTable_Row_Usuario extends Zend_Db_Table_Row_Abstract implemen
                     'Data_Model_DbTable_Setores', // match table
                     'Data_Model_DbTable_UsuariosSetores');  // join table
         }
-
-        return $this->_setores;
+        $setores = [];
+ 
+        while ($this->_setores->valid()) {
+            $setor = $this->_setores->current();
+            $setores[] = $setor->id;  
+            $this->_setores->next();
+        }
+ 
+        $this->_setores->rewind();
+ 
+        return $setores;
     }
 
 }

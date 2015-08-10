@@ -32,9 +32,9 @@ class Data_Model_Usuarios {
         $dados['salt'] = $this->salt;
         
 
-        if(isset($dados['setores_ids'])){
-            $setoresIds = split(',', $dados['setores_ids']);
-            unset($dados['setores_ids']);
+        if(isset($dados['setores'])){
+            $setoresIds = is_array( $dados['setores']) ?  $dados['setores'] : split(',', $dados['setores']);
+            unset($dados['setores']);
         }else{
             $setoresIds=[];
         }
@@ -83,9 +83,9 @@ class Data_Model_Usuarios {
             $dados['senha'] = $this->password_md5;
             $dados['salt'] = $this->salt;
         }
-        if(isset($dados['setores_ids'])){
-            $setoresIds = split(',', $dados['setores_ids']);
-            unset($dados['setores_ids']);
+        if(isset($dados['setores'])){
+            $setoresIds = is_array( $dados['setores']) ?  $dados['setores'] : split(',', $dados['setores']);
+            unset($dados['setores']);
         }else{
             $setoresIds=[];
         }
@@ -102,6 +102,7 @@ class Data_Model_Usuarios {
         }else{
             $usuarioSetoresDbTable->delete('usuario_id='. $usuarioId . ' AND setor_id NOT IN ('. implode(',', $setoresIds) . ')');
         }
+        
         foreach ($setoresIds as $setorId) {
             if(!$usuarioSetoresDbTable->fetchRow('usuario_id='. $usuarioId . ' AND setor_id =' .$setorId)){
                 $usuarioSetoresDbTable->insert(['usuario_id'=>$usuarioId,'setor_id'=>$setorId]);

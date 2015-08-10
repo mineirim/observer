@@ -1,14 +1,20 @@
+/* global Ext */
+
 Ext.define('ExtZF.view.admin.users.Edit', {
     extend: 'Ext.window.Window',
     alias : 'widget.admiUserEdit',
     title : 'Edição de Usuário',
     layout: 'fit',
     autoShow: true, 
-    width : 740,
+    width : 740, 
+    requires: [
+        'Ext.ux.form.ItemSelector',
+    ],
     
     initComponent: function() {
+        var me=this;
     	// Itens da janela
-        this.items = [{
+        me.items = [{
                 xtype: 'form',
                 bodyPadding: 13,
                 padding:8,
@@ -47,19 +53,36 @@ Ext.define('ExtZF.view.admin.users.Edit', {
                     anchor      :'95%',
                     labelWidth  : 200,
                     labelStyle  : 'white-space: nowrap;'
+                },
+                {
+                    xtype: 'itemselector',
+                    id: 'setores',
+                    ref : 'setores',
+                    name: 'setores',
+                    fieldLabel: 'Equipes',
+                    store: 'Setores',
+                    displayField: 'nome',
+                    valueField: 'id',
+                    allowBlank: false,
+                    msgTarget: 'side',
+                    frame:false,
+                    buttons : [  'add', 'remove',  ],
+                    minHeight : 70,
+        //            fromTitle : 'Instituições',
+        //            toTitle : 'Financiadoras'
                 }
             ]}
         ];
 
-        this.buttons = [{
+        me.buttons = [{
             text: 'Salvar',
             action: 'save',
             iconCls: 'icon-save'
         },
         {
             text: 'Cancelar',
-            scope: this,
-            handler: this.close,
+            scope: me,
+            handler: me.close,
             iconCls : 'icon-cancel'
         },
         {
@@ -68,6 +91,6 @@ Ext.define('ExtZF.view.admin.users.Edit', {
             iconCls : 'icon-cancel'
         }];
 
-        this.callParent(arguments);
+        me.callParent(arguments);
     }
 });

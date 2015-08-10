@@ -24,18 +24,17 @@ class Data_UsuariosController extends Zend_Rest_Controller {
     }
 
     public function indexAction() {
-        $usuarios_table = new Data_Model_DbTable_Usuarios();
-
-        
+        $usuarios_table = new Data_Model_DbTable_Usuarios();       
         
         $this->_helper->viewRenderer->setNoRender(true);
         $where = "situacao_id=1 ";
         if($this->_getParam('filter')){
             $filtro  = json_decode($this->_getParam('filter'),true);
             //se passado filtro =null, então deve retornar objeto vazio
-            if(!$filtro[0]['value'])
+            if (!$filtro[0]['value']) {
                 return;
-           
+            }
+
             $where .= " AND " . $filtro[0]['property']."='".$filtro[0]['value']."'";
         }        
         $page = $usuarios_table->getOnePageOfOrderEntries($this->getAllParams(),$where);

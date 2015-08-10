@@ -15,7 +15,7 @@ class Data_Model_DbTable_Rowset_Setores extends Zend_Db_Table_Rowset_Abstract
  
         while ($this->valid()) {
             $setor = $this->current();
-            $setores[] = $setor->nome . ' - ' . $setor->sigla;  
+            $setores[] = $setor->id;  
             $this->next();
         }
  

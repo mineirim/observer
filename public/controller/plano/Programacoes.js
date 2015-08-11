@@ -350,7 +350,12 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
       if(typeof(field)==='undefined'){
           field='responsavel_usuario_id';
       }
-      return Etc.getLoggedUser().get('id')===record.get(field);
+      
+      if(Etc.getLoggedUser().get('id')===record.get(field))
+          return true;
+      
+      var setores =Etc.getLoggedUser().get('setores');
+      return setores.indexOf(parseInt(record.get('setor_id'),10))>=0;
     },
     isInSupervisores : function(record){
         if(typeof(record.get('supervisores'))==='undefined')

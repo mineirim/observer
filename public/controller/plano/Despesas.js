@@ -144,8 +144,8 @@ Ext.define('ExtZF.controller.plano.Despesas', {
             r.save({
                 success: function(despesaRecord,b){
                     win.close();
-                    me.getDespesasStore().load();
                     var financeiroRecord =  me.getFinanceiroStore().findRecord('id', despesaRecord.get('financeiro_id'));
+                    me.application.fireEvent('filterDespesasByProgramacao',financeiroRecord.get('programacao_id'));
                     me.application.fireEvent('planoProgramacaoFinanceiro.filterByProgramacao', financeiroRecord.get('programacao_id'));
                 },
                 failure:function(a,b){

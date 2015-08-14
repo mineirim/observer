@@ -92,6 +92,18 @@
               <actionMethod actionName="store"/>
               <actionMethod actionName="model"/>
             </controllerFile>
+            <controllerFile controllerName="TipoIndicador">
+              <actionMethod actionName="store"/>
+              <actionMethod actionName="model"/>
+            </controllerFile>
+            <controllerFile controllerName="Indicadores">
+              <actionMethod actionName="store"/>
+              <actionMethod actionName="model"/>
+            </controllerFile>
+            <controllerFile controllerName="IndicadorOpcoes">
+              <actionMethod actionName="store"/>
+              <actionMethod actionName="model"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
           <layoutsDirectory enabled="false"/>
@@ -201,6 +213,24 @@
                 <viewScriptFile forActionName="store.js"/>
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Projetos">
+                <viewScriptFile forActionName="model.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="TipoIndicador">
+                <viewScriptFile forActionName="store.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="TipoIndicador">
+                <viewScriptFile forActionName="model.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Indicadores">
+                <viewScriptFile forActionName="store.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Indicadores">
+                <viewScriptFile forActionName="model.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="IndicadorOpcoes">
+                <viewScriptFile forActionName="store.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="IndicadorOpcoes">
                 <viewScriptFile forActionName="model.js"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
@@ -317,6 +347,27 @@
               <actionMethod actionName="delete"/>
             </controllerFile>
             <controllerFile controllerName="Projetos">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="get"/>
+              <actionMethod actionName="put"/>
+              <actionMethod actionName="post"/>
+              <actionMethod actionName="delete"/>
+            </controllerFile>
+            <controllerFile controllerName="TipoIndicador">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="get"/>
+              <actionMethod actionName="put"/>
+              <actionMethod actionName="post"/>
+              <actionMethod actionName="delete"/>
+            </controllerFile>
+            <controllerFile controllerName="Indicadores">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="get"/>
+              <actionMethod actionName="put"/>
+              <actionMethod actionName="post"/>
+              <actionMethod actionName="delete"/>
+            </controllerFile>
+            <controllerFile controllerName="IndicadorOpcoes">
               <actionMethod actionName="index"/>
               <actionMethod actionName="get"/>
               <actionMethod actionName="put"/>
@@ -503,6 +554,21 @@
               <actionMethod actionName="list"/>
               <actionMethod actionName="edit"/>
             </controllerFile>
+            <controllerFile controllerName="TipoIndicador">
+              <actionMethod actionName="controller"/>
+              <actionMethod actionName="list"/>
+              <actionMethod actionName="edit"/>
+            </controllerFile>
+            <controllerFile controllerName="Indicadores">
+              <actionMethod actionName="controller"/>
+              <actionMethod actionName="list"/>
+              <actionMethod actionName="edit"/>
+            </controllerFile>
+            <controllerFile controllerName="IndicadorOpcoes">
+              <actionMethod actionName="controller"/>
+              <actionMethod actionName="list"/>
+              <actionMethod actionName="edit"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false"/>
           <layoutsDirectory enabled="false"/>
@@ -614,6 +680,33 @@
                 <viewScriptFile forActionName="list.js"/>
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Projetos">
+                <viewScriptFile forActionName="edit.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="TipoIndicador">
+                <viewScriptFile forActionName="controller.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="TipoIndicador">
+                <viewScriptFile forActionName="list.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="TipoIndicador">
+                <viewScriptFile forActionName="edit.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Indicadores">
+                <viewScriptFile forActionName="controller.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Indicadores">
+                <viewScriptFile forActionName="list.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Indicadores">
+                <viewScriptFile forActionName="edit.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="IndicadorOpcoes">
+                <viewScriptFile forActionName="controller.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="IndicadorOpcoes">
+                <viewScriptFile forActionName="list.js"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="IndicadorOpcoes">
                 <viewScriptFile forActionName="edit.js"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>

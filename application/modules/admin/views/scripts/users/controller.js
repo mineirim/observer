@@ -47,11 +47,12 @@ Ext.define('ExtZF.controller.admin.Users', {
     },
     // Função para popular o formulario
     editarUsuario: function(grid, record) {
+        var me=this;
         var view = Ext.widget('admiUserEdit');
         view.setTitle('Edição ');
         if(!record.data){
             record = new ExtZF.model.Usuarios();
-            this.getUsuariosStore().add(record);
+            me.getUsuariosStore().add(record);
             view.setTitle('Cadastro');
         }
       	view.down('form').loadRecord(record);            
@@ -148,5 +149,4 @@ Ext.define('ExtZF.controller.admin.Users', {
         }
 
     }
-
 });

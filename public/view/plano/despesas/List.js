@@ -11,7 +11,16 @@ Ext.define('ExtZF.view.plano.despesas.List' ,{
                     iconCls: 'icon-new',
                     action: 'despesa',
                     id: 'btnDespesa'
-                },'->',{
+                },
+                {
+                    width: 400,
+                    fieldLabel: 'Filtrar',
+                    labelWidth: 50,
+                    xtype: 'textfield',
+                    action: 'searchText'
+                },
+                '->',
+                {
                     text: 'Excluir',
                     iconCls: 'icon-delete',
                     action: 'excluir'

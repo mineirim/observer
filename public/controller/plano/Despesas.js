@@ -33,6 +33,9 @@ Ext.define('ExtZF.controller.plano.Despesas', {
             'planoDespesasList button[action=excluir]': {
                 click: me.deleteObject
             },
+            'planoDespesasList textfield[action=searchText]': {
+                change: me.searchText
+            },
             'planoDespesasEdit button[action=salvar]': {
                 click: me.saveObject
             },
@@ -141,8 +144,8 @@ Ext.define('ExtZF.controller.plano.Despesas', {
             r.save({
                 success: function(despesaRecord,b){
                     win.close();
-                    me.getDespesasStore().load();
                     var financeiroRecord =  me.getFinanceiroStore().findRecord('id', despesaRecord.get('financeiro_id'));
+                    me.application.fireEvent('filterDespesasByProgramacao',financeiroRecord.get('programacao_id'));
                     me.application.fireEvent('planoProgramacaoFinanceiro.filterByProgramacao', financeiroRecord.get('programacao_id'));
                 },
                 failure:function(a,b){
@@ -159,6 +162,16 @@ Ext.define('ExtZF.controller.plano.Despesas', {
         me.getDespesasStore().resumeEvents();
         me.getDespesasStore().remoteFilter = true;
         me.getDespesasStore().filter('programacao_id',record_id);
+    },
+    searchText : function(fieldText,currentValue,oldValue){
+        var me = this;
+        var st = me.getDespesasStore();
+        st.remoteFilter = false;
+        st.clearFilter();
+        
+        var regexp = new RegExp(currentValue,'ig');
+        st.filter("descricao",regexp);
+        if(currentValue==='')
+            st.clearFilter();
     }
-    
 });

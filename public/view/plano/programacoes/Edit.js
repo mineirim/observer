@@ -111,6 +111,48 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
         });
         return formDetail;
     },
+    showIndicadorForm : function(indicadorStore){
+        var me=this;
+        var items = [];
+
+        indicadorStore.each(function(record,idx) {
+            var indicador = {
+                xtype: 'fieldset',
+                columnWidth: .8,
+                title: '',
+                defaultType: 'textfield',
+                defaults: {
+                    anchor: '94%',
+                },
+                layout: {
+                    type: 'hbox',
+                    pack: 'start',
+                    align: 'middle'
+                },
+                items: [
+                    {xtype: 'displayfield', name: 'descricao', value: record.get('descricao'), fieldLabel: 'Indicador', flex: 1, labelStyle: 'white-space: nowrap;', labelWidth: 60, flex:1},
+                    {xtype: 'combo',
+                        name: 'indicador_opcao'+record.get('id') ,
+                        ref: 'indicador_opcao'+record.get('id'),
+                        id: 'indicador_opcao'+record.get('id'),
+                        fieldLabel: 'Valor',
+                        store: 'IndicadorOpcoes',
+                        displayField: 'descritivo',
+                        valueField: 'id',
+                        typeAhead: true,
+                    },
+                ]
+            };
+            items.push(indicador);
+        });
+        var indicadorForm= Ext.create('Ext.form.Panel', {
+            id: 'frmDetail',
+            padding:8,
+            items: items
+        });
+        var progPanel =Ext.getCmp('progPanel');
+        progPanel.add(indicadorForm);
+    },
     initComponent: function() {
         var me=this;
         

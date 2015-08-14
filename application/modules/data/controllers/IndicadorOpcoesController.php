@@ -9,7 +9,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL 3.0
  * @author Marcone Costa <blog@barraetc.com.br>
  */
-class Data_ProjetosController extends Zend_Rest_Controller
+class Data_IndicadorOpcoesController extends Zend_Rest_Controller
 {
 
     public function init()
@@ -26,14 +26,18 @@ class Data_ProjetosController extends Zend_Rest_Controller
                         ->initContext('json');
         $this->_helper->layout()->disableLayout();
     }
-
+  public function headAction()
+    {
+        $this->getResponse()->setHttpResponseCode(200);
+    }
     public function indexAction()
     {
-        $projetosTable = new Data_Model_DbTable_Projetos();
-        $rows = $projetosTable->fetchAll(null, 'id');
-        $this->_helper->viewRenderer->setNoRender(true);
-        $this->view->rows= $rows->toArray();
-        $this->view->total = count($rows);
+        /**código gerado automaticamente */
+                $indicadoropcoesTable = new Data_Model_DbTable_IndicadorOpcoes();
+                $rows = $indicadoropcoesTable->fetchAll(null, 'id');
+                $this->_helper->viewRenderer->setNoRender(true);
+                $this->view->rows= $rows->toArray();
+                $this->view->total = count($rows);
     }
 
     public function getAction()
@@ -47,14 +51,14 @@ class Data_ProjetosController extends Zend_Rest_Controller
         
         if(($this->getRequest()->isPut())){
             try{
-                $projetosTable = new Data_Model_Projetos();                
-                
-                $formData = $this->getRequest()->getParams();
-                
-                $row = $projetosTable->update($formData);
-                if ($formData) {
-                    $this->view->msg = "Dados atualizados com sucesso!";
-                }
+                $indicadoropcoesTable = new Data_Model_DbTable_IndicadorOpcoes();
+                $formData = $this->getRequest()->getParam('rows');
+                $formData = json_decode($formData,true);
+                $id=$formData['id'];
+                unset($formData['id']);
+                $indicadoropcoesTable->update($formData, "id=$id");
+                $this->view->msg = "Dados atualizados com sucesso!";
+                $row = $indicadoropcoesTable->fetchRow("id=$id");
                 $this->view->rows = $row->toArray();
                 $this->view->success=true;
         
@@ -69,13 +73,24 @@ class Data_ProjetosController extends Zend_Rest_Controller
     }
 
     public function postAction()
-    {        
+    {
+        /**código gerado automaticamente pelo template post.tpl*/
+        
         if($this->getRequest()->isPost()){
             try{
-                $projetosTable = new Data_Model_Projetos();
-                $formData = $this->getRequest()->getPost();
-                $row = $projetosTable->insert($formData);
+        
+                $indicadoropcoesTable = new Data_Model_DbTable_IndicadorOpcoes();
+                $formData = $this->getRequest()->getPost('rows');
+                $formData = json_decode($formData,true);
+                unset($formData['id']);
+                foreach ($formData as $key => $value) {
+                    if($value=='')
+                       unset($formData[$key]);
+                }
+                $id = $indicadoropcoesTable->insert($formData);
                 $this->view->msg="Dados inseridos com sucesso!";
+        
+                $row = $indicadoropcoesTable->fetchRow("id=$id");
                 $this->view->rows = $row->toArray();
                 $this->view->success=true;
                 $this->view->metodo = $this->getRequest()->getMethod();
@@ -96,9 +111,9 @@ class Data_ProjetosController extends Zend_Rest_Controller
         
         if($this->getRequest()->isDelete()){
             try{
-                $projetosTable = new Data_Model_DbTable_Projetos();
+                $indicadoropcoesTable = new Data_Model_DbTable_IndicadorOpcoes();
                 $id = $this->_getParam('id');
-                $projetosTable->delete('id='.$id);
+                $indicadoropcoesTable->delete('id='.$id);
                 $this->view->success=true;
                 $this->view->msg="Dados apagados com sucesso!";
             }  catch (Exception $e){
@@ -110,10 +125,6 @@ class Data_ProjetosController extends Zend_Rest_Controller
         }
     }
 
-    public function headAction()
-    {
-        $this->getResponse()->setHttpResponseCode(200);
-    }
 
 }
 

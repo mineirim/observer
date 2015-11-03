@@ -8,12 +8,14 @@ class Acesso_AuthController extends Zend_Controller_Action
              ->setHeader('Content-type', 'text/javascript');
         $swContext = $this->_helper->contextSwitch();
         $swContext->setAutoJsonSerialization(true);
-        if (!$swContext->hasContext('js'))
+        if (!$swContext->hasContext('js')) {
             $swContext->addContext('js', array('suffix' => 'js'));
+        }
 
         $swContext->addActionContext('Controller', array('js'))
                 ->addActionContext('Form', array('js'))
                 ->addActionContext('checklogin', array('json'))
+                ->addActionContext('get-token', array('json'))
                 ->addActionContext('login', array('json'))
                 ->addActionContext('logout', array('json'))
                 ->addActionContext('Controle', array('js'))
@@ -36,7 +38,16 @@ class Acesso_AuthController extends Zend_Controller_Action
     {
         // action body
     }
-
+    public function getTokenAction() {
+        $email = $this->_request->getPost('email','_');
+        $app = $this->_request->getPost('app');
+        $tableUsuarios = new Data_Model_DbTable_Usuarios();
+        if($tableUsuarios->fetchRow(array("email=?"=>$email))){
+            $this->view->token= base64_encode(base64_encode(date('Ymd')) . base64_encode($email));
+        }else{
+            $this->view->error='usuário não encontrado';
+        }  
+    }
     public function loginAction()
     {
         $logger = Zend_Registry::get('logger');

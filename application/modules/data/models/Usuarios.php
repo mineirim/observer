@@ -89,8 +89,14 @@ class Data_Model_Usuarios {
         }else{
             $setoresIds=[];
         }
-        $table_usuarios->update($dados, $where);
-        $table_usuarios->getAdapter()->commit();
+        try{
+            $table_usuarios->update($dados, $where);
+            $table_usuarios->getAdapter()->commit();
+        }catch(Exception $e){
+            var_dump($e->getMessage());
+            var_dump($dados);
+            die;
+        }
         $usuarioRow= $table_usuarios->fetchRow($where);
         $this->updateSetores($usuarioRow->id, $setoresIds);
         return $usuarioRow;

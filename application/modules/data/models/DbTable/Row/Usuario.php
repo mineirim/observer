@@ -20,6 +20,8 @@ class Data_Model_DbTable_Row_Usuario extends Zend_Db_Table_Row_Abstract implemen
         $data = parent::toArray();
         unset($data['senha']);
         unset($data['salt']);
+        $data['is_su']= var_export($data['is_su'],true);
+        $data['alterar_senha']= var_export($data['alterar_senha'],true);
         $data['setores'] = $this->getSetores();
         return $data;
     }

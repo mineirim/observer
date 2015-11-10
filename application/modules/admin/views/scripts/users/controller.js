@@ -103,25 +103,31 @@ Ext.define('ExtZF.controller.admin.Users', {
 			grid.el.mask('Resetando senha(s)');
                         var store =  me.getUsuariosStore4passStore();
                         for(i=0;i<ids.length;i++){
-                            var usuario =store.findRecord('id',ids[i].get('id'));
-                            usuario.set('senha','123456');
-                            usuario.set('alterar_senha','true');
-                            usuario.save({
-                                        success: function(a,b){
-                                            Ext.log({msg:"Senha alterada com sucesso!",level:"info"});
-                                        },
-                                        failure:function(a,b){
-                                            Ext.log({msg:"Erro ao salvar!",level:"error"});
-                                            Ext.Msg.alert('Alteração de senha', 'Erro ao alterar senha!');
-                                        }
-                                });
+                            store.remoteFilter=true;
+                            var userId = ids[i].get('id');
+                            store.filter('id',userId);
+                            store.load({
+                                callback : function(records, operation, success) {
+                                var usuario =store.findRecord('id',userId);
+                                usuario.set('senha','123456');
+                                usuario.set('alterar_senha','true');
+                                usuario.save({
+                                            success: function(a,b){
+                                                Ext.log({msg:"Senha alterada com sucesso!",level:"info"});
+                                            },
+                                            failure:function(a,b){
+                                                Ext.log({msg:"Erro ao salvar!",level:"error"});
+                                                Ext.Msg.alert('Alteração de senha', 'Erro ao alterar senha!');
+                                            }
+                                    });
+                                    store.sync();
+                                    grid.el.unmask();
+                                }
+                            });
                         }
                         
-                        store.sync();
                         //this.getUsuariosStore().load();
-                        grid.el.unmask();
                         Ext.Msg.alert('Reset', 'Senha(s) alterada(s)!');
-                        Etc.info("Senhas(s) alterada(s)");
 			
 		}, this);
     },

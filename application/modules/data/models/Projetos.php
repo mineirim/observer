@@ -32,6 +32,9 @@ class Data_Model_Projetos
         }else{
             $financiadores_ids=[];
         }
+        $formData['data_inicio']=$this->formatDate($formData['data_inicio']);
+        $formData['data_fim'] = $this->formatDate($dataFim);
+
         foreach ($formData as $key => $value) {
             if ($value == '') {
                 unset($formData[$key]);
@@ -42,11 +45,26 @@ class Data_Model_Projetos
         $row = $this->getProjetosDBTable()->fetchRow("id=$id");
         return$row;
     }
+    /**
+     * verifica o formato de entrada da data e devolve no formato para salvar no banco
+     */
+    private function formatDate($date){
+        if($date ==='' || !$date)
+            return;
+
+        if(DateTime::createFromFormat("Y-m-d",$date)){
+            $formatedDate=$date;
+        }else{
+            $tmpDt = DateTime::createFromFormat("d/m/Y",$date);
+            $formatedDate=$tmpDt->format('Y-m-d');
+        }
+        return $formatedDate;
+    }
     public function update($formData){
         $params = [
             'nome'=>$formData['nome'],
-            'data_inicio'=>$formData['data_inicio'],
-            'data_fim' => $formData['data_fim'],
+            'data_inicio'=> $formData['data_inicio'],//$this->formatDate($formData['data_inicio']),
+            'data_fim' => $formData['data_fim'],//$this->formatDate($dataFim),
             'coordenador_usuario_id' => $formData['coordenador_usuario_id'],
             'apresentacao' =>$formData['apresentacao']
         ];

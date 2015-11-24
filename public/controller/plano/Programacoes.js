@@ -37,8 +37,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     init: function() {
         var me = this;
         if(typeof(ExtZF.app.controllers.map['ExtZF.controller.plano.Programacoes'])==='object')
-            return;    
-        
+            return;
+
         me.control(
         {
             'planoProgramacoesList': {
@@ -80,18 +80,18 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             'planoProgramacoesTreegrid menuitem[action=grid]': {
                 'click' : me.buttonActions
             },
-            
+
             'planoProgramacoesDetalhes button[action=execucao]' : {
                  click : me.clickOnDetailsButton
             }
-           
+
         });
         var operativosController = _myAppGlobal.getController('ExtZF.controller.plano.Operativos');
         operativosController.init();
-        
+
         var vinculos_controller = _myAppGlobal.getController('ExtZF.controller.plano.Vinculos');
             vinculos_controller.init();
-        
+
     },
     showDespesasForm : function(button){
         var me=this;
@@ -99,7 +99,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             form   = win.down('#frmDefault').getForm();
 
         var rec = form.getRecord();
-        form.updateRecord(rec);        
+        form.updateRecord(rec);
         var args ={};
         args.parent_record = rec;
         args.controller = 'plano.Despesas';
@@ -114,7 +114,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
 
         var rec = form.getRecord();
         form.updateRecord(rec);
-        
+
         var args ={};
         args.parent_record = rec;
         args.controller = 'plano.Financeiro';
@@ -127,7 +127,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         record.set('situacao_id',1);
         record.save({
             success: function(c,d){
-                               Etc.info("Aprovado com sucesso!");                                
+                               Etc.info("Aprovado com sucesso!");
                             }
         });
     },
@@ -153,7 +153,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                         me.editarProgramacao(record);
                     }
                 });
-        
+
         if(mycontroller.rootNodeSelected){
             try{
                 var rootInstrumento = me.getStore('Instrumentos').findRecord('instrumento_id',rootRecord.get('instrumento_id'));
@@ -161,20 +161,20 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                     text: 'Adicionar '+ rootInstrumento.get('singular'),
                     handler:  function(){
                         me.novaProgramacao(rootRecord);
-                    } 
+                    }
                 });
                 items.push('-');
             }catch(err){
                 console.log(err);
             }
         }
-        
+
         if(instrumento_filho){
             items.push({
                 text:"Adicionar "+instrumento_filho.get('singular'),
                 handler: function(){
                     me.novaProgramacao(record);
-                } 
+                }
             });
         }
         if (record.get('instrumento').has_operativo){
@@ -182,9 +182,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             items.push({
                 text:"Adicionar Vínculo",
                 data: {record: record},
-                handler: me.linkInstrumento 
+                handler: me.linkInstrumento
             });
-        }   
+        }
         items.push({
             text:"Anexo",
             data: {record: record},
@@ -231,12 +231,12 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         menu.showAt(event.xy);
     },
     showReport : function(record, reportType){
-        
+
         var filterProjeto = record.get("filter_projeto_id") !==""
             && (typeof(record.get("filter_projeto_id")) !== 'undefined' )
             ? "/projeto_id/"+record.get("filter_projeto_id") : "";
         var reportType = typeof(reportType)!=='undefinded' ? '/report_type/' + reportType :'';
-        window.open("relatorio/index/index/id/"+record.get('id') + filterProjeto + reportType, "relatório"); 
+        window.open("relatorio/index/index/id/"+record.get('id') + filterProjeto + reportType, "relatório");
     },
     novaProgramacao: function(parent){
         var me=this;
@@ -244,14 +244,14 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var options ={instrumento_id: ''};
         if( typeof(parent)!=='undefined'){
             var parent_id  = parent.get('id');
-            if(parent_id.toString().split('-').length > 1){                
+            if(parent_id.toString().split('-').length > 1){
                 var instrumento = me.getStore('Instrumentos').findRecord('instrumento_id', parent_id.split('-')[1]);
                 options.instrumento_id =instrumento.get('id');
                 var view = Ext.widget('planoProgramacoesEdit');
                 view.setTitle('Inserir');
                 me.configuraForm(view,false,instrumento);
                 record = Ext.ModelMgr.create(options,'ExtZF.model.Programacoes');
-                view.down('form').loadRecord(record);                
+                view.down('form').loadRecord(record);
             }else{
                 var store = me.filterProgramacoes('id',parent.get('id'));
                 store.load( function(){
@@ -259,9 +259,9 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                     if(programacao !== null && programacao.get('locked') && !me.checkPermission(programacao)){
                         Ext.Msg.alert('Atenção', 'Você não tem permissão para criar novo registro!');
                         return;
-                    }                
+                    }
                     options.programacao_id = parent_id;
-                    var instrumento = me.getStore('Instrumentos').findRecord('instrumento_id',parent.get('instrumento_id'));                
+                    var instrumento = me.getStore('Instrumentos').findRecord('instrumento_id',parent.get('instrumento_id'));
                     options.instrumento_id =instrumento.get('id');
                     var view = Ext.widget('planoProgramacoesEdit');
                     view.setTitle('Novo ' + instrumento.get('singular'));
@@ -277,7 +277,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         if (instrumento.get('has_indicador')==="true" ) {
             var indicadorStore =me.getIndicadoresStore()
             indicadorStore.remoteFilter=false;
-            indicadorStore.clearFilter();        
+            indicadorStore.clearFilter();
             indicadorStore.remoteFilter=true;
             indicadorStore.filter('programacao_id',record.get('id'));
             console.log(indicadorStore);
@@ -307,8 +307,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 if(idrecord !==false && typeof(idrecord)!=='undefined'){
                     view.showGridProgramacao(idrecord);
                 }
-                me.application.fireEvent('filterDespesasByProgramacao', idrecord);    
-                
+                me.application.fireEvent('filterDespesasByProgramacao', idrecord);
+
             }else{
                 //... se não existir valor executado, significa que é um item de despesa e deverá ser exibido apenas um campo com valor
                 view.showVlrProgramado();
@@ -332,28 +332,28 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var projeto = instrumento.get('has_projetos');
         if (projeto==="true") {
             view.down('#projeto_id').show();
-        }        
+        }
         var responsavel = instrumento.get('has_responsavel');
         if (responsavel==="true") {
             view.down('#responsavel_usuario_id').show();
-        }        
+        }
         var supervisor = instrumento.get('has_supervisor');
         if (supervisor==="true") {
             view.down('#supervisor_usuario_id').show();
-        }        
+        }
         var equipe = instrumento.get('has_equipe');
         if (equipe==="true") {
             view.down('#setor_id').show();
         }
     },
-    checkPermission: function(record,field){ 
+    checkPermission: function(record,field){
       if(typeof(field)==='undefined'){
           field='responsavel_usuario_id';
       }
-      
+
       if(Etc.getLoggedUser().get('id')===record.get(field))
           return true;
-      
+
       var setores =Etc.getLoggedUser().get('setores');
       return setores.indexOf(parseInt(record.get('setor_id'),10))>=0;
     },
@@ -368,14 +368,14 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     },
     attachButtonAction: function(btn, ev) {
         var me = this;
-        var grid = me.getTreegrid(); 
+        var grid = me.getTreegrid();
         var selected = grid.getSelectionModel().getSelection();
         if(selected.length === 0){
         	Ext.Msg.alert('Atenção', 'Selecione um registro para editar');
         	return ;
         }
-        me.editarProgramacao(selected[0]);  
-    },    
+        me.editarProgramacao(selected[0]);
+    },
     attachFile  : function(rec){
         var me=this;
         var args ={};
@@ -383,41 +383,41 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         args.controller = 'plano.Anexos';
         me.application.fireEvent('openEditForm', args);
     },
-    
+
     linkInstrumento  : function(record){
         var me = this;
         var selected;
         if(me.id ==="plano.Programacoes"){
-            var grid = me.getTreegrid(); 
-            selected = grid.getSelectionModel().getSelection()[0]; 
+            var grid = me.getTreegrid();
+            selected = grid.getSelectionModel().getSelection()[0];
         }else if(typeof(record)!=='undefined'){
             selected=record;
         }else{
             selected = me.data.record;
         }
         _myAppGlobal.fireEvent('planoProgramacaoVinculo.add', selected);
-    },    
+    },
     newRoot: function() {
         var view = Ext.widget('planoProgramacoesEdit');
         view.setTitle('Inserir');
         /**
          * TODO pegar automaticamente o root do instrumento(quando mais de um instrumento)
-         */     
+         */
         var options={instrumento_id :2};
-        
+
         record = Ext.ModelMgr.create(options,'ExtZF.model.Programacoes');
       	view.down('form').loadRecord(record);
     },
     newObject: function() {
-        var grid = this.getTreegrid(); 
-        var parent = grid.getSelectionModel().getSelection()[0]; 
+        var grid = this.getTreegrid();
+        var parent = grid.getSelectionModel().getSelection()[0];
         this.novaProgramacao(parent);
-        
-        
+
+
     },
     buttonActions: function(btn, ev) {
         var me = this;
-        var grid = me.getTreegrid(); 
+        var grid = me.getTreegrid();
         var selected = grid.getSelectionModel().getSelection();
         if(selected.length === 0 || (selected[0].isRoot() && btn.name !=='report')){
         	Ext.Msg.alert('Atenção', 'Necessário selecionar um registro');
@@ -425,7 +425,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         }
         switch(btn.name){
             case "edit" :
-                me.editarProgramacao(selected[0]);  
+                me.editarProgramacao(selected[0]);
                 break;
             case "delete":
                 me.deleteObject(selected[0]);
@@ -443,7 +443,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 me.sendMail(selected[0]);
                 break;
         }
-    },    
+    },
     sendMail : function(record){
         var me=this;
         var args ={};
@@ -456,13 +456,13 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         if(record.isRoot() || record.get('parentId')===null){
             return;
         }
-        me.editarProgramacao(record);  
+        me.editarProgramacao(record);
     },
     filterProgramacoes : function(field,value,calback){
         var me = this;
         var store =  me.getStore('Programacoes');
         store.remoteFilter=false;
-        store.clearFilter();        
+        store.clearFilter();
         store.filter(field,value);
         store.remoteFilter=true;
         return store;
@@ -470,7 +470,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     editarProgramacao : function(rec){
         var me = this;
         //TODO buscar record de um outro store(não tree)
-        var store = me.filterProgramacoes('id',rec.get('id'));        
+        var store = me.filterProgramacoes('id',rec.get('id'));
         store.load(function(){
             var record = store.getById(rec.get('id'));
             if(record.get('locked') && !me.isInSupervisores(rec) && !me.checkPermission(rec)){
@@ -483,18 +483,18 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             var instrumento = me.getStore('Instrumentos').findRecord('id',record.get('instrumento_id'));
             me.configuraForm(view, record, instrumento);
         });
-     
+
     },
 
     deleteObject:function(r) {
         var  me=this;
-        var grid = me.getTreegrid(); 
+        var grid = me.getTreegrid();
         var ids = grid.getSelectionModel().getSelection(); // recupera linha selecionadas
         if(ids.length === 0){
         	Ext.Msg.alert('Atenção', 'Nenhum registro selecionado');
         	return ;
         }
-        var store = me.filterProgramacoes('id', r.get('id'));        
+        var store = me.filterProgramacoes('id', r.get('id'));
         store.load(function(){
             var record = store.findRecord('id', r.get('id'));
             if(typeof(record)==='undefined'){
@@ -513,7 +513,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                             var prog_id = record.get('programacao_id');
                             store.remove(record);
                             store.sync();
-                 
+
                             if(prog_id!==null){
                                 var currnode = me.getProgramacoesTreeStoreStore().getNodeById(prog_id);
                                 if(typeof(currnode)!=='undefined'){
@@ -524,7 +524,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                     }, me);
                 });
     },
-    saveAndClose: function(button) 
+    saveAndClose: function(button)
     {
         Etc.info('Save and Close');
         var me = this;
@@ -536,12 +536,12 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         descricao.focus(true);
         descricao.relayCmd('FontSize',2);
     },
-    saveObject: function(button, closes) 
+    saveObject: function(button, closes)
     {
-        var me=this;       
+        var me=this;
         me.chengeHtmlFontSize();
         var recordSelected;
-        var win    = button.up('window'); 
+        var win    = button.up('window');
         var formDefault   = win.down('#frmDefault').getForm();
         var formDetail   = win.down('#frmDetail');
         if (formDetail !== null)
@@ -564,7 +564,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                         if(numSubforms===0){
                             if(closes===true){
                                 if(win!==false)
-                                    win.close();   
+                                    win.close();
                             }
                         }
                     };
@@ -581,7 +581,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                             success: function(c,d){
                                 numSubforms=numSubforms-1;
                                 checkSave();
-                               Etc.info("Detalhes salvos com sucesso!");                                
+                               Etc.info("Detalhes salvos com sucesso!");
                             }
                         });
                     }
@@ -594,30 +594,30 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                             success: function(c,d){
                                 numSubforms=numSubforms-1;
                                 checkSave();
-                               Etc.info("Orçamento salvo com sucesso!");         
+                               Etc.info("Orçamento salvo com sucesso!");
                             }
                         });
                         me.getStore('Financeiro').load();
                     }
-                    if(check_programacao){                        
+                    if(check_programacao){
                         if(instrumento.get('has_vlr_programado')==="true" &&
-                            instrumento.get('has_vlr_executado')==="true"){                                
+                            instrumento.get('has_vlr_executado')==="true"){
                                 var programacoesEdit = Ext.getCmp('planoProgramacoesEdit');
                                 programacoesEdit.showGridProgramacao(parseInt(a.get('id'),10));
                                 programacoesEdit.doLayout();
                                 me.application.fireEvent('filterDespesasByProgramacao', recordSelected.get('id'));
-                            }            
+                            }
                     }
 //                    me.getProgramacoesTreeStoreStore().load();
                     var treePanelLeft = Ext.getCmp('treeNavPanel');
                     var treePanelStore= treePanelLeft.getStore();
                     var prog_id = recordSelected.get('programacao_id');
-                 
+
                     if(prog_id!==null){
                         var currnode = me.getProgramacoesTreeStoreStore().getNodeById(prog_id);
                         if(typeof(currnode)!=='undefined'){
                             me.getProgramacoesTreeStoreStore().load({node:currnode});
-                        }                        
+                        }
                         var node = treePanelStore.getNodeById(prog_id);
                         if(typeof(node)!== 'undefined'){
                             treePanelStore.load({'node':node});
@@ -632,7 +632,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                         if(typeof(node)!== 'undefined'){
                             treePanelStore.load({'node':node});
                         }
-                    }                                   
+                    }
                     checkSave();
                     Ext.MessageBox.show({
 			title: 'Salvar'
@@ -642,7 +642,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                     });
                 },
                 failure:function(a,b){
-                    Etc.error("Erro ao salvar!");                    
+                    Etc.error("Erro ao salvar!");
                     Ext.MessageBox.show({
 			title: 'Salvar'
 			,buttons: Ext.MessageBox.OK
@@ -652,8 +652,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                     return false;
                 }
         });
-        me.selectNewRecord = recordSelected; 
-            
+        me.selectNewRecord = recordSelected;
+
         }
         return win;
     },
@@ -670,7 +670,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
          if( !record ){
              var tpl = ['<div class="tplDetail"><b>Selecione para exibir detalhes </b><br/></div>'];
              var clearTpl = Ext.create('Ext.XTemplate', tpl);
-             clearTpl.overwrite(showDetail.body, []);               
+             clearTpl.overwrite(showDetail.body, []);
              showDetail.doLayout();
              button.hide();
              var planilhaOrcamentaria = detailPanel.child('#planilhaOrcamentaria');
@@ -678,8 +678,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 planilhaOrcamentaria.hide();
              return;
          }
-        var store = me.filterProgramacoes('id', record.get('id'));        
-        store.load(function(){ 
+        var store = me.filterProgramacoes('id', record.get('id'));
+        store.load(function(){
             detailPanel.show();
             var instrumento =undefined;
             if(record.isRoot()){
@@ -710,7 +710,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
            var bookTpl = Ext.create('Ext.XTemplate', bookTplMarkup);
 
            showDetail.doLayout();
-           bookTpl.overwrite(showDetail.body, record.data);         
+           bookTpl.overwrite(showDetail.body, record.data);
            if(record.get('instrumento').has_responsavel){
                 if(typeof(record.get('responsavel')) !== 'undefined'){
                     var responsavel = record.get('responsavel');
@@ -751,8 +751,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                     var operativo = me.getStore('Operativos').findRecord('programacao_id',parseInt(record.get('id'),10));
                      if(operativo){
                          btnExecucao.show();
-                         btnExecucao.value = operativo.get('id');                 
-                         me.application.fireEvent('filtrarHistoricoPorOperativo', operativo.get('id'));                 
+                         btnExecucao.value = operativo.get('id');
+                         me.application.fireEvent('filtrarHistoricoPorOperativo', operativo.get('id'));
                          planilhaOperativa.show();
                     }else{
                         planilhaOperativa.hide();
@@ -764,8 +764,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
            if(record.get('instrumento').has_vlr_programado===true &&
                    (
                    !record.get('locked') || me.isInSupervisores(record) || me.checkPermission(record)
-                   )){ 
-               if(record.get('instrumento').has_vlr_executado===true){ 
+                   )){
+               if(record.get('instrumento').has_vlr_executado===true){
                    planilhaOrcamentaria = detailPanel.child("#planilhaOrcamentaria");
                    planilhaOrcamentaria.show();
 
@@ -785,7 +785,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                                        '</table>',
                                    '</tpl>'
                                ]);
-                           tpl_orcamento.append(showDetail.body, obj,true);                
+                           tpl_orcamento.append(showDetail.body, obj,true);
                        },
                        failure: function(response, opts) {
                            console.log('server-side failure with status code ' + response.status);
@@ -796,7 +796,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                }
            }else{
                planilhaOrcamentaria = detailPanel.child('#planilhaOrcamentaria');
-               if(planilhaOrcamentaria) 
+               if(planilhaOrcamentaria)
                    planilhaOrcamentaria.hide();
            }
            //this.getGantt(record.get('id'));
@@ -822,16 +822,16 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                 var record = controller.getStore('Operativos').findRecord('id',button.value);
                 programacao  = me.getStore('Programacoes').findRecord('id',record.get('programacao_id'));
             }else{
-                programacao  = button.programacao;                
+                programacao  = button.programacao;
                 var record = controller.getStore('Operativos').findRecord('programacao_id',programacao.get('id'));
             }
             if(!me.checkPermission(programacao)){
                     Ext.Msg.alert('Atenção', 'Você não é o responsável pela execução da etapa!');
-                    return;                
+                    return;
             }
-            me.application.fireEvent('showExecutionWindow',programacao);    
+            me.application.fireEvent('showExecutionWindow',programacao);
 //            controller.editObject(null, record);
-            
+
         }
     },
     showGantt : function(id){
@@ -843,7 +843,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             if(document.getElementById('ganttPanel-innerCt')===null)
                 return;
         }
-        
+
         gantt.config.xml_date = "%Y-%m-%d";
         gantt.config.date_grid = "%d/%m/%Y";
         gantt.config.scale_unit = "month";
@@ -862,23 +862,23 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                                     {name:"duration", align: "center"},
                                 ];
                                         gantt.init('ganttPanel-innerCt');
-        gantt.clearAll(); 
+        gantt.clearAll();
         var params = typeof(id) !== 'undefined' ?'&node_id='+id:'';
         gantt.load('/data/gantt?format=xml'+params,'xml');
     },
     selectRecord : function(treeview)
-    {        
+    {
         //Ext.defer(this.setScrollTop, 30, this, [this.getView().scrollState.top]);
         if ( this.selectNewRecord===false || typeof(this.selectNewRecord)==='undefined');
-            return;       
+            return;
         treeview.getSelectionModel().select(this.selectNewRecord);
 
-    }   , 
+    }   ,
     callRender : function(gridPanel)
     {
         var me=this;
         gridPanel.getView().on('refresh', me.selectRecord);
 
     }
-    
+
 });

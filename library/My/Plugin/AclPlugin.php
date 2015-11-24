@@ -57,8 +57,6 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
                     $request->setActionName ( $action );
                 }
             }
-            
-            
 	}
 
 	

@@ -45,7 +45,7 @@ class Data_Model_Programacoes {
                     ) 
             SELECT * FROM prog ORDER BY nivel,programacao_id,ordem
             ";
-        
+
         $stmt = Zend_Registry::get('db')->query($select);
         $stmt->setFetchMode(Zend_Db::FETCH_OBJ);
         $arr_tree = [];

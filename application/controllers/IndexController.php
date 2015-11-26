@@ -38,6 +38,11 @@ class IndexController extends Zend_Controller_Action
                         action: 'loadController',
                         createView : 'orcamentoDashboard',
                     },{
+                        text: 'Produção Usuário',
+                        data: 'admin.Producao',
+                        action: 'loadController',
+                        createView : 'producaoList',
+                    },{
                         text: 'Usuários',
                         data: 'admin.Users',
                         action: 'loadController',

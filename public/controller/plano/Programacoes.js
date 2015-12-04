@@ -4,8 +4,8 @@ Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Programacoes', {
     extend: 'Ext.app.Controller',
     //id      : 'controllerPlanoProgramacoes',
-    stores: ['programacoes.TreeStore',  'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico', 'anexos.ProgramacaoAnexosStore', 'Projetos','Indicadores', 'IndicadorOpcoes'],
-    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico', 'anexos.ProgramacaoAnexosModel', 'Projetos','Indicadores', 'IndicadorOpcoes'],
+    stores: ['programacoes.TreeStore',  'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico', 'anexos.ProgramacaoAnexosStore', 'Projetos','Indicadores', 'IndicadorOpcoes','Sistemas'],
+    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico', 'anexos.ProgramacaoAnexosModel', 'Projetos','Indicadores', 'IndicadorOpcoes','Sistemas'],
     views: [
         'plano.programacoes.List',
         'plano.programacoes.Treegrid',
@@ -280,19 +280,26 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             indicadorStore.clearFilter();
             indicadorStore.remoteFilter=true;
             indicadorStore.filter('programacao_id',record.get('id'));
-            console.log(indicadorStore);
             view.showIndicadorForm(indicadorStore);
         }
         if (instrumento.get('has_operativo')==="true") {
-            var operativo={};
             view.criaDetail();
             if(record){
-                operativo = record.get('operativo')[0];
-                if (!operativo)
-                    operativo = {};
+               var operativoStore = me.getOperativosStore();
+               operativoStore.remoteFilter=false;
+               operativoStore.clearFilter();
+               operativoStore.filter('programacao_id',parseInt(record.get('id'),10));
+               operativoStore.remoteFilter=true;
+               operativoStore.load(function(){
+                    var operativo = me.getStore('Operativos').findRecord('programacao_id',parseInt(record.get('id'),10));
+                        if (!operativo){
+                            rec = {};
+                            operativo = Ext.ModelMgr.create(operativo,'ExtZF.model.Operativos');
+                        }
+                        view.down('#frmDetail').getForm().loadRecord(operativo);
+                });
+
             }
-            rr = Ext.ModelMgr.create(operativo,'ExtZF.model.Operativos');
-            view.down('#frmDetail').getForm().loadRecord(rr);
             view.doLayout();
         }
         // TODO : transformar a execução em uma lista com mais de um tipo de financiamento (material perm, pessoal, etc)

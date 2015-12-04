@@ -29,3 +29,8 @@ FROM programacoes p JOIN prog ON p.programacao_id = prog.id  )
 SELECT prog.id
  FROM prog 
 )
+
+
+
+// utilizado para criar novas chaves
+insert into sistemas (nome,chave) values'Sistema de Apoio Administrativo', crypt('123', gen_salt('bf', 8))

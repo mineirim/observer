@@ -1,0 +1,5 @@
+
+
+sudo apt-get install postgresql-contrib libpq-dev
+
+create extension pgcrypto

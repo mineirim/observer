@@ -4,8 +4,8 @@ Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Programacoes', {
     extend: 'Ext.app.Controller',
     //id      : 'controllerPlanoProgramacoes',
-    stores: ['programacoes.TreeStore',  'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico', 'anexos.ProgramacaoAnexosStore', 'Projetos','Indicadores', 'IndicadorOpcoes'],
-    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico', 'anexos.ProgramacaoAnexosModel', 'Projetos','Indicadores', 'IndicadorOpcoes'],
+    stores: ['programacoes.TreeStore',  'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico', 'anexos.ProgramacaoAnexosStore', 'Projetos','Indicadores', 'IndicadorOpcoes','Sistemas'],
+    models: ['programacoes.Model4tree', 'Programacoes' ,'Setores','Usuarios','Instrumentos','Operativos','Vinculos', 'Financeiro', 'GrupoDespesas', 'OperativosHistorico', 'anexos.ProgramacaoAnexosModel', 'Projetos','Indicadores', 'IndicadorOpcoes','Sistemas'],
     views: [
         'plano.programacoes.List',
         'plano.programacoes.Treegrid',

@@ -105,7 +105,19 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                 queryMode   : 'local',
                 hidden      : true
                 
-            }
+            },
+            {
+                xtype: 'combo',
+                name        : 'sistema_id',
+                ref         : 'sistema_id',
+                fieldLabel  : 'Alimentado pelo sistema',
+                store       : 'Sistemas',
+                displayField: 'nome',
+                valueField  : 'id',
+                queryMode   : 'local',
+                hidden      : true
+
+            },
             ]            
             
         });

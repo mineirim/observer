@@ -81,18 +81,31 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                 anchor:'95%'
             },
             {
-                xtype: 'datefield',
-                name : 'data_inicio',
-                ref: 'data_inicio',
-                fieldLabel: 'Início',
-                format: 'd/m/Y'
-            },
-            {
-                xtype: 'datefield',
-                name : 'data_prazo',
-                ref: 'data_prazo',
-                fieldLabel: 'Término',
-                format: 'd/m/Y'
+                xtype: 'fieldset',
+                defaultType: 'textfield',
+                anchor: '100% 10%',
+                margin: '0 0 0 0',
+                layout: {
+                    type: 'hbox',
+                    pack: 'center',
+                    align: 'start',
+                },
+                items: [
+                    {
+                        xtype: 'datefield',
+                        name : 'data_inicio',
+                        ref: 'data_inicio',
+                        fieldLabel: 'Início',
+                        format: 'd/m/Y'
+                    },
+                    {
+                        xtype: 'datefield',
+                        name : 'data_prazo',
+                        ref: 'data_prazo',
+                        fieldLabel: 'Término',
+                        format: 'd/m/Y'
+                    },
+                ]
             },
             {
                 xtype: 'combo',
@@ -107,7 +120,8 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                 
             },
             {
-                xtype: 'combo',
+                xtype       : 'combo',
+                id          : 'sistema_id',
                 name        : 'sistema_id',
                 ref         : 'sistema_id',
                 fieldLabel  : 'Alimentado pelo sistema',
@@ -115,8 +129,9 @@ Ext.define('ExtZF.view.plano.programacoes.Edit', {
                 displayField: 'nome',
                 valueField  : 'id',
                 queryMode   : 'local',
-                hidden      : true
-
+                anchor      : '95%',
+                allowBlank  : true,
+                typeAhead   : true,
             },
             ]            
             

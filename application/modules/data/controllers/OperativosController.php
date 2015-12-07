@@ -31,7 +31,7 @@ class Data_OperativosController extends Zend_Rest_Controller {
 		$page = $operativos_table->getOnePageOfOrderEntries($this->getAllParams(), $where);
 		foreach ($page['rows'] as $key => &$value) {
 			$sistemaRow          = $programacao_sistemas_table->fetchAll('programacao_id=' . $value['programacao_id']);
-			$value['sistema_id'] = ($sistemaRow) ? $sistemaRow->current()->sistema_id : null;
+			$value['sistema_id'] = count($sistemaRow) ? $sistemaRow->current()->sistema_id : null;
 
 		}
 		$this->view->rows  = $page['rows'];
@@ -53,7 +53,7 @@ class Data_OperativosController extends Zend_Rest_Controller {
 				$formData         = json_decode($formData, true);
 				$id               = $formData['id'];
 				unset($formData['id']);
-				if (isset($formData['sistema_id'])) {
+				if (array_key_exists('sistema_id', $formData)) {
 					$where  = 'programacao_id=' . $formData['programacao_id'];
 					$dados  = ['programacao_id' => $formData['programacao_id'], 'sistema_id' => $formData['sistema_id']];
 					$rowset = $sistemas_table->fetchAll($where);
@@ -88,6 +88,7 @@ class Data_OperativosController extends Zend_Rest_Controller {
 			try {
 
 				$operativos_table = new Data_Model_DbTable_Operativos();
+				$sistemas_table   = new Data_Model_DbTable_ProgramacaoSistemas();
 				$formData         = $this->getRequest()->getPost('rows');
 				$formData         = json_decode($formData, true);
 				unset($formData['id']);
@@ -95,8 +96,19 @@ class Data_OperativosController extends Zend_Rest_Controller {
 					if ($value == '') {
 						unset($formData[$key]);
 					}
-
 				}
+				if (array_key_exists('sistema_id', $formData)) {
+					$where  = 'programacao_id=' . $formData['programacao_id'];
+					$dados  = ['programacao_id' => $formData['programacao_id'], 'sistema_id' => $formData['sistema_id']];
+					$rowset = $sistemas_table->fetchAll($where);
+					if (count($rowset) > 0) {
+						$sistemas_table->update($dados, $where);
+					} else {
+						$sistemas_table->insert($dados);
+					}
+					unset($formData['sistema_id']);
+				}
+
 				$id              = $operativos_table->insert($formData);
 				$this->view->msg = 'Dados inseridos com sucesso!';
 

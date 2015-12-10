@@ -9,7 +9,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL 3.0
  * @author Marcone Costa <blog@barraetc.com.br>
  */
-class Data_ProjetosController extends Zend_Rest_Controller {
+class Data_SubprojetosController extends Zend_Rest_Controller {
 
 	public function init() {
 		/**código gerado automaticamente pelo template init.tpl*/
@@ -27,9 +27,11 @@ class Data_ProjetosController extends Zend_Rest_Controller {
 
 	public function indexAction() {
 		$this->_helper->viewRenderer->setNoRender(true);
-		$projetosModel = new Data_Model_Projetos();
-		$lastUpdate    = $this->getParam('data_referencia', false);
-		$where         = '1=1';
+		$this->view->errorMessage = 'Método não implementado. A consulta deve ser feita pelo projeto ou busca direta a um subprojeto:';
+		$this->view->errorTips    = '/data/suprojetos/:idSubprojeto | /data/subprojetos/projeto/:IdProjeto';
+		$projetosModel            = new Data_Model_Projetos();
+		$lastUpdate               = $this->getParam('data_referencia', false);
+		$where                    = '1=1';
 		if ($lastUpdate) {
 			$where .= ' AND (inclusao_data > \'' . $lastUpdate . '\' OR alteracao_data > \'' . $lastUpdate . '\') ';
 		}
@@ -40,8 +42,17 @@ class Data_ProjetosController extends Zend_Rest_Controller {
 
 	public function getAction() {
 		$this->_helper->viewRenderer->setNoRender(true);
-		$projetosModel   = new Data_Model_Projetos();
-		$this->view->row = $projetosModel->getProjeto($this->getParam('id'));
+		$projetoId     = $this->getParam('projeto', false);
+		$projetosModel = new Data_Model_Subprojetos();
+
+		if ($projetoId) {
+			$lastUpdate       = $this->getParam('data_referencia', false);
+			$rows             = $projetosModel->listSubprojetos($projetoId, $lastUpdate);
+			$this->view->rows = $rows;
+		} else {
+			$rows            = $projetosModel->getSubprojeto($this->getParam('id'));
+			$this->view->row = $rows;
+		}
 	}
 
 	public function putAction() {

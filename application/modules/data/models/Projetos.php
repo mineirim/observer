@@ -119,4 +119,13 @@ class Data_Model_Projetos {
 		$rows          = $projetosTable->fetchAll($where, 'nome');
 		return $rows;
 	}
+	/**
+	 * @param $id
+	 * @return array
+	 */
+	public function getProjeto($id) {
+		$projetosTable = new Data_Model_DbTable_Projetos();
+		$projetoRow    = $projetosTable->find($id);
+		return $projetoRow->current()->toArray();
+	}
 }

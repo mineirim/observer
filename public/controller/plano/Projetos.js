@@ -1,5 +1,5 @@
 /*
- * código gerado automaticamente pelo template "js/controller.tpl" 
+ * código gerado automaticamente pelo template "js/controller.tpl"
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL 3.0
  * @author Marcone Costa <blog@barraetc.com.br>
 */
@@ -9,8 +9,8 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.plano.Projetos', {
     extend: 'Ext.app.Controller',
-    stores: ['Projetos', 'Organizacoes', 'Financiadores', ], 
-    models: ['Projetos', 'Organizacoes'], 
+    stores: ['Projetos', 'Organizacoes', 'Financiadores', ],
+    models: ['Projetos', 'Organizacoes'],
      views: [
     'plano.projetos.List',
     'plano.projetos.Edit',
@@ -50,7 +50,7 @@ Ext.define('ExtZF.controller.plano.Projetos', {
             me.getProjetosStore().add(record);
             view.setTitle('Cadastro');
         }
-        
+
         me.getStore('Financiadores').load({
             scope: me,
             params : {projeto_id:record.data.id},
@@ -96,7 +96,7 @@ Ext.define('ExtZF.controller.plano.Projetos', {
                 method = 'PUT';
                 param_id='/' +form.getFieldValues().id;
             }
-            form.submit({                
+            form.submit({
                 method: method,
                 url: '/data/projetos' +param_id,
                 waitMsg: 'Salvando projeto...',

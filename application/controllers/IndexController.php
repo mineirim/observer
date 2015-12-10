@@ -33,13 +33,22 @@ class IndexController extends Zend_Controller_Action
                     iconCls : 'icon-admin',
                     menu: [
                     {
+                        text: 'Orçamento',
+                        data: 'OrcamentoDashboard',
+                        action: 'loadController',
+                        createView : 'orcamentoDashboard',
+                    },{
+                        text: 'Produção Usuário',
+                        data: 'admin.Producao',
+                        action: 'loadController',
+                        createView : 'producaoList',
+                    },{
                         text: 'Usuários',
                         data: 'admin.Users',
                         action: 'loadController',
                         createView : 'adminUsersList',
                         iconCls: 'icon-user'
-                    },            
-                    {
+                    },{
                         text        : 'Equipes',
                         iconCls     : 'icon-setores',
                         data        : 'admin.Setores',

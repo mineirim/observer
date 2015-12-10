@@ -60,10 +60,14 @@ class Data_UsuariosController extends Zend_Rest_Controller {
     public function postAction() {
         if ($this->getRequest()->isPost()) {
             try {
-
+                if($this->getRequest()->getParam('rows')){
+                    $formDataJson = $this->getRequest()->getParam('rows');  
+                }else{
+                    $formDataJson=$this->getRequest()->getRawBody();
+                    
+                }
                 $usuarios_table = new Data_Model_Usuarios();
-                $formData = $this->getRequest()->getPost('rows');
-                $formData = json_decode($formData, true);
+                $formData = json_decode($formDataJson, true);
                 $usuarios_table->checaDuplicidade($formData['usuario']);
                 unset($formData['id']);
                 $obj = $usuarios_table->addUsuario($formData);
@@ -88,8 +92,14 @@ class Data_UsuariosController extends Zend_Rest_Controller {
         if (($this->getRequest()->isPut())) {
             try {
                 $usuarios_table = new Data_Model_Usuarios();
-                $formDataJson = $this->getRequest()->getParam('rows');
+                if($this->getRequest()->getParam('rows')){
+                    $formDataJson = $this->getRequest()->getParam('rows');  
+                }else{
+                    $formDataJson=$this->getRequest()->getRawBody();
+                    
+                }
                 $formData = json_decode($formDataJson, true);
+
                 $id = $formData['id'];
                 unset($formData['id']);
                 if(isset($formData['senha'])){

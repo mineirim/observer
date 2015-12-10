@@ -91,6 +91,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     protected function _initRoutes(){
         $this->bootstrap('FrontController');
         $this->_frontController = $this->getResource('FrontController');
+        
+        $this->_frontController->registerPlugin(new Etc_CORS(), 501);
+        
         if(APPLICATION_ENV !== 'development')
             $this->_frontController->registerPlugin(new Etc_Cache(), 502);
 
@@ -100,6 +103,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $router->addConfig($config, 'routes');
         $restRoute = new Zend_Rest_Route($this->_frontController, array(), array('data'));
         $router->addRoute('rest', $restRoute);
+        
     }
     
     

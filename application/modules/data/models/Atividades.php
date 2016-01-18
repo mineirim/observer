@@ -4,7 +4,7 @@
  * ALIMENTADAS POR SISTEMAS EXTERNOS COMO "SUBPROJETO"
  */
 
-class Data_Model_Subprojetos {
+class Data_Model_Atividades {
 
 	/**
 	 * @var Data_Model_DbTable_Programacoes $_model
@@ -19,12 +19,11 @@ class Data_Model_Subprojetos {
 	 * @param $projetoId
 	 * @return mixed
 	 */
-	public function listSubprojetos($projetoId = false, $dataReferencia = false) {
-		$where = 'id in (select p0.programacao_id from programacoes p0 WHERE p0.id IN (SELECT p.programacao_id FROM programacoes p INNER JOIN programacao_sistemas ps on p.id=ps.programacao_id WHERE ps.sistema_id is not null) )';
+	public function listAtividades($projetoId, $acaoId, $dataReferencia = false) {
+		$where = ' id IN (SELECT p.programacao_id FROM programacoes p INNER JOIN programacao_sistemas ps on p.id=ps.programacao_id WHERE ps.sistema_id is not null) ';
+		$where .= ' AND programacao_id='.$acaoId;
+		$where .= ' AND ' . $projetoId . ' = ANY(projetos) ';
 
-		if ($projetoId) {
-			$where .= ' AND ' . $projetoId . ' = ANY(projetos) ';
-		}
 		if ($dataReferencia) {
 			$where .= ' AND (inclusao_data > \'' . $dataReferencia . '\' OR alteracao_data > \'' . $dataReferencia . '\') ';
 		}

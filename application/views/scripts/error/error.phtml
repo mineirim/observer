@@ -12,11 +12,10 @@
   
   <h3>Exception information:</h3>
   <p>
-      <b>Message:</b> <?php echo $this->exception->getMessage() ?>
+      <b>Message:</b> <?php echo is_object($this->exception)?$this->exception->getMessage() : $this->exception ?>
   </p>
-
   <h3>Stack trace:</h3>
-  <pre><?php echo $this->exception->getTraceAsString() ?>
+  <pre><?php echo is_object($this->exception)?$this->exception->getTraceAsString(): $this->exception ?>
   </pre>
 
   <h3>Request Parameters:</h3>

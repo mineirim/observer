@@ -29,16 +29,16 @@ Ext.define('ExtZF.controller.plano.Projetos', {
         me.control(
         {
             'planoProjetosList': {
-                itemdblclick: this.editObject
+                itemdblclick: me.editObject
             },
             'planoProjetosList button[action=incluir]': {
-                click: this.editObject
+                click: me.editObject
             },
             'planoProjetosList button[action=excluir]': {
-                click: this.deleteObject
+                click: me.deleteObject
             },
             'planoProjetosEdit button[action=salvar]': {
-                click: this.saveObject
+                click: me.saveObject
             }
         });
     },

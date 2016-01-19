@@ -18,11 +18,40 @@ Ext.define('ExtZF.view.plano.projetos.Form', {
             fieldLabel: 'Id',
             anchor: '95%'
         }, {
-            xtype: 'textfield',
-            name: 'nome',
-            ref: 'nome',
-            fieldLabel: 'Título',
+            xtype: 'fieldset',
+            columnWidth: .8,
+            title: '',
+            defaultType: 'textfield',
             anchor: '95%',
+            defaults: {
+                padding: 0,
+                border: 0,
+                margin: 0,
+                anchor: '100%',
+                //                            width: 210
+                forcefit: true
+            },
+            layout: {
+                type: 'hbox',
+                pack: 'start',
+                //                            align: 'stretch'
+                //                align: 'middle'
+            },
+            items: [{
+                xtype: 'textfield',
+                name: 'codigo',
+                ref: 'codigo',
+                fieldLabel: 'Id do projeto',
+                flex: 2,
+                anchor: '95%',
+            }, {
+                xtype: 'textfield',
+                name: 'nome',
+                ref: 'nome',
+                fieldLabel: 'Título',
+                flex: 5,
+                anchor: '95%',
+            }]
         }, {
             xtype: 'fieldset',
             columnWidth: .8,

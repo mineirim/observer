@@ -29,15 +29,15 @@ class Data_SubprojetosController extends Zend_Rest_Controller {
 		$this->_helper->viewRenderer->setNoRender(true);
 		$this->view->errorMessage = 'Método não implementado. A consulta deve ser feita pelo projeto ou busca direta a um subprojeto:';
 		$this->view->errorTips    = '/data/suprojetos/:idSubprojeto | /data/subprojetos/projeto/:IdProjeto';
-		$projetosModel            = new Data_Model_Projetos();
-		$lastUpdate               = $this->getParam('data_referencia', false);
-		$where                    = '1=1';
-		if ($lastUpdate) {
-			$where .= ' AND (inclusao_data > \'' . $lastUpdate . '\' OR alteracao_data > \'' . $lastUpdate . '\') ';
-		}
-		$rows              = $projetosModel->getProjetos($where);
-		$this->view->rows  = $rows->toArray();
-		$this->view->total = count($rows);
+		// $projetosModel            = new Data_Model_Projetos();
+		// $lastUpdate               = $this->getParam('data_referencia', false);
+		// $where                    = '1=1';
+		// if ($lastUpdate) {
+		// 	$where .= ' AND (inclusao_data > \'' . $lastUpdate . '\' OR alteracao_data > \'' . $lastUpdate . '\') ';
+		// }
+		// $rows              = $projetosModel->getProjetos($where);
+		// $this->view->rows  = $rows->toArray();
+		// $this->view->total = count($rows);
 	}
 
 	public function getAction() {
@@ -46,9 +46,20 @@ class Data_SubprojetosController extends Zend_Rest_Controller {
 		$projetosModel = new Data_Model_Subprojetos();
 
 		if ($projetoId) {
-			$lastUpdate       = $this->getParam('data_referencia', false);
-			$rows             = $projetosModel->listSubprojetos($projetoId, $lastUpdate);
-			$this->view->rows = $rows;
+			$lastUpdate = $this->getParam('data_referencia', false);
+			$rows       = $projetosModel->listSubprojetos($projetoId, $lastUpdate);
+			if (\Zend_Registry::isRegistered('sistema')) {
+				$projetos = [];
+				foreach ($rows as $key => $projeto) {
+					var_dump($projeto);die;
+					$arrTotal       = ['valor_alocado' => $projetosModel->totalPorSistema($projeto['projeto_id'], $projeto['id'])];
+					$projetos[$key] = array_merge($projeto->toArray(), $arrTotal);
+				}
+				$this->view->rows = $projetos;
+			} else {
+				$this->view->rows = $rows->toArray();
+			}
+
 		} else {
 			$rows            = $projetosModel->getSubprojeto($this->getParam('id'));
 			$this->view->row = $rows;

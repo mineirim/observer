@@ -69,7 +69,7 @@ class Data_Model_Projetos {
 	 * @return mixed
 	 */
 	public function update($formData) {
-		$fields = ['nome', 'data_inicio', 'data_fim', 'coordenador_usuario_id', 'apresentacao', 'metas','objetivos','codigo'];
+		$fields = ['nome', 'data_inicio', 'data_fim', 'coordenador_usuario_id', 'apresentacao', 'metas', 'objetivos', 'codigo'];
 		$params = [];
 		foreach ($fields as $field) {
 			if (isset($formData[$field])) {
@@ -119,6 +119,26 @@ class Data_Model_Projetos {
 		$rows          = $projetosTable->fetchAll($where, 'nome');
 		return $rows;
 	}
+
+	/**
+	 * @param $projeto
+	 * @return mixed
+	 */
+	public function totalPorSistema($projetoId) {
+		$total             = 0.0;
+		$sistema           = \Zend_Registry::get('sistema');
+		$financeiroDbTable = new Data_Model_DbTable_Financeiro();
+		$where             = ' programacao_id IN (SELECT p.id
+                          FROM programacoes p INNER JOIN programacao_sistemas ps on p.id=ps.programacao_id
+                          WHERE ps.sistema_id=' . $sistema->id . ' AND projeto_id=' . $projetoId . ') ';
+
+		$rowset = $financeiroDbTable->fetchAll($where);
+		foreach ($rowset as $key => $financeiro) {
+			$total = $total + $financeiro->valor;
+		}
+		return $total;
+	}
+
 	/**
 	 * @param $id
 	 * @return array

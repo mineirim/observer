@@ -33,8 +33,18 @@ class Data_ProjetosController extends Zend_Rest_Controller {
 		if ($lastUpdate) {
 			$where .= ' AND (inclusao_data > \'' . $lastUpdate . '\' OR alteracao_data > \'' . $lastUpdate . '\') ';
 		}
-		$rows              = $projetosModel->getProjetos($where);
-		$this->view->rows  = $rows->toArray();
+		$rows = $projetosModel->getProjetos($where);
+		if (\Zend_Registry::isRegistered('sistema')) {
+			$projetos = [];
+			foreach ($rows as $key => $projeto) {
+				$arrTotal       = ['valor_alocado' => $projetosModel->totalPorSistema($projeto->id)];
+				$projetos[$key] = array_merge($projeto->toArray(), $arrTotal);
+			}
+			$this->view->rows = $projetos;
+		} else {
+			$this->view->rows = $rows->toArray();
+		}
+
 		$this->view->total = count($rows);
 	}
 

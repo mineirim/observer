@@ -32,6 +32,8 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 			$sistema = $sistemasModel->fetchRow(['chave=?' => $systoken]);
 			if (count($sistema) === 0) {
 				throw new Zend_Exception('O sistema não está cadastrado/autorizado no SISPLAN', 1);
+			} else {
+				\Zend_Registry::set('sistema', $sistema);
 			}
 		}
 	}

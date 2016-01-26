@@ -46,9 +46,20 @@ class Data_SubprojetosController extends Zend_Rest_Controller {
 		$projetosModel = new Data_Model_Subprojetos();
 
 		if ($projetoId) {
-			$lastUpdate       = $this->getParam('data_referencia', false);
-			$rows             = $projetosModel->listSubprojetos($projetoId, $lastUpdate);
-			$this->view->rows = $rows;
+			$lastUpdate = $this->getParam('data_referencia', false);
+			$rows       = $projetosModel->listSubprojetos($projetoId, $lastUpdate);
+			if (\Zend_Registry::isRegistered('sistema')) {
+				$projetos = [];
+				foreach ($rows as $key => $projeto) {
+					var_dump($projeto);die;
+					$arrTotal       = ['valor_alocado' => $projetosModel->totalPorSistema($projeto['projeto_id'], $projeto['id'])];
+					$projetos[$key] = array_merge($projeto->toArray(), $arrTotal);
+				}
+				$this->view->rows = $projetos;
+			} else {
+				$this->view->rows = $rows->toArray();
+			}
+
 		} else {
 			$rows            = $projetosModel->getSubprojeto($this->getParam('id'));
 			$this->view->row = $rows;

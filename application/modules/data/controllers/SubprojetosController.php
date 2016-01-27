@@ -42,8 +42,9 @@ class Data_SubprojetosController extends Zend_Rest_Controller {
 
 	public function getAction() {
 		$this->_helper->viewRenderer->setNoRender(true);
-		$projetoId     = $this->getParam('projeto', false);
-		$projetosModel = new Data_Model_Subprojetos();
+		$projetoId       = $this->getParam('projeto', false);
+		$projetosModel   = new Data_Model_Subprojetos();
+		$financeiroModel = new Data_Model_Financeiro();
 
 		if ($projetoId) {
 			$lastUpdate = $this->getParam('data_referencia', false);
@@ -51,9 +52,8 @@ class Data_SubprojetosController extends Zend_Rest_Controller {
 			if (\Zend_Registry::isRegistered('sistema')) {
 				$projetos = [];
 				foreach ($rows as $key => $projeto) {
-					var_dump($projeto);die;
-					$arrTotal       = ['valor_alocado' => $projetosModel->totalPorSistema($projeto['projeto_id'], $projeto['id'])];
-					$projetos[$key] = array_merge($projeto->toArray(), $arrTotal);
+					$arrTotal       = ['valor_alocado' => $financeiroModel->getTotalPorSistema((int) $projetoId, (int) $projeto['id'])];
+					$projetos[$key] = array_merge($projeto, $arrTotal);
 				}
 				$this->view->rows = $projetos;
 			} else {

@@ -34,13 +34,25 @@ class Data_AtividadesController extends Zend_Rest_Controller {
 
 	public function getAction() {
 		$this->_helper->viewRenderer->setNoRender(true);
-		$projetoId     = $this->getParam('projeto', false);
-		$acaoId     = $this->getParam('acao', false);
+		$projetoId       = $this->getParam('projeto', false);
+		$acaoId          = $this->getParam('acao', false);
 		$atividadesModel = new Data_Model_Atividades();
+		$financeiroModel = new Data_Model_Financeiro();
 		if ($acaoId) {
-			$lastUpdate       = $this->getParam('data_referencia', false);
-			$rows             = $atividadesModel->listAtividades($projetoId, $acaoId, $lastUpdate);
-			$this->view->rows = $rows;
+			$lastUpdate = $this->getParam('data_referencia', false);
+			$rows       = $atividadesModel->listAtividades($projetoId, $acaoId, $lastUpdate);
+
+			if (\Zend_Registry::isRegistered('sistema')) {
+				$atividades = [];
+				foreach ($rows as $key => $atividade) {
+					$arrTotal         = ['valor_alocado' => $financeiroModel->getTotalPorSistema((int) $projetoId, (int) $atividade['id'])];
+					$atividades[$key] = array_merge($atividade, $arrTotal);
+				}
+				$this->view->rows = $atividades;
+			} else {
+				$this->view->rows = $rows->toArray();
+			}
+
 		} else {
 			$rows            = $atividadesModel->getAtividade($this->getParam('id'));
 			$this->view->row = $rows;
@@ -48,68 +60,15 @@ class Data_AtividadesController extends Zend_Rest_Controller {
 	}
 
 	public function putAction() {
-		/**código gerado automaticamente pelo template put.tpl*/
 
-		if (($this->getRequest()->isPut())) {
-			try {
-				$projetosTable = new Data_Model_Projetos();
-
-				$formData = $this->getRequest()->getParams();
-				$row      = $projetosTable->update($formData);
-				if ($formData) {
-					$this->view->msg = 'Dados atualizados com sucesso!';
-				}
-				$this->view->rows    = $row->toArray();
-				$this->view->success = true;
-
-			} catch (Exception $e) {
-				$this->view->success = false;
-				$this->view->method  = $this->getRequest()->getMethod();
-				$this->view->msg     = 'Erro ao atualizar registro<br>' . $e->getMessage();
-			}
-		} else {
-			$this->view->msg = 'Método ' . $this->getRequest()->getMethod() . '<br> Esperado PUT';
-		}
 	}
 
 	public function postAction() {
-		if ($this->getRequest()->isPost()) {
-			try {
-				$projetosTable       = new Data_Model_Projetos();
-				$formData            = $this->getRequest()->getPost();
-				$row                 = $projetosTable->insert($formData);
-				$this->view->msg     = 'Dados inseridos com sucesso!';
-				$this->view->rows    = $row->toArray();
-				$this->view->success = true;
-				$this->view->metodo  = $this->getRequest()->getMethod();
 
-			} catch (Exception $e) {
-				$this->view->success = false;
-				$this->view->method  = $this->getRequest()->getMethod();
-				$this->view->msg     = 'Erro ao atualizar/inserir registro<br>' . $e->getMessage();
-			}
-		} else {
-			$this->view->msg = 'Método ' . $this->getRequest()->getMethod() . '<br>Esperado POST';
-		}
 	}
 
 	public function deleteAction() {
-		/**código gerado automaticamente pelo template delete.tpl*/
 
-		if ($this->getRequest()->isDelete()) {
-			try {
-				$projetosTable = new Data_Model_DbTable_Projetos();
-				$id            = $this->_getParam('id');
-				$projetosTable->delete('id=' . $id);
-				$this->view->success = true;
-				$this->view->msg     = 'Dados apagados com sucesso!';
-			} catch (Exception $e) {
-				$this->view->success = false;
-				$this->view->msg     = 'Erro ao apagar o registro<br>' . $e->getTraceAsString();
-			}
-		} else {
-			$this->view->parametros = $this->_getAllParams();
-		}
 	}
 
 	public function headAction() {

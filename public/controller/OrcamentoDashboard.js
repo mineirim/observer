@@ -3,202 +3,196 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.OrcamentoDashboard', {
     extend: 'Ext.app.Controller',
-    stores: ['orcamento.GrupoDespesas','orcamento.ResumoMacro'],
-    models: ['orcamento.GrupoDespesas','orcamento.ResumoMacro'],
-     views: [
-    'orcamento.Dashboard',
-    'orcamento.Macro',
-    'orcamento.MacroChart',
-    'orcamento.GrupoChart',
-    'orcamento.Planilha'
+    stores: ['orcamento.GrupoDespesas', 'orcamento.ResumoMacro', 'orcamento.Execucao'],
+    models: ['orcamento.GrupoDespesas', 'orcamento.ResumoMacro', 'orcamento.Execucao'],
+    views: [
+        'orcamento.Dashboard',
+        'orcamento.Macro',
+        'orcamento.MacroChart',
+        'orcamento.Execucao',
+        'orcamento.GrupoChart',
+        'orcamento.Planilha'
     ],
     refs: [],
     init: function() {
 
     },
-    selectComboProjetos    : function(cmb,records){
+    selectComboProjetos: function(cmb, records) {
         var me = this;
-        var record  =records[0];
+        var record = records[0];
         me.filterByProjetoId(record.get('id'));
     },
-    filterByProjetoId    : function(projetoId){
+    filterByProjetoId: function(projetoId) {
         var mycheck = Ext.getCmp('my_responsability');
         var mycheckStore = mycheck.getView().getStore();
-        var mycheckParams = Ext.merge(mycheckStore.getProxy().extraParams,{projeto_id: projetoId});
-        mycheckStore.getProxy().extraParams =mycheckParams;
+        var mycheckParams = Ext.merge(mycheckStore.getProxy().extraParams, { projeto_id: projetoId });
+        mycheckStore.getProxy().extraParams = mycheckParams;
         mycheckStore.load({
-            callback: function(r,option,success){
+            callback: function(r, option, success) {
                 mycheck.getView().refresh();
             }
         });
         var mysup = Ext.getCmp('my_supervision');
         var mysupStore = mysup.getView().getStore();
-        var mysupParams =  Ext.merge(mysupStore.getProxy().extraParams,{projeto_id: projetoId});
-        mysupStore.getProxy().extraParams =mysupParams;
+        var mysupParams = Ext.merge(mysupStore.getProxy().extraParams, { projeto_id: projetoId });
+        mysupStore.getProxy().extraParams = mysupParams;
         mysupStore.load({
-            callback: function(r,option,success){
+            callback: function(r, option, success) {
                 mysup.getView().refresh();
             }
         });
-        if(Etc.getLoggedUser().get('is_su')==="true"){
+        if (Etc.getLoggedUser().get('is_su') === "true") {
             var pendentes = Ext.getCmp('not_approved');
             pendentes.show();
             var pendentesStore = pendentes.getView().getStore();
-            var pendentesParams = Ext.merge(pendentesStore.getProxy().extraParams,{projeto_id: projetoId});
-            pendentesStore.getProxy().extraParams =pendentesParams;
+            var pendentesParams = Ext.merge(pendentesStore.getProxy().extraParams, { projeto_id: projetoId });
+            pendentesStore.getProxy().extraParams = pendentesParams;
             pendentesStore.load({
-                callback: function(r,option,success){
+                callback: function(r, option, success) {
                     pendentes.getView().refresh();
                     pendentes.ownerCt.doLayout();
                 }
             });
         }
 
-    }
-    ,itemContextMenu : function( view, record, item, index, event, options){
+    },
+    itemContextMenu: function(view, record, item, index, event, options) {
         event.stopEvent();
-        var me= this;
+        var me = this;
         var items = [];
         var mycontroller = me.getController('ExtZF.controller.plano.Programacoes');
-        items.push({text: 'Exibir',
-                    handler : function(){
-                        mycontroller.editarProgramacao(record);
-                    }
-                });
+        items.push({
+            text: 'Exibir',
+            handler: function() {
+                mycontroller.editarProgramacao(record);
+            }
+        });
 
-        items.push({text: 'Execução',
-                    handler : function(){
-                        me.application.fireEvent('showExecutionWindow',record);
-                    }
-                });
+        items.push({
+            text: 'Execução',
+            handler: function() {
+                me.application.fireEvent('showExecutionWindow', record);
+            }
+        });
         items.push('-');
         items.push({
-            text:"Anexo",
-            data: {record: record},
-            iconCls : 'icon-attach-file',
-            handler: function(){
-                    mycontroller.attachFile(record);
+            text: "Anexo",
+            data: { record: record },
+            iconCls: 'icon-attach-file',
+            handler: function() {
+                mycontroller.attachFile(record);
+            }
+        });
+        items.push('-');
+
+        var submenu = Ext.create('Ext.menu.Menu', {
+            items: [{
+                text: "Resultados",
+                data: { record: record },
+                handler: function() {
+                    mycontroller.showReport(record, 1);
                 }
-        });
-        items.push('-');
-
-        var submenu  = Ext.create('Ext.menu.Menu', {
-            items:
-                    [
-                    {
-                        text:"Resultados",
-                        data: {record: record},
-                        handler: function(){
-                                mycontroller.showReport(record,1);
-                            }
-                    },
-                    {
-                        text:"Relatório Execução Física",
-                        data: {record: record},
-                        handler: function(){
-                                mycontroller.showReport(record,2);
-                            }
-                    },
-                    {
-                        text:"Relatório Físico/Financeiro",
-                        data: {record: record},
-                        handler: function(){
-                                mycontroller.showReport(record,3);
-                            }
-                    },
-                    ]
+            }, {
+                text: "Relatório Execução Física",
+                data: { record: record },
+                handler: function() {
+                    mycontroller.showReport(record, 2);
+                }
+            }, {
+                text: "Relatório Físico/Financeiro",
+                data: { record: record },
+                handler: function() {
+                    mycontroller.showReport(record, 3);
+                }
+            }, ]
         });
 
         items.push({
-                text: 'Relatórios',
-                iconCls: 'icon-report',
-                hideOnClick: false,
-                menu : submenu
-            });
-        var menu = Ext.create('Ext.menu.Menu',{
-        items: items
+            text: 'Relatórios',
+            iconCls: 'icon-report',
+            hideOnClick: false,
+            menu: submenu
+        });
+        var menu = Ext.create('Ext.menu.Menu', {
+            items: items
         });
         menu.showAt(event.xy);
-    }
-    ,defaultContextMenu : function(record){
-        var me =this;
+    },
+    defaultContextMenu: function(record) {
+        var me = this;
         var items = [];
         var mycontroller = me.getController('ExtZF.controller.plano.Programacoes');
-        items.push({text: 'Exibir',
-                    handler : function(){
-                        mycontroller.editarProgramacao(record);
-                    }
-                });
-        items.push('-');
         items.push({
-            text:"Anexo",
-            data: {record: record},
-            iconCls : 'icon-attach-file',
-            handler: function(){
-                    mycontroller.attachFile(record);
-                }
+            text: 'Exibir',
+            handler: function() {
+                mycontroller.editarProgramacao(record);
+            }
         });
         items.push('-');
         items.push({
-                text: 'Relatórios',
-                iconCls: 'icon-report',
-                menu : {
-                    items:
-                    [
-                    {
-                        text:"Resultados",
-                        data: {record: record},
-                        handler: function(){
-                                mycontroller.showReport(record,1);
-                            }
-                    },
-                    {
-                        text:"Relatório Execução Física",
-                        data: {record: record},
-                        handler: function(){
-                                mycontroller.showReport(record,2);
-                            }
-                    },
-                    {
-                        text:"Relatório Físico/Financeiro",
-                        data: {record: record},
-                        handler: function(){
-                                mycontroller.showReport(record,3);
-                            }
-                    },
-                    ]
-                }
-            });
+            text: "Anexo",
+            data: { record: record },
+            iconCls: 'icon-attach-file',
+            handler: function() {
+                mycontroller.attachFile(record);
+            }
+        });
+        items.push('-');
+        items.push({
+            text: 'Relatórios',
+            iconCls: 'icon-report',
+            menu: {
+                items: [{
+                    text: "Resultados",
+                    data: { record: record },
+                    handler: function() {
+                        mycontroller.showReport(record, 1);
+                    }
+                }, {
+                    text: "Relatório Execução Física",
+                    data: { record: record },
+                    handler: function() {
+                        mycontroller.showReport(record, 2);
+                    }
+                }, {
+                    text: "Relatório Físico/Financeiro",
+                    data: { record: record },
+                    handler: function() {
+                        mycontroller.showReport(record, 3);
+                    }
+                }, ]
+            }
+        });
 
 
         return items;
-    }
-    ,reloadDashboard : function(){
+    },
+    reloadDashboard: function() {
         var mycheck = Ext.getCmp('my_responsability');
         mycheck.getView().getStore().load({
-            callback: function(r,option,success){
+            callback: function(r, option, success) {
                 mycheck.getView().refresh();
             }
         });
         var mysup = Ext.getCmp('my_supervision');
         mysup.getView().getStore().load({
-            callback: function(r,option,success){
+            callback: function(r, option, success) {
                 mysup.getView().refresh();
             }
         });
-        if(Etc.getLoggedUser().get('is_su')==="true"){
+        if (Etc.getLoggedUser().get('is_su') === "true") {
             var pendentes = Ext.getCmp('not_approved');
             pendentes.show();
             pendentes.getView().getStore().load({
-                callback: function(r,option,success){
+                callback: function(r, option, success) {
                     pendentes.getView().refresh();
                     pendentes.ownerCt.doLayout();
                 }
             });
         }
 
-    }
-    ,checkList : function(){
+    },
+    checkList: function() {
         var me = this;
         me.checkMyItems();
         me.checkSupervisor();
@@ -231,7 +225,7 @@ Ext.define('ExtZF.controller.OrcamentoDashboard', {
 //                        reader         : {
 //                                type    : 'json',
 //                                root    : 'rows',
-//        			successProperty: 'success'
+//                  successProperty: 'success'
 //                        }
 //            },
 //            autoLoad :true,

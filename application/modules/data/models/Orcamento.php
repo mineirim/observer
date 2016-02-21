@@ -17,6 +17,37 @@ class Data_Model_Orcamento
         $stmt = Zend_Registry::get('db')->query($sql);
         return $stmt->fetchAll();
     }
+    /**
+     * retorna execução orçamentária dos filhos da programação selecionada
+     * @param $programacaoId
+     */
+    public function getTotalPorNivel($parentProgramacaoId, $projetoId = 'null') {
+/* @var $db \Zend_Db */
+        $db      = Zend_Registry::get('db');
+        $sql     = 'WITH RECURSIVE tarefas AS (
+                        SELECT tarefa.id AS parent_id, tarefa.id, tarefa.programacao_id , instrumento_id
+                        FROM programacoes tarefa
+                        WHERE  (projeto_id=:projetoId)
+                        UNION ALL
+                        SELECT p.id, av.id, p.programacao_id, p.instrumento_id
+                        FROM programacoes p INNER JOIN tarefas av ON p.id=av.programacao_id
+                    )
+                    SELECT  t.parent_id as id, p.menu, sum(f.valor_alocado) valor_alocado, sum(f.valor_executado) as valor_executado FROM tarefas t
+                        INNER JOIN (SELECT f.id, f.programacao_id, f.origem_recurso_id, f.valor as valor_alocado, SUM(d.valor) as valor_executado
+                                    FROM financeiro f LEFT OUTER JOIN despesas d ON d.financeiro_id=f.id
+                                    WHERE f.origem_recurso_id IS NOT NULL
+                                    GROUP BY f.id, f.programacao_id, f.origem_recurso_id
+                                    ORDER BY f.id) as f ON t.id=f.programacao_id
+                        INNER JOIN programacoes p ON t.parent_id=p.id
+                    WHERE t.programacao_id=:programacaoId
+                    GROUP BY t.parent_id, p.menu
+                    ORDER BY t.parent_id
+';
+        $stmt = $db->query($sql, [':projetoId' => $projetoId, ':programacaoId' => $parentProgramacaoId]);
+        $stmt->setFetchMode(Zend_Db::FETCH_ASSOC);
+        $rows = $stmt->fetchAll();
+        return $rows;
+    }
     public function getArray($params , $where=null,  $relationships=false){
         $despesas_table = new Data_Model_DbTable_Despesas();
         $params['limit']='';

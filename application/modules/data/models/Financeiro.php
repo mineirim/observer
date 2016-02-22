@@ -121,4 +121,6 @@ class Data_Model_Financeiro {
 		$row = $stmt->fetch();
 		return $row->valor_alocado;
 	}
+
+
 }

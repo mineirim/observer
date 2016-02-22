@@ -11,11 +11,13 @@ Ext.define('ExtZF.controller.OrcamentoDashboard', {
         'orcamento.MacroChart',
         'orcamento.Execucao',
         'orcamento.GrupoChart',
+        'orcamento.ExecucaoChart',
         'orcamento.Planilha'
     ],
     refs: [],
     init: function() {
-
+        var me = this;
+        me.application.on('navigation.changeSelectedMenu' , me.reloadDashboard);
     },
     selectComboProjetos: function(cmb, records) {
         var me = this;
@@ -23,24 +25,6 @@ Ext.define('ExtZF.controller.OrcamentoDashboard', {
         me.filterByProjetoId(record.get('id'));
     },
     filterByProjetoId: function(projetoId) {
-        var mycheck = Ext.getCmp('my_responsability');
-        var mycheckStore = mycheck.getView().getStore();
-        var mycheckParams = Ext.merge(mycheckStore.getProxy().extraParams, { projeto_id: projetoId });
-        mycheckStore.getProxy().extraParams = mycheckParams;
-        mycheckStore.load({
-            callback: function(r, option, success) {
-                mycheck.getView().refresh();
-            }
-        });
-        var mysup = Ext.getCmp('my_supervision');
-        var mysupStore = mysup.getView().getStore();
-        var mysupParams = Ext.merge(mysupStore.getProxy().extraParams, { projeto_id: projetoId });
-        mysupStore.getProxy().extraParams = mysupParams;
-        mysupStore.load({
-            callback: function(r, option, success) {
-                mysup.getView().refresh();
-            }
-        });
         if (Etc.getLoggedUser().get('is_su') === "true") {
             var pendentes = Ext.getCmp('not_approved');
             pendentes.show();
@@ -167,19 +151,17 @@ Ext.define('ExtZF.controller.OrcamentoDashboard', {
 
         return items;
     },
-    reloadDashboard: function() {
-        var mycheck = Ext.getCmp('my_responsability');
-        mycheck.getView().getStore().load({
-            callback: function(r, option, success) {
-                mycheck.getView().refresh();
+    reloadDashboard: function(record) {
+        var me=this;
+        var idProgramacao = record.get('id');
+        var execucaoStore = me.getStore('orcamento.Execucao');
+        execucaoStore.load({
+            scope: me,
+            params : {programacaoId:record.data.id},
+            callback: function(r,option,success){
             }
         });
-        var mysup = Ext.getCmp('my_supervision');
-        mysup.getView().getStore().load({
-            callback: function(r, option, success) {
-                mysup.getView().refresh();
-            }
-        });
+
         if (Etc.getLoggedUser().get('is_su') === "true") {
             var pendentes = Ext.getCmp('not_approved');
             pendentes.show();

@@ -3,8 +3,8 @@
 Ext.require('Ext.window.MessageBox');
 Ext.define('ExtZF.controller.Navigation', {
     extend      : 'Ext.app.Controller',
-    stores      : ['Treenav','Programacoes','Instrumentos','Operativos','Vinculos', 'Usuarios','Projetosnav' ],
-    models      : ['Treenav','Programacoes','Instrumentos','Operativos','Vinculos', 'Usuarios' ],
+    stores      : ['Treenav','Programacoes','Instrumentos','Operativos','Vinculos', 'Usuarios','Projetosnav', 'orcamento.Execucao' ],
+    models      : ['Treenav','Programacoes','Instrumentos','Operativos','Vinculos', 'Usuarios', 'orcamento.Execucao' ],
     views       :   [
                     'navigation.MyToolbar',
                     'navigation.TreePanel',
@@ -71,6 +71,15 @@ Ext.define('ExtZF.controller.Navigation', {
             }
 
         }
+        var objOrcamento = {
+            text: 'Execução Orçamentária',
+            id: 'execucaoOrcamentariaTab',
+            data: 'OrcamentoDashboard',
+            action: "loadController",
+            iconCls: "icon-orcamento",
+            createView: "orcamentoDashboard"
+        };
+        me.loadController(objOrcamento);
 
         var obj = { text: 'Programa&ccedil;&atilde;o',
                     id: 'testeId',
@@ -90,23 +99,8 @@ Ext.define('ExtZF.controller.Navigation', {
         me.getController('ExtZF.controller.plano.Programacoes').changeButtonAction();
 
 
-        var objOrcamento = {
-            text: 'Execução Orçamentária',
-            id: 'execucaoOrcamentariaTab',
-            data: 'OrcamentoDashboard',
-            action: "loadController",
-            iconCls: "icon-orcamento",
-            createView: "orcamentoDashboard"
-        }
-        me.loadController(objOrcamento);
-        var screen = Ext.getCmp('ctnPrincipal');
-        var novaAba = screen.items.findBy(
-            function( aba )
-            {
-                return aba.title === obj.text;
-            }
-        );
-        screen.setActiveTab(novaAba);
+
+        me.application.fireEvent('navigation.changeSelectedMenu', record);
     },
 
     openEditForm : function(args)

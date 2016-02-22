@@ -24,7 +24,9 @@ class Data_OrcamentoController extends Zend_Rest_Controller {
 				$this->view->rows = $orcamentoModel->getGrupoChart(833);
 				break;
 			case 'execucao':
-				$this->view->rows = $orcamentoModel->getTotalPorNivel(430, 35);
+				$programacaoId    = $this->getParam('programacaoId', false);
+				$projetoId        = $this->getParam('projetoId', null);
+				$this->view->rows = $orcamentoModel->getTotalPorNivel($programacaoId, $projetoId);
 				break;
 			default:
 				$this->view->rows = $orcamentoModel->getTotalPorNivel(430, 35);

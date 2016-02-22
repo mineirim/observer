@@ -1,3 +1,4 @@
+
 /* global Ext */
 
 Ext.define('ExtZF.view.orcamento.Dashboard', {
@@ -6,22 +7,13 @@ Ext.define('ExtZF.view.orcamento.Dashboard', {
     id: 'orcamentoDashboard',
     //    layout: 'anchor',
     layout: {
-        type: 'hbox',
+        type: 'vbox',
         pack: 'start',
         align: 'stretch'
     },
     defaults: { forcefit: true },
-    items: [{
-        xtype: 'panel',
-        flex: 1,
-        layout: 'vbox',
-        items: [
-            { xtype: 'orcamentoExecucao', flex: 1, }, { xtype: 'panel', flex: 1, }
-            ]
-    }, {
-        xtype: 'panel',
-        flex: 1,
-        layout: 'vbox',
-        items: [{ xtype: 'orcamentoMacro', flex: 1, }, { xtype: 'orcamentoMacroChart', flex: 1, }]
-    }, ]
+    items: [
+        { xtype: 'orcamentoExecucao', flex: 1, },
+        { xtype: 'orcamentoExecucaoChart', flex: 1, }
+     ]
 });

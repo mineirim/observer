@@ -8,8 +8,8 @@ Ext.define('ExtZF.view.orcamento.Macro' ,{
     store : 'orcamento.ResumoMacro',
     columns: [
         {header: 'Macro Objetivo', dataIndex: 'menu', flex:1,},
-        {header: 'Valor Alocado', dataIndex: 'vlr_alocado', flex:1,},
-        {header: 'Valor Executado', dataIndex: 'vlr_executado', flex:1,},
+        {header: 'Valor Alocado', dataIndex: 'valor_alocado', flex:1,},
+        {header: 'Valor Executado', dataIndex: 'valor_executado', flex:1,},
     ],
 
     initComponent: function() {

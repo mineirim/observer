@@ -26,7 +26,6 @@ Ext.define('ExtZF.view.orcamento.ExecucaoChart', {
         type: 'Category',
         position: 'bottom',
         fields: ['numeracao'],
-        title: 'Programação'
     }],
     series: [{
         type: 'column',

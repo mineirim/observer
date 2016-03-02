@@ -12,6 +12,7 @@ Ext.define('ExtZF.controller.OrcamentoDashboard', {
         'orcamento.Execucao',
         'orcamento.GrupoChart',
         'orcamento.ExecucaoChart',
+        'orcamento.ExecucaoChartStacked',
         'orcamento.Planilha'
     ],
     refs: [],

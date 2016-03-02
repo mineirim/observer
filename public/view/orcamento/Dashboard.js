@@ -13,7 +13,19 @@ Ext.define('ExtZF.view.orcamento.Dashboard', {
     },
     defaults: { forcefit: true },
     items: [
-        { xtype: 'orcamentoExecucao', flex: 1, },
-        { xtype: 'orcamentoExecucaoChart', flex: 1, }
-     ]
+            { xtype: 'orcamentoExecucao', flex: 1, },
+            {
+                xtype:'panel',
+                layout: {
+                    type: 'hbox',
+                    pack: 'start',
+                    align: 'stretch'
+                },
+                flex:1,
+                items:[
+                    { xtype: 'orcamentoExecucaoChart', flex: 1, },
+                    { xtype: 'orcamentoExecucaoChartStacked', flex: 1, },
+                ]
+            }
+         ]
 });

@@ -42,7 +42,7 @@ class Data_Model_Orcamento {
 		$sql = 'WITH RECURSIVE tarefas AS (
                         SELECT tarefa.id AS parent_id, tarefa.id, tarefa.programacao_id , instrumento_id
                         FROM programacoes tarefa
-                        WHERE  1=1 ' . $where . '
+                        WHERE  situacao_id<>2 ' . $where . '
                         UNION ALL
                         SELECT p.id, av.id, p.programacao_id, p.instrumento_id
                         FROM programacoes p INNER JOIN tarefas av ON p.id=av.programacao_id

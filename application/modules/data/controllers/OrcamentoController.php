@@ -17,15 +17,41 @@ class Data_OrcamentoController extends Zend_Rest_Controller {
 		$this->getResponse()->setHttpResponseCode(200);
 	}
 
+	/**
+	 * @return null
+	 */
 	public function indexAction() {
 		$orcamentoModel = new Data_Model_Orcamento();
+
+		$node_id        = $this->_getParam('programacaoId');
+		$instrumento_id = null;
+		$projetoId      = null;
+		$programacaoId  = $node_id;
+		if ($node_id == 'root') {
+			return;
+		} elseif (!is_numeric($node_id)) {
+			$arr_node = explode('-', $node_id);
+			if ($arr_node[0] === 'projetoId') {
+				$projetoId     = $arr_node[1];
+				$programacaoId = null;
+				$text          = 'Projeto selecionado';
+			} elseif ($arr_node[0] === 'instrumentoId') {
+				$model_instrumentos = new Data_Model_DbTable_Instrumentos();
+				$instrumento        = $model_instrumentos->fetchRow('instrumento_id=' . $arr_node[count($arr_node) - 1]);
+				$instrumento_id     = $instrumento->id;
+				$programacaoId      = null;
+				$text               = $instrumento->singular;
+			} else {
+				$programacaoId = $arr_node[count($arr_node) - 1];
+				$projetoId     = $arr_node[0];
+			}
+		}
+
 		switch ($this->getParam('data_to')) {
 			case 'grupo':
 				$this->view->rows = $orcamentoModel->getGrupoChart(833);
 				break;
 			case 'execucao':
-				$programacaoId    = $this->getParam('programacaoId', false);
-				$projetoId        = $this->getParam('projetoId', null);
 				$this->view->rows = $orcamentoModel->getTotalPorNivel($programacaoId, $projetoId);
 				break;
 			default:

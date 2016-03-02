@@ -28,11 +28,14 @@ class Data_Model_Orcamento {
 	 * @param $programacaoId
 	 */
 	public function getTotalPorNivel($parentProgramacaoId, $projetoId = null) {
-		if (!$parentProgramacaoId) {
-			return ['xpto'];
-		}
 		$where  = '';
-		$params = [':programacaoId' => $parentProgramacaoId];
+		$params = false;
+		if (!$parentProgramacaoId) {
+			$programacaoWhere = '  t.programacao_id IS NULL';
+		} else {
+			$params           = [':programacaoId' => $parentProgramacaoId];
+			$programacaoWhere = ' t.programacao_id=:programacaoId ';
+		}
 		if ($projetoId) {
 			$params[':projetoId'] = $projetoId;
 			$where                = ' AND (projeto_id=:projetoId) ';
@@ -54,11 +57,15 @@ class Data_Model_Orcamento {
                                     GROUP BY f.id, f.programacao_id, f.origem_recurso_id
                                     ORDER BY f.id) as f ON t.id=f.programacao_id
                         INNER JOIN programacoes p ON t.parent_id=p.id
-                    WHERE t.programacao_id=:programacaoId
+                    WHERE ' . $programacaoWhere . '
                     GROUP BY t.parent_id, p.menu
                     ORDER BY t.parent_id
         ';
-		$stmt = $db->query($sql, $params);
+		if ($params) {
+			$stmt = $db->query($sql, $params);
+		} else {
+			$stmt = $db->query($sql);
+		}
 		$stmt->setFetchMode(Zend_Db::FETCH_ASSOC);
 		$rows = $stmt->fetchAll();
 		return $rows;

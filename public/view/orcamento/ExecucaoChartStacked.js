@@ -14,7 +14,7 @@ Ext.define('ExtZF.view.orcamento.ExecucaoChartStacked', {
     axes: [{
         type: 'Numeric',
         position: 'left',
-        fields: ['valor_alocado', 'valor_executado'],
+        fields: ['percentual', 'percentual_saldo'],
         label: {
             renderer: Ext.util.Format.numberRenderer('0,0')
         },

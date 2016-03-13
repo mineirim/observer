@@ -49,7 +49,7 @@ Ext.define('ExtZF.view.orcamento.ExecucaoChartStacked', {
             height: 20,
             renderer: function(storeItem, item) {
                 var browser = item.series.title[Ext.Array.indexOf(item.series.yField, item.yField)];
-                this.setTitle(browser + ' para ' + storeItem.get('menu') + ': ' + storeItem.get(item.yField));
+                this.setTitle(browser + ' para ' + storeItem.get('menu') + ': ' + Ext.util.Format.number(storeItem.get(item.yField), '0,000.00'));
             }
         }
     }]

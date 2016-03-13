@@ -135,6 +135,11 @@ class Data_ProgramacoesController extends Zend_Rest_Controller {
 				if ($formData['programacao_id'] == '') {
 					unset($formData['programacao_id']);
 				}
+				foreach ($formData as $key => $value) {
+					if ($value === '') {
+						unset($formData[$key]);
+					}
+				}
 				$programacoes_table->update($formData, "id=$id");
 
 				$this->view->msg     = 'Dados atualizados com sucesso!';
@@ -169,7 +174,6 @@ class Data_ProgramacoesController extends Zend_Rest_Controller {
 					if ($value == '') {
 						unset($formData[$key]);
 					}
-
 				}
 				$id              = $programacoes_table->insert($formData);
 				$this->view->msg = 'Dados inseridos com sucesso!';

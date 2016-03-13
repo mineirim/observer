@@ -293,13 +293,17 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                operativoStore.load(function(){
                     var operativo = me.getStore('Operativos').findRecord('programacao_id',parseInt(record.get('id'),10));
                         if (!operativo){
-                            rec = {};
+                            var rec = {};
                             operativo = Ext.ModelMgr.create(operativo,'ExtZF.model.Operativos');
                         }
                         view.down('#frmDetail').getForm().loadRecord(operativo);
                 });
 
+            }else{
+                var rec = {};
+                operativo = Ext.ModelMgr.create(rec,'ExtZF.model.Operativos');
             }
+            view.down('#frmDetail').getForm().loadRecord(operativo);
             view.doLayout();
         }
         // TODO : transformar a execução em uma lista com mais de um tipo de financiamento (material perm, pessoal, etc)
@@ -538,7 +542,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         var win =me.saveObject(button,true);
 
     },
-    chengeHtmlFontSize : function(){
+    changeHtmlFontSize : function(){
         var descricao =Ext.getCmp('descricaoHtmlEditor');
         descricao.focus(true);
         descricao.relayCmd('FontSize',2);
@@ -546,7 +550,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
     saveObject: function(button, closes)
     {
         var me=this;
-        me.chengeHtmlFontSize();
+        me.changeHtmlFontSize();
         var recordSelected;
         var win    = button.up('window');
         var formDefault   = win.down('#frmDefault').getForm();
@@ -585,9 +589,10 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
                         formDetail.updateRecord(rd);
                         rd.set('programacao_id',a.get('id'));
                         rd.save({
-                            success: function(c,d){
+                            success: function(rec,op){
                                 numSubforms=numSubforms-1;
                                 checkSave();
+                                // formDetail.loadRecord(rec);
                                Etc.info("Detalhes salvos com sucesso!");
                             }
                         });

@@ -64,6 +64,11 @@ class Data_OperativosController extends Zend_Rest_Controller {
 					}
 					unset($formData['sistema_id']);
 				}
+				foreach ($formData as $key => $value) {
+					if ($value == '') {
+						unset($formData[$key]);
+					}
+				}
 				$operativos_table->update($formData, "id=$id");
 				$this->view->msg     = 'Dados atualizados com sucesso!';
 				$obj                 = $operativos_table->fetchRow("id=$id");
@@ -109,11 +114,10 @@ class Data_OperativosController extends Zend_Rest_Controller {
 					unset($formData['sistema_id']);
 				}
 
-				$id              = $operativos_table->insert($formData);
-				$this->view->msg = 'Dados inseridos com sucesso!';
-
+				$id                  = $operativos_table->insert($formData);
+				$this->view->msg     = 'Dados inseridos com sucesso!';
 				$obj                 = $operativos_table->fetchRow("id=$id");
-				$this->view->rows    = $obj;
+				$this->view->rows    = $obj->toArray();
 				$this->view->success = true;
 				$this->view->metodo  = $this->getRequest()->getMethod();
 				$this->getResponse()->setHttpResponseCode(201);

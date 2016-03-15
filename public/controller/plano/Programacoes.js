@@ -302,8 +302,8 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
             }else{
                 var rec = {};
                 operativo = Ext.ModelMgr.create(rec,'ExtZF.model.Operativos');
+                view.down('#frmDetail').getForm().loadRecord(operativo);
             }
-            view.down('#frmDetail').getForm().loadRecord(operativo);
             view.doLayout();
         }
         // TODO : transformar a execução em uma lista com mais de um tipo de financiamento (material perm, pessoal, etc)

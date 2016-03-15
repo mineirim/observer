@@ -301,7 +301,7 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
 
             }else{
                 var rec = {};
-                operativo = Ext.ModelMgr.create(rec,'ExtZF.model.Operativos');
+                var operativo = Ext.ModelMgr.create(rec,'ExtZF.model.Operativos');
                 view.down('#frmDetail').getForm().loadRecord(operativo);
             }
             view.doLayout();

@@ -1,6 +1,9 @@
 <?php
 class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 
+	/**
+	 * @var mixed
+	 */
 	private $_auth;
 	/**
 	 * @param $token
@@ -45,8 +48,8 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 		$authadapter = new Zend_Auth_Adapter_DbTable($db);
 		// Assign the authentication informations to the adapter
 		$authadapter->setTableName('usuarios')
-		            ->setIdentityColumn('email')
-		            ->setCredentialColumn('email');
+			->setIdentityColumn('email')
+			->setCredentialColumn('email');
 
 		$authadapter->setIdentity($email)->setCredential($email);
 
@@ -75,6 +78,7 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 			}
 			parent::preDispatch($request);
 		} else {
+			$shib_mail  = getenv('Shib-inetOrgPerson-mail');
 			$controller = $action = '';
 			if ($auth_token) {
 				$this->tokenValidate($request, $auth_token);
@@ -84,12 +88,16 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 			$this->_auth = Zend_Auth::getInstance();
 
 			if (!$this->_auth->hasIdentity()) {
-				$module     = 'acesso';
-				$controller = 'index';
-				$action     = 'index';
-				$request->setModuleName($module);
-				$request->setControllerName($controller);
-				$request->setActionName($action);
+				if ($shib_mail) {
+					$this->authentication($shib_mail);
+				} else {
+					$module     = 'acesso';
+					$controller = 'index';
+					$action     = 'index';
+					$request->setModuleName($module);
+					$request->setControllerName($controller);
+					$request->setActionName($action);
+				}
 			}
 		}
 	}

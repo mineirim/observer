@@ -70,7 +70,16 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 	 */
 	public function preDispatch(Zend_Controller_Request_Http $request) {
 		$auth_token = $request->getHeader('authtoken');
-		$module     = $request->getModuleName();
+		$shib_mail  = getenv('Shib-inetOrgPerson-mail');
+
+		$this->_auth = Zend_Auth::getInstance();
+
+		if (!$this->_auth->hasIdentity()) {
+			if ($shib_mail) {
+				$this->authentication($shib_mail);
+			}
+		}
+		$module = $request->getModuleName();
 		if ($module == 'acesso' || $module == 'default') {
 			$action = $request->getActionName();
 			if ($action == 'get-token') {
@@ -78,7 +87,6 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 			}
 			parent::preDispatch($request);
 		} else {
-			$shib_mail  = getenv('Shib-inetOrgPerson-mail');
 			$controller = $action = '';
 			if ($auth_token) {
 				$this->tokenValidate($request, $auth_token);
@@ -90,6 +98,7 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 			if (!$this->_auth->hasIdentity()) {
 				if ($shib_mail) {
 					$this->authentication($shib_mail);
+					parent::preDispatch($request);
 				} else {
 					$module     = 'acesso';
 					$controller = 'index';

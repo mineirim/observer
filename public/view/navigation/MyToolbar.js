@@ -7,7 +7,9 @@ Ext.define('ExtZF.view.navigation.MyToolbar', {
     initComponent: function() {
         var me = this;
         me.items = [
-        adminMenu,'->',{xtype : 'authControle'},'-',{
+        adminMenu,'->',
+        //{xtype : 'authControle'}, // desabilitar alterar senha
+        '-',{
             text: 'Sair',
             id: 'btnSair',
             iconCls : 'icon-sair',

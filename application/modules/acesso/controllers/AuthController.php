@@ -120,7 +120,6 @@ class Acesso_AuthController extends Zend_Controller_Action {
 		Zend_Auth::getInstance()->clearIdentity();
 		Zend_Session::destroy();
 		$this->view->success = true;
-		header('Location: /Shibboleth.sso/Logout');
 	}
 
 	public function changepasswordAction() {

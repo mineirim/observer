@@ -99,6 +99,7 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 				if ($shib_mail) {
 					$this->authentication($shib_mail);
 					\Zend_Registry::set('shib_cpf', getenv('Shib-brPerson-brPersonCPF'));
+					die(getenv('Shib-brPerson-brPersonCPF'));
 					parent::preDispatch($request);
 				} else {
 					$module     = 'acesso';

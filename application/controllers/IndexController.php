@@ -15,7 +15,7 @@ class IndexController extends Zend_Controller_Action {
 			$ident                   = $this->_auth->getIdentity();
 			$this->view->usuario     = $ident->usuario;
 			$this->view->nomeUsuario = $ident->nome;
-			$this->view->logoutUrl   = \Zend_Registry::isRegistered('shib_cpf') ? '/Shibboleth.sso/Logout' : $this->view->baseUrl() . '/acesso/auth/logout';
+			$this->view->logoutUrl   = $this->view->baseUrl() . '/acesso/auth/logout';
 			if ($ident->alterar_senha) {
 				$model_usuarios = new Data_Model_Usuarios();
 				$usuario        = $model_usuarios->getUsuario($ident->id);

@@ -3,7 +3,7 @@ class Acesso_AuthController extends Zend_Controller_Action {
 
 	public function init() {
 		$this->getResponse()
-		     ->setHeader('Content-type', 'text/javascript');
+			->setHeader('Content-type', 'text/javascript');
 		$swContext = $this->_helper->contextSwitch();
 		$swContext->setAutoJsonSerialization(true);
 		if (!$swContext->hasContext('js')) {
@@ -11,14 +11,14 @@ class Acesso_AuthController extends Zend_Controller_Action {
 		}
 
 		$swContext->addActionContext('Controller', ['js'])
-		          ->addActionContext('Form', ['js'])
-		          ->addActionContext('checklogin', ['json'])
-		          ->addActionContext('get-token', ['json'])
-		          ->addActionContext('login', ['json'])
-		          ->addActionContext('logout', ['json'])
-		          ->addActionContext('Controle', ['js'])
-		          ->addActionContext('Changepassword', ['js'])
-		          ->initContext();
+			->addActionContext('Form', ['js'])
+			->addActionContext('checklogin', ['json'])
+			->addActionContext('get-token', ['json'])
+			->addActionContext('login', ['json'])
+			->addActionContext('logout', ['json'])
+			->addActionContext('Controle', ['js'])
+			->addActionContext('Changepassword', ['js'])
+			->initContext();
 		$this->_helper->layout()->disableLayout();
 	}
 
@@ -62,9 +62,9 @@ class Acesso_AuthController extends Zend_Controller_Action {
 
 			// Assign the authentication informations to the adapter
 			$authadapter->setTableName('usuarios')
-			            ->setIdentityColumn('usuario')
-			            ->setCredentialColumn('senha')
-			            ->setCredentialTreatment('MD5(  ? || salt)');
+				->setIdentityColumn('usuario')
+				->setCredentialColumn('senha')
+				->setCredentialTreatment('MD5(  ? || salt)');
 			//Zend_Registry::set('auth', $authadapter);
 			$filter = new Zend_Filter();
 			$filter->addFilter(new Zend_Filter_StringTrim())->addFilter(new Zend_Filter_StripTags())->addFilter(new Zend_Filter_Alnum());
@@ -120,6 +120,7 @@ class Acesso_AuthController extends Zend_Controller_Action {
 		Zend_Auth::getInstance()->clearIdentity();
 		Zend_Session::destroy();
 		$this->view->success = true;
+		header('Location: /Shibboleth.sso/Logout');
 	}
 
 	public function changepasswordAction() {

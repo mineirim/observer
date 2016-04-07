@@ -52,9 +52,9 @@ Ext.define('ExtZF.controller.Navigation', {
     {
         Ext.Ajax.request({
             url: logoutUrl,
-
             params : {format : 'json'},
             success: function(response){
+                window.location.href = '/Shibboleth.sso/Logout';
                 window.location.reload();
             }
         });

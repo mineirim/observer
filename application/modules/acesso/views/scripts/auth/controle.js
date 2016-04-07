@@ -5,7 +5,12 @@ Ext.define('ExtZF.view.acesso.auth.Controle', {
     text: 'Alterar senha',
                             id: 'btnChange',
                             iconCls : 'icon-change',
-                            action : 'change'
+                            action : 'change',
+                            <?php
+                            if(\Zend_Registry::isRegistered('shib_cpf') ){
+                                echo 'hidden:\'true\''.PHP_EOL;
+                            }
+                            ?>
     /**
     initComponent: function() {
         this.items = [
@@ -24,3 +29,4 @@ Ext.define('ExtZF.view.acesso.auth.Controle', {
         this.superclass.initComponent.call(this);
     }*/
 });
+console.log('xxxxxxxxxxxxxxxx');

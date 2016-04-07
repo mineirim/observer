@@ -51,7 +51,8 @@ Ext.define('ExtZF.controller.Navigation', {
     logout      : function()
     {
         Ext.Ajax.request({
-            url: baseUrl+'/acesso/auth/logout',
+            url: logoutUrl,
+
             params : {format : 'json'},
             success: function(response){
                 window.location.reload();

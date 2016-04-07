@@ -55,7 +55,6 @@ Ext.define('ExtZF.controller.Navigation', {
             params : {format : 'json'},
             success: function(response){
                 window.location.href = '/Shibboleth.sso/Logout';
-                window.location.reload();
             }
         });
     },

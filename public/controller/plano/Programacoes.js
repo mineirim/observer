@@ -233,7 +233,10 @@ Ext.define('ExtZF.controller.plano.Programacoes', {
         menu.showAt(event.xy);
     },
     showReport: function(record, reportType) {
-
+        if(Etc.getLoggedUser().get('is_su')=='false'){
+            alert('Sem permissão para emitir este relatório. Consulte o administrador do sistema');
+            return false;
+        }
         var filterProjeto = record.get("filter_projeto_id") !== "" && (typeof(record.get(
                 "filter_projeto_id")) !== 'undefined') ? "/projeto_id/" + record.get("filter_projeto_id") :
             "";

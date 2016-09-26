@@ -75,7 +75,7 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 	 * @param Zend_Controller_Request_Http $request
 	 * @return null
 	 */
-	public function preDispatch(Zend_Controller_Request_Http $request) {
+	public function preDispatch(Zend_Controller_Request_Abstract $request) {
 		$auth_token = $request->getHeader('authtoken');
 		$shib_mail  = getenv('Shib-inetOrgPerson-mail');
 

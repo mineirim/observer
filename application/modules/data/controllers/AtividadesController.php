@@ -37,36 +37,12 @@ class Data_AtividadesController extends Zend_Rest_Controller {
 		$projetoId       = $this->getParam('projeto', false);
 		$acaoId          = $this->getParam('acao', false);
 		$atividadesModel = new Data_Model_Atividades();
-		$financeiroModel = new Data_Model_Financeiro();
-		$operativosTable = new Data_Model_DbTable_Operativos();
 		if ($acaoId) {
-			$lastUpdate = $this->getParam('data_referencia', false);
-			$rows       = $atividadesModel->listAtividades($projetoId, $acaoId, $lastUpdate);
-			if (\Zend_Registry::isRegistered('sistema')) {
-				$atividades = [];
-				foreach ($rows as $key => $atividade) {
-					$tarefa             = $atividadesModel->getTarefaRH($atividade['id']);
-					$financeiro         = $atividadesModel->listaDespesas($projetoId, $atividade['id'], \Zend_Registry::get('sistema')->id);
-					$arrTotal           = ['valor_alocado' => $financeiroModel->getTotalPorSistema((int) $projetoId, (int) $atividade['id'])];
-					$atividades[$key]   = array_merge($atividade, $arrTotal);
-					$operativo          = $operativosTable->fetchRow(['programacao_id=?' => $tarefa->id]);
-					$execucao           = [];
-					$execucao['fisico'] = ['data_inicio' => $operativo->data_inicio,
-						'data_prazo' => $operativo->data_prazo,
-						'data_encerramento' => $operativo->data_encerramento,
-						'avaliacao_andamento' => $operativo->avaliacao_andamento];
-					$execucao['financeiro']       = $financeiro;
-					$atividades[$key]['execucao'] = $execucao;
-				}
-				// die;
-				$this->view->rows = $atividades;
-			} else {
-				$this->view->rows = $rows->toArray();
-			}
-
+			$rows             = $atividadesModel->getAll($this->_getAllParams());
+			$this->view->rows = $rows;
 		} else {
-			$rows            = $atividadesModel->getAtividade($this->getParam('id'));
-			$this->view->row = $rows;
+			$rows             = $atividadesModel->getAtividade($this->getParam('id'));
+			$this->view->rows = $rows;
 		}
 	}
 
@@ -75,14 +51,11 @@ class Data_AtividadesController extends Zend_Rest_Controller {
 			try {
 				$operativos_table = new Data_Model_DbTable_Operativos();
 				$sistemas_table   = new Data_Model_DbTable_ProgramacaoSistemas();
-				$formData         = $this->getRequest()->getParam('rows');
-				$formData         = json_decode($formData, true);
 
-				$atividadesModel = new Data_Model_Atividades();
-				$atividadesModel->save($this->getParam('id'), $formData);
+				$atividadesModel     = new Data_Model_Atividades();
+				$rows                = $atividadesModel->save($this->getRequest()->getParams());
 				$this->view->msg     = 'Dados atualizados com sucesso!';
-				$obj                 = $operativos_table->fetchRow("id=$id");
-				$this->view->rows    = $obj->toArray();
+				$this->view->rows    = $rows;
 				$this->view->success = true;
 				$this->getResponse()->setHttpResponseCode(201);
 			} catch (Exception $e) {

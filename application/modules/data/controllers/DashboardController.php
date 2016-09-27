@@ -29,7 +29,8 @@ class Data_DashboardController extends Zend_Rest_Controller {
 			$this->view->rows = $estatisticasModel->somaGrupoDespesas(2);
 			break;
 		case 'execucao':
-			$this->view->rows = $estatisticasModel->getTotalPorNivel($programacaoId, $projetoId);
+			$estatisticasModel = new Data_Model_Estatisticas();
+			$this->view->rows  = $estatisticasModel->getTotalPorNivel($programacaoId, $projetoId);
 			break;
 		default:
 			$this->view->rows = $estatisticasModel->somaGrupoDespesas(2);

@@ -156,19 +156,24 @@ class Data_Model_Atividades {
 		$updated       = $operativos_table->update($data, ['programacao_id=?' => $tarefaRH->id]);
 		$operativoRow  = $operativos_table->fetchRow(['programacao_id=?' => $tarefaRH->id]);
 		$financeiroRow = $financeiroTable->fetchRow(['programacao_id=?' => $tarefaRH->id]);
-
+		$map           = [];
 		foreach ($dados['execucao']['financeiro'] as $despesa) {
-
 			$despesaData = ['descricao' => $despesa['descricao'], 'valor' => $despesa['valor']];
 			if (isset($despesa['id'])) {
+				$id = $despesa['id'];
 				$despesas_table->update($despesaData, ['id=?' => $despesa['id']]);
 			} else {
 				$despesaData['financeiro_id'] = $financeiroRow->id;
-				$despesas_table->insert($despesaData);
+				$id                           = $despesas_table->insert($despesaData);
 			}
+			$map[$id] = $despesa['id_vinculo'];
 
 		}
-		return $this->getAtividade($dados['id']);
+		$retorno = $this->getAtividade($dados['id']);
+		foreach ($retorno[0]['execucao']['financeiro'] as $key => $value) {
+			$retorno[0]['execucao']['financeiro'][$key]->vinculo_id = $map[$value->id];
+		}
+		return $retorno;
 	}
 
 }

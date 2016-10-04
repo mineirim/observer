@@ -22,18 +22,18 @@ class Data_DashboardController extends Zend_Rest_Controller {
 	 */
 	public function indexAction() {
 		$this->getResponse()->setHeader('Access-Control-Allow-Headers', '*');
-		$estatisticasModel = new Data_Model_Dashboard();
-
+		$dashboardModel = new Data_Model_Dashboard();
+		$projetoId=$this->getParam('projeto',false);
 		switch ($this->getParam('data_to')) {
 		case 'rubrica':
-			$this->view->rows = $estatisticasModel->somaGrupoDespesas(2);
+			$this->view->rows = [$dashboardModel->somaGrupoDespesas($projetoId)];
 			break;
 		case 'execucao':
 			$estatisticasModel = new Data_Model_Estatisticas();
 			$this->view->rows  = $estatisticasModel->getTotalPorNivel($programacaoId, $projetoId);
 			break;
 		default:
-			$this->view->rows = $estatisticasModel->somaGrupoDespesas(2);
+			$this->view->rows = $dashboardModel->somaGrupoDespesas($projetoId);
 			break;
 		}
 		$this->_helper->viewRenderer->setNoRender(true);

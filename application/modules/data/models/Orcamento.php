@@ -5,14 +5,14 @@ class Data_Model_Orcamento {
 	 * @param $projetoId
 	 * @return mixed
 	 */
-	public function getGrupoChart($projetoId) {
+	public function getGrupoChart($programacaoId) {
 		$sql = 'SELECT upper(grupo_despesas) grupo_despesas , sum(vlr_programado) vlr_programado, sum(vlr_alocado) vlr_alocado, sum(executado) vlr_executado
             FROM
             vw_orcamento vo LEFT OUTER JOIN vw_execucao as ve ON vo.financeiro_id=ve.financeiro_id
             WHERE vo.orcamento_id=?
             GROUP BY upper(grupo_despesas)
             ORDER BY grupo_despesas';
-		$stmt = Zend_Registry::get('db')->query($sql, [$projetoId]);
+		$stmt = Zend_Registry::get('db')->query($sql, [$programacaoId]);
 		return $stmt->fetchAll();
 	}
 	/**

@@ -28,7 +28,7 @@ class Data_Model_Dashboard {
 	 * retorna execução orçamentária dos filhos da programação selecionada
 	 * @param $programacaoId
 	 */
-	public function somaGrupoDespesas($projetoId) {
+	public function somaGrupoDespesas($projetoId=false) {
 		$where  = '';
 		$params = [];
 		if ($projetoId) {
@@ -69,8 +69,8 @@ class Data_Model_Dashboard {
 			'executado' => ['key' => 'Valor Executado', 'values' => []],
 		];
 		foreach ($rows as $row) {
-			$retorno['programado']['values'][] = ['label' => $row['origem_recurso'], 'value' => $row['valor_alocado']];
-			$retorno['executado']['values'][]  = ['label' => $row['origem_recurso'], 'value' => $row['valor_executado']];
+			$retorno['programado']['values'][] = ['label' => $row['origem_recurso'], 'valor' =>(int) $row['valor_alocado']];
+			$retorno['executado']['values'][]  = ['label' => $row['origem_recurso'], 'valor' =>(int) $row['valor_executado']];
 		}
 		return $retorno;
 	}

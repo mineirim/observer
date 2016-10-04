@@ -43,13 +43,19 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 	/**
 	 * @param $email
 	 */
-	private function authentication($email) {
+	private function authentication($email, $cpf = '') {
 		$db          = Zend_Registry::get('db');
 		$authadapter = new Zend_Auth_Adapter_DbTable($db);
 		// Assign the authentication informations to the adapter
-		$authadapter->setTableName('usuarios')
-			->setIdentityColumn('email')
-			->setCredentialColumn('email');
+		if ($cpf !== '') {
+			$authadapter->setTableName('usuarios')
+				->setIdentityColumn('cpf')
+				->setCredentialColumn('cpf');
+		} else {
+			$authadapter->setTableName('usuarios')
+				->setIdentityColumn('email')
+				->setCredentialColumn('email');
+		}
 
 		$authadapter->setIdentity($email)->setCredential($email);
 
@@ -60,6 +66,7 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 		if ($result->isValid()) {
 			$auth->getStorage()->write($authadapter->getResultRowObject(null, ['senha', 'salt']));
 		} else {
+			error_log($shib_mail);
 			throw new Exception($result->getMessages());
 
 		}
@@ -68,7 +75,7 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 	 * @param Zend_Controller_Request_Http $request
 	 * @return null
 	 */
-	public function preDispatch(Zend_Controller_Request_Http $request) {
+	public function preDispatch(Zend_Controller_Request_Abstract $request) {
 		$auth_token = $request->getHeader('authtoken');
 		$shib_mail  = getenv('Shib-inetOrgPerson-mail');
 

@@ -39,7 +39,6 @@ Ext.define('ExtZF.controller.acesso.Auth', {
             if(typeof forceChange!='undefined' && forceChange){
                 this.createChangeWindow();
             }
-           
         }else{
             win = Ext.widget('acessoAuthForm');
 
@@ -79,7 +78,6 @@ Ext.define('ExtZF.controller.acesso.Auth', {
                     record.save({
                             success: function(a,b){
                                 Ext.log({msg:"Senha alterada com sucesso!",level:"info"});
-                                
                                 win.close();
                                 if(typeof me.forceChange!='undefined'){
                                     window.location.reload();
@@ -99,7 +97,6 @@ Ext.define('ExtZF.controller.acesso.Auth', {
                 Ext.Msg.alert('Alteração de senha', 'Erro na autenticação!');
             }
         });
-                
     },
     createChangeWindow: function(){
         var me = this;
@@ -107,7 +104,7 @@ Ext.define('ExtZF.controller.acesso.Auth', {
         store.remoteFilter = false;
         store.clearFilter();
         store.remoteFilter = true;
-        store.filter('usuario',usuario);        
+        store.filter('usuario',usuario);
         var win = Ext.widget('acessoAuthChangepassword');
     },
     onSpecialkey: function(field,event){
@@ -117,10 +114,10 @@ Ext.define('ExtZF.controller.acesso.Auth', {
     },
     login: function(button) {
         var me=this;
-          
+
         var win    = button.up('window'), // recupera um item acima(pai) do button do tipo window
             form   = win.down('form').getForm()
-			
+
 	    if (form.isValid()) {
             form.submit({
             	scope: this,

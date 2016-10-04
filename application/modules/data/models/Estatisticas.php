@@ -1,18 +1,26 @@
 <?php
 
-class Data_Model_Orcamento {
+class Data_Model_Estatisticas {
 	/**
 	 * @param $projetoId
 	 * @return mixed
 	 */
-	public function getGrupoChart($programacaoId) {
-		$sql = 'SELECT upper(grupo_despesas) grupo_despesas , sum(vlr_programado) vlr_programado, sum(vlr_alocado) vlr_alocado, sum(executado) vlr_executado
-            FROM
-            vw_orcamento vo LEFT OUTER JOIN vw_execucao as ve ON vo.financeiro_id=ve.financeiro_id
-            WHERE vo.orcamento_id=?
-            GROUP BY upper(grupo_despesas)
-            ORDER BY grupo_despesas';
-		$stmt = Zend_Registry::get('db')->query($sql, [$programacaoId]);
+	public function getUseByDay($startDate = null, $endDate = null) {
+		if (!$startDate) {
+			$startDate = date('Y-m-d', strtotime('-250 days'));
+		}
+		if (!$endDate) {
+			$endDate = date('Y-m-d');
+		}
+		$sql = "SELECT
+				to_char(alteracao_data,'DD/MM/YYYY') AS data_alteracao, to_date(to_char(alteracao_data,'YYYY-MM-DD'),'YYYY-MM-DD') as orderdate,
+				 count(DISTINCT programacao_id) total
+			FROM
+				operativos_historico
+			WHERE alteracao_data between :startDate and :endDate
+			GROUP BY data_alteracao,orderdate
+			ORDER BY orderdate";
+		$stmt = Zend_Registry::get('db')->query($sql, ['startDate' => $startDate, 'endDate' => $endDate]);
 		return $stmt->fetchAll();
 	}
 	/**

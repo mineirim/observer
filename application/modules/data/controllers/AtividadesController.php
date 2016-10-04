@@ -17,11 +17,11 @@ class Data_AtividadesController extends Zend_Rest_Controller {
 		$swContext = $this->_helper->contextSwitch();
 		$swContext->setAutoJsonSerialization(true);
 		$swContext->addActionContext('index', ['json', 'xml'])
-		          ->addActionContext('put', ['json', 'xml'])
-		          ->addActionContext('post', ['json', 'xml'])
-		          ->addActionContext('get', ['json', 'xml'])
-		          ->addActionContext('delete', ['json', 'xml'])
-		          ->initContext('json');
+			->addActionContext('put', ['json', 'xml'])
+			->addActionContext('post', ['json', 'xml'])
+			->addActionContext('get', ['json', 'xml'])
+			->addActionContext('delete', ['json', 'xml'])
+			->initContext('json');
 		$this->_helper->layout()->disableLayout();
 	}
 
@@ -37,30 +37,37 @@ class Data_AtividadesController extends Zend_Rest_Controller {
 		$projetoId       = $this->getParam('projeto', false);
 		$acaoId          = $this->getParam('acao', false);
 		$atividadesModel = new Data_Model_Atividades();
-		$financeiroModel = new Data_Model_Financeiro();
 		if ($acaoId) {
-			$lastUpdate = $this->getParam('data_referencia', false);
-			$rows       = $atividadesModel->listAtividades($projetoId, $acaoId, $lastUpdate);
-
-			if (\Zend_Registry::isRegistered('sistema')) {
-				$atividades = [];
-				foreach ($rows as $key => $atividade) {
-					$arrTotal         = ['valor_alocado' => $financeiroModel->getTotalPorSistema((int) $projetoId, (int) $atividade['id'])];
-					$atividades[$key] = array_merge($atividade, $arrTotal);
-				}
-				$this->view->rows = $atividades;
-			} else {
-				$this->view->rows = $rows->toArray();
-			}
-
+			$rows             = $atividadesModel->getAll($this->_getAllParams());
+			$this->view->rows = $rows;
 		} else {
-			$rows            = $atividadesModel->getAtividade($this->getParam('id'));
-			$this->view->row = $rows;
+			$rows             = $atividadesModel->getAtividade($this->getParam('id'));
+			$this->view->rows = $rows;
 		}
 	}
 
 	public function putAction() {
+		if (($this->getRequest()->isPut())) {
+			try {
+				$operativos_table = new Data_Model_DbTable_Operativos();
+				$sistemas_table   = new Data_Model_DbTable_ProgramacaoSistemas();
 
+				$atividadesModel     = new Data_Model_Atividades();
+				$rows                = $atividadesModel->save($this->getRequest()->getParams());
+				$this->view->msg     = 'Dados atualizados com sucesso!';
+				$this->view->rows    = $rows;
+				$this->view->success = true;
+				$this->getResponse()->setHttpResponseCode(201);
+			} catch (Exception $e) {
+				$this->view->success = false;
+				$this->view->method  = $this->getRequest()->getMethod();
+				$this->view->msg     = 'Erro ao atualizar registro<br>' . $e->getMessage() . '<br>' . $e->getTraceAsString();
+				$this->getResponse()->setHttpResponseCode(500);
+			}
+		} else {
+			$this->view->msg = 'Método ' . $this->getRequest()->getMethod();
+			$this->getResponse()->setHttpResponseCode(501);
+		}
 	}
 
 	public function postAction() {

@@ -66,7 +66,7 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 		if ($result->isValid()) {
 			$auth->getStorage()->write($authadapter->getResultRowObject(null, ['senha', 'salt']));
 		} else {
-			error_log($shib_mail);
+			error_log('nao autorizado: '.$email);
 			throw new Exception($result->getMessages());
 
 		}
@@ -77,13 +77,14 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 	 */
 	public function preDispatch(Zend_Controller_Request_Abstract $request) {
 		$auth_token = $request->getHeader('authtoken');
+		$shib_cpf = getenv('Shib-brPerson-brPersonCPF');
 		$shib_mail  = getenv('Shib-inetOrgPerson-mail');
 
 		$this->_auth = Zend_Auth::getInstance();
 
 		if (!$this->_auth->hasIdentity()) {
-			if ($shib_mail) {
-				$this->authentication($shib_mail);
+			if($shib_cpf){
+				$this->authentication($shib_cpf);
 			}
 		}
 		$module = $request->getModuleName();

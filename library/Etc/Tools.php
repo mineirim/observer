@@ -36,5 +36,20 @@ class Tools {
     {
         return dirname(APPLICATION_PATH);
     }
-
+    /**
+    *@param $data array('url'=>'uri','http_method'=>'HTTP_METHOD')
+     **/
+    public static function autitLog($data){
+            $auth = \Zend_Auth::getInstance();
+            $sistema=null;
+            if (\Zend_Registry::isRegistered('sistema')) {
+                $sistema = \Zend_Registry::get('sistema')->id;
+            }
+            $auditTable =  new \Data_Model_DbTable_AuditLog;
+            $data = array_merge($data,[
+                'usuario_id'=> $auth->getIdentity()->id,
+                'sistema_id'=> $sistema
+            ]);
+            $auditTable->insert($data);
+    }
 }

@@ -45,30 +45,30 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 	 */
 	private function authentication($email, $cpf = '') {
 		$db          = Zend_Registry::get('db');
-		$authadapter = new Zend_Auth_Adapter_DbTable($db);
+		$authadapter = new \Zend_Auth_Adapter_DbTable($db);
 		// Assign the authentication informations to the adapter
+		// try
 		if ($cpf !== '') {
 			$authadapter->setTableName('usuarios')
 				->setIdentityColumn('cpf')
 				->setCredentialColumn('cpf');
+			$authadapter->setIdentity($cpf)->setCredential($cpf);
 		} else {
 			$authadapter->setTableName('usuarios')
 				->setIdentityColumn('email')
 				->setCredentialColumn('email');
+			$authadapter->setIdentity($email)->setCredential($email);
 		}
-
-		$authadapter->setIdentity($email)->setCredential($email);
-
-		$auth = Zend_Auth::getInstance();
+		$auth = \Zend_Auth::getInstance();
 		$auth->clearIdentity();
 		$auth->getStorage()->clear();
 		$result = $authadapter->authenticate(); //  $auth->authenticate ($authadapter);
 		if ($result->isValid()) {
 			$auth->getStorage()->write($authadapter->getResultRowObject(null, ['senha', 'salt']));
+			\Etc\Tools::autitLog(['url' => 'login', 'http_method' => 'POST']);
 		} else {
-			error_log('nao autorizado: '.$email);
-			throw new Exception($result->getMessages());
-
+			error_log('nao autorizado: ' . $email . ' - cpf: ' . $cpf);
+			throw new \Exception($result->getMessages()[0]);
 		}
 	}
 	/**
@@ -76,16 +76,20 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 	 * @return null
 	 */
 	public function preDispatch(Zend_Controller_Request_Abstract $request) {
-		$auth_token = $request->getHeader('authtoken');
-		$shib_cpf = getenv('Shib-brPerson-brPersonCPF');
-		$shib_mail  = getenv('Shib-inetOrgPerson-mail');
-
-		$this->_auth = Zend_Auth::getInstance();
-
-		if (!$this->_auth->hasIdentity()) {
-			if($shib_cpf){
-				$this->authentication($shib_cpf);
+		$auth_token  = $request->getHeader('authtoken');
+		$shib_cpf    = getenv('Shib-brPerson-brPersonCPF');
+		$shib_mail   = getenv('Shib-inetOrgPerson-mail');
+		$this->_auth = \Zend_Auth::getInstance();
+		try {
+			if (!$this->_auth->hasIdentity()) {
+				if ($shib_cpf) {
+					error_log('autenticando com cpf');
+					error_log($shib_cpf);
+					$this->authentication(null,$shib_cpf);
+				}
 			}
+		} catch (Exception $e) {
+
 		}
 		$module = $request->getModuleName();
 		if ($module == 'acesso' || $module == 'default') {
@@ -104,10 +108,8 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 			$this->_auth = Zend_Auth::getInstance();
 
 			if (!$this->_auth->hasIdentity()) {
-				if ($shib_mail) {
-					$this->authentication($shib_mail);
-					\Zend_Registry::set('shib_cpf', getenv('Shib-brPerson-brPersonCPF'));
-					die(getenv('Shib-brPerson-brPersonCPF'));
+				if ($shib_cpf) {
+					$this->authentication(null,$shib_cpf);
 					parent::preDispatch($request);
 				} else {
 					$module     = 'acesso';

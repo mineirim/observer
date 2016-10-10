@@ -33,7 +33,7 @@ class Etc_Model_BaseModel extends Zend_Db_Table_Abstract {
         if (empty($limit)) { $limit = null; }
 
         if (!isset($params['sort'])) { 
-            $sort = 'id'; }
+            $sort = 'nome'; }
         else{  
             $sort = $params['sort'].' '.$params['dir'];
         }              
@@ -42,6 +42,7 @@ class Etc_Model_BaseModel extends Zend_Db_Table_Abstract {
         if($where){
             $query->where($where);
         }
+        $query->order(' situacao_id desc ');
         $query->order($sort);
         $paginator = new Zend_Paginator(
                 new Zend_Paginator_Adapter_DbTableSelect($query)

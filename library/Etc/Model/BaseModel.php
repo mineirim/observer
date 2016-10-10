@@ -32,18 +32,23 @@ class Etc_Model_BaseModel extends Zend_Db_Table_Abstract {
         $limit = $params['limit'];
         if (empty($limit)) { $limit = null; }
 
-        if (!isset($params['sort'])) { 
-            $sort = 'nome'; }
-        else{  
-            $sort = $params['sort'].' '.$params['dir'];
-        }              
-        
         $query = $this->select();
+        
         if($where){
             $query->where($where);
         }
-        $query->order(' situacao_id desc ');
-        $query->order($sort);
+        if (!isset($params['sort'])) { 
+            $sort = 'id'; }
+        else{  
+            if(is_array($params['sort'])){
+                foreach ($params['sort'] as $key => $sort) {
+                    $query->order($sort['field'] .  ' ' . $sort['dir']);
+                }
+            }else{
+                $sort = $params['sort'].' '.$params['dir'];                
+                $query->order($sort);
+            }
+        }              
         $paginator = new Zend_Paginator(
                 new Zend_Paginator_Adapter_DbTableSelect($query)
         );

@@ -39,6 +39,10 @@ class Data_UsuariosController extends Zend_Rest_Controller {
             $where .= " AND " . $filtro[0]['property']."='".$filtro[0]['value']."'";
         }        
         $params = $this->getAllParams();
+        $params['sort']=[
+                        ['field'=>'situacao_id','dir'=>'desc'],
+                        ['field'=>'nome','dir'=>'asc']
+                        ];
         $page = $usuarios_table->getOnePageOfOrderEntries($params,$where);
         $this->view->rows =$page['rows'];
         $this->view->total = $page['total'];

@@ -51,12 +51,14 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 		if ($cpf !== '') {
 			$authadapter->setTableName('usuarios')
 				->setIdentityColumn('cpf')
-				->setCredentialColumn('cpf');
+				->setCredentialColumn('cpf')
+				->setCredentialTreatment('? AND situacao_id=1');
 			$authadapter->setIdentity($cpf)->setCredential($cpf);
 		} else {
 			$authadapter->setTableName('usuarios')
 				->setIdentityColumn('email')
-				->setCredentialColumn('email');
+				->setCredentialColumn('email')
+				->setCredentialTreatment('? AND situacao_id=1');
 			$authadapter->setIdentity($email)->setCredential($email);
 		}
 		$auth = \Zend_Auth::getInstance();
@@ -64,10 +66,22 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 		$auth->getStorage()->clear();
 		$result = $authadapter->authenticate(); //  $auth->authenticate ($authadapter);
 		if ($result->isValid()) {
+			$nome = getenv('Shib-inetOrgPerson-cn') ? getenv('Shib-inetOrgPerson-cn') : 'not shib';
 			$auth->getStorage()->write($authadapter->getResultRowObject(null, ['senha', 'salt']));
-			\Etc\Tools::autitLog(['url' => 'login', 'http_method' => 'POST']);
+			\Etc\Tools::auditLog(['url' => 'login', 'http_method' => 'POST',
+				'data_log' => '{"nome":"' . $nome . '"}']);
 		} else {
-			error_log('nao autorizado: ' . $email . ' - cpf: ' . $cpf);
+			if (getenv('Shib-brPerson-brPersonCPF') || true) {
+				$data = ['nome' => getenv('Shib-inetOrgPerson-cn'),
+					'email' => getenv('Shib-inetOrgPerson-mail'),
+					'usuario' => getenv('Shib-brPerson-brPersonCPF'),
+					'cpf' => getenv('Shib-brPerson-brPersonCPF'),
+					'situacao_id' => 3,
+				];
+				$usuariosModel = new Data_Model_Usuarios;
+				$usuariosModel->addUsuario($data);
+			}
+			error_log('nao autorizado: ' . $email . ' - cpf: ' . $cpf . PHP_EOL);
 			throw new \Exception($result->getMessages()[0]);
 		}
 	}
@@ -83,9 +97,8 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 		try {
 			if (!$this->_auth->hasIdentity()) {
 				if ($shib_cpf) {
-					error_log('autenticando com cpf');
 					error_log($shib_cpf);
-					$this->authentication(null,$shib_cpf);
+					$this->authentication(null, $shib_cpf);
 				}
 			}
 		} catch (Exception $e) {
@@ -109,7 +122,7 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 
 			if (!$this->_auth->hasIdentity()) {
 				if ($shib_cpf) {
-					$this->authentication(null,$shib_cpf);
+					$this->authentication(null, $shib_cpf);
 					parent::preDispatch($request);
 				} else {
 					$module     = 'acesso';

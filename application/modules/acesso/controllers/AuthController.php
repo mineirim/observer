@@ -64,7 +64,7 @@ class Acesso_AuthController extends Zend_Controller_Action {
 			$authadapter->setTableName('usuarios')
 				->setIdentityColumn('usuario')
 				->setCredentialColumn('senha')
-				->setCredentialTreatment('MD5(  ? || salt)');
+				->setCredentialTreatment('MD5(  ? || salt) AND situacao_id=1');
 			//Zend_Registry::set('auth', $authadapter);
 			$filter = new Zend_Filter();
 			$filter->addFilter(new Zend_Filter_StringTrim())->addFilter(new Zend_Filter_StripTags())->addFilter(new Zend_Filter_Alnum());

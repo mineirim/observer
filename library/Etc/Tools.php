@@ -39,7 +39,7 @@ class Tools {
     /**
     *@param $data array('url'=>'uri','http_method'=>'HTTP_METHOD')
      **/
-    public static function autitLog($data){
+    public static function auditLog($data){
             $auth = \Zend_Auth::getInstance();
             $sistema=null;
             if (\Zend_Registry::isRegistered('sistema')) {
@@ -50,6 +50,10 @@ class Tools {
                 'usuario_id'=> $auth->getIdentity()->id,
                 'sistema_id'=> $sistema
             ]);
-            $auditTable->insert($data);
+            try{
+                $auditTable->insert($data);
+            }catch(Exception $e){
+                error_log('Erro ao gravar log'. PHP_EOL . $e->getMessage());
+            }
     }
 }

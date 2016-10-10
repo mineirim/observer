@@ -1,2 +1,8 @@
 <?php
-include_once 'form.js';
+
+if(getenv('Shib-brPerson-brPersonCPF')){
+	$this->email=getenv('Shib-inetOrgPerson-mail');
+	include_once 'info.js';	
+}else{
+	include_once 'form.js';
+}

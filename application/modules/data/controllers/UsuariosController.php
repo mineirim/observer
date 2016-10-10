@@ -27,7 +27,8 @@ class Data_UsuariosController extends Zend_Rest_Controller {
         $usuarios_table = new Data_Model_DbTable_Usuarios();       
         
         $this->_helper->viewRenderer->setNoRender(true);
-        $where = "situacao_id=1 ";
+
+        $where = "situacao_id<>2 ";
         if($this->_getParam('filter')){
             $filtro  = json_decode($this->_getParam('filter'),true);
             //se passado filtro =null, então deve retornar objeto vazio
@@ -37,7 +38,8 @@ class Data_UsuariosController extends Zend_Rest_Controller {
 
             $where .= " AND " . $filtro[0]['property']."='".$filtro[0]['value']."'";
         }        
-        $page = $usuarios_table->getOnePageOfOrderEntries($this->getAllParams(),$where);
+        $params = $this->getAllParams();
+        $page = $usuarios_table->getOnePageOfOrderEntries($params,$where);
         $this->view->rows =$page['rows'];
         $this->view->total = $page['total'];
         $this->getResponse()->setHttpResponseCode(200);

@@ -8,12 +8,14 @@ class My_Plugin_AuditPlugin extends Zend_Controller_Plugin_Abstract {
 		$method =$request->getMethod();
 		if( strtoupper($method) !=='GET' ){
 			$auth = Zend_Auth::getInstance();
-			$dataLog='';
+			$dataLog=null;
 			$id=null;
 			if($auth->getIdentity()){
 				$id =$auth->getIdentity()->id;
 			}else{
-				$dataLog = '{"cpf":"'. getenv('Shib-brPerson-brPersonCPF') .'"}';
+				$nome = getenv('Shib-inetOrgPerson-cn') ? getenv('Shib-inetOrgPerson-cn') : 'not shib';
+				$cpf = getenv('Shib-brPerson-brPersonCPF') ? getenv('Shib-brPerson-brPersonCPF') : 'not shib';
+				$dataLog = '{"nome":"' . $nome . '","cpf":"'. $cpf .'"}';
 			}
 			$sistema=null;
 			if (\Zend_Registry::isRegistered('sistema')) {

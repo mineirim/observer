@@ -69,7 +69,7 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 			$nome = getenv('Shib-inetOrgPerson-cn') ? getenv('Shib-inetOrgPerson-cn') : 'not shib';
 			$auth->getStorage()->write($authadapter->getResultRowObject(null, ['senha', 'salt']));
 			\Etc\Tools::auditLog(['url' => 'login', 'http_method' => 'POST',
-				'data_log' => '{"nome":"' . $nome . '"}']);
+				'data_log' => '{"nome":"' . $nome . '", "cpf":"'.$cpf.'"}']);
 		} else {
 			if (getenv('Shib-brPerson-brPersonCPF') || true) {
 				$data = ['nome' => getenv('Shib-inetOrgPerson-cn'),
@@ -97,7 +97,6 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 		try {
 			if (!$this->_auth->hasIdentity()) {
 				if ($shib_cpf) {
-					error_log($shib_cpf);
 					$this->authentication(null, $shib_cpf);
 				}
 			}

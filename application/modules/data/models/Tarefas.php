@@ -33,10 +33,11 @@ class Data_Model_Tarefas {
                             o.peso, o.data_inicio, o.data_prazo, o.data_encerramento, o.avaliacao_andamento, o.percentual_execucao,
                             o.alteracao_data,
                             o.andamento_id,
-                            andamentos.descricao andamento
+                            andamentos.descricao andamento,
+                            o.id operativo_id
                     FROM
                       public.programacoes p left outer join
-                      public.operativos o on p.id = o .programacao_id
+                      public.operativos o on p.id = o.programacao_id
                       left outer join
                       public.andamentos on andamentos.id = o.andamento_id
                     where  ' . $where .
@@ -49,7 +50,8 @@ class Data_Model_Tarefas {
 				$value->avaliacao_andamento = 'Informação não disponível';
 			}
 			$tarefa = [
-				'id' => $value->id,
+				'id' => $value->id,				
+                'operativo_id' => $value->operativo_id,
 				'menu' => $value->menu,
 				'peso' => $value->peso,
 				'ordem' => $value->ordem,
@@ -58,7 +60,7 @@ class Data_Model_Tarefas {
 				'data_prazo' => $value->data_prazo,
 				'data_encerramento' => $value->data_encerramento,
 				'avaliacao_andamento' => $value->avaliacao_andamento,
-				'percentual_execucao' => $value->percentual_execucao,
+				'percentual_execucao' =>(float) $value->percentual_execucao,
 				'alteracao_data' => $value->alteracao_data,
 				'andamento_id' => $value->andamento_id,
 				'andamento' => $value->andamento,
@@ -92,12 +94,12 @@ class Data_Model_Tarefas {
 			if ($data_inicio < $agora && $data_prazo > $agora) {
 				$percentual = ($agora - $data_inicio) / ($data_prazo - $data_inicio);
 				if ($percentual >= 0.8) {
-					return 'alert-2 alert-border alert-yellow';
+					return 'alert-2 alert-border alert-yellow md-accent';
 				} else {
-					return 'alert-3 alert-border alert-green';
+					return 'alert-3 alert-border alert-green md-warn';
 				}
 			} else if ($data_prazo < $agora) {
-				return 'alert-1 alert-border alert-red';
+				return 'alert-1 alert-border alert-red md-warn';
 			} else if ($data_inicio > $agora) {
 				return 'alert-8 alert-border alert-blank';
 			}

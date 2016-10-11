@@ -13,6 +13,7 @@ Ext.define('ExtZF.model.usuarios.Model4pass', {
         type: 'rest',
         url :   'data/usuarios',
         totalProperty: 'total',
+        extraParams: {valid: true},
         reader: {
             type: 'json',
             root: 'rows',

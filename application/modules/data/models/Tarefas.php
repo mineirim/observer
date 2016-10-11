@@ -45,7 +45,7 @@ class Data_Model_Tarefas {
 		$stmt->setFetchMode(Zend_Db::FETCH_OBJ);
 		$tarefas = [];
 		while ($value = $stmt->fetch()) {
-			if (!Data_Model_DbTable_Row_Operativo::checkPermission($value->programacao_id)) {
+			if (!Data_Model_DbTable_Row_Operativo::checkPermission($value->id)) {
 				$value->avaliacao_andamento = 'Informação não disponível';
 			}
 			$tarefa = [

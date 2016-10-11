@@ -27,8 +27,11 @@ class Data_UsuariosController extends Zend_Rest_Controller {
         $usuarios_table = new Data_Model_DbTable_Usuarios();       
         
         $this->_helper->viewRenderer->setNoRender(true);
-
-        $where = "situacao_id<>2 ";
+        if($this->getParam('valid')){
+            $where = "situacao_id=1 ";            
+        }else{
+            $where = "situacao_id<>2 ";            
+        }
         if($this->_getParam('filter')){
             $filtro  = json_decode($this->_getParam('filter'),true);
             //se passado filtro =null, então deve retornar objeto vazio

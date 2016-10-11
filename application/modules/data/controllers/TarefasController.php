@@ -61,7 +61,11 @@ class Data_TarefasController extends Zend_Rest_Controller
         $rows = $programacoes_table->getProgramacao($this->_getParam('id'), true);
         $this->_helper->viewRenderer->setNoRender(true);
         $this->view->success=true;
-        $this->view->rows= $rows;
+        if($this->_hasParam('asArray')){
+            $this->view->rows= [$rows];
+        }else{
+            $this->view->rows= $rows;            
+        }
         $this->getResponse()->setHttpResponseCode(200);
     }
     public function putAction() 

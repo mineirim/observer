@@ -222,6 +222,7 @@ class Data_Model_Programacoes {
         $operativo = $programacao->findDependentRowset('Data_Model_DbTable_Operativos');
         if (count($operativo) > 0) {
             $row['operativo'] = $operativo->toArray();
+            $row['operativo'][0]['percentual_execucao'] = (float)$row['operativo'][0]['percentual_execucao'];
         }
 
         if ($withAssociations) {

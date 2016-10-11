@@ -24,6 +24,7 @@ Ext.define('ExtZF.model.Usuarios', {
     	simpleSortMode: true, 
         type: 'rest',
         url :   'data/usuarios',
+        extraParams: {valid: true},
         reader: {
             type: 'json',
             root: 'rows',

@@ -33,7 +33,7 @@ class Data_Model_DbTable_Row_Operativo extends Zend_Db_Table_Row_Abstract {
 		if (!$this->checkPermission($data['programacao_id'])) {
 			$data['avaliacao_andamento'] = 'Informação não disponível para este usuário';
 		}
-
+		$data['percentual_execucao'] = (float)$data['percentual_execucao'];
 		return $data;
 	}
 

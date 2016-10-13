@@ -21,23 +21,24 @@ class Data_Model_Tarefas {
 	 */
 	public function getBy($column, $pWhere = false, $all = false, $order = 'p.ordem ASC') {
 		$identity = $this->_auth->getIdentity();
-		$where    = ' instrumento_id=6 and p.situacao_id <>2';
-		$where .= ' AND ' . $column . '=' . $identity->id;
+		$where    = ' p.instrumento_id=6 and p.situacao_id <>2';
+		$where .= ' AND p.' . $column . '=' . $identity->id;
 		if (!$all) {
 			$where .= ' AND (andamento_id not in(6,7) OR andamento_id is null)';
 		}
 		if ($pWhere) {
 			$where .= $pWhere;
 		}
-		$select = 'SELECT   p.id, p.menu, p.responsavel_usuario_id,p.supervisor_usuario_id, p.ordem,p.projeto_id,
+		$select = 'SELECT acao.menu acao, atividade.menu atividade,  p.id, p.menu, p.responsavel_usuario_id,p.supervisor_usuario_id, p.ordem,p.projeto_id,
                             o.peso, o.data_inicio, o.data_prazo, o.data_encerramento, o.avaliacao_andamento, o.percentual_execucao,
                             o.alteracao_data,
                             o.andamento_id,
                             andamentos.descricao andamento,
                             o.id operativo_id
                     FROM
-                      public.programacoes p left outer join
-                      public.operativos o on p.id = o.programacao_id
+                      public.programacoes p INNER JOIN programacoes atividade on p.programacao_id=atividade.id
+                      INNER JOIN programacoes acao ON atividade.programacao_id=acao.id
+                      left outer join public.operativos o on p.id = o.programacao_id
                       left outer join
                       public.andamentos on andamentos.id = o.andamento_id
                     where  ' . $where .
@@ -52,6 +53,8 @@ class Data_Model_Tarefas {
 			$tarefa = [
 				'id' => $value->id,				
                 'operativo_id' => $value->operativo_id,
+				'acao' => $value->acao,
+				'atividade' => $value->atividade,
 				'menu' => $value->menu,
 				'peso' => $value->peso,
 				'ordem' => $value->ordem,

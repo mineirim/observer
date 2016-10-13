@@ -45,16 +45,16 @@ class Data_Model_Dashboard {
                         SELECT p.id, av.id, p.programacao_id, p.instrumento_id
                         FROM programacoes p INNER JOIN tarefas av ON p.id=av.programacao_id
                     )
-                    SELECT  f.origem_recurso, sum(f.valor_alocado) valor_alocado, sum(f.valor_executado) as valor_executado FROM tarefas t
-                        INNER JOIN (SELECT f.id, f.descricao, o.menu origem_recurso,f.programacao_id, f.origem_recurso_id, f.valor as valor_alocado, SUM(d.valor) as valor_executado
+                    SELECT f.prog_id, f.origem_recurso, sum(f.valor_alocado) valor_alocado, sum(f.valor_executado) as valor_executado FROM tarefas t
+                        INNER JOIN (SELECT f.id, f.descricao,o.id prog_id, o.menu origem_recurso,f.programacao_id, f.origem_recurso_id, f.valor as valor_alocado, SUM(d.valor) as valor_executado
                                     FROM financeiro f LEFT OUTER JOIN despesas d ON d.financeiro_id=f.id
                                     INNER JOIN programacoes o ON f.origem_recurso_id=o.id
                                     WHERE f.origem_recurso_id IS NOT NULL
-                                    GROUP BY f.id,f.descricao,o.menu, f.programacao_id, f.origem_recurso_id,f.valor
+                                    GROUP BY f.id,f.descricao,o.id, o.menu, f.programacao_id, f.origem_recurso_id,f.valor
                                     ORDER BY f.id) as f ON t.id=f.programacao_id
                         INNER JOIN programacoes p ON t.parent_id=p.id
                     WHERE t.programacao_id IS NULL
-                    GROUP BY f.origem_recurso
+                    GROUP BY f.prog_id, f.origem_recurso
                     ORDER BY f.origem_recurso;
         ';
 		if ($params) {
@@ -65,12 +65,12 @@ class Data_Model_Dashboard {
 		$stmt->setFetchMode(Zend_Db::FETCH_ASSOC);
 		$rows    = $stmt->fetchAll();
 		$retorno = [
-			'programado' => ['key' => 'Valor Programado', 'values' => []],
-			'executado' => ['key' => 'Valor Executado', 'values' => []],
+			// 'programado' => ['key' => 'Valor Programado', 'values' => []],
+			// 'executado' => ['key' => 'Valor Executado', 'values' => []],
 		];
 		foreach ($rows as $row) {
-			$retorno['programado']['values'][] = ['label' => $row['origem_recurso'], 'valor' =>(int) $row['valor_alocado']];
-			$retorno['executado']['values'][]  = ['label' => $row['origem_recurso'], 'valor' =>(int) $row['valor_executado']];
+			$retorno[]= ['id'=>  $row['prog_id'], 'label' => $row['origem_recurso'], 'valor_alocado' =>(float) $row['valor_alocado'], 'valor_executado'=>(float) $row['valor_executado']];
+			// $retorno['executado']['values'][]  = ['id'=>  $row['prog_id'],'label' => $row['origem_recurso'], 'valor' =>(float) $row['valor_executado']];
 		}
 		return $retorno;
 	}

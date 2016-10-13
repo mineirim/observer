@@ -26,7 +26,7 @@ class Data_DashboardController extends Zend_Rest_Controller {
 		$projetoId=$this->getParam('projeto',false);
 		switch ($this->getParam('data_to')) {
 		case 'rubrica':
-			$this->view->rows = [$dashboardModel->somaGrupoDespesas($projetoId)];
+			$this->view->rows = $dashboardModel->somaGrupoDespesas($projetoId);
 			break;
 		case 'execucao':
 			$estatisticasModel = new Data_Model_Estatisticas();

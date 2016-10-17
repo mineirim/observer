@@ -42,7 +42,7 @@ class Data_Model_Tarefas {
                       left outer join
                       public.andamentos on andamentos.id = o.andamento_id
                     where  ' . $where .
-			'ORDER BY ' . $order;
+			'ORDER BY acao.ordem, atividade.ordem, ' . $order;
 		$stmt = Zend_Registry::get('db')->query($select);
 		$stmt->setFetchMode(Zend_Db::FETCH_OBJ);
 		$tarefas = [];

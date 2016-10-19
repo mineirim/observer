@@ -98,7 +98,7 @@ Ext.define('ExtZF.controller.plano.Projetos', {
             }
             form.submit({
                 method: method,
-                url: baseUrl.'/data/projetos' +param_id,
+                url: baseUrl + '/data/projetos' +param_id,
                 waitMsg: 'Salvando projeto...',
                 success: function(fp, o) {
                     Ext.Msg.alert('Success', 'Projeto salvo ' );

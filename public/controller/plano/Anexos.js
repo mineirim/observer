@@ -171,7 +171,7 @@ Ext.define('ExtZF.controller.plano.Anexos', {
             form   = win.down('form').getForm(); 
         if(form.isValid()){
             form.submit({
-                        url: baseUrl + '/data/anexos',
+                        url: '' + baseUrl + '/data/anexos',
                         waitMsg: 'Enviando arquivo...',
                         headers: { 'Content-Type': 'application/json' },
                         success: function(fp, o) {

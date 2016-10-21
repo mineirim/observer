@@ -60,8 +60,15 @@ class Data_ProjetosController extends Zend_Rest_Controller {
 		if (($this->getRequest()->isPut())) {
 			try {
 				$projetosTable = new Data_Model_Projetos();
-
-				$formData = $this->getRequest()->getParams();
+               if($this->getRequest()->getParam('rows')){
+                    $formDataJson = $this->getRequest()->getParam('rows');  
+					$formData = $this->getRequest()->getParams();
+                }else{
+                    $formDataJson=$this->getRequest()->getRawBody();
+                	$formData = json_decode($formDataJson, true);
+                    
+                }
+                
 				$row      = $projetosTable->update($formData);
 				if ($formData) {
 					$this->view->msg = 'Dados atualizados com sucesso!';

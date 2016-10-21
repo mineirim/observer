@@ -69,7 +69,7 @@ class Data_Model_Projetos {
 	 * @return mixed
 	 */
 	public function update($formData) {
-		$fields = ['nome', 'data_inicio', 'data_fim', 'coordenador_usuario_id', 'apresentacao', 'metas', 'objetivos', 'codigo'];
+		$fields = ['nome', 'data_inicio', 'data_fim', 'coordenador_usuario_id', 'apresentacao', 'metas', 'objetivos', 'codigo','objetivos_adm'];
 		$params = [];
 		foreach ($fields as $field) {
 			if (isset($formData[$field])) {

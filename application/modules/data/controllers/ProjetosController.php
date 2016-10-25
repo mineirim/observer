@@ -52,6 +52,7 @@ class Data_ProjetosController extends Zend_Rest_Controller {
 		$this->_helper->viewRenderer->setNoRender(true);
 		$projetosModel   = new Data_Model_Projetos();
 		$this->view->row = $projetosModel->getProjeto($this->getParam('id'));
+		$this->view->rows = [$projetosModel->getProjeto($this->getParam('id'))];
 	}
 
 	public function putAction() {

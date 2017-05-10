@@ -1,3 +1,14 @@
 <?php
-
-echo Zend_Json::encode($this->resposta);
+if($this->ckeditor){
+?>
+	<script ="text/javascript">
+	  window.parent.CKEDITOR.tools.callFunction(
+	    "<?php echo $this->CKEditorFuncNum; ?>",
+	   "<?php echo $this->fileUrl; ?>",
+	   ""
+	    );
+	</script>
+<?php
+}else{
+	echo Zend_Json::encode($this->resposta);
+}

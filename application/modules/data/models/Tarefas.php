@@ -29,7 +29,7 @@ class Data_Model_Tarefas {
 		if ($pWhere) {
 			$where .= $pWhere;
 		}
-		$select = 'SELECT acao.menu acao, atividade.menu atividade,  p.id, p.menu, p.responsavel_usuario_id,p.supervisor_usuario_id, p.ordem,p.projeto_id,
+		$select = 'SELECT acao.id acao_id,acao.menu acao, atividade.id atividade_id, atividade.menu atividade,  p.id, p.menu, p.responsavel_usuario_id,p.supervisor_usuario_id, p.ordem,p.projeto_id,
                             o.peso, o.data_inicio, o.data_prazo, o.data_encerramento, o.avaliacao_andamento, o.percentual_execucao,
                             o.alteracao_data,
                             o.andamento_id,
@@ -53,7 +53,9 @@ class Data_Model_Tarefas {
 			$tarefa = [
 				'id' => $value->id,				
                 'operativo_id' => $value->operativo_id,
+				'acao_id' => $value->acao_id,
 				'acao' => $value->acao,
+				'atividade_id' => $value->atividade_id,
 				'atividade' => $value->atividade,
 				'menu' => $value->menu,
 				'peso' => $value->peso,

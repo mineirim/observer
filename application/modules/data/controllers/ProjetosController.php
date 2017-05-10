@@ -61,15 +61,15 @@ class Data_ProjetosController extends Zend_Rest_Controller {
 		if (($this->getRequest()->isPut())) {
 			try {
 				$projetosTable = new Data_Model_Projetos();
-               if($this->getRequest()->getParam('rows')){
-                    $formDataJson = $this->getRequest()->getParam('rows');  
-					$formData = $this->getRequest()->getParams();
+                $ctype = $this->getRequest()-> getHeader('Content-Type');
+                $rawBody = urldecode($this->getRequest()->getRawBody());
+                if( strpos($ctype,'json') !==false ){
+                    $formData = json_decode($rawBody, true);
                 }else{
-                    $formDataJson=$this->getRequest()->getRawBody();
-                	$formData = json_decode($formDataJson, true);
+                    $formData = [];
+                    parse_str( $rawBody , $formData);
                     
                 }
-                
 				$row      = $projetosTable->update($formData);
 				if ($formData) {
 					$this->view->msg = 'Dados atualizados com sucesso!';
@@ -91,7 +91,14 @@ class Data_ProjetosController extends Zend_Rest_Controller {
 		if ($this->getRequest()->isPost()) {
 			try {
 				$projetosTable       = new Data_Model_Projetos();
-				$formData            = $this->getRequest()->getPost();
+                                 if ($this->getRequest()->getParam('rows')) {
+                                    $formDataJson = $this->getRequest()->getParam('rows');
+                                    $formData = json_decode($formDataJson, true);
+                                } else {
+                                    $formDataJson = $this->getRequest()->getRawBody();
+                                    $formData = json_decode($formDataJson, true);
+                                }
+//				$formData            = $this->getRequest()->getPost();
 				$row                 = $projetosTable->insert($formData);
 				$this->view->msg     = 'Dados inseridos com sucesso!';
 				$this->view->rows    = $row->toArray();

@@ -36,8 +36,7 @@ class Data_Model_Projetos {
 			$financiadores_ids = [];
 		}
 		$formData['data_inicio'] = $this->formatDate($formData['data_inicio']);
-		$formData['data_fim']    = $this->formatDate($dataFim);
-
+		$formData['data_fim']    = $this->formatDate($formData['data_fim']);
 		foreach ($formData as $key => $value) {
 			if ($value == '') {
 				unset($formData[$key]);
@@ -55,9 +54,11 @@ class Data_Model_Projetos {
 		if ($date === '' || !$date) {
 			return;
 		}
-
 		if (DateTime::createFromFormat('Y-m-d', $date)) {
 			$formatedDate = $date;
+                }elseif (\Zend_Date::isDate($date, \Zend_Date::ISO_8601)) {
+                    $tmpDt =  new \Zend_Date($date, \Zend_Date::ISO_8601);
+                    $formatedDate = $tmpDt->toString('Y-MM-dd');
 		} else {
 			$tmpDt        = DateTime::createFromFormat('d/m/Y', $date);
 			$formatedDate = $tmpDt->format('Y-m-d');

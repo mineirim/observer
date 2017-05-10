@@ -71,7 +71,7 @@ class My_Plugin_AclPlugin extends Zend_Controller_Plugin_Abstract {
 			\Etc\Tools::auditLog(['url' => 'login', 'http_method' => 'POST',
 				'data_log' => '{"nome":"' . $nome . '", "cpf":"'.$cpf.'"}']);
 		} else {
-			if (getenv('Shib-brPerson-brPersonCPF') || true) {
+			if (getenv('Shib-brPerson-brPersonCPF') ) {
 				$data = ['nome' => getenv('Shib-inetOrgPerson-cn'),
 					'email' => getenv('Shib-inetOrgPerson-mail'),
 					'usuario' => getenv('Shib-brPerson-brPersonCPF'),

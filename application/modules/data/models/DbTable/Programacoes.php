@@ -29,6 +29,10 @@ class Data_Model_DbTable_Programacoes extends Etc_Model_AssignModel {
 	 * @return mixed
 	 */
 	public function update(array $data, $where) {
+		if(isset($data['propriedades'])){
+			$data['propriedades']= json_encode($data['propriedades']);
+
+		}
 		$ret = parent::update($data, $where);
 		if (isset($data['projeto_id']) && $data['projeto_id'] !== '') {
 			$programacao = $this->fetchRow($where);

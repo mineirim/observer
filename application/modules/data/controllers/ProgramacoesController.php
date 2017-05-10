@@ -6,12 +6,12 @@ class Data_ProgramacoesController extends Zend_Rest_Controller {
 		$swContext = $this->_helper->contextSwitch();
 		$swContext->setAutoJsonSerialization(true);
 		$swContext->addActionContext('index', ['json', 'xml'])
-		          ->addActionContext('put', ['json', 'xml'])
-		          ->addActionContext('post', ['json', 'xml'])
-		          ->addActionContext('get', ['json', 'xml'])
-		          ->addActionContext('delete', ['json', 'xml'])
-		          ->addActionContext('search', ['json', 'xml'])
-		          ->initContext('json');
+			->addActionContext('put', ['json', 'xml'])
+			->addActionContext('post', ['json', 'xml'])
+			->addActionContext('get', ['json', 'xml'])
+			->addActionContext('delete', ['json', 'xml'])
+			->addActionContext('search', ['json', 'xml'])
+			->initContext('json');
 		$this->_helper->layout()->disableLayout();
 	}
 	public function headAction() {
@@ -119,7 +119,12 @@ class Data_ProgramacoesController extends Zend_Rest_Controller {
 		$rows               = $programacoes_table->getProgramacao($this->_getParam('id'), true);
 		$this->_helper->viewRenderer->setNoRender(true);
 		$this->view->success = true;
-		$this->view->rows    = $rows;
+
+		if ($this->_hasParam('asArray')) {
+			$this->view->rows = [$rows];
+		} else {
+			$this->view->rows = $rows;
+		}
 		$this->getResponse()->setHttpResponseCode(200);
 	}
 	public function putAction() {
@@ -128,9 +133,15 @@ class Data_ProgramacoesController extends Zend_Rest_Controller {
 		if (($this->getRequest()->isPut())) {
 			try {
 				$programacoes_table = new Data_Model_DbTable_Programacoes();
-				$formDataJson       = $this->getRequest()->getParam('rows');
-				$formData           = json_decode($formDataJson, true);
-				$id                 = $formData['id'];
+				if ($this->getRequest()->getParam('rows')) {
+					$formDataJson = $this->getRequest()->getParam('rows');
+					$formData     = json_decode($formDataJson, true);
+				} else {
+					$formDataJson = $this->getRequest()->getRawBody();
+					$formData     = json_decode($formDataJson, true);
+
+				}
+				$id = $formData['id'];
 				unset($formData['id']);
 				if ($formData['programacao_id'] == '') {
 					unset($formData['programacao_id']);
@@ -167,8 +178,13 @@ class Data_ProgramacoesController extends Zend_Rest_Controller {
 			try {
 
 				$programacoes_table = new Data_Model_DbTable_Programacoes();
-				$formData           = $this->getRequest()->getPost('rows');
-				$formData           = json_decode($formData, true);
+				if ($this->getRequest()->getParam('rows')) {
+					$formDataJson = $this->getRequest()->getParam('rows');
+					$formData     = json_decode($formDataJson, true);
+				} else {
+					$formDataJson = $this->getRequest()->getRawBody();
+					$formData     = json_decode($formDataJson, true);
+				}
 				unset($formData['id']);
 				foreach ($formData as $key => $value) {
 					if ($value == '') {

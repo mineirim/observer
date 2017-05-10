@@ -18,7 +18,11 @@ class Data_Model_DbTable_Row_Programacao  extends Zend_Db_Table_Row_Abstract {
                 'Data_Model_DbTable_ProgramacaoAnexos');  // join table
         return $anexos;
     }
-    
+    public function toArray() {
+        $data = parent::toArray();
+        $data['propriedades']= json_decode($data['propriedades']);
+        return $data;
+    }    
     /**
      * 
      * @return Data_Model_DbTable_Instrumentos

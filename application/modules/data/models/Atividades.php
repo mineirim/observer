@@ -152,13 +152,13 @@ class Data_Model_Atividades {
 		}
 		$tarefaRH = $this->getTarefaRH($dados['id']);
 
-		$data          = ['avaliacao_andamento' => $dados['execucao']['fisico']['avaliacao_andamento']];
+		$data          = ['avaliacao_andamento' => html_entity_decode($dados['execucao']['fisico']['avaliacao_andamento'])];
 		$updated       = $operativos_table->update($data, ['programacao_id=?' => $tarefaRH->id]);
 		$operativoRow  = $operativos_table->fetchRow(['programacao_id=?' => $tarefaRH->id]);
 		$financeiroRow = $financeiroTable->fetchRow(['programacao_id=?' => $tarefaRH->id]);
 		$map           = [];
 		foreach ($dados['execucao']['financeiro'] as $despesa) {
-			$despesaData = ['descricao' => $despesa['descricao'], 'valor' => $despesa['valor']];
+			$despesaData = ['descricao' => html_entity_decode($despesa['descricao']), 'valor' => $despesa['valor']];
 			if (isset($despesa['id'])) {
 				$id = $despesa['id'];
 				$despesas_table->update($despesaData, ['id=?' => $despesa['id']]);

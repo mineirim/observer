@@ -105,7 +105,7 @@ class Reports {
      */
     public function compileFileReport($reportFileName)
     {
-        if ($this->_report === null)
+//        if ($this->_report === null)
             $this->_report = $this->getJasperCompileManager()->compileReport($reportFileName);
         return $this;
     }
@@ -229,6 +229,7 @@ class Reports {
             $print = $sJfm->fillReport(
                     $report, $map, $this->_conn
             );
+                die('xxxxxxxxxaab');
             if ($format == 'pdf')
             {
                 $sJem = new \Java("net.sf.jasperreports.engine.JasperExportManager");

@@ -41,6 +41,7 @@ class Basic {
 	 * @param $params
 	 */
 	public function init($params) {
+            
 		$this->_auth           = \Zend_Auth::getInstance();
 		$identity              = $this->_auth->getIdentity();
 		$this->_reportFileName = 'geral';
@@ -120,21 +121,28 @@ class Basic {
 
 		$sql .= " SELECT * FROM n{$ix} {$projetoWhere} order by " . implode(',', $order);
 		$xml_report_text = str_replace('__detail_', $px, $xml_report[0]->asXML());
+//        file_put_contents('/tmp/novogeral2.jrxml', $xml_report_text);
+//        die;
 		$is              = $this->getInputStream($xml_report_text);
 		/* @var $jasperDesign \EtcReport\Jasper\Manager\JasperDesign */
-		$jasperDesign = $this->jasper_reports->load($is);
-		for ($ix = 2; $ix < $numHeaders; $ix++) {
-			$value = $estrutura_arr[$ix];
-			if ($ix > 0 && $ix < $numHeaders - 1) {
-				$this->addFields($jasperDesign, $ix);
-			}
-		}
-		$this->jasper_reports->setQuery($sql);
-                $this->jasper_reports->getJasperCompileManager()->writeReportToXmlFile($jasperDesign , $this->_reportsPath.'report-'.$this->_reportParams['report_type'].'.jrxml');
-//		$this->jasper_reports->compileLoadedReport($jasperDesign);
+//		$jasperDesign = $this->jasper_reports->load($is);
+//		for ($ix = 2; $ix < $numHeaders; $ix++) {
+//			$value = $estrutura_arr[$ix];
+//			if ($ix > 0 && $ix < $numHeaders - 1) {
+//				$this->addFields($jasperDesign, $ix);
+//			}
+//		}
+                $jasper_reports  = new \Etc\Jasper\Reports();
+		$jasper_reports->setReportsPath($this->_reportsPath);
+                
+                $fn = $this->_reportsPath . 'fisico_financeiro.jrxml';
+                $jasperDesign = $jasper_reports->load($fn);
+//                file_put_contents('/tmp/novogeral3.jrxml', $xml_report[0]->asXML());
+		$jasper_reports->setQuery($sql);
+		$jasper_reports->compileLoadedReport($jasperDesign);
 	}
-	public function display() {
-		$this->jasper_reports->compileReport('report-'.$this->_reportParams['report_type'], 'pdf', $this->_reportParams);
+	public function display($reportName='geral') {
+		$this->jasper_reports->compileReport($reportName, 'pdf', $this->_reportParams);
 	}
 	/**
 	 * @return mixed

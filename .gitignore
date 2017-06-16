@@ -13,3 +13,5 @@ tmp/*
 .buildpath
 .project
 .settings
+
+/vendor/

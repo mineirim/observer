@@ -159,7 +159,7 @@ class Basic {
                     header('Content-disposition: inline; filename="relatorio-' . $reportType . '.pdf"');
                     header('Content-Type: application/pdf');
                     header('Content-Transfer-Encoding: binary');
-                    header('Content-Length: ' . @filesize(APPLICATION_PATH . '/../public/cache/' .$output));
+                    header('Content-Length: ' . @filesize($output));
                     header('Pragma: no-cache');
                     header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
                     header('Expires: 0');

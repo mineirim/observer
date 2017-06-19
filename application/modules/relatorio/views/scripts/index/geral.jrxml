@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-06-19T11:28:08 -->
+<!-- 2017-06-19T12:08:22 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geral" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" uuid="e69bc383-12d4-4901-8503-507569fba44c">
 	<property name="ireport.zoom" value="1.3310000000000013"/>
 	<property name="ireport.x" value="0"/>
@@ -552,7 +552,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 +"@import url('https://fonts.googleapis.com/css?family=PT+Sans');"
 +"</style>"
 +"<style>span{baddig:0} body{font-size: 12pt !important; font-family: 'PT Sans', Arial !important;}</style><div style=\"line-height: 70%;padding:0\"><font size=1>" 
-+ $F{operativos_avaliacao_andamento}.substring( Integer.parseInt("0") , Math.min( $F{operativos_avaliacao_andamento}.length(), Integer.parseInt("2000")) )
++ $F{operativos_avaliacao_andamento}
  + "</font></div>"]]></textFieldExpression>
 								</textField>
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">

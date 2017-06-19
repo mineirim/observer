@@ -48,7 +48,7 @@ class Basic {
 		$this->jasper_reports->setReportsPath($this->_reportsPath);
 		$programacoes_table = new \Data_Model_DbTable_Programacoes();
 		$instrumentos_table = new \Data_Model_Instrumentos();
-
+                $this->_reportParams['APPLICATION_PATH']  = APPLICATION_PATH;
 		$this->_reportParams['report_type']  = (int) (isset($params['report_type']) ? $params['report_type'] : 1);
 		$this->_reportParams['user_id']      = (int) $identity->id;
 		$this->_reportParams['user_type']    = (int) $identity->is_su ? 1 : 2;

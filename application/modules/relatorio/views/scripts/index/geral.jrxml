@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-06-19T01:19:02 -->
+<!-- 2017-06-19T11:28:08 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geral" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" uuid="e69bc383-12d4-4901-8503-507569fba44c">
 	<property name="ireport.zoom" value="1.3310000000000013"/>
 	<property name="ireport.x" value="0"/>
@@ -327,8 +327,8 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 			<frame>
 				<reportElement x="325" y="3" width="230" height="107" uuid="825596c2-88c4-4c6c-ac71-18f0525ac184"/>
 				<image onErrorType="Blank">
-					<reportElement x="0" y="0" width="211" height="77" uuid="0a472d41-1c64-4c01-a285-602b90e588eb"/>
-					<imageExpression><![CDATA[$P{BASE_URL} + "/images/logo_sisplan.png"]]></imageExpression>
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="211" height="77" uuid="0a472d41-1c64-4c01-a285-602b90e588eb"/>
+					<imageExpression><![CDATA[$P{APPLICATION_PATH}+ "/../public/images/logo_sisplan.png"]]></imageExpression>
 				</image>
 				<staticText>
 					<reportElement x="0" y="77" width="209" height="20" uuid="0a44278b-f5a0-4d50-b487-f65e419fd153"/>
@@ -433,10 +433,10 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="30" splitType="Stretch">
+		<band height="27" splitType="Stretch">
 			<image onErrorType="Blank">
 				<reportElement x="0" y="0" width="100" height="27" uuid="813c3241-f995-4c65-a596-0456db78a260"/>
-				<imageExpression><![CDATA[$P{BASE_URL} + "/images/logo_sisplan.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{APPLICATION_PATH}+ "/../public/images/logo_sisplan.png"]]></imageExpression>
 			</image>
 			<componentElement>
 				<reportElement x="100" y="0" width="455" height="27" uuid="759bc9ec-e08c-434b-88b2-399a5549724f">
@@ -451,7 +451,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 					</datasetRun>
 					<jr:listContents height="27" width="455">
 						<textField isStretchWithOverflow="true">
-							<reportElement style="Detail" positionType="Float" x="0" y="0" width="455" height="27" uuid="0647fcaa-d46f-486c-9fc0-d72b45bd26c2"/>
+							<reportElement style="Detail" positionType="FixRelativeToBottom" x="0" y="0" width="455" height="27" uuid="0647fcaa-d46f-486c-9fc0-d72b45bd26c2"/>
 							<textElement verticalAlignment="Middle">
 								<font size="11" isBold="true" isUnderline="false"/>
 								<paragraph leftIndent="5"/>

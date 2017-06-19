@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-06-14T12:57:01 -->
+<!-- 2017-06-16T23:54:00 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geral" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" uuid="e69bc383-12d4-4901-8503-507569fba44c">
 	<property name="ireport.zoom" value="1.3310000000000013"/>
 	<property name="ireport.x" value="0"/>
@@ -78,7 +78,7 @@ WHERE
      operativos."data_inicio" AS operativos_data_inicio,
      operativos."data_prazo" AS operativos_data_prazo,
      operativos."data_encerramento" AS operativos_data_encerramento,
-     lreplace(left(operativos."avaliacao_andamento",300), 'font-size=','fontsizex=') AS operativos_avaliacao_andamento,
+     REPLACE(operativos."avaliacao_andamento", 'font-size=','fontsizex=') AS operativos_avaliacao_andamento,
      operativos."percentual_execucao" AS operativos_percentual_execucao,
      operativos."alteracao_data" AS operativos_alteracao_data,
      andamentos."descricao" AS andamentos_descricao,
@@ -287,7 +287,12 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 						<textElement markup="html">
 							<font size="8" isBold="false"/>
 						</textElement>
-						<textFieldExpression><![CDATA[$F{p1_descricao} != null ? "Descrição: " + $F{p1_descricao} :""]]></textFieldExpression>
+						<textFieldExpression><![CDATA["<style>" 
++"@import url('https://fonts.googleapis.com/css?family=PT+Sans');"
++"</style>"
++"<style>span{baddig:0} body{font-size: 12pt !important; font-family: PT Sans, Arial !important;}</style><div style=\"line-height: 70%;padding:0\"><font size=1>" 
++ $F{p1_descricao} != null ? "Descrição: " + $F{p1_descricao}.replaceAll("font-size","font-sizex") .replaceAll("helvetica","PT Sans"):""
+ + "</font></div>"]]></textFieldExpression>
 					</textField>
 					<textField isStretchWithOverflow="true">
 						<reportElement style="Detail" positionType="Float" x="373" y="17" width="166" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
@@ -481,7 +486,12 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 					<textElement markup="html">
 						<font size="8"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{__detail_descricao} != null ? "Descrição: " + $F{__detail_descricao} :""]]></textFieldExpression>
+					<textFieldExpression><![CDATA["<style>" 
++"@import url('https://fonts.googleapis.com/css?family=PT+Sans');"
++"</style>"
++"<style>span{baddig:0} body{font-size: 12pt !important; font-family: PT Sans, Arial !important;}</style><div style=\"line-height: 70%;padding:0\"><font size=1>" 
++ $F{__detail_descricao} != null ? "Descrição: " + $F{__detail_descricao}.replaceAll("font-size","font-sizex") .replaceAll("helvetica","PT Sans"):""
+ + "</font></div>"]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement style="Detail" positionType="Float" x="373" y="15" width="182" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
@@ -538,7 +548,10 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 									<reportElement style="Detail" positionType="Float" x="2" y="28" width="553" height="11" uuid="99015582-c721-468d-b013-db95e63d7c3f"/>
 									<textElement markup="html"/>
-									<textFieldExpression><![CDATA["<style>span{baddig:0} body{font-size: 12pt !important; font-family: 'PT Sans', Arial !important;}</style><div style=\"line-height: 70%;padding:0\"><font size=1>" 
+									<textFieldExpression><![CDATA["<style>" 
++"@import url('https://fonts.googleapis.com/css?family=PT+Sans');"
++"</style>"
++"<style>span{baddig:0} body{font-size: 12pt !important; font-family: 'PT Sans', Arial !important;}</style><div style=\"line-height: 70%;padding:0\"><font size=1>" 
 + $F{operativos_avaliacao_andamento}.substring( Integer.parseInt("0") , Math.min( $F{operativos_avaliacao_andamento}.length(), Integer.parseInt("2000")) )
  + "</font></div>"]]></textFieldExpression>
 								</textField>

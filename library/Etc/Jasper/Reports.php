@@ -229,7 +229,6 @@ class Reports {
             $print = $sJfm->fillReport(
                     $report, $map, $this->_conn
             );
-                die('xxxxxxxxxaab');
             if ($format == 'pdf')
             {
                 $sJem = new \Java("net.sf.jasperreports.engine.JasperExportManager");

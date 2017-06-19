@@ -20,6 +20,8 @@ if(APPLICATION_ENV=='production')
     session_save_path(APPLICATION_PATH.'/../tmp');
 
 
+require_once realpath(APPLICATION_PATH . '/../vendor/autoload.php');
+
 /** Zend_Application */
 require_once 'Zend/Application.php';
 

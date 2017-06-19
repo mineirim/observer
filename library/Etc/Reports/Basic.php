@@ -117,7 +117,6 @@ class Basic {
 			$this->_reportParams['projeto_id'] = (int) $params['projeto_id'];
 			$projetoWhere                      = "\n WHERE n{$ix}.p{$ix}_projeto_id=" . $params['projeto_id'];
 		}
-
 		$sql .= " SELECT * FROM n{$ix} {$projetoWhere} order by " . implode(',', $order);
 		$xml_report_text = str_replace('__detail_', $px, $xml_report[0]->asXML());
 		$is              = $this->getInputStream($xml_report_text);
@@ -134,8 +133,43 @@ class Basic {
 //		$this->jasper_reports->compileLoadedReport($jasperDesign);
 	}
 	public function display() {
-		$this->jasper_reports->compileReport('report-'.$this->_reportParams['report_type'], 'pdf', $this->_reportParams);
+            $jasper = new \JasperPHP\JasperPHP;
+            $input = $this->_reportsPath.'report-'.$this->_reportParams['report_type'] . '.jrxml';
+//            $output = '/tmp/out/';
+            $output = APPLICATION_PATH . '/../public/cache/00rep-' . $this->_reportParams['report_type'] ;
+            $conf = \Zend_Registry::get('config');
+            $dbConf = $conf->resources->db->params;
+            $dbparams = [
+                        'driver' => 'postgres',
+                        'username' => $dbConf->username,
+                        'host' => $dbConf->host,
+                        'database' => $dbConf->dbname,
+                        'port' => 5432,
+                        'password' => $dbConf->password,
+                    ];
+            $options = ['format' => ['pdf'],
+                'locale' => 'pt_BR',
+                'params' => $this->_reportParams,'db_connection' => $dbparams,];   
+
+            $jasper->process( $input,$output, $options)->execute(); 		//$this->jasper_reports->compileReport('report-'.$this->_reportParams['report_type'], 'pdf', $this->_reportParams);
+            $this->displayPdf($output . '.pdf', 'tipo');
 	}
+        private function displayPdf($output, $reportType){
+                    ob_clean();
+                    header('Content-disposition: inline; filename="relatorio-' . $reportType . '.pdf"');
+                    header('Content-Type: application/pdf');
+                    header('Content-Transfer-Encoding: binary');
+                    header('Content-Length: ' . @filesize(APPLICATION_PATH . '/../public/cache/' .$output));
+                    header('Pragma: no-cache');
+                    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+                    header('Expires: 0');
+                    set_time_limit(0);
+                    ob_flush();
+                    ob_flush();
+                    @readfile($output);
+                    ob_flush();
+                    die;            
+        }
 	/**
 	 * @return mixed
 	 */

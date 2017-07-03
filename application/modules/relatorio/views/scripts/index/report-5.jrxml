@@ -149,7 +149,7 @@ GROUP BY
 	</parameter>
 	<parameter name="user_id" class="java.lang.Integer"/>
 	<parameter name="mostrar_fisico" class="java.lang.String">
-		<defaultValueExpression><![CDATA['Sim']]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["true"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="mostrar_financeiro" class="java.lang.Boolean">
 		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
@@ -169,7 +169,7 @@ GROUP BY
                                 SELECT n4.*, p5.id AS p5_id, p5.singular as p5_singular, p5.has_responsavel as p5_has_responsavel, p5.has_supervisor as p5_has_supervisor, p5.has_equipe as p5_has_equipe, p5.menu as p5_menu, p5.descricao as p5_descricao, p5.ordem as p5_ordem, p5.programacao_id as p5_programacao_id, p5.equipe as p5_equipe, p5.responsavel as p5_responsavel, p5.supervisor as p5_supervisor, p5.instrumento_id as p5_instrumento_id, p5.projeto_id as p5_projeto_id,  p5.responsavel_id as p5_responsavel_id, p5.supervisor_id as p5_supervisor_id
                                 FROM    vw_report_base p5  RIGHT  JOIN n4 on p5.programacao_id=n4.p4_id  
                          ) SELECT * FROM n5 
- WHERE n5.p5_projeto_id=1 order by p1_id,p2_id,p3_id,p4_id,p5_id]]>
+ WHERE n5.p5_projeto_id=3 order by p1_id,p2_id,p3_id,p4_id,p5_id]]>
 	</queryString>
 	<field name="p1_id" class="java.lang.Integer"/>
 	<field name="p1_singular" class="java.lang.String"/>
@@ -244,7 +244,7 @@ GROUP BY
 			<band height="747">
 				<property name="local_mesure_unitheight" value="pixel"/>
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				<printWhenExpression><![CDATA[true==true]]></printWhenExpression>
+				<printWhenExpression><![CDATA[$P{mostrar_fisico}=="true"]]></printWhenExpression>
 				<frame>
 					<reportElement x="360" y="540" width="192" height="104" uuid="f8c78faf-792d-401b-8999-7b8a399c1125"/>
 					<staticText>
@@ -610,7 +610,7 @@ GROUP BY
 				</textField>
 				<staticText>
 					<reportElement style="Detail" positionType="Float" x="0" y="46" width="555" height="15" uuid="37953b06-7767-42cd-ae57-a3ad26b28da2">
-						<printWhenExpression><![CDATA[true==true]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$P{mostrar_fisico}=="true"]]></printWhenExpression>
 					</reportElement>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font isBold="true"/>
@@ -620,7 +620,7 @@ GROUP BY
 				<componentElement>
 					<reportElement style="Detail" positionType="Float" x="0" y="63" width="555" height="42" uuid="d50ad6cc-f43e-47ec-a3f2-6d9e56fecdab">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-						<printWhenExpression><![CDATA[true==true]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$P{mostrar_fisico}=="true"]]></printWhenExpression>
 					</reportElement>
 					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
 						<datasetRun subDataset="operativosDS" uuid="cf87f43e-7bc9-4180-8063-d58f56f2673d">
@@ -910,8 +910,8 @@ GROUP BY
 					</frame>
 				</frame>
 				<textField>
-					<reportElement mode="Opaque" x="59" y="41" width="100" height="30" backcolor="#B7F7CF" uuid="6edf9632-8263-4a00-a9b8-07ba0ae48045"/>
-					<textFieldExpression><![CDATA[$P{mostrar_fisico}]]></textFieldExpression>
+					<reportElement mode="Opaque" x="16" y="4" width="356" height="30" backcolor="#2CE8AD" uuid="4ec741a7-07bf-43a4-b75e-b1b0719e92ba"/>
+					<textFieldExpression><![CDATA["xxxxxxxxxxxxxxxxxxxx"]]></textFieldExpression>
 				</textField>
 			</frame>
 			<line>

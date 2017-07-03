@@ -18,7 +18,6 @@ class ErrorController extends Zend_Controller_Action {
 			$this->view->message = 'You have reached the error page';
 			return;
 		}
-
 		switch ($errors->type) {
 			case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_ROUTE:
 			case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:
@@ -44,7 +43,8 @@ class ErrorController extends Zend_Controller_Action {
 
 		// conditionally display exceptions
 		if ($this->getInvokeArg('displayExceptions') == true) {
-			$this->view->exception = $errors->exception->getMessage();
+//                    var_dump(get_class_methods($errors->exception));
+			$this->view->exception = $errors->exception->getTraceAsString();
 		}
 
 		$this->view->request = $errors->request;

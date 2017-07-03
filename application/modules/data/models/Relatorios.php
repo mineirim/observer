@@ -2,22 +2,12 @@
 
 class Data_Model_Relatorios {
 	private $_db_table;
-	/**
-	 *
-	 * @param int $projeto_id
-	 * @return Data_Model_DbTable_Rowset_Organizacoes
-	 */
-	public function getFinanciadores($projeto_id) {
-		$projetosTable = new Data_Model_DbTable_Projetos();
-		/* @var $projeto Data_Model_DbTable_Row_Projeto */
-		$projeto = $projetosTable->fetchRow('id=' . $projeto_id);
-		return $projeto->getFinanciadores();
-	}
+
 	/**
 	 *
 	 * @return Data_Model_DbTable_Projetos
 	 */
-	public function getRelatoriosDBTable() {
+	public function getDBTable() {
 		if (!$this->_db_table) {
 			$this->_db_table = new Data_Model_DbTable_Relatorios();
 		}
@@ -66,9 +56,10 @@ class Data_Model_Relatorios {
             
         }
         public function getAll(){
-            return $this->getRelatoriosDBTable()->fetchAll();
+            return $this->getDBTable()->fetchAll();
         }
         public function find($id){
-            return $this->getRelatoriosDBTable()->find($id);
+            die($id);
+            return $this->getDBTable()->find($id);
         }
 }

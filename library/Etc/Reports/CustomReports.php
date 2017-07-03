@@ -6,15 +6,8 @@ namespace Etc\Reports;
  *
  * @author marcone
  */
-class Basic {
-	/**
-	 * @var mixed
-	 */
-	protected $_reportFileName;
-	/**
-	 * @var array
-	 */
-	protected $_reportParams = [];
+class CustomReports extends \Etc\Reports\Basic {
+        private $_modeloRelatorio;
 	/**
 	 * @var array
 	 */
@@ -22,8 +15,12 @@ class Basic {
 		2 => 'RELATÓRIO FÍSICO',
 		3 => 'RELATÓRIO FÍSICO/FINANCEIRO',
 	];
-	public function __construct() {
+	public function __construct($reportFileName= 'geral', $reportType=1) {
+		$this->_reportFileName =$reportFileName;
+                $this->_reportType  =$reportType;
 		$this->_reportsPath = APPLICATION_PATH . '/modules/relatorio/views/scripts/index/';
+                $relatoriosModel =  new \Data_Model_DbTable_Relatorios();
+                $this->_modeloRelatorio = $relatoriosModel->find($reportType)->current()->toArray();
 	}
 	/**
 	 * @return mixed
@@ -41,15 +38,17 @@ class Basic {
 	 * @param $params
 	 */
 	public function init($params) {
+                
+            error_log('msg de log no init\n\n\n');
 		$this->_auth           = \Zend_Auth::getInstance();
 		$identity              = $this->_auth->getIdentity();
-		$this->_reportFileName = 'geral';
 		$this->jasper_reports  = new \Etc\Jasper\Reports();
+                
 		$this->jasper_reports->setReportsPath($this->_reportsPath);
 		$programacoes_table = new \Data_Model_DbTable_Programacoes();
 		$instrumentos_table = new \Data_Model_Instrumentos();
-                $this->_reportParams['APPLICATION_PATH']  = APPLICATION_PATH;
 		$this->_reportParams['report_type']  = (int) (isset($params['report_type']) ? $params['report_type'] : 1);
+                $this->_reportParams['APPLICATION_PATH']  = APPLICATION_PATH;
 		$this->_reportParams['user_id']      = (int) $identity->id;
 		$this->_reportParams['user_type']    = (int) $identity->is_su ? 1 : 2;
 		$this->_reportParams['report_title'] = $this->_reportTitle[$this->_reportParams['report_type']];
@@ -73,7 +72,12 @@ class Basic {
 		/**
 		 * @var $numHeaders Número de cabeçalhos que serão apresentados */
 		$numHeaders = $estrutura->rowCount();
-
+                $instrumentosCustom =$this->_modeloRelatorio['configuracoes']->instrumentos;
+//                $this->_reportParams['mostrar_fisico'] = true ;//(bool)  !$this->_modeloRelatorio['configuracoes']->mostrar_fisico;
+                $instrumentosCustomIds =  [];
+                foreach ($instrumentosCustom as $inst){
+                    $instrumentosCustomIds[$inst->id] = $inst;
+                }
 		$this->jasper_reports->setReportsPath($this->getReportsPath());
 		$xml_report = $this->jasper_reports->getReportXml($this->_reportFileName, '/n:jasperReport');
 
@@ -101,7 +105,12 @@ class Basic {
 			$px      = 'p' . $ix . '_';
 			$order[] = 'p' . $ix . '_id';
 			if ($ix > 0 && $ix < $numHeaders - 1) {
+                            if(array_key_exists($estrutura_arr[$ix]->id, $instrumentosCustomIds)){
+                                $instrumentoCustom = $instrumentosCustomIds[$estrutura_arr[$ix]->id];
 				$xml_text      = str_replace('p1_', $px, $xml_group_base);
+                                if($instrumentoCustom->rename){
+                                    $xml_text      = str_replace('$F{p1_singular} + "', '"' . $instrumentoCustom->rename , $xml_text );
+                                }
 				$xml_text      = str_replace('nivel', $px . 'nivel', $xml_text);
 				$node_new      = new \SimpleXMLElement($xml_text);
 				$dom_group_xml = \dom_import_simplexml($node_new);
@@ -109,6 +118,7 @@ class Basic {
 				unset($dom_group_xml);
 				$node = $dom_report->getElementsByTagName('background')->item(0);
 				$dom_report->insertBefore($dom_group, $node);
+                            }
 			}
 		}
 		$ix--;
@@ -119,6 +129,7 @@ class Basic {
 		}
 		$sql .= " SELECT * FROM n{$ix} {$projetoWhere} order by " . implode(',', $order);
 		$xml_report_text = str_replace('__detail_', $px, $xml_report[0]->asXML());
+                file_put_contents('/tmp/000x.jrxml', $xml_report_text);
 		$is              = $this->getInputStream($xml_report_text);
 		/* @var $jasperDesign \EtcReport\Jasper\Manager\JasperDesign */
 		$jasperDesign = $this->jasper_reports->load($is);
@@ -135,6 +146,8 @@ class Basic {
 	public function display() {
             $jasper = new \JasperPHP\JasperPHP;
             $input = $this->_reportsPath.'report-'.$this->_reportParams['report_type'] . '.jrxml';
+            $this->_reportParams['mostrar_fisico'] = "true";//(bool)  !$this->_modeloRelatorio['configuracoes']->mostrar_fisico;
+                
 //            $output = '/tmp/out/';
             $output = APPLICATION_PATH . '/../public/cache/00rep-' . $this->_reportParams['report_type'] ;
             $conf = \Zend_Registry::get('config');

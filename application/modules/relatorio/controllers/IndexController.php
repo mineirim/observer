@@ -28,6 +28,17 @@ class Relatorio_IndexController extends Zend_Controller_Action
         $this->getResponse()->setHttpResponseCode(200);
         $basicReport->display();
     }
+    public function customReportAction(){
+        $this->_helper->viewRenderer->setNoRender(true);
+        $basicReport = new \Etc\Reports\CustomReports('geral',4);
+
+        $script_paths =$this->view->getScriptPaths(); 
+        
+        $basicReport->setReportsPath($script_paths[0]."index/");
+        $basicReport->init($this->getAllParams());
+        $this->getResponse()->setHttpResponseCode(200);
+        $basicReport->display();        
+    }
     /**
      * 
      * @param \EtcReport\Jasper\Manager\JasperDesign $jasperDesign

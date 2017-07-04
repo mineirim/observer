@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-06-30T18:54:42 -->
+<!-- 2017-06-22T11:27:33 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geral" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" uuid="e69bc383-12d4-4901-8503-507569fba44c">
 	<property name="ireport.zoom" value="1.3310000000000013"/>
 	<property name="ireport.x" value="0"/>
@@ -150,12 +150,6 @@ GROUP BY
 		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
 	</parameter>
 	<parameter name="user_id" class="java.lang.Integer"/>
-	<parameter name="mostrar_fisico" class="java.lang.String">
-		<defaultValueExpression><![CDATA["true"]]></defaultValueExpression>
-	</parameter>
-	<parameter name="mostrar_financeiro" class="java.lang.Boolean">
-		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
-	</parameter>
 	<queryString>
 		<![CDATA[with 	n1 as ( SELECT  p1.id AS p1_id, p1.singular as p1_singular, p1.has_responsavel as p1_has_responsavel, p1.has_supervisor as p1_has_supervisor, p1.has_equipe as p1_has_equipe, p1.menu as p1_menu, p1.descricao as p1_descricao, p1.ordem as p1_ordem, p1.programacao_id as p1_programacao_id, p1.equipe as p1_equipe, p1.responsavel as p1_responsavel, p1.supervisor as p1_supervisor, p1.instrumento_id as p1_instrumento_id
 	        FROM  vw_report_base p1 where p1.programacao_id is null and p1.instrumento_id=2),
@@ -207,7 +201,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 			<band height="747">
 				<property name="local_mesure_unitheight" value="pixel"/>
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				<printWhenExpression><![CDATA[$P{mostrar_fisico}=="true"]]></printWhenExpression>
+				<printWhenExpression><![CDATA[$P{report_type}.intValue()>1]]></printWhenExpression>
 				<frame>
 					<reportElement x="360" y="540" width="192" height="104" uuid="f8c78faf-792d-401b-8999-7b8a399c1125"/>
 					<staticText>
@@ -522,7 +516,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 				</textField>
 				<staticText>
 					<reportElement style="Detail" positionType="Float" x="0" y="46" width="555" height="15" uuid="37953b06-7767-42cd-ae57-a3ad26b28da2">
-						<printWhenExpression><![CDATA[$P{mostrar_fisico}=="true"]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$P{report_type}.intValue() >1]]></printWhenExpression>
 					</reportElement>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font isBold="true"/>
@@ -532,7 +526,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 				<componentElement>
 					<reportElement style="Detail" positionType="Float" x="0" y="63" width="555" height="42" uuid="d50ad6cc-f43e-47ec-a3f2-6d9e56fecdab">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-						<printWhenExpression><![CDATA[$P{mostrar_fisico}=="true"]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$P{report_type}.intValue()>(int)1]]></printWhenExpression>
 					</reportElement>
 					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
 						<datasetRun subDataset="operativosDS" uuid="cf87f43e-7bc9-4180-8063-d58f56f2673d">
@@ -653,7 +647,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 				</componentElement>
 				<frame>
 					<reportElement style="Detail" positionType="Float" x="0" y="106" width="555" height="37" uuid="2f940162-8f41-4931-918f-72fd7acc0875">
-						<printWhenExpression><![CDATA[$P{mostrar_financeiro}]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$P{report_type}.intValue()>2]]></printWhenExpression>
 					</reportElement>
 					<componentElement>
 						<reportElement positionType="Float" stretchType="ElementGroupBottom" x="0" y="26" width="555" height="11" uuid="b1244040-bf7f-4ba3-98f6-7ab513056695">
@@ -821,10 +815,6 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 						</staticText>
 					</frame>
 				</frame>
-				<textField>
-					<reportElement mode="Opaque" x="16" y="4" width="356" height="30" backcolor="#2CE8AD" uuid="4ec741a7-07bf-43a4-b75e-b1b0719e92ba"/>
-					<textFieldExpression><![CDATA["xxxxxxxxxxxxxxxxxxxx"]]></textFieldExpression>
-				</textField>
 			</frame>
 			<line>
 				<reportElement x="0" y="0" width="555" height="1" uuid="79b568b1-1cd1-477d-9b56-839de809f013"/>

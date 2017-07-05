@@ -6,13 +6,13 @@
 </head>
 <body>
   <h1>An error occurred</h1>
-  <h2><?php echo $this->message ?></h2>
+  <h2><?php echo $this->code ?>  - <?php echo $this->message ?></h2>
 
   <?php if (isset($this->exception)): ?>
   
   <h3>Exception information:</h3>
   <p>
-      <b>Message:</b> <?php echo is_object($this->exception)?$this->exception->getMessage() : $this->exception ?>
+      <b>Message:</b> <?php echo $this->code ?> - <?php echo is_object($this->exception)?$this->exception->getMessage() : $this->exception ?>
   </p>
   <h3>Stack trace:</h3>
   <pre><?php echo is_object($this->exception)?$this->exception->getTraceAsString(): $this->exception ?>

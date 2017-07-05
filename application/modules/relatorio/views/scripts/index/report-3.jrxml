@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-06-30T18:02:52 -->
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.3.1  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geral" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" uuid="e69bc383-12d4-4901-8503-507569fba44c">
 	<property name="ireport.zoom" value="1.3310000000000013"/>
 	<property name="ireport.x" value="0"/>
@@ -171,7 +170,7 @@ GROUP BY
                                 SELECT n4.*, p5.id AS p5_id, p5.singular as p5_singular, p5.has_responsavel as p5_has_responsavel, p5.has_supervisor as p5_has_supervisor, p5.has_equipe as p5_has_equipe, p5.menu as p5_menu, p5.descricao as p5_descricao, p5.ordem as p5_ordem, p5.programacao_id as p5_programacao_id, p5.equipe as p5_equipe, p5.responsavel as p5_responsavel, p5.supervisor as p5_supervisor, p5.instrumento_id as p5_instrumento_id, p5.projeto_id as p5_projeto_id,  p5.responsavel_id as p5_responsavel_id, p5.supervisor_id as p5_supervisor_id
                                 FROM    vw_report_base p5  RIGHT  JOIN n4 on p5.programacao_id=n4.p4_id  
                          ) SELECT * FROM n5 
- WHERE n5.p5_projeto_id=1 order by p1_id,p2_id,p3_id,p4_id,p5_id]]>
+ WHERE n5.p5_projeto_id=3 order by p1_id,p2_id,p3_id,p4_id,p5_id]]>
 	</queryString>
 	<field name="p1_id" class="java.lang.Integer"/>
 	<field name="p1_singular" class="java.lang.String"/>
@@ -246,7 +245,7 @@ GROUP BY
 			<band height="747">
 				<property name="local_mesure_unitheight" value="pixel"/>
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				<printWhenExpression><![CDATA[$P{report_type}.intValue()>1]]></printWhenExpression>
+				<printWhenExpression><![CDATA[$P{mostrar_fisico}]]></printWhenExpression>
 				<frame>
 					<reportElement x="360" y="540" width="192" height="104" uuid="f8c78faf-792d-401b-8999-7b8a399c1125"/>
 					<staticText>
@@ -325,7 +324,7 @@ GROUP BY
 						<textElement>
 							<font size="10" isBold="true" isUnderline="false"/>
 						</textElement>
-						<textFieldExpression><![CDATA[$F{p1_singular} + " - " + $F{p1_menu}]]></textFieldExpression>
+						<textFieldExpression><![CDATA["Marcroxpto - " + $F{p1_menu}]]></textFieldExpression>
 					</textField>
 					<textField isStretchWithOverflow="true">
 						<reportElement style="Detail" positionType="Float" x="0" y="30" width="550" height="12" uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7"/>
@@ -410,108 +409,6 @@ GROUP BY
 							<font size="8"/>
 						</textElement>
 						<textFieldExpression><![CDATA[$F{p2_supervisor} != null ? "Supervisor: " + $F{p2_supervisor} : ""]]></textFieldExpression>
-					</textField>
-				</frame>
-			</band>
-		</groupHeader>
-	</group>
-	<group name="p3_nivel">
-		<groupExpression><![CDATA[$F{p3_id}]]></groupExpression>
-		<groupHeader>
-			<band height="48">
-				<printWhenExpression><![CDATA[$F{p3_id}!=null]]></printWhenExpression>
-				<frame>
-					<reportElement key="frame_grupo" style="grupo" mode="Opaque" x="0" y="0" width="555" height="46" backcolor="#F0F0F0" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
-					<textField isStretchWithOverflow="true">
-						<reportElement style="Detail" positionType="Float" x="1" y="0" width="551" height="15" uuid="ab7f1c6c-f283-43d2-ae49-e7cb58d2ab06"/>
-						<textElement>
-							<font size="10" isBold="true" isUnderline="false"/>
-						</textElement>
-						<textFieldExpression><![CDATA[$F{p3_singular} + " - " + $F{p3_menu}]]></textFieldExpression>
-					</textField>
-					<textField isStretchWithOverflow="true">
-						<reportElement style="Detail" positionType="Float" x="0" y="30" width="550" height="12" uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7"/>
-						<textElement markup="html">
-							<font size="8" isBold="false"/>
-						</textElement>
-						<textFieldExpression><![CDATA["<style>" 
-+"@import url('https://fonts.googleapis.com/css?family=PT+Sans');"
-+"</style>"
-+"<style>span{baddig:0} body{font-size: 12pt !important; font-family: PT Sans, Arial !important;}</style><div style=\"line-height: 70%;padding:0\"><font size=1>" 
-+ $F{p3_descricao} != null ? "Descrição: " + $F{p3_descricao}.replaceAll("font-size","font-sizex") .replaceAll("helvetica","PT Sans").replaceAll("/ckimages", $P{APPLICATION_PATH} + "/../files_ckeditor"):""
- + "</font></div>"]]></textFieldExpression>
-					</textField>
-					<textField isStretchWithOverflow="true">
-						<reportElement style="Detail" positionType="Float" x="373" y="17" width="166" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
-						<textElement>
-							<font size="8"/>
-						</textElement>
-						<textFieldExpression><![CDATA[$F{p3_equipe} != null ? "Equipe: " + $F{p3_equipe} : ""]]></textFieldExpression>
-					</textField>
-					<textField>
-						<reportElement style="Detail" positionType="Float" x="0" y="17" width="188" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
-						<textElement>
-							<font size="8"/>
-						</textElement>
-						<textFieldExpression><![CDATA[$F{p3_responsavel} != null ? "Responsável: " + $F{p3_responsavel} : ""]]></textFieldExpression>
-					</textField>
-					<textField>
-						<reportElement style="Detail" positionType="Float" x="188" y="17" width="185" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
-						<textElement>
-							<font size="8"/>
-						</textElement>
-						<textFieldExpression><![CDATA[$F{p3_supervisor} != null ? "Supervisor: " + $F{p3_supervisor} : ""]]></textFieldExpression>
-					</textField>
-				</frame>
-			</band>
-		</groupHeader>
-	</group>
-	<group name="p4_nivel">
-		<groupExpression><![CDATA[$F{p4_id}]]></groupExpression>
-		<groupHeader>
-			<band height="48">
-				<printWhenExpression><![CDATA[$F{p4_id}!=null]]></printWhenExpression>
-				<frame>
-					<reportElement key="frame_grupo" style="grupo" mode="Opaque" x="0" y="0" width="555" height="46" backcolor="#F0F0F0" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
-					<textField isStretchWithOverflow="true">
-						<reportElement style="Detail" positionType="Float" x="1" y="0" width="551" height="15" uuid="ab7f1c6c-f283-43d2-ae49-e7cb58d2ab06"/>
-						<textElement>
-							<font size="10" isBold="true" isUnderline="false"/>
-						</textElement>
-						<textFieldExpression><![CDATA[$F{p4_singular} + " - " + $F{p4_menu}]]></textFieldExpression>
-					</textField>
-					<textField isStretchWithOverflow="true">
-						<reportElement style="Detail" positionType="Float" x="0" y="30" width="550" height="12" uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7"/>
-						<textElement markup="html">
-							<font size="8" isBold="false"/>
-						</textElement>
-						<textFieldExpression><![CDATA["<style>" 
-+"@import url('https://fonts.googleapis.com/css?family=PT+Sans');"
-+"</style>"
-+"<style>span{baddig:0} body{font-size: 12pt !important; font-family: PT Sans, Arial !important;}</style><div style=\"line-height: 70%;padding:0\"><font size=1>" 
-+ $F{p4_descricao} != null ? "Descrição: " + $F{p4_descricao}.replaceAll("font-size","font-sizex") .replaceAll("helvetica","PT Sans").replaceAll("/ckimages", $P{APPLICATION_PATH} + "/../files_ckeditor"):""
- + "</font></div>"]]></textFieldExpression>
-					</textField>
-					<textField isStretchWithOverflow="true">
-						<reportElement style="Detail" positionType="Float" x="373" y="17" width="166" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
-						<textElement>
-							<font size="8"/>
-						</textElement>
-						<textFieldExpression><![CDATA[$F{p4_equipe} != null ? "Equipe: " + $F{p4_equipe} : ""]]></textFieldExpression>
-					</textField>
-					<textField>
-						<reportElement style="Detail" positionType="Float" x="0" y="17" width="188" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
-						<textElement>
-							<font size="8"/>
-						</textElement>
-						<textFieldExpression><![CDATA[$F{p4_responsavel} != null ? "Responsável: " + $F{p4_responsavel} : ""]]></textFieldExpression>
-					</textField>
-					<textField>
-						<reportElement style="Detail" positionType="Float" x="188" y="17" width="185" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
-						<textElement>
-							<font size="8"/>
-						</textElement>
-						<textFieldExpression><![CDATA[$F{p4_supervisor} != null ? "Supervisor: " + $F{p4_supervisor} : ""]]></textFieldExpression>
 					</textField>
 				</frame>
 			</band>
@@ -714,7 +611,7 @@ GROUP BY
 				</textField>
 				<staticText>
 					<reportElement style="Detail" positionType="Float" x="0" y="46" width="555" height="15" uuid="37953b06-7767-42cd-ae57-a3ad26b28da2">
-						<printWhenExpression><![CDATA[$P{report_type}.intValue() >1]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$P{mostrar_fisico}]]></printWhenExpression>
 					</reportElement>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font isBold="true"/>
@@ -724,7 +621,7 @@ GROUP BY
 				<componentElement>
 					<reportElement style="Detail" positionType="Float" x="0" y="63" width="555" height="42" uuid="d50ad6cc-f43e-47ec-a3f2-6d9e56fecdab">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-						<printWhenExpression><![CDATA[$P{report_type}.intValue()>(int)1]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$P{mostrar_fisico}]]></printWhenExpression>
 					</reportElement>
 					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
 						<datasetRun subDataset="operativosDS" uuid="cf87f43e-7bc9-4180-8063-d58f56f2673d">
@@ -845,7 +742,7 @@ GROUP BY
 				</componentElement>
 				<frame>
 					<reportElement style="Detail" positionType="Float" x="0" y="106" width="555" height="37" uuid="2f940162-8f41-4931-918f-72fd7acc0875">
-						<printWhenExpression><![CDATA[$P{report_type}.intValue()>2]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$P{mostrar_financeiro}]]></printWhenExpression>
 					</reportElement>
 					<componentElement>
 						<reportElement positionType="Float" stretchType="ElementGroupBottom" x="0" y="26" width="555" height="11" uuid="b1244040-bf7f-4ba3-98f6-7ab513056695">
@@ -1013,6 +910,10 @@ GROUP BY
 						</staticText>
 					</frame>
 				</frame>
+				<textField>
+					<reportElement mode="Opaque" x="16" y="4" width="356" height="30" backcolor="#2CE8AD" uuid="4ec741a7-07bf-43a4-b75e-b1b0719e92ba"/>
+					<textFieldExpression><![CDATA[$P{mostrar_financeiro}]]></textFieldExpression>
+				</textField>
 			</frame>
 			<line>
 				<reportElement x="0" y="0" width="555" height="1" uuid="79b568b1-1cd1-477d-9b56-839de809f013"/>

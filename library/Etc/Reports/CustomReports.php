@@ -20,7 +20,11 @@ class CustomReports extends \Etc\Reports\Basic {
                 $this->_reportType  =$reportType;
 		$this->_reportsPath = APPLICATION_PATH . '/modules/relatorio/views/scripts/index/';
                 $relatoriosModel =  new \Data_Model_DbTable_Relatorios();
-                $this->_modeloRelatorio = $relatoriosModel->find($reportType)->current()->toArray();
+                $modeloRowset  =$relatoriosModel->find($reportType);
+                if($modeloRowset->count()===0){
+                    throw new \Zend_Controller_Exception('Modelo de relatório não encontrado', 1404);
+                }
+                $this->_modeloRelatorio = $modeloRowset->current()->toArray();
 	}
 	/**
 	 * @return mixed
@@ -109,7 +113,7 @@ class CustomReports extends \Etc\Reports\Basic {
                                 $instrumentoCustom = $instrumentosCustomIds[$estrutura_arr[$ix]->id];
 				$xml_text      = str_replace('p1_', $px, $xml_group_base);
                                 if($instrumentoCustom->rename){
-                                    $xml_text      = str_replace('$F{p1_singular} + "', '"' . $instrumentoCustom->rename , $xml_text );
+                                    $xml_text      = str_replace('$F{'.$px.'singular} + "', '"' . $instrumentoCustom->rename , $xml_text );
                                 }
 				$xml_text      = str_replace('nivel', $px . 'nivel', $xml_text);
 				$node_new      = new \SimpleXMLElement($xml_text);
@@ -146,7 +150,8 @@ class CustomReports extends \Etc\Reports\Basic {
 	public function display() {
             $jasper = new \JasperPHP\JasperPHP;
             $input = $this->_reportsPath.'report-'.$this->_reportParams['report_type'] . '.jrxml';
-            $this->_reportParams['mostrar_fisico'] = "true";//(bool)  !$this->_modeloRelatorio['configuracoes']->mostrar_fisico;
+            $this->_reportParams['mostrar_fisico'] = $this->_modeloRelatorio['configuracoes']->mostrar_fisico ? "true" : "false";
+            $this->_reportParams['mostrar_financeiro'] = $this->_modeloRelatorio['configuracoes']->mostrar_financeiro ? "true" : "false";
                 
 //            $output = '/tmp/out/';
             $output = APPLICATION_PATH . '/../public/cache/00rep-' . $this->_reportParams['report_type'] ;

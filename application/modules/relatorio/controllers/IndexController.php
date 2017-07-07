@@ -30,7 +30,8 @@ class Relatorio_IndexController extends Zend_Controller_Action
     }
     public function customReportAction(){
         $this->_helper->viewRenderer->setNoRender(true);
-        $basicReport = new \Etc\Reports\CustomReports('geral',$this->getParam('report-type'));
+        $format = $this->getParam('output-format','pdf');
+        $basicReport = new \Etc\Reports\CustomReports('geral',$this->getParam('report-type'), $format);
 
         $script_paths =$this->view->getScriptPaths(); 
         

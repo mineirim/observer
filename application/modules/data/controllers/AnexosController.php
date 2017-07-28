@@ -29,12 +29,14 @@ class Data_AnexosController extends Zend_Rest_Controller {
                 $rows = $programcao->getAnexos()->getAsArray();
             }
         } elseif ($this->getParam('report')) {
+            $anexosModel = new Data_Model_Anexos;
             $projetoId = $this->getParam('projeto');
 //            $where = ['? = ANY(projetos)'=>[$projetoId]];  
             $where = "id in (SELECT anexo_id FROM programacao_anexos 
                     WHERE programacao_id IN (SELECT id FROM programacoes WHERE $projetoId=ANY(projetos) ))";
+            $rows = $anexosModel->listByProject($projetoId);
 //            $rows =$programacoesTable->fetchAll($where)->toArray();
-            $rows = $anexosDBTable->fetchAll($where, 'id')->toArray();            
+//            $rows = $anexosDBTable->fetchAll($where, 'id')->toArray();            
         } else {
             $rows = $anexosDBTable->fetchAll(null, 'id')->toArray();
         }
@@ -76,7 +78,7 @@ class Data_AnexosController extends Zend_Rest_Controller {
                         ;
                     } else {
 
-                        $this->view->resposta['rows'] = ['nome' => $anexo->nome,
+                        $this->view->resposta['rows'] = ['id'=>$anexo->id, 'nome' => $anexo->nome,
                             'sum_hash' => $anexo->hash_sum];
                     }
                     $this->view->resposta['success'] = true;

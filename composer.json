@@ -4,7 +4,8 @@
     "type": "project",
     "require": {
         "zendframework/zendframework1": "1.*",
-        "geekcom/phpjasper": "1.*"
+        "geekcom/phpjasper": "1.*",
+        "setasign/fpdi-fpdf": "1.*"
     },
     "license": "MIT",
     "authors": [

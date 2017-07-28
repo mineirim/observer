@@ -18,7 +18,7 @@ class CustomReports extends \Etc\Reports\Basic {
         2 => 'RELATÓRIO FÍSICO',
         3 => 'RELATÓRIO FÍSICO/FINANCEIRO',
     ];
-
+    protected $_requestParams;
     public function __construct($reportFileName = 'geral', $reportType = 1, $format = 'pdf') {
         $this->_reportFileName = $reportFileName;
         $this->_reportType = $reportType;
@@ -50,8 +50,7 @@ class CustomReports extends \Etc\Reports\Basic {
      * @param $params
      */
     public function init($params) {
-
-        error_log('msg de log no init\n\n\n');
+        $this->_requestParams=$params;
         $this->_auth = \Zend_Auth::getInstance();
         $identity = $this->_auth->getIdentity();
         $this->jasper_reports = new \Etc\Jasper\Reports();
@@ -184,6 +183,10 @@ class CustomReports extends \Etc\Reports\Basic {
 
         $jasper->process($input, $output, $options)->execute();   //$this->jasper_reports->compileReport('report-'.$this->_reportParams['report_type'], 'pdf', $this->_reportParams);
         if ($this->format == 'pdf') {
+            if(isset($this->_requestParams['attach']) && strlen($this->_requestParams['attach'])>0){
+                $attachments = explode(':', $this->_requestParams['attach']);
+                $merge =  new \Etc\Reports\MergePDF($output. '.pdf', $attachments);
+            }
             $this->displayPdf($output . '.pdf', 'tipo');
         } elseif ($this->format == 'html') {
             $this->showHtml($output . '.html');

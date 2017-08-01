@@ -150,6 +150,7 @@ class CustomReports extends \Etc\Reports\Basic {
         file_put_contents('/tmp/000x.jrxml', $xml_report_text);
         $is = $this->getInputStream($xml_report_text);
         /* @var $jasperDesign \EtcReport\Jasper\Manager\JasperDesign */
+        // echo $xml_report_text;die;
         $jasperDesign = $this->jasper_reports->load($is);
         for ($ix = 2; $ix < $numHeaders; $ix++) {
             $value = $estrutura_arr[$ix];
@@ -169,7 +170,9 @@ class CustomReports extends \Etc\Reports\Basic {
 //        $this->_reportParams['report_content'] = 'report-' . $this->_reportParams['report_type'] . '.jasper';
         $this->_reportParams['mostrar_fisico'] = $this->_modeloRelatorio['configuracoes']->mostrarFisico ? 1 : 0;
         $this->_reportParams['mostrar_financeiro'] = $this->_modeloRelatorio['configuracoes']->mostrarFinanceiro ? 1 : 0;
-
+        if( isset($this->_modeloRelatorio['configuracoes']->tituloRelatorio)){
+            $this->_reportParams['report_title'] = $this->_modeloRelatorio['configuracoes']->tituloRelatorio;
+        }
 //            $output = '/tmp/out/';
         $output = APPLICATION_PATH . '/../public/cache/00rep-' . $this->_reportParams['report_type'];
         $conf = \Zend_Registry::get('config');
@@ -190,7 +193,7 @@ class CustomReports extends \Etc\Reports\Basic {
         $jasper->process($inputFiotec, $output, $options)->execute();   //$this->jasper_reports->compileReport('report-'.$this->_reportParams['report_type'], 'pdf', $this->_reportParams);
 
         if ($this->format == 'pdf') {
-            if(isset($this->_requestParams['attach']) && strlen($this->_requestParams['attach'])>0){
+            if(isset($this->_requestParams['attach']) && strlen($this->_requestParams['attach'])>0 && $this->_requestParams['attach'] !=='[]'){
                 $attachments = explode(':', $this->_requestParams['attach']);
                 $merge =  new \Etc\Reports\MergePDF($output. '.pdf', $attachments);
             }

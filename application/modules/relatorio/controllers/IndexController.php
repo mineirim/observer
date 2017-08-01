@@ -31,7 +31,7 @@ class Relatorio_IndexController extends Zend_Controller_Action
     public function customReportAction(){
         $this->_helper->viewRenderer->setNoRender(true);
         $format = $this->getParam('output-format','pdf');
-        $basicReport = new \Etc\Reports\CustomReports('geral',$this->getParam('report-type'), $format);
+        $basicReport = new \Etc\Reports\CustomReports('fiotec',$this->getParam('report-type'), $format);
 
         $script_paths =$this->view->getScriptPaths(); 
         

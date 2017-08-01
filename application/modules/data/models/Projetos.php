@@ -70,7 +70,7 @@ class Data_Model_Projetos {
 	 * @return mixed
 	 */
 	public function update($formData) {
-		$fields = ['nome', 'data_inicio', 'data_fim', 'coordenador_usuario_id', 'apresentacao', 'metas', 'objetivos', 'codigo','objetivos_adm'];
+		$fields = ['nome', 'data_inicio', 'data_fim', 'coordenador_usuario_id', 'apresentacao', 'metas', 'objetivos', 'codigo','objetivos_adm','propriedades', 'objetivos_fiotec'];
 		$params = [];
 		foreach ($fields as $field) {
 			if (isset($formData[$field])) {
@@ -90,8 +90,12 @@ class Data_Model_Projetos {
 		} else {
 			$financiadores_ids = [];
 		}
-		$this->getProjetosDBTable()->update($params, "id=$id");
-		$row = $this->getProjetosDBTable()->fetchRow("id=$id");
+                $this->getProjetosDBTable()->getAdapter()->beginTransaction();
+//		$this->getProjetosDBTable()->update($params, ["id=?"=>$id]);
+		$row = $this->getProjetosDBTable()->fetchRow(["id=?"=>$id]);
+                $row->setFromArray($formData);
+                $row->save();
+                $this->getProjetosDBTable()->getAdapter()->commit();
 		$this->updateFinanciadores($id, $financiadores_ids);
 		return $row;
 	}

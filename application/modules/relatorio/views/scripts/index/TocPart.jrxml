@@ -62,7 +62,7 @@ $F{operativos_data_prazo}.after( new java.util.Date() ))
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="0" y="38" width="555" height="42" uuid="ceea1f45-b817-420c-9375-959cbad4633d"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
-					<font size="14" isBold="true"/>
+					<font size="14" isBold="true" pdfEncoding=""/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{ReportTitle}]]></textFieldExpression>
 			</textField>

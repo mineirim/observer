@@ -144,13 +144,15 @@ class CustomReports extends \Etc\Reports\Basic {
         if ($instrumentoCustom->rename) {
             $xml_report_text = str_replace('$F{' . $px . 'singular} + "', '"' . $instrumentoCustom->rename, $xml_report_text);
         }
+        if(!$instrumentoCustom){
+            $this->_reportParams['mostrar_detalhes']=0;
+        }
         if($this->_modeloRelatorio['configuracoes']->campoApresentacao){
             $xml_report_text = str_replace('"apresentacao"', '"'.$this->_modeloRelatorio['configuracoes']->campoApresentacao.'"', $xml_report_text);
         }
         file_put_contents('/tmp/000x.jrxml', $xml_report_text);
         $is = $this->getInputStream($xml_report_text);
         /* @var $jasperDesign \EtcReport\Jasper\Manager\JasperDesign */
-        // echo $xml_report_text;die;
         $jasperDesign = $this->jasper_reports->load($is);
         for ($ix = 2; $ix < $numHeaders; $ix++) {
             $value = $estrutura_arr[$ix];
@@ -167,11 +169,11 @@ class CustomReports extends \Etc\Reports\Basic {
         $jasper = new \JasperPHP\JasperPHP;
         $input = $this->_reportsPath . 'report-' . $this->_reportParams['report_type'] . '.jrxml';
         $inputFiotec = $this->_reportsPath . 'TableOfContentsReport.jrxml';
-//        $this->_reportParams['report_content'] = 'report-' . $this->_reportParams['report_type'] . '.jasper';
+        $this->_reportParams['report_file'] = 'report-' . $this->_reportParams['report_type'] . '.jasper';
         $this->_reportParams['mostrar_fisico'] = $this->_modeloRelatorio['configuracoes']->mostrarFisico ? 1 : 0;
         $this->_reportParams['mostrar_financeiro'] = $this->_modeloRelatorio['configuracoes']->mostrarFinanceiro ? 1 : 0;
         if( isset($this->_modeloRelatorio['configuracoes']->tituloRelatorio)){
-            $this->_reportParams['report_title'] = $this->_modeloRelatorio['configuracoes']->tituloRelatorio;
+            $this->_reportParams['report_title'] = utf8_encode($this->_modeloRelatorio['configuracoes']->tituloRelatorio);
         }
 //            $output = '/tmp/out/';
         $output = APPLICATION_PATH . '/../public/cache/00rep-' . $this->_reportParams['report_type'];
@@ -191,7 +193,6 @@ class CustomReports extends \Etc\Reports\Basic {
             'params' => $this->_reportParams, 'db_connection' => $dbparams,];
         $jasper->compile($input)->execute();
         $jasper->process($inputFiotec, $output, $options)->execute();   //$this->jasper_reports->compileReport('report-'.$this->_reportParams['report_type'], 'pdf', $this->_reportParams);
-
         if ($this->format == 'pdf') {
             if(isset($this->_requestParams['attach']) && strlen($this->_requestParams['attach'])>0 && $this->_requestParams['attach'] !=='[]'){
                 $attachments = explode(':', $this->_requestParams['attach']);
@@ -200,9 +201,26 @@ class CustomReports extends \Etc\Reports\Basic {
             $this->displayPdf($output . '.pdf', 'tipo');
         } elseif ($this->format == 'html') {
             $this->showHtml($output . '.html');
+        } elseif ($this->format == 'docx') {
+            $this->downloadDocx($output .'.'. $this->format);
         }
     }
-
+    protected function downloadDocx($output, $reportType){
+        ob_clean();
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        header('Content-Disposition: attachment; filename="relatorio' . $reportType . '.docx"');
+        header('Content-Transfer-Encoding: binary');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Pragma: public');
+        header('Content-Length: ' . @filesize($output));
+        ob_clean();
+        flush();
+        @readfile($output);
+        ob_flush();
+        exit();         
+    }
     protected function displayPdf($output, $reportType) {
         ob_clean();
         header('Content-disposition: inline; filename="relatorio-' . $reportType . '.pdf"');

@@ -158,6 +158,9 @@ GROUP BY
 	<parameter name="mostrar_financeiro" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
 	</parameter>
+	<parameter name="mostrar_detalhes" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[with 	n1 as ( SELECT  p1.id AS p1_id, p1.singular as p1_singular, p1.has_responsavel as p1_has_responsavel, p1.has_supervisor as p1_has_supervisor, p1.has_equipe as p1_has_equipe, p1.menu as p1_menu, p1.descricao as p1_descricao, p1.ordem as p1_ordem, p1.programacao_id as p1_programacao_id, p1.equipe as p1_equipe, p1.responsavel as p1_responsavel, p1.supervisor as p1_supervisor, p1.instrumento_id as p1_instrumento_id
 	        FROM  vw_report_base p1 where p1.programacao_id is null and p1.instrumento_id=2),
@@ -227,30 +230,35 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 +"@import url('https://fonts.googleapis.com/css?family=PT+Sans');"
 +"</style>"
 +"<style>span{baddig:0} body{font-size: 12pt !important; font-family: PT Sans, Arial !important;}</style><div style=\"line-height: 70%;padding:0\"><font size=1>" 
-+ $F{p1_descricao} != null ? "Descrição: " + $F{p1_descricao}.replaceAll("font-size","font-sizex") .replaceAll("helvetica","PT Sans").replaceAll("/ckimages", $P{APPLICATION_PATH} + "/../files_ckeditor"):""
++ $F{p1_descricao} != null ? ": " + $F{p1_descricao}.replaceAll("font-size","font-sizex") .replaceAll("helvetica","PT Sans").replaceAll("/ckimages", $P{APPLICATION_PATH} + "/../files_ckeditor"):""
  + "</font></div>"]]></textFieldExpression>
 					</textField>
-					<textField isStretchWithOverflow="true">
-						<reportElement style="Detail" positionType="Float" x="373" y="17" width="166" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
-						<textElement>
-							<font size="8"/>
-						</textElement>
-						<textFieldExpression><![CDATA[$F{p1_equipe} != null ? "Equipe: " + $F{p1_equipe} : ""]]></textFieldExpression>
-					</textField>
-					<textField>
-						<reportElement style="Detail" positionType="Float" x="0" y="17" width="188" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
-						<textElement>
-							<font size="8"/>
-						</textElement>
-						<textFieldExpression><![CDATA[$F{p1_responsavel} != null ? "Responsável: " + $F{p1_responsavel} : ""]]></textFieldExpression>
-					</textField>
-					<textField>
-						<reportElement style="Detail" positionType="Float" x="188" y="17" width="185" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
-						<textElement>
-							<font size="8"/>
-						</textElement>
-						<textFieldExpression><![CDATA[$F{p1_supervisor} != null ? "Supervisor: " + $F{p1_supervisor} : ""]]></textFieldExpression>
-					</textField>
+					<frame>
+						<reportElement key="" x="0" y="17" width="539" height="12" uuid="a1c1386a-c5b1-448e-b836-890c2a4a6869">
+							<printWhenExpression><![CDATA[false]]></printWhenExpression>
+						</reportElement>
+						<textField isStretchWithOverflow="true">
+							<reportElement style="Detail" positionType="Float" x="373" y="0" width="166" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
+							<textElement>
+								<font size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{p1_equipe} != null ? "Equipe: " + $F{p1_equipe} : ""]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement style="Detail" positionType="Float" x="0" y="0" width="188" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
+							<textElement>
+								<font size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{p1_responsavel} != null ? "Responsável: " + $F{p1_responsavel} : ""]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement style="Detail" positionType="Float" x="188" y="0" width="185" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
+							<textElement>
+								<font size="8"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{p1_supervisor} != null ? "Supervisor: " + $F{p1_supervisor} : ""]]></textFieldExpression>
+						</textField>
+					</frame>
 				</frame>
 			</band>
 		</groupHeader>
@@ -293,10 +301,10 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="148" splitType="Stretch">
-			<printWhenExpression><![CDATA[$F{__detail_id} != null]]></printWhenExpression>
+		<band height="43" splitType="Stretch">
+			<printWhenExpression><![CDATA[$F{__detail_id} != null && $P{mostrar_detalhes}==1]]></printWhenExpression>
 			<frame>
-				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="4" width="555" height="144" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="4" width="555" height="39" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
 				<box>
 					<bottomPen lineWidth="0.0"/>
 				</box>
@@ -307,7 +315,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{__detail_singular} + " - " + $F{__detail_menu}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true">
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 					<reportElement style="Detail" positionType="Float" x="0" y="27" width="555" height="12" uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7"/>
 					<textElement markup="html">
 						<font size="8"/>
@@ -316,32 +324,51 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 +"@import url('https://fonts.googleapis.com/css?family=PT+Sans');"
 +"</style>"
 +"<style>span{baddig:0} body{font-size: 12pt !important; font-family: PT Sans, Arial !important;}</style><div style=\"line-height: 70%;padding:0\"><font size=1>" 
-+ $F{__detail_descricao} != null ? "Descrição: " + $F{__detail_descricao}.replaceAll("font-size","font-sizex") .replaceAll("helvetica","PT Sans"):""
++ $F{__detail_descricao} != null ? " " + $F{__detail_descricao}.replaceAll("font-size","font-sizex") .replaceAll("helvetica","PT Sans"):""
  + "</font></div>"]]></textFieldExpression>
 				</textField>
-				<textField>
-					<reportElement style="Detail" positionType="Float" x="373" y="15" width="182" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
-					<textElement>
-						<font size="8"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{__detail_equipe} != null ? "Equipe: " + $F{__detail_equipe} : ""]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement style="Detail" positionType="Float" x="0" y="14" width="188" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
-					<textElement>
-						<font size="8"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{__detail_responsavel} != null ? "Responsável: " + $F{__detail_responsavel} : ""]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement style="Detail" positionType="Float" x="188" y="15" width="185" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
-					<textElement>
-						<font size="8"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{__detail_supervisor} != null ? "Supervisor: " + $F{__detail_supervisor} : ""]]></textFieldExpression>
-				</textField>
+				<frame>
+					<reportElement key="" x="0" y="14" width="555" height="13" uuid="fa67c300-53b8-4619-9878-d9acda63f63e">
+						<printWhenExpression><![CDATA[false]]></printWhenExpression>
+					</reportElement>
+					<textField>
+						<reportElement style="Detail" positionType="Float" x="373" y="1" width="182" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{__detail_equipe} != null ? "Equipe: " + $F{__detail_equipe} : ""]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement style="Detail" positionType="Float" x="0" y="0" width="188" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{__detail_responsavel} != null ? "Responsável: " + $F{__detail_responsavel} : ""]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement style="Detail" positionType="Float" x="188" y="1" width="185" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{__detail_supervisor} != null ? "Supervisor: " + $F{__detail_supervisor} : ""]]></textFieldExpression>
+					</textField>
+				</frame>
+			</frame>
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="79b568b1-1cd1-477d-9b56-839de809f013"/>
+				<graphicElement>
+					<pen lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+		</band>
+		<band height="97">
+			<printWhenExpression><![CDATA[$P{mostrar_fisico}==1]]></printWhenExpression>
+			<frame>
+				<reportElement x="0" y="0" width="555" height="97" isRemoveLineWhenBlank="true" uuid="dff4464c-14ff-4c97-a992-7002e10a8137">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
 				<staticText>
-					<reportElement style="Detail" positionType="Float" x="0" y="46" width="555" height="15" uuid="37953b06-7767-42cd-ae57-a3ad26b28da2">
+					<reportElement style="Detail" positionType="Float" x="0" y="0" width="555" height="15" uuid="37953b06-7767-42cd-ae57-a3ad26b28da2">
 						<printWhenExpression><![CDATA[$P{mostrar_fisico}==1]]></printWhenExpression>
 					</reportElement>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -350,7 +377,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 					<text><![CDATA[PROGRAMAÇÃO /  EXECUÇÃO]]></text>
 				</staticText>
 				<componentElement>
-					<reportElement style="Detail" positionType="Float" x="0" y="63" width="555" height="42" isRemoveLineWhenBlank="true" uuid="d50ad6cc-f43e-47ec-a3f2-6d9e56fecdab">
+					<reportElement style="Detail" positionType="Float" x="0" y="17" width="555" height="42" isRemoveLineWhenBlank="true" uuid="d50ad6cc-f43e-47ec-a3f2-6d9e56fecdab">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 						<printWhenExpression><![CDATA[$P{mostrar_fisico}==1]]></printWhenExpression>
 					</reportElement>
@@ -472,7 +499,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 					</jr:list>
 				</componentElement>
 				<frame>
-					<reportElement style="Detail" positionType="Float" x="0" y="106" width="555" height="37" isRemoveLineWhenBlank="true" uuid="2f940162-8f41-4931-918f-72fd7acc0875">
+					<reportElement style="Detail" positionType="Float" x="0" y="60" width="555" height="37" isRemoveLineWhenBlank="true" uuid="2f940162-8f41-4931-918f-72fd7acc0875">
 						<printWhenExpression><![CDATA[$P{mostrar_financeiro}.equals(new Integer("1") )]]></printWhenExpression>
 					</reportElement>
 					<componentElement>
@@ -645,12 +672,6 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 					</frame>
 				</frame>
 			</frame>
-			<line>
-				<reportElement x="0" y="0" width="555" height="1" uuid="79b568b1-1cd1-477d-9b56-839de809f013"/>
-				<graphicElement>
-					<pen lineStyle="Dotted"/>
-				</graphicElement>
-			</line>
 		</band>
 	</detail>
 	<pageFooter>

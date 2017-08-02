@@ -7,6 +7,7 @@
 	<property name="net.sf.jasperreports.export.xlsx.exclude.origin.keep.first.band.1" value="pageHeader"/>
 	<property name="net.sf.jasperreports.export.xlsx.exclude.origin.keep.first.report.1" value="*"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="unasus_dev"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="ReportTitle" class="java.lang.String"/>
 	<parameter name="APPLICATION_PATH" class="java.lang.String"/>
 	<parameter name="BASE_URL" class="java.lang.String">
@@ -37,14 +38,26 @@
 		<parameterDescription><![CDATA[]]></parameterDescription>
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
+	<parameter name="report_file" class="java.lang.String">
+		<defaultValueExpression><![CDATA["report-15.jasper"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="mostrar_detalhes" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
 	<queryString>
-		<![CDATA[SELECT count(*) AS total FROM programacoes]]>
+		<![CDATA[SELECT id, nome, configuracoes->>'tituloRelatorio' tituloRelatorio, configuracoes 
+FROM public.relatorios 
+WHERE id= $P{report_type} ;]]>
 	</queryString>
-	<field name="total" class="java.lang.Integer"/>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="titulorelatorio" class="java.lang.String"/>
+	<field name="configuracoes" class="java.lang.Object"/>
 	<group name="dummy">
 		<groupExpression><![CDATA[1]]></groupExpression>
 		<groupHeader>
 			<part uuid="4dc5226a-d9e8-482a-af4c-4495345e598c">
+				<partNameExpression><![CDATA["Projeto"]]></partNameExpression>
 				<p:subreportPart xmlns:p="http://jasperreports.sourceforge.net/jasperreports/parts" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/parts http://jasperreports.sourceforge.net/xsd/parts.xsd">
 					<subreportParameter name="REPORT_CONNECTION">
 						<subreportParameterExpression><![CDATA[$P{REPORT_CONNECTION}]]></subreportParameterExpression>
@@ -53,7 +66,7 @@
 						<subreportParameterExpression><![CDATA[$P{projeto_id}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportParameter name="report_title">
-						<subreportParameterExpression><![CDATA[$P{report_title}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA[$F{titulorelatorio}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportExpression><![CDATA["projeto.jasper"]]></subreportExpression>
 				</p:subreportPart>
@@ -63,7 +76,7 @@
 				<partNameExpression><![CDATA["Table of Contents"]]></partNameExpression>
 				<p:subreportPart xmlns:p="http://jasperreports.sourceforge.net/jasperreports/parts" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/parts http://jasperreports.sourceforge.net/xsd/parts.xsd" usingCache="true">
 					<subreportParameter name="ReportTitle">
-						<subreportParameterExpression><![CDATA[$P{report_title}]]></subreportParameterExpression>
+						<subreportParameterExpression><![CDATA[$F{titulorelatorio}]]></subreportParameterExpression>
 					</subreportParameter>
 					<subreportExpression><![CDATA["TocPart.jasper"]]></subreportExpression>
 				</p:subreportPart>
@@ -72,7 +85,7 @@
 	</group>
 	<detail>
 		<part evaluationTime="Now" uuid="f1cb5a14-d0a8-4385-ab6f-5274bb532a63">
-			<partNameExpression><![CDATA["TableContent"]]></partNameExpression>
+			<partNameExpression><![CDATA["Relatorio"]]></partNameExpression>
 			<p:subreportPart xmlns:p="http://jasperreports.sourceforge.net/jasperreports/parts" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/parts http://jasperreports.sourceforge.net/xsd/parts.xsd" usingCache="true">
 				<subreportParameter name="REPORT_CONNECTION">
 					<subreportParameterExpression><![CDATA[$P{REPORT_CONNECTION}]]></subreportParameterExpression>
@@ -101,7 +114,10 @@
 				<subreportParameter name="user_type">
 					<subreportParameterExpression><![CDATA[$P{user_type}]]></subreportParameterExpression>
 				</subreportParameter>
-				<subreportExpression><![CDATA["report-15.jasper"]]></subreportExpression>
+				<subreportParameter name="mostrar_detalhes">
+					<subreportParameterExpression><![CDATA[$P{mostrar_detalhes}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportExpression><![CDATA[$P{report_file}]]></subreportExpression>
 			</p:subreportPart>
 		</part>
 	</detail>

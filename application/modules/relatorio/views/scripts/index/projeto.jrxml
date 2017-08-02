@@ -95,7 +95,7 @@ $F{operativos_data_prazo}.after( new java.util.Date() ))
 	<detail>
 		<band height="40" splitType="Stretch">
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement x="0" y="10" width="555" height="30" uuid="591a596c-cbc3-499c-82ca-4aadfa8fd972"/>
+				<reportElement x="30" y="10" width="504" height="30" uuid="591a596c-cbc3-499c-82ca-4aadfa8fd972"/>
 				<textElement markup="html">
 					<font size="12"/>
 				</textElement>

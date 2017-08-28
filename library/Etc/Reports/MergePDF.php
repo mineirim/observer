@@ -15,9 +15,13 @@ class MergePDF{
         $this->combine($output);
         $anexosDbTable = new \Data_Model_DbTable_Anexos();
         foreach ($attachments as $id) {
-            $anexo = $anexosDbTable->fetchRow(['id=?' => $id]);
-            $file = APPLICATION_PATH .'/../files/'.$anexo->nome;
-            $this->combine($file);
+            if(is_int($id)){
+                $anexo = $anexosDbTable->fetchRow(['id=?' => $id]);
+                $file = APPLICATION_PATH .'/../files/'.$anexo->nome;
+                if(file_exists($file)) {
+                    $this->combine($file);
+                }
+            }
         }
         $this->_baseFile->Output('I');
         die;

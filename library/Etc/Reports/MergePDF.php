@@ -14,10 +14,14 @@ class MergePDF{
         $this->_baseFile =new FPDI();
         $this->combine($output);
         $anexosDbTable = new \Data_Model_DbTable_Anexos();
+        if(count($attachments)>0){
+            $this->combine(APPLICATION_PATH . '/layouts/attachments.pdf');
+        }
         foreach ($attachments as $id) {
-            if(is_int($id)){
+            if(is_numeric($id)){
                 $anexo = $anexosDbTable->fetchRow(['id=?' => $id]);
                 $file = APPLICATION_PATH .'/../files/'.$anexo->nome;
+                var_dump($file);die;
                 if(file_exists($file)) {
                     $this->combine($file);
                 }

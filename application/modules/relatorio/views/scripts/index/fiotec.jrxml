@@ -212,7 +212,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 			<band height="48">
 				<printWhenExpression><![CDATA[$F{p1_id}!=null]]></printWhenExpression>
 				<frame>
-					<reportElement key="frame_grupo" style="grupo" mode="Opaque" x="0" y="0" width="555" height="46" backcolor="#F0F0F0" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
+					<reportElement key="frame_grupo" style="grupo" mode="Transparent" x="0" y="0" width="555" height="46" backcolor="#F0F0F0" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
 					<textField isStretchWithOverflow="true" bookmarkLevel="1">
 						<reportElement style="Detail" positionType="Float" x="1" y="0" width="551" height="15" uuid="ab7f1c6c-f283-43d2-ae49-e7cb58d2ab06"/>
 						<textElement>

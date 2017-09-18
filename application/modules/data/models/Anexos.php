@@ -103,7 +103,8 @@ class Data_Model_Anexos {
         
         public function listByProject($projectId) {
             $sql = "SELECT  jsonb_array_elements(propriedades->'files')->'id' id, 
-jsonb_array_elements(propriedades->'files')->'nome' nome,  jsonb_array_elements(propriedades->'files') anexo   FROM programacoes WHERE :projetoId IN ANY(projeto_id)AND propriedades->'files' IS NOT NULL";
+                    jsonb_array_elements(propriedades->'files')->'nome' nome,  jsonb_array_elements(propriedades->'files') anexo   
+                    FROM programacoes WHERE :projetoId = ANY(projetos) AND propriedades->'files' IS NOT NULL";
             $stmt = Zend_Registry::get('db')->query($sql,['projetoId'=>$projectId]);
             $stmt->setFetchMode(Zend_Db::FETCH_OBJ);
             return $stmt->fetchAll();

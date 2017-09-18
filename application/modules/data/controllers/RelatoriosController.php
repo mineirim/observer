@@ -24,7 +24,7 @@ class Data_RelatoriosController extends Zend_Rest_Controller {
         $relatoriosModel = new Data_Model_Relatorios();
         
         $rows = $relatoriosModel->getAll();
-        $this->view->rows = $rows->toArray();
+        $this->view->rows = $rows->getAsArray();
         $this->view->total = count($rows);
         $this->getResponse()->setHttpResponseCode(200);
     }
@@ -43,15 +43,17 @@ class Data_RelatoriosController extends Zend_Rest_Controller {
         //gerado automaticamente
         if (($this->getRequest()->isPut())) {
             try {
-                $financeiro_table = new Data_Model_DbTable_Financeiro();
-                $formData = $this->getRequest()->getParam('rows');
-                $formData = json_decode($formData, true);
-                $id = $formData['id'];
-                unset($formData['id']);
-                $financeiro_table->update($formData, "id=$id");
+                $relatoriosTable = new Data_Model_Relatorios();
+                if ($this->getRequest()->getParam('rows')) {
+                    $formDataJson = $this->getRequest()->getParam('rows');
+                    $formData = json_decode($formDataJson, true);
+                } else {
+                    $formDataJson = $this->getRequest()->getRawBody();
+                    $formData = json_decode($formDataJson, true);
+                }              
+                $row = $relatoriosTable->update($formData);
                 $this->view->msg = "Dados atualizados com sucesso!";
-                $obj = $financeiro_table->fetchRow("id=$id");
-                $this->view->rows = $obj->toArray();
+                $this->view->rows = $row->toArray();
                 $this->view->success = true;
                 $this->getResponse()->setHttpResponseCode(201);
             } catch (Exception $e) {
@@ -100,9 +102,9 @@ class Data_RelatoriosController extends Zend_Rest_Controller {
     public function deleteAction() {
         if ($this->getRequest()->isDelete()) {
             try {
-                $financeiro_table = new Data_Model_DbTable_Financeiro();
+                $relatoriosTable = new Data_Model_Relatorios();
                 $id = $this->_getParam('id');
-                $financeiro_table->delete('id=' . $id);
+                $relatoriosTable->delete($id);
                 $this->view->success = true;
                 $this->view->msg = "Dados apagados com sucesso!";
                 $this->getResponse()->setHttpResponseCode(204);

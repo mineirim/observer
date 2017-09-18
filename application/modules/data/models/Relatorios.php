@@ -33,6 +33,7 @@ class Data_Model_Relatorios {
 	 * @return mixed
 	 */
 	public function update($formData) {
+		$id = $formData['id'];
 		$fields = ['nome', 'configuracoes','publico'];
 		$params = [];
 		foreach ($fields as $field) {
@@ -45,12 +46,14 @@ class Data_Model_Relatorios {
 				$value = null;
 			}
 		}
-		$id = $formData['id'];
 		unset($formData['id']);
-		$this->getDBTable()->update($params, "id=$id");
-		$row = $this->getDBTable()->fetchRow("id=$id");
+		$this->getDBTable()->update($params, ["id=?"=>$id]);
+		$row = $this->getDBTable()->fetchRow(["id=?"=>$id]);
 		return $row;
 	}
+        public function delete($id){
+            return $this->getDBTable()->delete(["id=?"=>$id]);
+        }
 
         public function showReport($id){
             

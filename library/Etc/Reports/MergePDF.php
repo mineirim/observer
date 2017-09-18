@@ -21,7 +21,6 @@ class MergePDF{
             if(is_numeric($id)){
                 $anexo = $anexosDbTable->fetchRow(['id=?' => $id]);
                 $file = APPLICATION_PATH .'/../files/'.$anexo->nome;
-                var_dump($file);die;
                 if(file_exists($file)) {
                     $this->combine($file);
                 }

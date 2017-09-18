@@ -93,18 +93,20 @@ $F{operativos_data_prazo}.after( new java.util.Date() ))
 					<printWhenExpression><![CDATA[$F{level} == 1]]></printWhenExpression>
 				</reportElement>
 				<textElement>
-					<font isBold="false"/>
+					<font size="10" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{label}]]></textFieldExpression>
 				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" evaluationTime="Auto" hyperlinkType="LocalAnchor">
-				<reportElement style="Sans_Bold" positionType="Float" x="518" y="0" width="30" height="15" isRemoveLineWhenBlank="true" uuid="012b7361-f06b-4539-b299-5a3f0bcbb7b5">
+				<reportElement style="Sans_Bold" positionType="Float" x="505" y="0" width="43" height="15" isRemoveLineWhenBlank="true" uuid="012b7361-f06b-4539-b299-5a3f0bcbb7b5">
 					<property name="local_mesure_unitx" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<printWhenExpression><![CDATA[$F{level} == 1]]></printWhenExpression>
 				</reportElement>
-				<textElement textAlignment="Right"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER} + $F{pageIndex} + 1]]></textFieldExpression>
 				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
 			</textField>
@@ -112,15 +114,20 @@ $F{operativos_data_prazo}.after( new java.util.Date() ))
 				<reportElement positionType="Float" x="75" y="16" width="430" height="15" isRemoveLineWhenBlank="true" uuid="effe6dfe-dbc8-4451-bf44-a96565a20564">
 					<printWhenExpression><![CDATA[$F{level} == 2]]></printWhenExpression>
 				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{label}]]></textFieldExpression>
 				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
 				<hyperlinkTooltipExpression><![CDATA["View orders from " + $F{label}]]></hyperlinkTooltipExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" evaluationTime="Auto" hyperlinkType="LocalAnchor">
-				<reportElement positionType="Float" x="518" y="16" width="30" height="15" isRemoveLineWhenBlank="true" uuid="3c835858-cc27-41b1-b820-94b8d9ec0acf">
+				<reportElement positionType="Float" x="505" y="16" width="43" height="15" isRemoveLineWhenBlank="true" uuid="3c835858-cc27-41b1-b820-94b8d9ec0acf">
 					<printWhenExpression><![CDATA[$F{level} == 2]]></printWhenExpression>
 				</reportElement>
-				<textElement textAlignment="Right"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER} + $F{pageIndex} + 1]]></textFieldExpression>
 				<hyperlinkAnchorExpression><![CDATA[$F{label}]]></hyperlinkAnchorExpression>
 			</textField>

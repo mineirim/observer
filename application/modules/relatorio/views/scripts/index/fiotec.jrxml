@@ -223,14 +223,14 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 					</textField>
 					<textField isStretchWithOverflow="true">
 						<reportElement style="Detail" positionType="Float" x="0" y="30" width="550" height="12" uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7"/>
-						<textElement markup="html">
+						<textElement textAlignment="Justified" markup="html">
 							<font size="8" isBold="false"/>
 						</textElement>
 						<textFieldExpression><![CDATA["<style>" 
 +"@import url('https://fonts.googleapis.com/css?family=PT+Sans');"
 +"</style>"
 +"<style>span{baddig:0} body{font-size: 12pt !important; font-family: PT Sans, Arial !important;}</style><div style=\"line-height: 70%;padding:0;text-align: justify;\"><font size=1>" 
-+ $F{p1_descricao} != null ? " " + $F{p1_descricao}.replaceAll("font-size","font-sizex") .replaceAll("helvetica","PT Sans").replaceAll("/ckimages", $P{APPLICATION_PATH} + "/../files_ckeditor"):""
++ $F{p1_descricao} != null ? " " + $F{p1_descricao}.replaceAll("font-size","font-sizex").replaceAll("helvetica","PT Sans").replaceAll("text-align","text-alignx").replaceAll("/ckimages", $P{APPLICATION_PATH} + "/../files_ckeditor"):""
  + "</font></div>"]]></textFieldExpression>
 					</textField>
 					<frame>
@@ -323,8 +323,8 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 					<textFieldExpression><![CDATA["<style>" 
 +"@import url('https://fonts.googleapis.com/css?family=PT+Sans');"
 +"</style>"
-+"<style>span{baddig:0} body{font-size: 12pt !important; font-family: PT Sans, Arial !important;}</style><div style=\"line-height: 70%;padding:0;text-align: justify;\"><font size=1>" 
-+ $F{__detail_descricao} != null ? " " + $F{__detail_descricao}.replaceAll("font-size","font-sizex").replaceAll("helvetica","PT Sans").replaceAll("arial","PT Sans") : ""
++"<style>span{baddig:0} body{font-size: 12pt !important; font-family: PT Sans, Arial !important;}</style><div style=\"line-height: 70%;padding:0; text-align: justify;\"><font size=1>" 
++ $F{__detail_descricao} != null ? " " + $F{__detail_descricao}.replaceAll("font-size","font-sizex").replaceAll("helvetica","PT Sans").replaceAll("text-align","text-alignx").replaceAll("arial","PT Sans") : ""
  + "</font></div>"]]></textFieldExpression>
 				</textField>
 				<frame>

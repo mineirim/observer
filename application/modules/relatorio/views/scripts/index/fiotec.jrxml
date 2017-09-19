@@ -400,7 +400,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 								</box>
 								<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 									<reportElement style="Detail" positionType="Float" x="2" y="28" width="553" height="11" uuid="99015582-c721-468d-b013-db95e63d7c3f"/>
-									<textElement markup="html"/>
+									<textElement textAlignment="Justified" markup="html"/>
 									<textFieldExpression><![CDATA["<style>" 
 +"@import url('https://fonts.googleapis.com/css?family=PT+Sans');"
 +"</style>"

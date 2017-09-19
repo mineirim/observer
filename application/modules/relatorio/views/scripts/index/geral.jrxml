@@ -490,7 +490,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 				</textField>
 				<textField isStretchWithOverflow="true">
 					<reportElement style="Detail" positionType="Float" x="0" y="27" width="555" height="12" uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7"/>
-					<textElement markup="html">
+					<textElement textAlignment="Justified" markup="html">
 						<font size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA["<style>" 

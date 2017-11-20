@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.3.1  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geral" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" uuid="e69bc383-12d4-4901-8503-507569fba44c">
 	<property name="ireport.zoom" value="1.3310000000000013"/>
 	<property name="ireport.x" value="0"/>
@@ -106,6 +105,8 @@ ORDER BY
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="unasus_local"/>
 		<parameter name="programacao_id" class="java.lang.Integer"/>
+		<parameter name="user_type" class="java.lang.Integer"/>
+		<parameter name="user_id" class="java.lang.Integer"/>
 		<queryString language="SQL">
 			<![CDATA[SELECT
      sum(despesas."valor") AS despesas_valor,
@@ -149,11 +150,11 @@ GROUP BY
 		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
 	</parameter>
 	<parameter name="user_id" class="java.lang.Integer"/>
-	<parameter name="mostrar_fisico" class="java.lang.Boolean">
-		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
+	<parameter name="mostrar_fisico" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
 	</parameter>
-	<parameter name="mostrar_financeiro" class="java.lang.Boolean">
-		<defaultValueExpression><![CDATA[false]]></defaultValueExpression>
+	<parameter name="mostrar_financeiro" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[WITH 	n1 as ( SELECT  p1.id AS p1_id, p1.singular as p1_singular, p1.has_responsavel as p1_has_responsavel, p1.has_supervisor as p1_has_supervisor, p1.has_equipe as p1_has_equipe, p1.menu as p1_menu, p1.descricao as p1_descricao, p1.ordem as p1_ordem, p1.programacao_id as p1_programacao_id, p1.equipe as p1_equipe, p1.responsavel as p1_responsavel, p1.supervisor as p1_supervisor, p1.instrumento_id as p1_instrumento_id, p1.projeto_id as p1_projeto_id, p1.responsavel_id as p1_responsavel_id, p1.supervisor_id as p1_supervisor_id
@@ -170,7 +171,7 @@ GROUP BY
                                 SELECT n4.*, p5.id AS p5_id, p5.singular as p5_singular, p5.has_responsavel as p5_has_responsavel, p5.has_supervisor as p5_has_supervisor, p5.has_equipe as p5_has_equipe, p5.menu as p5_menu, p5.descricao as p5_descricao, p5.ordem as p5_ordem, p5.programacao_id as p5_programacao_id, p5.equipe as p5_equipe, p5.responsavel as p5_responsavel, p5.supervisor as p5_supervisor, p5.instrumento_id as p5_instrumento_id, p5.projeto_id as p5_projeto_id,  p5.responsavel_id as p5_responsavel_id, p5.supervisor_id as p5_supervisor_id
                                 FROM    vw_report_base p5  RIGHT  JOIN n4 on p5.programacao_id=n4.p4_id  
                          ) SELECT * FROM n5 
- WHERE n5.p5_projeto_id=3 order by p1_id,p2_id,p3_id,p4_id,p5_id]]>
+ WHERE n5.p5_projeto_id=2 order by p1_id,p2_id,p3_id,p4_id,p5_id]]>
 	</queryString>
 	<field name="p1_id" class="java.lang.Integer"/>
 	<field name="p1_singular" class="java.lang.String"/>
@@ -245,7 +246,7 @@ GROUP BY
 			<band height="747">
 				<property name="local_mesure_unitheight" value="pixel"/>
 				<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				<printWhenExpression><![CDATA[$P{mostrar_fisico}]]></printWhenExpression>
+				<printWhenExpression><![CDATA[$P{mostrar_fisico}==1]]></printWhenExpression>
 				<frame>
 					<reportElement x="360" y="540" width="192" height="104" uuid="f8c78faf-792d-401b-8999-7b8a399c1125"/>
 					<staticText>
@@ -318,13 +319,13 @@ GROUP BY
 			<band height="48">
 				<printWhenExpression><![CDATA[$F{p1_id}!=null]]></printWhenExpression>
 				<frame>
-					<reportElement key="frame_grupo" style="grupo" mode="Opaque" x="0" y="0" width="555" height="46" backcolor="#F0F0F0" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
+					<reportElement key="frame_grupo" style="grupo" mode="Transparent" x="0" y="0" width="555" height="46" backcolor="#F0F0F0" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
 					<textField isStretchWithOverflow="true">
 						<reportElement style="Detail" positionType="Float" x="1" y="0" width="551" height="15" uuid="ab7f1c6c-f283-43d2-ae49-e7cb58d2ab06"/>
 						<textElement>
 							<font size="10" isBold="true" isUnderline="false"/>
 						</textElement>
-						<textFieldExpression><![CDATA["Marcroxpto - " + $F{p1_menu}]]></textFieldExpression>
+						<textFieldExpression><![CDATA[$F{p1_singular} + " - " + $F{p1_menu}]]></textFieldExpression>
 					</textField>
 					<textField isStretchWithOverflow="true">
 						<reportElement style="Detail" positionType="Float" x="0" y="30" width="550" height="12" uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7"/>
@@ -369,7 +370,7 @@ GROUP BY
 			<band height="48">
 				<printWhenExpression><![CDATA[$F{p2_id}!=null]]></printWhenExpression>
 				<frame>
-					<reportElement key="frame_grupo" style="grupo" mode="Opaque" x="0" y="0" width="555" height="46" backcolor="#F0F0F0" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
+					<reportElement key="frame_grupo" style="grupo" mode="Transparent" x="0" y="0" width="555" height="46" backcolor="#F0F0F0" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
 					<textField isStretchWithOverflow="true">
 						<reportElement style="Detail" positionType="Float" x="1" y="0" width="551" height="15" uuid="ab7f1c6c-f283-43d2-ae49-e7cb58d2ab06"/>
 						<textElement>
@@ -414,6 +415,108 @@ GROUP BY
 			</band>
 		</groupHeader>
 	</group>
+	<group name="p3_nivel">
+		<groupExpression><![CDATA[$F{p3_id}]]></groupExpression>
+		<groupHeader>
+			<band height="48">
+				<printWhenExpression><![CDATA[$F{p3_id}!=null]]></printWhenExpression>
+				<frame>
+					<reportElement key="frame_grupo" style="grupo" mode="Transparent" x="0" y="0" width="555" height="46" backcolor="#F0F0F0" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
+					<textField isStretchWithOverflow="true">
+						<reportElement style="Detail" positionType="Float" x="1" y="0" width="551" height="15" uuid="ab7f1c6c-f283-43d2-ae49-e7cb58d2ab06"/>
+						<textElement>
+							<font size="10" isBold="true" isUnderline="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{p3_singular} + " - " + $F{p3_menu}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true">
+						<reportElement style="Detail" positionType="Float" x="0" y="30" width="550" height="12" uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7"/>
+						<textElement markup="html">
+							<font size="8" isBold="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA["<style>" 
++"@import url('https://fonts.googleapis.com/css?family=PT+Sans');"
++"</style>"
++"<style>span{baddig:0} body{font-size: 12pt !important; font-family: PT Sans, Arial !important;}</style><div style=\"line-height: 70%;padding:0\"><font size=1>" 
++ $F{p3_descricao} != null ? "Descrição: " + $F{p3_descricao}.replaceAll("font-size","font-sizex") .replaceAll("helvetica","PT Sans").replaceAll("/ckimages", $P{APPLICATION_PATH} + "/../files_ckeditor"):""
+ + "</font></div>"]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true">
+						<reportElement style="Detail" positionType="Float" x="373" y="17" width="166" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{p3_equipe} != null ? "Equipe: " + $F{p3_equipe} : ""]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement style="Detail" positionType="Float" x="0" y="17" width="188" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{p3_responsavel} != null ? "Responsável: " + $F{p3_responsavel} : ""]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement style="Detail" positionType="Float" x="188" y="17" width="185" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{p3_supervisor} != null ? "Supervisor: " + $F{p3_supervisor} : ""]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="p4_nivel">
+		<groupExpression><![CDATA[$F{p4_id}]]></groupExpression>
+		<groupHeader>
+			<band height="48">
+				<printWhenExpression><![CDATA[$F{p4_id}!=null]]></printWhenExpression>
+				<frame>
+					<reportElement key="frame_grupo" style="grupo" mode="Transparent" x="0" y="0" width="555" height="46" backcolor="#F0F0F0" uuid="8dd82c75-2c03-4f48-8a79-d9913efb6ea5"/>
+					<textField isStretchWithOverflow="true">
+						<reportElement style="Detail" positionType="Float" x="1" y="0" width="551" height="15" uuid="ab7f1c6c-f283-43d2-ae49-e7cb58d2ab06"/>
+						<textElement>
+							<font size="10" isBold="true" isUnderline="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{p4_singular} + " - " + $F{p4_menu}]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true">
+						<reportElement style="Detail" positionType="Float" x="0" y="30" width="550" height="12" uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7"/>
+						<textElement markup="html">
+							<font size="8" isBold="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA["<style>" 
++"@import url('https://fonts.googleapis.com/css?family=PT+Sans');"
++"</style>"
++"<style>span{baddig:0} body{font-size: 12pt !important; font-family: PT Sans, Arial !important;}</style><div style=\"line-height: 70%;padding:0\"><font size=1>" 
++ $F{p4_descricao} != null ? "Descrição: " + $F{p4_descricao}.replaceAll("font-size","font-sizex") .replaceAll("helvetica","PT Sans").replaceAll("/ckimages", $P{APPLICATION_PATH} + "/../files_ckeditor"):""
+ + "</font></div>"]]></textFieldExpression>
+					</textField>
+					<textField isStretchWithOverflow="true">
+						<reportElement style="Detail" positionType="Float" x="373" y="17" width="166" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{p4_equipe} != null ? "Equipe: " + $F{p4_equipe} : ""]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement style="Detail" positionType="Float" x="0" y="17" width="188" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{p4_responsavel} != null ? "Responsável: " + $F{p4_responsavel} : ""]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement style="Detail" positionType="Float" x="188" y="17" width="185" height="12" uuid="731fd018-e852-453f-829e-5193458d2662"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{p4_supervisor} != null ? "Supervisor: " + $F{p4_supervisor} : ""]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -423,7 +526,7 @@ GROUP BY
 				<reportElement x="325" y="3" width="230" height="107" uuid="825596c2-88c4-4c6c-ac71-18f0525ac184"/>
 				<image onErrorType="Blank">
 					<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="211" height="77" uuid="0a472d41-1c64-4c01-a285-602b90e588eb"/>
-					<imageExpression><![CDATA[$P{APPLICATION_PATH}+ "/../public/images/logo_sisplan.png"]]></imageExpression>
+					<imageExpression><![CDATA[new ByteArrayInputStream(org.apache.commons.codec.binary.Base64.decodeBase64("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".getBytes()))]]></imageExpression>
 				</image>
 				<staticText>
 					<reportElement x="0" y="77" width="209" height="20" uuid="0a44278b-f5a0-4d50-b487-f65e419fd153"/>
@@ -518,8 +621,8 @@ GROUP BY
 					</jr:list>
 				</componentElement>
 				<textField>
-					<reportElement x="0" y="24" width="555" height="42" uuid="ceea1f45-b817-420c-9375-959cbad4633d"/>
-					<textElement textAlignment="Center">
+					<reportElement stretchType="RelativeToTallestObject" x="0" y="24" width="555" height="42" uuid="ceea1f45-b817-420c-9375-959cbad4633d"/>
+					<textElement textAlignment="Center" markup="html">
 						<font size="14" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{report_title}]]></textFieldExpression>
@@ -531,7 +634,7 @@ GROUP BY
 		<band height="27" splitType="Stretch">
 			<image onErrorType="Blank">
 				<reportElement x="0" y="0" width="100" height="27" uuid="813c3241-f995-4c65-a596-0456db78a260"/>
-				<imageExpression><![CDATA[$P{APPLICATION_PATH}+ "/../public/images/logo_sisplan.png"]]></imageExpression>
+				<imageExpression><![CDATA[new ByteArrayInputStream(org.apache.commons.codec.binary.Base64.decodeBase64("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".getBytes()))]]></imageExpression>
 			</image>
 			<componentElement>
 				<reportElement x="100" y="0" width="455" height="27" uuid="759bc9ec-e08c-434b-88b2-399a5549724f">
@@ -578,7 +681,7 @@ GROUP BY
 				</textField>
 				<textField isStretchWithOverflow="true">
 					<reportElement style="Detail" positionType="Float" x="0" y="27" width="555" height="12" uuid="535cf34a-25f1-44ff-a670-822cee6fbaf7"/>
-					<textElement markup="html">
+					<textElement textAlignment="Justified" markup="html">
 						<font size="8"/>
 					</textElement>
 					<textFieldExpression><![CDATA["<style>" 
@@ -611,7 +714,7 @@ GROUP BY
 				</textField>
 				<staticText>
 					<reportElement style="Detail" positionType="Float" x="0" y="46" width="555" height="15" uuid="37953b06-7767-42cd-ae57-a3ad26b28da2">
-						<printWhenExpression><![CDATA[$P{mostrar_fisico}]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$P{mostrar_fisico}==1]]></printWhenExpression>
 					</reportElement>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font isBold="true"/>
@@ -621,7 +724,7 @@ GROUP BY
 				<componentElement>
 					<reportElement style="Detail" positionType="Float" x="0" y="63" width="555" height="42" uuid="d50ad6cc-f43e-47ec-a3f2-6d9e56fecdab">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-						<printWhenExpression><![CDATA[$P{mostrar_fisico}]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$P{mostrar_fisico}==1]]></printWhenExpression>
 					</reportElement>
 					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
 						<datasetRun subDataset="operativosDS" uuid="cf87f43e-7bc9-4180-8063-d58f56f2673d">
@@ -742,16 +845,19 @@ GROUP BY
 				</componentElement>
 				<frame>
 					<reportElement style="Detail" positionType="Float" x="0" y="106" width="555" height="37" uuid="2f940162-8f41-4931-918f-72fd7acc0875">
-						<printWhenExpression><![CDATA[$P{mostrar_financeiro}]]></printWhenExpression>
+						<printWhenExpression><![CDATA[$P{mostrar_financeiro}.equals(new Integer("1") )]]></printWhenExpression>
 					</reportElement>
 					<componentElement>
 						<reportElement positionType="Float" stretchType="ElementGroupBottom" x="0" y="26" width="555" height="11" uuid="b1244040-bf7f-4ba3-98f6-7ab513056695">
 							<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 						</reportElement>
 						<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
-							<datasetRun subDataset="financeiroDS" uuid="ec1e5e89-4fe2-46d7-b951-8cc67b97c14e">
+							<datasetRun subDataset="financeiroDS" uuid="b6317b26-0242-4b73-8ebe-2e429c1b2235">
 								<datasetParameter name="programacao_id">
 									<datasetParameterExpression><![CDATA[$F{p5_id}]]></datasetParameterExpression>
+								</datasetParameter>
+								<datasetParameter name="user_id">
+									<datasetParameterExpression><![CDATA[$P{user_id}]]></datasetParameterExpression>
 								</datasetParameter>
 								<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 							</datasetRun>
@@ -910,10 +1016,6 @@ GROUP BY
 						</staticText>
 					</frame>
 				</frame>
-				<textField>
-					<reportElement mode="Opaque" x="16" y="4" width="356" height="30" backcolor="#2CE8AD" uuid="4ec741a7-07bf-43a4-b75e-b1b0719e92ba"/>
-					<textFieldExpression><![CDATA[$P{mostrar_financeiro}]]></textFieldExpression>
-				</textField>
 			</frame>
 			<line>
 				<reportElement x="0" y="0" width="555" height="1" uuid="79b568b1-1cd1-477d-9b56-839de809f013"/>

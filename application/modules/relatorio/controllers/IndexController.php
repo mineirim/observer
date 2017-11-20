@@ -25,9 +25,20 @@ class Relatorio_IndexController extends Zend_Controller_Action
         
         $basicReport->setReportsPath($script_paths[0]."index/");
         $basicReport->init($this->getAllParams());
-        
         $this->getResponse()->setHttpResponseCode(200);
         $basicReport->display();
+    }
+    public function customReportAction(){
+        $this->_helper->viewRenderer->setNoRender(true);
+        $format = $this->getParam('output-format','pdf');
+        $basicReport = new \Etc\Reports\CustomReports('fiotec',$this->getParam('report-type'), $format);
+
+        $script_paths =$this->view->getScriptPaths(); 
+        
+        $basicReport->setReportsPath($script_paths[0]."index/");
+        $basicReport->init($this->getAllParams());
+        $this->getResponse()->setHttpResponseCode(200);
+        $basicReport->display();        
     }
     /**
      * 
@@ -36,19 +47,19 @@ class Relatorio_IndexController extends Zend_Controller_Action
      */
     private function addFields( $jasperDesign, $seq){
         $fields =[
-            	array('name'=>'id' ,'class'=>'java.lang.Integer'),
-                array('name'=>'singular' ,'class'=>'java.lang.String'),
-                array('name'=>'has_responsavel' ,'class'=>'java.lang.Boolean'),
-                array('name'=>'has_supervisor' ,'class'=>'java.lang.Boolean'),
-                array('name'=>'has_equipe' ,'class'=>'java.lang.Boolean'),
-                array('name'=>'menu' ,'class'=>'java.lang.String'),
-                array('name'=>'descricao' ,'class'=>'java.lang.String'),
-                array('name'=>'ordem' ,'class'=>'java.lang.Integer'),
-                array('name'=>'programacao_id' ,'class'=>'java.lang.Integer'),
-                array('name'=>'equipe' ,'class'=>'java.lang.String'),
-                array('name'=>'responsavel' ,'class'=>'java.lang.String'),
-                array('name'=>'supervisor' ,'class'=>'java.lang.String'),
-                array('name'=>'instrumento_id' ,'class'=>'java.lang.Integer'),
+            	['name'=>'id' ,'class'=>'java.lang.Integer'],
+                ['name'=>'singular' ,'class'=>'java.lang.String'],
+                ['name'=>'has_responsavel' ,'class'=>'java.lang.Boolean'],
+                ['name'=>'has_supervisor' ,'class'=>'java.lang.Boolean'],
+                ['name'=>'has_equipe' ,'class'=>'java.lang.Boolean'],
+                ['name'=>'menu' ,'class'=>'java.lang.String'],
+                ['name'=>'descricao' ,'class'=>'java.lang.String'],
+                ['name'=>'ordem' ,'class'=>'java.lang.Integer'],
+                ['name'=>'programacao_id' ,'class'=>'java.lang.Integer'],
+                ['name'=>'equipe' ,'class'=>'java.lang.String'],
+                ['name'=>'responsavel' ,'class'=>'java.lang.String'],
+                ['name'=>'supervisor' ,'class'=>'java.lang.String'],
+                ['name'=>'instrumento_id' ,'class'=>'java.lang.Integer'],
         ];
         foreach ($fields as $value) {
             /* @var $jField \EtcReport\Jasper\Java\JRDesignField  */
@@ -80,7 +91,7 @@ class Relatorio_IndexController extends Zend_Controller_Action
         
         $out = new Java("java.io.ByteArrayOutputStream");
 
-          $arr = array();
+          $arr = [];
           $strlen = strlen($value);
           for ($i = 0; $i < $strlen; $i ++) {
               $val = ord(substr($value, $i, 1));

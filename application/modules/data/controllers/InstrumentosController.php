@@ -24,9 +24,17 @@ class Data_InstrumentosController extends Zend_Rest_Controller
     {
         $instrumentos_table = new Data_Model_DbTable_Instrumentos();
         $this->_helper->viewRenderer->setNoRender(true);
-        $page = $instrumentos_table->getOnePageOfOrderEntries($this->getAllParams());
-        $this->view->rows =$page['rows'];
-        $this->view->total = $page['total'];
+        if($this->getParam('tree')){
+            $id = $this->getParam('id',1);
+            $instrumentos_model  = new Data_Model_Instrumentos();
+            $stmt =  $instrumentos_model->getRecursiveStructure($id);
+            $this->view->total = $stmt->rowCount();
+            $this->view->rows= $stmt->fetchAll();
+        }else{
+            $page = $instrumentos_table->getOnePageOfOrderEntries($this->getAllParams());
+            $this->view->rows =$page['rows'];
+            $this->view->total = $page['total'];
+        }
         $this->getResponse()->setHttpResponseCode(200);
     }
 

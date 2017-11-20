@@ -11,13 +11,16 @@ defined('APPLICATION_ENV')
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(
     realpath(APPLICATION_PATH . '/../library'),
-    get_include_path(),
+    realpath(APPLICATION_PATH . '/../vendor/zendframework/zendframework1/library'),
+    // get_include_path(),
 )));
 
 // corrigir session no kinghost
 if(APPLICATION_ENV=='production')
     session_save_path(APPLICATION_PATH.'/../tmp');
 
+
+require_once realpath(APPLICATION_PATH . '/../vendor/autoload.php');
 
 /** Zend_Application */
 require_once 'Zend/Application.php';

@@ -13,12 +13,10 @@ class ErrorController extends Zend_Controller_Action {
 	 */
 	public function errorAction() {
 		$errors = $this->_getParam('error_handler');
-
 		if (!$errors || !$errors instanceof ArrayObject) {
 			$this->view->message = 'You have reached the error page';
 			return;
 		}
-
 		switch ($errors->type) {
 			case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_ROUTE:
 			case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:
@@ -44,7 +42,9 @@ class ErrorController extends Zend_Controller_Action {
 
 		// conditionally display exceptions
 		if ($this->getInvokeArg('displayExceptions') == true) {
-			$this->view->exception = $errors->exception->getMessage();
+                        $this->view->message = $errors->exception->getMessage();
+			$this->view->exception = $errors->exception->getTraceAsString();
+                        $this->view->code =  $errors->exception->getCode();
 		}
 
 		$this->view->request = $errors->request;

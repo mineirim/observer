@@ -1,0 +1,17 @@
+{
+    "name": "barraetc/observer",
+    "description": "Sistema de Monitoramento da Execução do Planejamento Estratégico\"",
+    "type": "project",
+    "require": {
+        "zendframework/zendframework1": "1.*",
+        "geekcom/phpjasper": "1.*",
+        "setasign/fpdi-fpdf": "1.*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marcone Costa",
+            "email": "marcone@barraetc.com.br"
+        }
+    ]
+}

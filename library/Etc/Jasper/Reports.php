@@ -6,7 +6,7 @@ use \EtcReport\Jasper\Manager\JasperDesign,
 
 /* no java_require() include the java.inc for PHP/Java Bridge */
 if ( ! function_exists('java_require') ) {
-    require_once("http://localhost:8080/JavaBridge/java/Java.inc"); 
+    require_once("http://unasus_tomcat:8080/JavaBridge/java/Java.inc"); 
 }
 
 /* declare this, it doesn't exist with Zend Java, but is needed for PHP/Java Bridge */
@@ -105,7 +105,7 @@ class Reports {
      */
     public function compileFileReport($reportFileName)
     {
-        if ($this->_report === null)
+//        if ($this->_report === null)
             $this->_report = $this->getJasperCompileManager()->compileReport($reportFileName);
         return $this;
     }

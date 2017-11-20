@@ -22,4 +22,9 @@ class Data_Model_DbTable_Row_Projeto  extends Zend_Db_Table_Row_Abstract {
  
         return $this->_financiadores;
     }
+    public function toArray() {
+        $data = parent::toArray();
+        $data['propriedades']= json_decode($data['propriedades']);
+        return $data;
+    }      
 }

@@ -20,15 +20,25 @@ class Data_AnexosController extends Zend_Rest_Controller {
 
     public function indexAction() {
         $rows = [];
+        $anexosDBTable = new Data_Model_DbTable_Anexos();
+        $programacoesTable = new Data_Model_DbTable_Programacoes;
         if ($this->getParam('programacao')) {
             if ($this->getParam('programacao_id')) {
                 $programacoes_model = new Data_Model_Programacoes();
                 $programcao = $programacoes_model->getRow('id=' . $this->getParam('programacao_id'));
                 $rows = $programcao->getAnexos()->getAsArray();
             }
+        } elseif ($this->getParam('report')) {
+            $anexosModel = new Data_Model_Anexos;
+            $projetoId = $this->getParam('projeto');
+//            $where = ['? = ANY(projetos)'=>[$projetoId]];  
+            $where = "id in (SELECT anexo_id FROM programacao_anexos 
+                    WHERE programacao_id IN (SELECT id FROM programacoes WHERE $projetoId=ANY(projetos) ))";
+            $rows = $anexosModel->listByProject($projetoId);
+//            $rows =$programacoesTable->fetchAll($where)->toArray();
+//            $rows = $anexosDBTable->fetchAll($where, 'id')->toArray();            
         } else {
-            $anexos_table = new Data_Model_DbTable_Anexos();
-            $rows = $anexos_table->fetchAll(null, 'id')->toArray();
+            $rows = $anexosDBTable->fetchAll(null, 'id')->toArray();
         }
         $this->_helper->viewRenderer->setNoRender(true);
         $this->view->rows = $rows;
@@ -68,7 +78,7 @@ class Data_AnexosController extends Zend_Rest_Controller {
                         ;
                     } else {
 
-                        $this->view->resposta['rows'] = ['nome' => $anexo->nome,
+                        $this->view->resposta['rows'] = ['id'=>$anexo->id, 'nome' => $anexo->nome,
                             'sum_hash' => $anexo->hash_sum];
                     }
                     $this->view->resposta['success'] = true;

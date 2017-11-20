@@ -315,19 +315,21 @@ class Data_Model_ProjetosNavigation {
         /* @var $db \Zend_Db */
         $db= Zend_Registry::get('db');
         foreach ($projetos as $projeto) {
-            $sql = 'WITH RECURSIVE 
+            $sql = '
+                WITH RECURSIVE 
                         prog AS 
                         ( 
                         SELECT  1 as nivel,array[programacoes.id] AS path,  programacoes.id, programacao_id
                         FROM    programacoes 
-                        WHERE   projeto_id=' . $projeto->id . '
+                        WHERE   projeto_id=' . $projeto->id . ' AND programacoes.situacao_id<>2
                         UNION ALL
                         SELECT  prog.nivel+1,  prog.path || p.id,  p.id, p.programacao_id
                         FROM    programacoes p 
                         JOIN    prog  
                         ON      p.id = prog.programacao_id
+                        WHERE p.situacao_id<>2
                         ) 
-                update programacoes set projetos=array_append_distinct(projetos,' . $projeto->id . ') where programacoes.id in (select id from prog)';
+                update programacoes set projetos=array_append_distinct(projetos,' . $projeto->id . ') where programacoes.id in (select id from prog);';
             $query = $db->query($sql);
             $query->execute();
             echo $sql;

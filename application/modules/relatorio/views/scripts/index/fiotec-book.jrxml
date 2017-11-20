@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.3.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="fiotec-book" pageWidth="595" pageHeight="842" sectionType="Part" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="30" bottomMargin="30" uuid="d2716064-8ae4-40cf-a575-33afba400e3a">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="unasus"/>
+	<property name="net.sf.jasperreports.print.create.bookmarks" value="true"/>
+	<property name="com.jaspersoft.studio.book.group.cover.header" value="Cover and Table of Contents"/>
+	<property name="com.jaspersoft.studio.book.group.cover.footer" value="Backcover"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<queryString language="SQL">
+		<![CDATA[WITH n1 as ( SELECT p1.id AS p1_id, p1.singular as p1_singular, p1.has_responsavel as p1_has_responsavel, p1.has_supervisor as p1_has_supervisor, p1.has_equipe as p1_has_equipe, p1.menu as p1_menu, p1.descricao as p1_descricao, p1.ordem as p1_ordem, p1.programacao_id as p1_programacao_id, p1.equipe as p1_equipe, p1.responsavel as p1_responsavel, p1.supervisor as p1_supervisor, p1.instrumento_id as p1_instrumento_id, p1.projeto_id as p1_projeto_id, p1.responsavel_id as p1_responsavel_id, p1.supervisor_id as p1_supervisor_id FROM vw_report_base p1 WHERE p1.programacao_id is null and p1.instrumento_id=2 ), n2 as ( SELECT n1.*, p2.id AS p2_id, p2.singular as p2_singular, p2.has_responsavel as p2_has_responsavel, p2.has_supervisor as p2_has_supervisor, p2.has_equipe as p2_has_equipe, p2.menu as p2_menu, p2.descricao as p2_descricao, p2.ordem as p2_ordem, p2.programacao_id as p2_programacao_id, p2.equipe as p2_equipe, p2.responsavel as p2_responsavel, p2.supervisor as p2_supervisor, p2.instrumento_id as p2_instrumento_id, p2.projeto_id as p2_projeto_id, p2.responsavel_id as p2_responsavel_id, p2.supervisor_id as p2_supervisor_id FROM vw_report_base p2 RIGHT JOIN n1 on p2.programacao_id=n1.p1_id ), n3 as ( SELECT n2.*, p3.id AS p3_id, p3.singular as p3_singular, p3.has_responsavel as p3_has_responsavel, p3.has_supervisor as p3_has_supervisor, p3.has_equipe as p3_has_equipe, p3.menu as p3_menu, p3.descricao as p3_descricao, p3.ordem as p3_ordem, p3.programacao_id as p3_programacao_id, p3.equipe as p3_equipe, p3.responsavel as p3_responsavel, p3.supervisor as p3_supervisor, p3.instrumento_id as p3_instrumento_id, p3.projeto_id as p3_projeto_id, p3.responsavel_id as p3_responsavel_id, p3.supervisor_id as p3_supervisor_id FROM vw_report_base p3 RIGHT JOIN n2 on p3.programacao_id=n2.p2_id ), n4 as ( SELECT n3.*, p4.id AS p4_id, p4.singular as p4_singular, p4.has_responsavel as p4_has_responsavel, p4.has_supervisor as p4_has_supervisor, p4.has_equipe as p4_has_equipe, p4.menu as p4_menu, p4.descricao as p4_descricao, p4.ordem as p4_ordem, p4.programacao_id as p4_programacao_id, p4.equipe as p4_equipe, p4.responsavel as p4_responsavel, p4.supervisor as p4_supervisor, p4.instrumento_id as p4_instrumento_id, p4.projeto_id as p4_projeto_id, p4.responsavel_id as p4_responsavel_id, p4.supervisor_id as p4_supervisor_id FROM vw_report_base p4 RIGHT JOIN n3 on p4.programacao_id=n3.p3_id ), n5 as ( SELECT n4.*, p5.id AS p5_id, p5.singular as p5_singular, p5.has_responsavel as p5_has_responsavel, p5.has_supervisor as p5_has_supervisor, p5.has_equipe as p5_has_equipe, p5.menu as p5_menu, p5.descricao as p5_descricao, p5.ordem as p5_ordem, p5.programacao_id as p5_programacao_id, p5.equipe as p5_equipe, p5.responsavel as p5_responsavel, p5.supervisor as p5_supervisor, p5.instrumento_id as p5_instrumento_id, p5.projeto_id as p5_projeto_id, p5.responsavel_id as p5_responsavel_id, p5.supervisor_id as p5_supervisor_id FROM vw_report_base p5 RIGHT JOIN n4 on p5.programacao_id=n4.p4_id ) SELECT * FROM n5 WHERE n5.p5_projeto_id=83 order by p1_id,p2_id,p3_id,p4_id,p5_id]]>
+	</queryString>
+	<field name="p1_id" class="java.lang.Integer"/>
+	<field name="p1_singular" class="java.lang.String"/>
+	<field name="p1_has_responsavel" class="java.lang.Boolean"/>
+	<field name="p1_has_supervisor" class="java.lang.Boolean"/>
+	<field name="p1_has_equipe" class="java.lang.Boolean"/>
+	<field name="p1_menu" class="java.lang.String"/>
+	<field name="p1_descricao" class="java.lang.String"/>
+	<field name="p1_ordem" class="java.lang.Integer"/>
+	<field name="p1_programacao_id" class="java.lang.Integer"/>
+	<field name="p1_equipe" class="java.lang.String"/>
+	<field name="p1_responsavel" class="java.lang.String"/>
+	<field name="p1_supervisor" class="java.lang.String"/>
+	<field name="p1_instrumento_id" class="java.lang.Integer"/>
+	<field name="p1_projeto_id" class="java.lang.Integer"/>
+	<field name="p1_responsavel_id" class="java.lang.Integer"/>
+	<field name="p1_supervisor_id" class="java.lang.Integer"/>
+	<field name="p2_id" class="java.lang.Integer"/>
+	<field name="p2_singular" class="java.lang.String"/>
+	<field name="p2_has_responsavel" class="java.lang.Boolean"/>
+	<field name="p2_has_supervisor" class="java.lang.Boolean"/>
+	<field name="p2_has_equipe" class="java.lang.Boolean"/>
+	<field name="p2_menu" class="java.lang.String"/>
+	<field name="p2_descricao" class="java.lang.String"/>
+	<field name="p2_ordem" class="java.lang.Integer"/>
+	<field name="p2_programacao_id" class="java.lang.Integer"/>
+	<field name="p2_equipe" class="java.lang.String"/>
+	<field name="p2_responsavel" class="java.lang.String"/>
+	<field name="p2_supervisor" class="java.lang.String"/>
+	<field name="p2_instrumento_id" class="java.lang.Integer"/>
+	<field name="p2_projeto_id" class="java.lang.Integer"/>
+	<field name="p2_responsavel_id" class="java.lang.Integer"/>
+	<field name="p2_supervisor_id" class="java.lang.Integer"/>
+	<field name="p3_id" class="java.lang.Integer"/>
+	<field name="p3_singular" class="java.lang.String"/>
+	<field name="p3_has_responsavel" class="java.lang.Boolean"/>
+	<field name="p3_has_supervisor" class="java.lang.Boolean"/>
+	<field name="p3_has_equipe" class="java.lang.Boolean"/>
+	<field name="p3_menu" class="java.lang.String"/>
+	<field name="p3_descricao" class="java.lang.String"/>
+	<field name="p3_ordem" class="java.lang.Integer"/>
+	<field name="p3_programacao_id" class="java.lang.Integer"/>
+	<field name="p3_equipe" class="java.lang.String"/>
+	<field name="p3_responsavel" class="java.lang.String"/>
+	<field name="p3_supervisor" class="java.lang.String"/>
+	<field name="p3_instrumento_id" class="java.lang.Integer"/>
+	<field name="p3_projeto_id" class="java.lang.Integer"/>
+	<field name="p3_responsavel_id" class="java.lang.Integer"/>
+	<field name="p3_supervisor_id" class="java.lang.Integer"/>
+	<field name="p4_id" class="java.lang.Integer"/>
+	<field name="p4_singular" class="java.lang.String"/>
+	<field name="p4_has_responsavel" class="java.lang.Boolean"/>
+	<field name="p4_has_supervisor" class="java.lang.Boolean"/>
+	<field name="p4_has_equipe" class="java.lang.Boolean"/>
+	<field name="p4_menu" class="java.lang.String"/>
+	<field name="p4_descricao" class="java.lang.String"/>
+	<field name="p4_ordem" class="java.lang.Integer"/>
+	<field name="p4_programacao_id" class="java.lang.Integer"/>
+	<field name="p4_equipe" class="java.lang.String"/>
+	<field name="p4_responsavel" class="java.lang.String"/>
+	<field name="p4_supervisor" class="java.lang.String"/>
+	<field name="p4_instrumento_id" class="java.lang.Integer"/>
+	<field name="p4_projeto_id" class="java.lang.Integer"/>
+	<field name="p4_responsavel_id" class="java.lang.Integer"/>
+	<field name="p4_supervisor_id" class="java.lang.Integer"/>
+	<field name="p5_id" class="java.lang.Integer"/>
+	<field name="p5_singular" class="java.lang.String"/>
+	<field name="p5_has_responsavel" class="java.lang.Boolean"/>
+	<field name="p5_has_supervisor" class="java.lang.Boolean"/>
+	<field name="p5_has_equipe" class="java.lang.Boolean"/>
+	<field name="p5_menu" class="java.lang.String"/>
+	<field name="p5_descricao" class="java.lang.String"/>
+	<field name="p5_ordem" class="java.lang.Integer"/>
+	<field name="p5_programacao_id" class="java.lang.Integer"/>
+	<field name="p5_equipe" class="java.lang.String"/>
+	<field name="p5_responsavel" class="java.lang.String"/>
+	<field name="p5_supervisor" class="java.lang.String"/>
+	<field name="p5_instrumento_id" class="java.lang.Integer"/>
+	<field name="p5_projeto_id" class="java.lang.Integer"/>
+	<field name="p5_responsavel_id" class="java.lang.Integer"/>
+	<field name="p5_supervisor_id" class="java.lang.Integer"/>
+	<group name="cover">
+		<groupHeader>
+			<part uuid="7aed05b9-1301-4a53-b47e-34289560bc0c">
+				<p:subreportPart xmlns:p="http://jasperreports.sourceforge.net/jasperreports/parts" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/parts http://jasperreports.sourceforge.net/xsd/parts.xsd">
+					<subreportExpression><![CDATA["fiotec-book_cover.jasper"]]></subreportExpression>
+				</p:subreportPart>
+			</part>
+			<part evaluationTime="Report" uuid="56ab525c-754f-4f48-a52c-7cc23934be3d">
+				<property name="net.sf.jasperreports.bookmarks.data.source.parameter" value="REPORT_DATA_SOURCE"/>
+				<p:subreportPart xmlns:p="http://jasperreports.sourceforge.net/jasperreports/parts" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/parts http://jasperreports.sourceforge.net/xsd/parts.xsd">
+					<subreportExpression><![CDATA["fiotec-book_toc.jasper"]]></subreportExpression>
+				</p:subreportPart>
+			</part>
+		</groupHeader>
+	</group>
+	<detail>
+		<part uuid="f37508d7-f5d7-4294-a8ff-ef3f6c25bff5">
+			<p:subreportPart xmlns:p="http://jasperreports.sourceforge.net/jasperreports/parts" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/parts http://jasperreports.sourceforge.net/xsd/parts.xsd">
+				<subreportParameter name="REPORT_CONNECTION">
+					<subreportParameterExpression><![CDATA[$P{REPORT_CONNECTION}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportExpression><![CDATA["report-15.jasper"]]></subreportExpression>
+			</p:subreportPart>
+		</part>
+	</detail>
+</jasperReport>

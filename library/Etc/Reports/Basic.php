@@ -134,6 +134,16 @@ class Basic {
 	}
 	public function display() {
             $jasper = new \JasperPHP\JasperPHP;
+            switch ($this->_reportParams['report_type']) {
+                case 2:
+                    $this->_reportParams['mostrar_fisico'] = 1;
+                    break;
+                case 3:
+                    $this->_reportParams['mostrar_fisico'] = 1;
+                    $this->_reportParams['mostrar_financeiro'] = 1;                    
+                default:
+                    break;
+            }
             $input = $this->_reportsPath.'report-'.$this->_reportParams['report_type'] . '.jrxml';
 //            $output = '/tmp/out/';
             $output = APPLICATION_PATH . '/../public/cache/00rep-' . $this->_reportParams['report_type'] ;

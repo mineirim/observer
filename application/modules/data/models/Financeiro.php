@@ -44,9 +44,12 @@ class Data_Model_Financeiro {
 				}
 			}
 			$tabledespesas = new Data_Model_DbTable_Despesas();
+                        if(Data_Model_DbTable_Row_Operativo::checkPermission($financeiro->programacao_id)){
+                            $despesas = $financeiro->findDependentRowset('Data_Model_DbTable_Despesas')->toArray();
+                        }
 			$select        = $tabledespesas->select();
 			$select->from('despesas', 'SUM(valor) AS valor');
-			$despesas          = $financeiro->findDependentRowset('Data_Model_DbTable_Despesas', null, $select);
+			$despesasSum          = $financeiro->findDependentRowset('Data_Model_DbTable_Despesas', null, $select);
 			$tableGrupoDespesa = $financeiro->findParentRow('Data_Model_DbTable_GrupoDespesas');
 			$grupoDespesa      = count($tableGrupoDespesa) > 0 ? $tableGrupoDespesa->toArray() : [];
 			$row               = [
@@ -59,7 +62,8 @@ class Data_Model_Financeiro {
 				'valor' => $financeiro->valor,
 				'origem_recurso_id' => $financeiro->origem_recurso_id,
 				'grupoDespesa' => $grupoDespesa,
-				'valor_executado' => $despesas->current()->valor,
+				'valor_executado' => $despesasSum->current()->valor,
+                                'despesas'=>$despesas,
 				'parent_rows' => $parents,
 			];
 

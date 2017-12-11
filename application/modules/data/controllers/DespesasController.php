@@ -28,8 +28,9 @@ class Data_DespesasController extends Zend_Rest_Controller
         if($this->_getParam('filter')){
             $filtro  = json_decode($this->_getParam('filter'),true);
             //se passado filtro =null, então deve retornar objeto vazio
-            if(!$filtro[0]['value'])
+            if(!$filtro[0]['value']){
                 return;
+            }
            
             
             if($filtro[0]['property']=='programacao_id' && $filtro[0]['value']){

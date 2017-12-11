@@ -15,7 +15,7 @@ class Data_Model_Programacoes {
     public function getRow($where=null, $order=null, $offset=null){
         return $this->_model->fetchRow($where, $order, $offset);
     }
-    public function getRecursive($id=null, $instrumento_id=null, $projeto_id=null) {
+    public function getRecursive($id=null, $instrumento_id=null, $projetoId=null) {
         $where = " situacao_id <>2 ";
         if($instrumento_id){
             $where .= " and instrumento_id=$instrumento_id ";
@@ -23,10 +23,10 @@ class Data_Model_Programacoes {
         $projectWhere = ' ';
         $filterProjetoId = "''";
         $projectSubWhere = ' ';
-        if($projeto_id){
-            $projectWhere .= ' AND '. $projeto_id.' = ANY(projetos) ';
-            $projectSubWhere .= ' AND '. $projeto_id.' = ANY(p.projetos) ';
-            $filterProjetoId =$projeto_id;
+        if($projetoId){
+            $projectWhere .= ' AND '. $projetoId.' = ANY(projetos) ';
+            $projectSubWhere .= ' AND '. $projetoId.' = ANY(p.projetos) ';
+            $filterProjetoId =$projetoId;
         }
         $where .= $id ? ' and programacao_id=' . $id : " and programacao_id is null";
         $select = "WITH RECURSIVE 

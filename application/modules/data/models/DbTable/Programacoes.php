@@ -45,6 +45,10 @@ class Data_Model_DbTable_Programacoes extends Etc_Model_AssignModel {
 	 * @return mixed
 	 */
 	public function insert(array $data) {
+		if(isset($data['propriedades'])){
+			$data['propriedades']= json_encode($data['propriedades']);
+
+		}            
 		$id = parent::insert($data);
 		if (isset($data['projeto_id']) && $data['projeto_id'] !== '') {
 			$this->updateTreeOfProjects($data['projeto_id'], $id);

@@ -40,7 +40,15 @@ class Data_InstrumentosController extends Zend_Rest_Controller
 
     public function getAction()
     {
-        return $this->_forward('index');
+        if($this->getParam('children')){
+            $instrumentos_table = new Data_Model_DbTable_Instrumentos();
+            $this->_helper->viewRenderer->setNoRender(true);   
+            $id = $this->getParam('id',1);
+            $this->view->rows = $instrumentos_table->fetchAll(['instrumento_id=?'=>$id])->toArray();
+        }else{
+            return $this->_forward('index');
+        }
+        $this->getResponse()->setHttpResponseCode(200);
     }
 
     public function putAction()

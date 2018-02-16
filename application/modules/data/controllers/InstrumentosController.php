@@ -30,6 +30,11 @@ class Data_InstrumentosController extends Zend_Rest_Controller
             $stmt =  $instrumentos_model->getRecursiveStructure($id);
             $this->view->total = $stmt->rowCount();
             $this->view->rows= $stmt->fetchAll();
+        }elseif($this->hasParam('root')){
+            $where = 'instrumento_id is null';
+            $page = $instrumentos_table->getOnePageOfOrderEntries($this->getAllParams(), $where);
+            $this->view->rows =$page['rows'];
+            $this->view->total = $page['total'];
         }else{
             $page = $instrumentos_table->getOnePageOfOrderEntries($this->getAllParams());
             $this->view->rows =$page['rows'];

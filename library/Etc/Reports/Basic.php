@@ -41,6 +41,7 @@ class Basic {
 	 * @param $params
 	 */
 	public function init($params) {
+            
 		$this->_auth           = \Zend_Auth::getInstance();
 		$identity              = $this->_auth->getIdentity();
 		$this->_reportFileName = 'geral';
@@ -54,14 +55,20 @@ class Basic {
 		$this->_reportParams['user_type']    = (int) $identity->is_su ? 1 : 2;
 		$this->_reportParams['report_title'] = htmlentities($this->_reportTitle[$this->_reportParams['report_type']]);
 		$compositeId                         = explode('-', $params['id']);
-		if (count($compositeId) > 1) {
+                $instrumentoParentId=1;
+                if (count($compositeId) > 1) {
 			switch ($compositeId[0]) {
 			case 'instrumentoId':
 				$instrumento_id = $compositeId[1];
 				$estrutura      = $instrumentos_table->getRecursiveStructure($instrumento_id);
 				break;
 			case 'projetoId':
-				$estrutura            = $instrumentos_table->getRecursiveStructure(1);
+                                $projetosModel = new \Data_Model_Projetos();
+                                $projeto = $projetosModel->getProjeto($compositeId[1]);
+                                if($projeto['propriedades']!==null && isset($projeto['propriedades']->modelo)){
+                                    $instrumentoParentId = $projeto['propriedades']->modelo->id;
+                                }
+				$estrutura            = $instrumentos_table->getRecursiveStructure($instrumentoParentId);
 				$params['projeto_id'] = $compositeId[1];
 				break;
 			}
@@ -82,7 +89,7 @@ class Basic {
 		$dom_group_base   = \dom_import_simplexml($xml_report_group[0]);
 		$dom_report       = \dom_import_simplexml($xml_report[0]);
 		$dom_report->removeChild($dom_report->getElementsByTagName('group')->item(1));
-		$estrutura_arr = $estrutura->fetchAll();
+		$estrutura_arr = $estrutura->fetchAll('id>='.$instrumentoParentId);
 		$sql           = false;
 		$order         = [];
 		for ($ix = 1; $ix < $numHeaders; $ix++) {

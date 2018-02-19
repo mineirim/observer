@@ -159,7 +159,7 @@ GROUP BY
 	</parameter>
 	<queryString>
 		<![CDATA[with 	n1 as ( SELECT  p1.id AS p1_id, p1.singular as p1_singular, p1.has_responsavel as p1_has_responsavel, p1.has_supervisor as p1_has_supervisor, p1.has_equipe as p1_has_equipe, p1.menu as p1_menu, p1.descricao as p1_descricao, p1.ordem as p1_ordem, p1.programacao_id as p1_programacao_id, p1.equipe as p1_equipe, p1.responsavel as p1_responsavel, p1.supervisor as p1_supervisor, p1.instrumento_id as p1_instrumento_id
-	        FROM  vw_report_base p1 where p1.programacao_id is null and p1.instrumento_id=2),
+	        FROM  vw_report_base p1 where p1.programacao_id is null and p1.instrumento_id=46),
 	n2 as (
 		SELECT n1.*, p2.id AS p2_id, p2.singular as p2_singular, p2.has_responsavel as p2_has_responsavel, p2.has_supervisor as p2_has_supervisor, p2.has_equipe as p2_has_equipe, p2.menu as p2_menu, p2.descricao as p2_descricao, p2.ordem as p2_ordem, p2.programacao_id as p2_programacao_id, p2.equipe as p2_equipe, p2.responsavel as p2_responsavel, p2.supervisor as p2_supervisor, p2.instrumento_id as p2_instrumento_id
 	        FROM    vw_report_base p2 RIGHT JOIN n1 on p2.programacao_id=n1.p1_id),
@@ -538,7 +538,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
 						<datasetRun subDataset="operativosDS" uuid="cf87f43e-7bc9-4180-8063-d58f56f2673d">
 							<datasetParameter name="programacao_id">
-								<datasetParameterExpression><![CDATA[$F{p5_id}]]></datasetParameterExpression>
+								<datasetParameterExpression><![CDATA[$F{__detail_id}]]></datasetParameterExpression>
 							</datasetParameter>
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
@@ -663,7 +663,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 						<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
 							<datasetRun subDataset="financeiroDS" uuid="b6317b26-0242-4b73-8ebe-2e429c1b2235">
 								<datasetParameter name="programacao_id">
-									<datasetParameterExpression><![CDATA[$F{p5_id}]]></datasetParameterExpression>
+									<datasetParameterExpression><![CDATA[$F{__detail_id}]]></datasetParameterExpression>
 								</datasetParameter>
 								<datasetParameter name="user_id">
 									<datasetParameterExpression><![CDATA[$P{user_id}]]></datasetParameterExpression>

@@ -89,7 +89,7 @@ class Basic {
 		$dom_group_base   = \dom_import_simplexml($xml_report_group[0]);
 		$dom_report       = \dom_import_simplexml($xml_report[0]);
 		$dom_report->removeChild($dom_report->getElementsByTagName('group')->item(1));
-		$estrutura_arr = $estrutura->fetchAll('id>='.$instrumentoParentId);
+		$estrutura_arr = $estrutura->fetchAll();
 		$sql           = false;
 		$order         = [];
 		for ($ix = 1; $ix < $numHeaders; $ix++) {

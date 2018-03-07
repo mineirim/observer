@@ -64,6 +64,7 @@ class CustomReports extends \Etc\Reports\Basic {
         $this->_reportParams['user_type'] = (int) $identity->is_su ? 1 : 2;
         $this->_reportParams['report_title'] = $this->_reportTitle[$this->_reportParams['report_type']];
         $compositeId = explode('-', $params['id']);
+        $instrumentoParentId=1;
         if (count($compositeId) > 1) {
             switch ($compositeId[0]) {
                 case 'instrumentoId':
@@ -71,7 +72,12 @@ class CustomReports extends \Etc\Reports\Basic {
                     $estrutura = $instrumentos_table->getRecursiveStructure($instrumento_id);
                     break;
                 case 'projetoId':
-                    $estrutura = $instrumentos_table->getRecursiveStructure(1);
+                    $projetosModel = new \Data_Model_Projetos();
+                    $projeto = $projetosModel->getProjeto($compositeId[1]);
+                    if($projeto['propriedades']!==null && isset($projeto['propriedades']->modelo)){
+                        $instrumentoParentId = $projeto['propriedades']->modelo->id;
+                    }
+                    $estrutura            = $instrumentos_table->getRecursiveStructure($instrumentoParentId);
                     $params['projeto_id'] = $compositeId[1];
                     break;
             }

@@ -205,7 +205,7 @@ class CustomReports extends \Etc\Reports\Basic {
         $jasper->compile($input)->execute();
         $jasper->process($inputFiotec, $output, $options)->execute();   //$this->jasper_reports->compileReport('report-'.$this->_reportParams['report_type'], 'pdf', $this->_reportParams);
         @unlink($input);
-//        unlink($inputCompiled);
+        unlink($inputCompiled);
         if ($this->format == 'pdf') {
             if(isset($this->_requestParams['attach']) && strlen($this->_requestParams['attach'])>0 && $this->_requestParams['attach'] !=='[]'){
                 $attachments = explode(':', $this->_requestParams['attach']);

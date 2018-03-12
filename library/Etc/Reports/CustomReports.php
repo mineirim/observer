@@ -156,7 +156,7 @@ class CustomReports extends \Etc\Reports\Basic {
         if($this->_modeloRelatorio['configuracoes']->campoApresentacao){
             $xml_report_text = str_replace('"apresentacao"', '"'.$this->_modeloRelatorio['configuracoes']->campoApresentacao.'"', $xml_report_text);
         }
-        file_put_contents('/tmp/000x.jrxml', $xml_report_text);
+//        file_put_contents('/tmp/000x.jrxml', $xml_report_text);
         $is = $this->getInputStream($xml_report_text);
         /* @var $jasperDesign \EtcReport\Jasper\Manager\JasperDesign */
         $jasperDesign = $this->jasper_reports->load($is);
@@ -174,6 +174,7 @@ class CustomReports extends \Etc\Reports\Basic {
     public function display() {
         $jasper = new \JasperPHP\JasperPHP;
         $input = $this->_reportsPath . 'report-' . $this->_reportParams['report_type'] . '.jrxml';
+        $inputCompiled = $this->_reportsPath . 'report-' . $this->_reportParams['report_type'] . '.jasper';
         $inputFiotec = $this->_reportsPath . 'TableOfContentsReport.jrxml';
         $this->_reportParams['report_file'] = 'report-' . $this->_reportParams['report_type'] . '.jasper';
         $this->_reportParams['mostrar_fisico'] = $this->_modeloRelatorio['configuracoes']->mostrarFisico ? 1 : 0;
@@ -181,6 +182,10 @@ class CustomReports extends \Etc\Reports\Basic {
         if( isset($this->_modeloRelatorio['configuracoes']->tituloRelatorio)){
             $this->_reportParams['report_title'] = utf8_encode($this->_modeloRelatorio['configuracoes']->tituloRelatorio);
         }
+        /**
+         * removido o título - problemas com acentuação
+         */
+        $this->_reportParams['report_title'] = ''; // removido o título por problemas de acentuação
 //            $output = '/tmp/out/';
         $output = APPLICATION_PATH . '/../public/cache/00rep-' . $this->_reportParams['report_type'];
         $conf = \Zend_Registry::get('config');
@@ -199,6 +204,8 @@ class CustomReports extends \Etc\Reports\Basic {
             'params' => $this->_reportParams, 'db_connection' => $dbparams,];
         $jasper->compile($input)->execute();
         $jasper->process($inputFiotec, $output, $options)->execute();   //$this->jasper_reports->compileReport('report-'.$this->_reportParams['report_type'], 'pdf', $this->_reportParams);
+        @unlink($input);
+//        unlink($inputCompiled);
         if ($this->format == 'pdf') {
             if(isset($this->_requestParams['attach']) && strlen($this->_requestParams['attach'])>0 && $this->_requestParams['attach'] !=='[]'){
                 $attachments = explode(':', $this->_requestParams['attach']);
@@ -225,6 +232,7 @@ class CustomReports extends \Etc\Reports\Basic {
         flush();
         @readfile($output);
         ob_flush();
+        unlink($output);
         exit();         
     }
     protected function displayPdf($output, $reportType) {
@@ -241,6 +249,7 @@ class CustomReports extends \Etc\Reports\Basic {
         ob_flush();
         @readfile($output);
         ob_flush();
+        unlink($output);
         die;
     }
 

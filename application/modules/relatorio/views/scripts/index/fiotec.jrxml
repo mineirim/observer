@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.0.final using JasperReports Library version 6.3.1  -->
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.3.1  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="geral" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e69bc383-12d4-4901-8503-507569fba44c">
 	<property name="ireport.zoom" value="1.3310000000000013"/>
 	<property name="ireport.x" value="0"/>
@@ -384,7 +384,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 					<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
 						<datasetRun subDataset="operativosDS" uuid="cf87f43e-7bc9-4180-8063-d58f56f2673d">
 							<datasetParameter name="programacao_id">
-								<datasetParameterExpression><![CDATA[$F{p5_id}]]></datasetParameterExpression>
+								<datasetParameterExpression><![CDATA[$F{__detail_id}]]></datasetParameterExpression>
 							</datasetParameter>
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
@@ -509,7 +509,7 @@ SELECT * FROM n5 order by p1_id,p2_id,p3_id]]>
 						<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
 							<datasetRun subDataset="financeiroDS" uuid="b6317b26-0242-4b73-8ebe-2e429c1b2235">
 								<datasetParameter name="programacao_id">
-									<datasetParameterExpression><![CDATA[$F{p5_id}]]></datasetParameterExpression>
+									<datasetParameterExpression><![CDATA[$F{__detail_id}]]></datasetParameterExpression>
 								</datasetParameter>
 								<datasetParameter name="user_id">
 									<datasetParameterExpression><![CDATA[$P{user_id}]]></datasetParameterExpression>

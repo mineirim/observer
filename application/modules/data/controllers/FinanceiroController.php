@@ -87,8 +87,13 @@ class Data_FinanceiroController extends Zend_Rest_Controller
             try{
         
                 $financeiro_table = new Data_Model_DbTable_Financeiro();
-                $formData = $this->getRequest()->getPost('rows');
-                $formData = json_decode($formData,true);
+                if ($this->getRequest()->getParam('rows')) {
+                        $formDataJson = $this->getRequest()->getParam('rows');
+                        $formData     = json_decode($formDataJson, true);
+                } else {
+                        $formDataJson = $this->getRequest()->getRawBody();
+                        $formData     = json_decode($formDataJson, true);
+                }            
                 unset($formData['id']);
                 foreach ($formData as $key => $value) {
                     if($value=='')

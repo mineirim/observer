@@ -53,7 +53,12 @@ class Data_DespesasController extends Zend_Rest_Controller
 
     public function getAction()
     {
-        // action body
+        $this->_helper->viewRenderer->setNoRender(true);
+        $financeiroModel = new Data_Model_DbTable_Despesas();
+        $this->view->row = $financeiroModel->find($this->getParam('id'))->toArray();
+        $this->view->rows = $financeiroModel->find($this->getParam('id'))->toArray();
+//        var_dump($financeiroModel->find($this->getParam('id'))->toArray());die;
+        $this->getResponse()->setHttpResponseCode(200);
     }
 
     public function putAction()
@@ -62,8 +67,13 @@ class Data_DespesasController extends Zend_Rest_Controller
         if(($this->getRequest()->isPut())){
             try{
                 $despesas_table = new Data_Model_DbTable_Despesas();
-                $formData = $this->getRequest()->getParam('rows');
-                $formData = json_decode($formData,true);
+                if ($this->getRequest()->getParam('rows')) {
+                        $formDataJson = $this->getRequest()->getParam('rows');
+                        $formData     = json_decode($formDataJson, true);
+                } else {
+                        $formDataJson = $this->getRequest()->getRawBody();
+                        $formData     = json_decode($formDataJson, true);
+                }   
                 $id=$formData['id'];
                 unset($formData['id']);
                 $despesas_table->update($formData, "id=$id");
@@ -89,8 +99,13 @@ class Data_DespesasController extends Zend_Rest_Controller
             try{
         
                 $despesas_table = new Data_Model_DbTable_Despesas();
-                $formData = $this->getRequest()->getPost('rows');
-                $formData = json_decode($formData,true);
+                if ($this->getRequest()->getParam('rows')) {
+                        $formDataJson = $this->getRequest()->getParam('rows');
+                        $formData     = json_decode($formDataJson, true);
+                } else {
+                        $formDataJson = $this->getRequest()->getRawBody();
+                        $formData     = json_decode($formDataJson, true);
+                }   
                 unset($formData['id']);
                 foreach ($formData as $key => $value) {
                     if($value=='')

@@ -70,6 +70,29 @@ class Data_Model_Orcamento {
 		$rows = $stmt->fetchAll();
 		return $rows;
 	}
+        
+        
+        public function getCompleteTree(){
+            /* @var $db \Zend_Db */
+            $db  = Zend_Registry::get('db');            
+            $sql = 'WITH RECURSIVE orcamento AS (
+                    SELECT 1 as nivel, array[rubricas.id] AS progpath, array[jsonb_build_object(\'menu\', rubricas.menu, \'tipo\', i.menu)] menus, rubricas.id, rubricas.programacao_id , rubricas.instrumento_id
+                    FROM public.programacoes rubricas INNER JOIN instrumentos i ON rubricas.instrumento_id=i.id
+                    WHERE rubricas.situacao_id <>2 and programacao_id IS NULL 
+                    UNION ALL
+                    SELECT o.nivel+1, o.progpath || p.id AS progpath , o.menus || jsonb_build_object(\'menu\', p.menu, \'tipo\', i.menu)  AS menus ,p.id, p.programacao_id , p.instrumento_id
+                    FROM public.programacoes p INNER JOIN instrumentos i ON p.instrumento_id=i.id
+                    INNER JOIN orcamento o ON o.id=p.programacao_id
+)
+SELECT * , array_to_json(menus) path from orcamento
+WHERE instrumento_id in (select id from instrumentos where has_vlr_programado=true and has_vlr_executado=false)
+ORDER BY   progpath;
+                    ';
+            	$stmt = $db->query($sql);
+		
+		$stmt->setFetchMode(Zend_Db::FETCH_ASSOC);
+		return $stmt->fetchAll();
+        }
 	/**
 	 * @param $params
 	 * @param $where

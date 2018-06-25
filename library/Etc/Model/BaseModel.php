@@ -45,7 +45,7 @@ class Etc_Model_BaseModel extends Zend_Db_Table_Abstract {
                     $query->order($sort['field'] .  ' ' . $sort['dir']);
                 }
             }else{
-                $sort = $params['sort'].' '.$params['dir'];                
+                $sort = [$params['sort'],$params['dir']];  
                 $query->order($sort);
             }
         }              

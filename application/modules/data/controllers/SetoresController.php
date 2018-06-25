@@ -25,12 +25,17 @@ class Data_SetoresController extends Zend_Rest_Controller
         $this->_helper->viewRenderer->setNoRender(true);
         $page = $setores_table->getOnePageOfOrderEntries($this->getAllParams());
         $this->view->rows =$page['rows'];
+        $this->view->row =$page['rows'];
         $this->view->total = $page['total'];
     }
 
     public function getAction()
     {
-        // action body
+        $this->_helper->viewRenderer->setNoRender(true);
+        $setoresDBTable   = new Data_Model_DbTable_Setores();
+        $setor = $setoresDBTable->find($this->getParam('id'));
+        $this->view->row = $setor->toArray();
+        $this->view->rows = $setor->toArray();
     }
 
     public function putAction()
@@ -39,8 +44,14 @@ class Data_SetoresController extends Zend_Rest_Controller
         if(($this->getRequest()->isPut())){
             try{
                 $setores_table = new Data_Model_DbTable_Setores();
-                $formData = $this->getRequest()->getParam('rows');
-                $formData = json_decode($formData,true);
+                if ($this->getRequest()->getParam('rows')) {
+                        $formDataJson = $this->getRequest()->getParam('rows');
+                        $formData     = json_decode($formDataJson, true);
+                } else {
+                        $formDataJson = $this->getRequest()->getRawBody();
+                        $formData     = json_decode($formDataJson, true);
+
+                }                
                 $id=$formData['id'];
                 unset($formData['id']);
                 $setores_table->update($formData, "id=$id");
@@ -48,6 +59,8 @@ class Data_SetoresController extends Zend_Rest_Controller
                 $obj = $setores_table->fetchRow("id=$id");
                 $this->view->record = $obj->toArray();
                 $this->view->success=true;
+                $this->view->rows    = $obj->toArray();
+                $this->view->row    = $obj->toArray();
         
             }  catch (Exception $e){
                 $this->view->success=false;
@@ -66,8 +79,14 @@ class Data_SetoresController extends Zend_Rest_Controller
             try{
         
                 $setores_table = new Data_Model_DbTable_Setores();
-                $formData = $this->getRequest()->getPost('rows');
-                $formData = json_decode($formData,true);
+                if ($this->getRequest()->getParam('rows')) {
+                        $formDataJson = $this->getRequest()->getParam('rows');
+                        $formData     = json_decode($formDataJson, true);
+                } else {
+                        $formDataJson = $this->getRequest()->getRawBody();
+                        $formData     = json_decode($formDataJson, true);
+
+                }
                 unset($formData['id']);
                 foreach ($formData as $key => $value) {
                     if($value=='')
@@ -76,8 +95,10 @@ class Data_SetoresController extends Zend_Rest_Controller
                 $id = $setores_table->insert($formData);
                 $this->view->msg="Dados inseridos com sucesso!";
         
-                $obj = $setores_table->fetchRow("id=$id");
-                $this->view->record = $obj;
+                $obj = $setores_table->fetchRow("id=$id");                
+                $this->view->rows    = $obj->toArray();
+                $this->view->row    = $obj->toArray();
+                $this->view->record = $obj->toArray();
                 $this->view->success=true;
                 $this->view->metodo = $this->getRequest()->getMethod();
         

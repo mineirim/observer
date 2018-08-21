@@ -55,8 +55,14 @@ class Data_UsuariosController extends Zend_Rest_Controller {
     public function getAction() {
         $usuarios_table = new Data_Model_Usuarios();
         try{
-            $usuario = $usuarios_table->getUsuario($this->_getParam('id')) ;
-            $this->view->rows = $usuario->toArray();
+            if($this->_getParam('id')=='me'){
+                $user = Zend_Auth::getInstance()->getIdentity();
+                $usuarioId = $user->id;
+            }else{
+                $usuarioId =$this->_getParam('id');
+            }
+            $usuario = $usuarios_table->getUsuario($usuarioId) ;
+            $this->view->rows = [$usuario->toArray()];
             $this->view->total = count($usuario);
             $this->getResponse()->setHttpResponseCode(200);
         }  catch (Exception $e){

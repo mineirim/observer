@@ -31,6 +31,9 @@ class Data_EstatisticasController extends Zend_Rest_Controller {
 		case 'execucao':
 			$this->view->rows = $estatisticasModel->getTotalPorNivel($programacaoId, $projetoId);
 			break;
+		case 'fisico-andamento':
+			$this->view->rows = $estatisticasModel->fisicoPorAndamento($projetoId);
+			break;
 		default:
 			$this->view->rows = $estatisticasModel->getUseByDay();
 			break;

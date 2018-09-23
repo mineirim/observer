@@ -111,4 +111,27 @@ class Data_Model_Estatisticas {
 		$despesas['rows'] = $rows;
 		return $despesas;
 	}
+        
+        public function fisicoPorAndamento($projetoId){
+            $sql = 'SELECT a.descricao, count(1)
+                    FROM public.programacoes p INNER JOIN situacoes s ON p.situacao_id=s.id
+                    INNER JOIN operativos o ON p.id=o.programacao_id
+                    INNER JOIN andamentos a ON o.andamento_id=a.id
+                    WHERE p.situacao_id<>2 AND  (projeto_id=:projetoId)
+                    GROUP BY a.descricao;';
+
+		if ($projetoId) {
+			$params[':projetoId'] = $projetoId;
+		}
+		/* @var $db \Zend_Db */
+		$db  = Zend_Registry::get('db');  
+		if ($params) {
+			$stmt = $db->query($sql, $params);
+		} else {
+			$stmt = $db->query($sql);
+		}
+		$stmt->setFetchMode(Zend_Db::FETCH_ASSOC);
+		$rows = $stmt->fetchAll();
+		return $rows;                
+        }
 }

@@ -35,6 +35,9 @@ class Data_DashboardController extends Zend_Rest_Controller {
                 case 'producao-mes':
 			$this->view->rows = $dashboardModel->somaGrupoDespesasMes($projetoId);
 			break;                        
+		case 'fisico-andamento':
+			$this->view->rows = $dashboardModel->fisicoPorAndamento($projetoId);
+                        break;
 		default:
 			$this->view->rows = $dashboardModel->somaGrupoDespesas($projetoId);
 			break;

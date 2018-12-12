@@ -20,7 +20,7 @@ class Data_Model_Subprojetos {
 	 * @return mixed
 	 */
 	public function listSubprojetos($projetoId = false, $dataReferencia = false) {
-		$where = 'id in (select p0.programacao_id from programacoes p0 WHERE p0.id IN (SELECT p.programacao_id FROM programacoes p INNER JOIN programacao_sistemas ps on p.id=ps.programacao_id WHERE ps.sistema_id is not null) )';
+		$where = 'id in (select p0.programacao_id from programacoes p0 WHERE p0.id IN (SELECT p.programacao_id FROM programacoes p INNER JOIN programacao_sistemas ps on p.id=ps.programacao_id WHERE ps.sistema_id is not null  AND p.instrumento_id=6) )';
 
 		if ($projetoId) {
 			$where .= ' AND ' . $projetoId . ' = ANY(projetos) ';
@@ -39,7 +39,7 @@ class Data_Model_Subprojetos {
 		$total             = 0.0;
 		$sistema           = \Zend_Registry::get('sistema');
 		$financeiroDbTable = new Data_Model_DbTable_Financeiro();
-		$whereParent       = 'id in (select p0.programacao_id from programacoes p0 WHERE p0.id IN (SELECT p.programacao_id FROM programacoes p INNER JOIN programacao_sistemas ps on p.id=ps.programacao_id WHERE ps.sistema_id is not null) )';
+		$whereParent       = 'id in (select p0.programacao_id from programacoes p0 WHERE p0.id IN (SELECT p.programacao_id FROM programacoes p INNER JOIN programacao_sistemas ps on p.id=ps.programacao_id WHERE ps.sistema_id is not null  AND p.instrumento_id=6) )';
 		$where             = ' programacao_id IN (SELECT p.id
                           FROM programacoes p INNER JOIN programacao_sistemas ps on p.id=ps.programacao_id
                           WHERE ps.sistema_id=' . $sistema->id . ' AND projeto_id=' . $projetoId . ') ';

@@ -173,12 +173,12 @@ class Data_Model_Dashboard {
         
                 
         public function fisicoPorAndamento($projetoId){
-            $sql = 'SELECT a.descricao as label, count(1) as total
+            $sql = 'SELECT a.grafico as label, count(1) as total
                     FROM public.programacoes p INNER JOIN situacoes s ON p.situacao_id=s.id
                     INNER JOIN operativos o ON p.id=o.programacao_id
                     INNER JOIN andamentos a ON o.andamento_id=a.id
                     WHERE p.situacao_id<>2 AND  (projeto_id=:projetoId)
-                    GROUP BY a.descricao;';
+                    GROUP BY a.grafico;';
 
 		if ($projetoId) {
 			$params[':projetoId'] = $projetoId;

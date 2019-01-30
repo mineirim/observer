@@ -90,7 +90,10 @@ class Data_Model_Programacoes {
                 $setorObj = $value->setor_id ? $this->setores->fetchRow('id='.$value->setor_id):[];
                 $setor = is_object($setorObj) ? $setorObj->toArray() : [];
 
-                $instrumento = $this->instrumentos->fetchRow('id='. $value->instrumento_id)->toArray();
+                $instrumentoObj = $this->instrumentos->fetchRow('id='. $value->instrumento_id);
+                $instrumento = $instrumentoObj->toArray();
+                $instrumentoLeaf = count($instrumentoObj->findDependentRowset('Data_Model_DbTable_Instrumentos'))>0 ? false : true;
+                $instrumento['leaf'] = $instrumentoLeaf;
                 $parent = $parent ? (array) $parent : [];
                 $operativos = $this->operativos->fetchAll('programacao_id='.$value->id,'ordem');
                 $operativo = count($operativos) > 0 ? $operativos->toArray() : [];                
@@ -121,8 +124,9 @@ class Data_Model_Programacoes {
                     'filter_projeto_id' => $value->filter_projeto_id
                 ];
                 $children=[];
-                if(isset($arr_tree[$nivel+1][$value->id]))
+                if(isset($arr_tree[$nivel+1][$value->id])){
                     $children = $this->getRecursiveArray($arr_tree,$nivel+1,$value);
+                }
                 if (count($children) > 0) {
                     $child['expanded'] = false;
                     $child['rows'] = $children;
